@@ -1,0 +1,9 @@
+language: php
+php: 7.2
+cache:
+    directories: $HOME/.composer/cache
+before_script: composer install --no-interaction --dev
+script:
+    - php vendor/bin/phpunit --coverage-clover=coverage.xml
+    - php vendor/bin/php-cs-fixer fix --dry-run --rules=@PSR2 --diff src/
+after_success: bash <(curl -s https://codecov.io/bash)
