@@ -4,7 +4,7 @@ namespace SnowIO\BrightpearlDataModel;
 
 class Contact
 {
-    /** @var int $contactId */
+    /** @var int|null $contactId */
     private $contactId;
     /** @var string|null $primaryEmail */
     private $primaryEmail;
@@ -56,68 +56,65 @@ class Contact
     }
 
     /**
-     * @param array $json
-     * @return static
+     * @param array<string, mixed> $json
      */
     public static function fromJson(array $json): self
     {
         $result = new self();
 
-        $result->contactId = $json['contactId'];
-        $result->primaryEmail = $json['primaryEmail'] ?? null;
-        $result->secondaryEmail = $json['secondaryEmail'] ?? null;
-        $result->tertiaryEmail = $json['tertiaryEmail'] ?? null;
-        $result->firstName = $json['firstName'] ?? null;
-        $result->lastName = $json['lastName'] ?? null;
-        $result->isSupplier = $json['isSupplier'] ?? null;
-        $result->companyName = $json['companyName'] ?? null;
-        $result->isStaff = $json['isStaff'] ?? null;
-        $result->isCustomer = $json['isCustomer'] ?? null;
-        $result->createdOn = $json['createdOn'] ?? null;
-        $result->updatedOn = $json['updatedOn'] ?? null;
-        $result->lastContactedOn = $json['lastContactedOn'] ?? null;
-        $result->lastOrderedOn = $json['lastOrderedOn'] ?? null;
-        $result->nominalCode = $json['nominalCode'] ?? null;
-        $result->isPrimary = $json['isPrimary'] ?? null;
-        $result->pri = $json['pri'] ?? null;
-        $result->sec = $json['sec'] ?? null;
-        $result->mob = $json['mob'] ?? null;
-        $result->exactCompanyName = $json['exactCompanyName'] ?? null;
-        $result->title = $json['title'] ?? null;
+        $result->contactId = is_numeric($json['contactId']) ? (int) $json['contactId'] : null;
+        $result->primaryEmail = is_string($json['primaryEmail']) ? $json['primaryEmail'] : null;
+        $result->secondaryEmail = is_string($json['secondaryEmail']) ? $json['secondaryEmail'] : null;
+        $result->tertiaryEmail = is_string($json['tertiaryEmail']) ? $json['tertiaryEmail'] : null;
+        $result->firstName = is_string($json['firstName']) ? $json['firstName'] : null;
+        $result->lastName = is_string($json['lastName']) ? $json['lastName'] : null;
+        $result->isSupplier = is_bool($json['isSupplier']) && $json['isSupplier'];
+        $result->companyName = is_string($json['companyName']) ? $json['companyName'] : null;
+        $result->isStaff = is_bool($json['isStaff']) && $json['isStaff'];
+        $result->isCustomer = is_bool($json['isCustomer']) && $json['isCustomer'];
+        $result->createdOn = is_string($json['createdOn']) ? $json['createdOn'] : null;
+        $result->updatedOn = is_string($json['updatedOn']) ? $json['updatedOn'] : null;
+        $result->lastContactedOn = is_string($json['lastContactedOn']) ? $json['lastContactedOn'] : null;
+        $result->lastOrderedOn = is_string($json['lastOrderedOn']) ? $json['lastOrderedOn'] : null;
+        $result->nominalCode = is_numeric($json['nominalCode']) ? (int) $json['nominalCode'] : null;
+        $result->isPrimary = is_bool($json['isPrimary']) && $json['isPrimary'];
+        $result->pri = is_string($json['pri']) ? $json['pri'] : null;
+        $result->sec = is_string($json['sec']) ? $json['sec'] : null;
+        $result->mob = is_string($json['mob']) ? $json['mob'] : null;
+        $result->exactCompanyName = is_string($json['exactCompanyName']) ? $json['exactCompanyName'] : null;
+        $result->title = is_string($json['title']) ? $json['title'] : null;
 
         return $result;
     }
 
     /**
-     * @return array
+     * @return array<mixed>
      */
     public function toJson(): array
     {
-        $json = [];
-
-        $json['contactId'] = $this->getContactId();
-        $json['primaryEmail'] = $this->getPrimaryEmail();
-        $json['secondaryEmail'] = $this->getSecondaryEmail();
-        $json['tertiaryEmail'] = $this->getTertiaryEmail();
-        $json['firstName'] = $this->getFirstName();
-        $json['lastName'] = $this->getLastName();
-        $json['isSupplier'] = $this->getIsSupplier();
-        $json['companyName'] = $this->getCompanyName();
-        $json['isStaff'] = $this->getIsStaff();
-        $json['isCustomer'] = $this->getIsCustomer();
-        $json['createdOn'] = $this->getCreatedOn();
-        $json['updatedOn'] = $this->getUpdatedOn();
-        $json['lastContactedOn'] = $this->getLastContactedOn();
-        $json['lastOrderedOn'] = $this->getLastOrderedOn();
-        $json['nominalCode'] = $this->getNominalCode();
-        $json['isPrimary'] = $this->getIsPrimary();
-        $json['pri'] = $this->getPri();
-        $json['sec'] = $this->getSec();
-        $json['mob'] = $this->getMob();
-        $json['exactCompanyName'] = $this->getExactCompanyName();
-        $json['title'] = $this->getTitle();
-
-        return $json;
+        return [
+            'contactId' => $this->getContactId(),
+            'primaryEmail' => $this->getPrimaryEmail(),
+            'secondaryEmail' => $this->getSecondaryEmail(),
+            'tertiaryEmail' => $this->getTertiaryEmail(),
+            'firstName' => $this->getFirstName(),
+            'lastName' => $this->getLastName(),
+            'isSupplier' => $this->getIsSupplier(),
+            'companyName' => $this->getCompanyName(),
+            'isStaff' => $this->getIsStaff(),
+            'isCustomer' => $this->getIsCustomer(),
+            'createdOn' => $this->getCreatedOn(),
+            'updatedOn' => $this->getUpdatedOn(),
+            'lastContactedOn' => $this->getLastContactedOn(),
+            'lastOrderedOn' => $this->getLastOrderedOn(),
+            'nominalCode' => $this->getNominalCode(),
+            'isPrimary' => $this->getIsPrimary(),
+            'pri' => $this->getPri(),
+            'sec' => $this->getSec(),
+            'mob' => $this->getMob(),
+            'exactCompanyName' => $this->getExactCompanyName(),
+            'title' => $this->getTitle()
+        ];
     }
 
     /**
@@ -126,40 +123,82 @@ class Contact
      */
     public function equals(Contact $contactToCompare): bool
     {
-        return ($this->getContactId() === $contactToCompare->getContactId()) &&
-            ($this->getPrimaryEmail() === $contactToCompare->getPrimaryEmail()) &&
-            ($this->getSecondaryEmail() === $contactToCompare->getSecondaryEmail()) &&
-            ($this->getTertiaryEmail() === $contactToCompare->getTertiaryEmail()) &&
-            ($this->getFirstName() === $contactToCompare->getFirstName()) &&
-            ($this->getLastName() === $contactToCompare->getLastName()) &&
-            ($this->getIsSupplier() === $contactToCompare->getIsSupplier()) &&
-            ($this->getCompanyName() === $contactToCompare->getCompanyName()) &&
-            ($this->getIsStaff() === $contactToCompare->getIsStaff()) &&
-            ($this->getIsCustomer() === $contactToCompare->getIsCustomer()) &&
-            ($this->getCreatedOn() === $contactToCompare->getCreatedOn()) &&
-            ($this->getUpdatedOn() === $contactToCompare->getUpdatedOn()) &&
-            ($this->getLastContactedOn() === $contactToCompare->getLastContactedOn()) &&
-            ($this->getLastOrderedOn() === $contactToCompare->getLastOrderedOn()) &&
-            ($this->getNominalCode() === $contactToCompare->getNominalCode()) &&
-            ($this->getIsPrimary() === $contactToCompare->getIsPrimary()) &&
-            ($this->getPri() === $contactToCompare->getPri()) &&
-            ($this->getSec() === $contactToCompare->getSec()) &&
-            ($this->getMob() === $contactToCompare->getMob()) &&
-            ($this->getExactCompanyName() === $contactToCompare->getExactCompanyName()) &&
-            ($this->getTitle() === $contactToCompare->getTitle());
+        if ($this->getContactId() !== $contactToCompare->getContactId()) {
+            return false;
+        }
+        if ($this->getPrimaryEmail() !== $contactToCompare->getPrimaryEmail()) {
+            return false;
+        }
+        if ($this->getSecondaryEmail() !== $contactToCompare->getSecondaryEmail()) {
+            return false;
+        }
+        if ($this->getTertiaryEmail() !== $contactToCompare->getTertiaryEmail()) {
+            return false;
+        }
+        if ($this->getFirstName() !== $contactToCompare->getFirstName()) {
+            return false;
+        }
+        if ($this->getLastName() !== $contactToCompare->getLastName()) {
+            return false;
+        }
+        if ($this->getIsSupplier() !== $contactToCompare->getIsSupplier()) {
+            return false;
+        }
+        if ($this->getCompanyName() !== $contactToCompare->getCompanyName()) {
+            return false;
+        }
+        if ($this->getIsStaff() !== $contactToCompare->getIsStaff()) {
+            return false;
+        }
+        if ($this->getIsCustomer() !== $contactToCompare->getIsCustomer()) {
+            return false;
+        }
+        if ($this->getCreatedOn() !== $contactToCompare->getCreatedOn()) {
+            return false;
+        }
+        if ($this->getUpdatedOn() !== $contactToCompare->getUpdatedOn()) {
+            return false;
+        }
+        if ($this->getLastContactedOn() !== $contactToCompare->getLastContactedOn()) {
+            return false;
+        }
+        if ($this->getLastOrderedOn() !== $contactToCompare->getLastOrderedOn()) {
+            return false;
+        }
+        if ($this->getNominalCode() !== $contactToCompare->getNominalCode()) {
+            return false;
+        }
+        if ($this->getIsPrimary() !== $contactToCompare->getIsPrimary()) {
+            return false;
+        }
+        if ($this->getPri() !== $contactToCompare->getPri()) {
+            return false;
+        }
+        if ($this->getSec() !== $contactToCompare->getSec()) {
+            return false;
+        }
+        if ($this->getMob() !== $contactToCompare->getMob()) {
+            return false;
+        }
+        if ($this->getExactCompanyName() !== $contactToCompare->getExactCompanyName()) {
+            return false;
+        }
+        if ($this->getTitle() !== $contactToCompare->getTitle()) {
+            return false;
+        }
+        return $this->getTitle() === $contactToCompare->getTitle();
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getContactId(): int
+    public function getContactId(): ?int
     {
         return $this->contactId;
     }
 
     /**
      * @param int $contactId
-     * @return Contact
      */
     public function withContactId(int $contactId): Contact
     {
@@ -178,7 +217,6 @@ class Contact
 
     /**
      * @param string|null $primaryEmail
-     * @return Contact
      */
     public function withPrimaryEmail(?string $primaryEmail): Contact
     {
@@ -197,7 +235,6 @@ class Contact
 
     /**
      * @param string|null $secondaryEmail
-     * @return Contact
      */
     public function withSecondaryEmail(?string $secondaryEmail): Contact
     {
@@ -216,7 +253,6 @@ class Contact
 
     /**
      * @param string|null $tertiaryEmail
-     * @return Contact
      */
     public function withTertiaryEmail(?string $tertiaryEmail): Contact
     {
@@ -235,7 +271,6 @@ class Contact
 
     /**
      * @param string|null $firstName
-     * @return Contact
      */
     public function withFirstName(?string $firstName): Contact
     {
@@ -254,7 +289,6 @@ class Contact
 
     /**
      * @param string|null $lastName
-     * @return Contact
      */
     public function withLastName(?string $lastName): Contact
     {
@@ -273,7 +307,6 @@ class Contact
 
     /**
      * @param bool|null $isSupplier
-     * @return Contact
      */
     public function withIsSupplier(?bool $isSupplier): Contact
     {
@@ -292,7 +325,6 @@ class Contact
 
     /**
      * @param string|null $companyName
-     * @return Contact
      */
     public function withCompanyName(?string $companyName): Contact
     {
@@ -311,7 +343,6 @@ class Contact
 
     /**
      * @param bool|null $isStaff
-     * @return Contact
      */
     public function withIsStaff(?bool $isStaff): Contact
     {
@@ -330,7 +361,6 @@ class Contact
 
     /**
      * @param bool|null $isCustomer
-     * @return Contact
      */
     public function withIsCustomer(?bool $isCustomer): Contact
     {
@@ -349,7 +379,6 @@ class Contact
 
     /**
      * @param string|null $createdOn
-     * @return Contact
      */
     public function withCreatedOn(?string $createdOn): Contact
     {
@@ -368,7 +397,6 @@ class Contact
 
     /**
      * @param string|null $updatedOn
-     * @return Contact
      */
     public function withUpdatedOn(?string $updatedOn): Contact
     {
@@ -387,7 +415,6 @@ class Contact
 
     /**
      * @param string|null $lastContactedOn
-     * @return Contact
      */
     public function withLastContactedOn(?string $lastContactedOn): Contact
     {
@@ -406,7 +433,6 @@ class Contact
 
     /**
      * @param string|null $lastOrderedOn
-     * @return Contact
      */
     public function withLastOrderedOn(?string $lastOrderedOn): Contact
     {
@@ -425,7 +451,6 @@ class Contact
 
     /**
      * @param int|null $nominalCode
-     * @return Contact
      */
     public function withNominalCode(?int $nominalCode): Contact
     {
@@ -444,7 +469,6 @@ class Contact
 
     /**
      * @param bool|null $isPrimary
-     * @return Contact
      */
     public function withIsPrimary(?bool $isPrimary): Contact
     {
@@ -463,7 +487,6 @@ class Contact
 
     /**
      * @param string|null $pri
-     * @return Contact
      */
     public function withPri(?string $pri): Contact
     {
@@ -482,7 +505,6 @@ class Contact
 
     /**
      * @param string|null $sec
-     * @return Contact
      */
     public function withSec(?string $sec): Contact
     {
@@ -501,7 +523,6 @@ class Contact
 
     /**
      * @param string|null $mob
-     * @return Contact
      */
     public function withMob(?string $mob): Contact
     {
@@ -520,7 +541,6 @@ class Contact
 
     /**
      * @param string|null $exactCompanyName
-     * @return Contact
      */
     public function withExactCompanyName(?string $exactCompanyName): Contact
     {
@@ -539,7 +559,6 @@ class Contact
 
     /**
      * @param string|null $title
-     * @return Contact
      */
     public function withTitle(?string $title): Contact
     {
