@@ -6,3 +6,4 @@ parameters:
         - *tests*
     level: max
     ignoreErrors:
+    checkGenericClassInNonGenericObjectType: false
