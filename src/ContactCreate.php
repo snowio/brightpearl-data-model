@@ -6,13 +6,13 @@ use SnowIO\BrightpearlDataModel\ContactCreate\Communication;
 
 class ContactCreate
 {
-    /** @var string|null $salutation */
+    /** @var mixed|string|null $salutation */
     private $salutation;
-    /** @var string|null $firstName */
+    /** @var mixed|string|null $firstName */
     private $firstName;
-    /** @var string|null $lastName */
+    /** @var mixed|string|null $lastName */
     private $lastName;
-    /** @var mixed[]|null $postAddressIds */
+    /** @var mixed|mixed[]|null $postAddressIds */
     private $postAddressIds;
     /** @var \SnowIO\BrightpearlDataModel\ContactCreate\Communication|null $communication */
     private $communication;
@@ -70,7 +70,7 @@ class ContactCreate
      */
     public function getSalutation(): ?string
     {
-        return $this->salutation;
+        return is_string($this->salutation) ? $this->salutation : null;
     }
 
     public function withSalutation(string $salutation): ContactCreate
@@ -85,7 +85,7 @@ class ContactCreate
      */
     public function getFirstName(): ?string
     {
-        return $this->firstName;
+        return is_string($this->firstName) ? $this->firstName : null;
     }
 
     public function withFirstName(string $firstName): ContactCreate
@@ -100,7 +100,7 @@ class ContactCreate
      */
     public function getLastName(): ?string
     {
-        return $this->lastName;
+        return is_string($this->lastName) ? $this->lastName : null;
     }
 
     public function withLastName(string $lastName): ContactCreate
@@ -115,7 +115,7 @@ class ContactCreate
      */
     public function getPostAddressIds(): ?array
     {
-        return $this->postAddressIds;
+        return is_array($this->postAddressIds) ? $this->postAddressIds : null;
     }
 
     /**
