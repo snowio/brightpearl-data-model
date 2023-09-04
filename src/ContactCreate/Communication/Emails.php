@@ -27,9 +27,9 @@ class Emails
     public static function fromJson(array $json): self
     {
         $result = new self();
-        $result->PRI = Email::fromJson($json['PRI']);
-        $result->SEC = isset($json['SEC']) ? Email::fromJson($json['SEC']) : null;
-        $result->TER = isset($json['TER']) ? Email::fromJson($json['TER']) : null;
+        $result->PRI = is_array($json['PRI']) ? Email::fromJson($json['PRI']) : null;
+        $result->SEC = is_array($json['SEC']) ? Email::fromJson($json['SEC']) : null;
+        $result->TER = is_array($json['TER']) ? Email::fromJson($json['TER']) : null;
         return $result;
     }
 
@@ -39,28 +39,21 @@ class Emails
     public function toJson(): array
     {
         $json = [];
-        $json['PRI'] = $this->PRI->toJson();
+        $json['PRI'] = $this->PRI !== null ? $this->PRI->toJson() : null;
         $json['SEC'] = $this->SEC !== null ? $this->SEC->toJson() : null;
         $json['TER'] = $this->TER !== null ? $this->TER->toJson() : null;
         return array_filter($json);
     }
 
-    public function equals(Emails $emailToCompare): bool
-    {
-        return ($this->getPRI() === $emailToCompare->getPRI()) &&
-            ($this->getSEC() === $emailToCompare->getSEC()) &&
-            ($this->getTER() === $emailToCompare->getTER());
-    }
-
     /**
      * @return Email|null
      */
-    public function getPRI(): Email
+    public function getPRI(): ?\SnowIO\BrightpearlDataModel\ContactCreate\Communication\Emails\Email
     {
         return $this->PRI;
     }
 
-    public function withPRI(Email $PRI): Emails
+    public function withPRI(Email $PRI): self
     {
         $clone = clone $this;
         $clone->PRI = $PRI;
@@ -95,7 +88,6 @@ class Emails
 
     /**
      * @param Email|null $TER
-     * @return Emails
      */
     public function withTER(?Email $TER): Emails
     {

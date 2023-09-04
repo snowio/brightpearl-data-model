@@ -8,13 +8,13 @@ class ContactCreate
 {
     /** @var string|null $salutation */
     private $salutation;
-    /** @var string|null  $firstName */
+    /** @var string|null $firstName */
     private $firstName;
-    /** @var string|null  $lastName */
+    /** @var string|null $lastName */
     private $lastName;
-    /** @var array<mixed> $postAddressIds */
+    /** @var mixed[]|null $postAddressIds */
     private $postAddressIds;
-    /** @var Communication $communication */
+    /** @var \SnowIO\BrightpearlDataModel\ContactCreate\Communication|null $communication */
     private $communication;
 
     /**
@@ -30,12 +30,13 @@ class ContactCreate
      */
     public static function fromJson(array $json): self
     {
+        $communication = Communication::create();
         $result = new self();
         $result->salutation = $json['salutation'] ?? null;
         $result->firstName = $json['firstName'] ?? null;
         $result->lastName = $json['lastName'] ?? null;
         $result->postAddressIds = $json['postAddressIds'] ?? null;
-        $result->communication = Communication::fromJson($json['communication']);
+        $result->communication = $communication->fromJson($json['communication']);
         return $result;
     }
 
@@ -44,28 +45,30 @@ class ContactCreate
      */
     public function toJson(): array
     {
-        $json = [];
-        $json['salutation'] = $this->getSalutation() ?? null;
-        $json['firstName'] = $this->getFirstName();
-        $json['lastName'] = $this->getLastName();
-        $json['postAddressIds'] = $this->getPostAddressIds();
-        $json['communication'] = $this->getCommunication();
-        return $json;
+        return ['salutation' => $this->getSalutation() ?? null, 'firstName' => $this->getFirstName(), 'lastName' => $this->getLastName(), 'postAddressIds' => $this->getPostAddressIds(), 'communication' => is_null($this->getCommunication()) ? [] : $this->getCommunication()->toJson()];
     }
 
     public function equals(ContactCreate $contactCreateToCompare): bool
     {
-        return ($this->getSalutation() === $contactCreateToCompare->getSalutation()) &&
-            ($this->getFirstName() === $contactCreateToCompare->getFirstName()) &&
-            ($this->getLastName() === $contactCreateToCompare->getLastName()) &&
-            ($this->getPostAddressIds() === $contactCreateToCompare->getPostAddressIds()) &&
-            ($this->getCommunication() === $contactCreateToCompare->getCommunication());
+        if ($this->getSalutation() !== $contactCreateToCompare->getSalutation()) {
+            return false;
+        }
+        if ($this->getFirstName() !== $contactCreateToCompare->getFirstName()) {
+            return false;
+        }
+        if ($this->getLastName() !== $contactCreateToCompare->getLastName()) {
+            return false;
+        }
+        if ($this->getPostAddressIds() !== $contactCreateToCompare->getPostAddressIds()) {
+            return false;
+        }
+        return $this->getCommunication() === $contactCreateToCompare->getCommunication();
     }
 
     /**
      * @return string|null
      */
-    public function getSalutation()
+    public function getSalutation(): ?string
     {
         return $this->salutation;
     }
@@ -80,7 +83,7 @@ class ContactCreate
     /**
      * @return string|null
      */
-    public function getFirstName()
+    public function getFirstName(): ?string
     {
         return $this->firstName;
     }
@@ -95,7 +98,7 @@ class ContactCreate
     /**
      * @return string|null
      */
-    public function getLastName(): string
+    public function getLastName(): ?string
     {
         return $this->lastName;
     }
@@ -110,7 +113,7 @@ class ContactCreate
     /**
      * @return array<mixed>|null
      */
-    public function getPostAddressIds()
+    public function getPostAddressIds(): ?array
     {
         return $this->postAddressIds;
     }
@@ -125,7 +128,7 @@ class ContactCreate
         return $clone;
     }
 
-    public function getCommunication(): Communication
+    public function getCommunication(): ?Communication
     {
         return $this->communication;
     }

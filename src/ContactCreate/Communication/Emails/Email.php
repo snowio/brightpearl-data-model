@@ -4,7 +4,7 @@ namespace SnowIO\BrightpearlDataModel\ContactCreate\Communication\Emails;
 
 class Email
 {
-    /** @var string|null $PRI */
+    /** @var mixed|string|null $email */
     private $email;
 
     /**
@@ -30,15 +30,13 @@ class Email
      */
     public function toJson(): array
     {
-        $json = [];
-        $json['email'] = $this->email ?? null;
-        return $json;
+        return ['email' => $this->email ?? null];
     }
 
     /**
-     * @return string|null
+     * @return mixed|string|null
      */
-    public function getEmail(): ?string
+    public function getEmail()
     {
         return $this->email;
     }

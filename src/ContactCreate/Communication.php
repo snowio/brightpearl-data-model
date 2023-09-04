@@ -6,7 +6,7 @@ use SnowIO\BrightpearlDataModel\ContactCreate\Communication\Emails;
 
 class Communication
 {
-    /** @var Emails|null $id */
+    /** @var \SnowIO\BrightpearlDataModel\ContactCreate\Communication\Emails|null $emails */
     private $emails;
 
     public static function create(): self
@@ -19,8 +19,12 @@ class Communication
      */
     public static function fromJson(array $json): self
     {
+        $emails = Emails::create();
         $result = new self();
-        $result->emails = Emails::fromJson($json['emails']);
+        if (!is_array($json['emails'])) {
+            return $result;
+        }
+        $result->emails = $emails->fromJson($json['emails']);
         return $result;
     }
 
@@ -29,20 +33,13 @@ class Communication
      */
     public function toJson(): array
     {
-        $json = [];
-        $json['emails'] = $this->getEmails();
-        return $json;
+        if (is_null($this->getEmails())) {
+            return ['emails' => null];
+        }
+        return ['emails' => $this->getEmails()->toJson()];
     }
 
-    public function equals(Communication $communicationToCompare): bool
-    {
-        return ($this->getEmails() === $communicationToCompare->getEmails());
-    }
-
-    /**
-     * @return Emails|null
-     */
-    public function getEmails(): Emails
+    public function getEmails(): ?Emails
     {
         return $this->emails;
     }

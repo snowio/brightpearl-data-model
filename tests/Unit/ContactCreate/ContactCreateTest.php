@@ -5,6 +5,8 @@ namespace SnowIO\BrightpearlDataModel\Test\Unit\ContactCreate;
 use PHPUnit\Framework\TestCase;
 use SnowIO\BrightpearlDataModel\ContactCreate;
 use SnowIO\BrightpearlDataModel\ContactCreate\Communication;
+use SnowIO\BrightpearlDataModel\ContactCreate\Communication\Emails;
+use SnowIO\BrightpearlDataModel\ContactCreate\Communication\Emails\Email;
 
 class ContactCreateTest extends TestCase
 {
@@ -22,8 +24,14 @@ class ContactCreateTest extends TestCase
                 "222",
                 "333"
             ],
-            "communication" =>[[]]
-            ];
+            "communication" => [
+                'emails' => [
+                    "PRI" => ['email' => 'email@test.com'],
+                    "SEC" => ['email' => 'email@test.com'],
+                    "TER" => ['email' => 'email@test.com'],
+                ]
+            ]
+        ];
     }
 
     /**
@@ -42,12 +50,17 @@ class ContactCreateTest extends TestCase
     public function testWithers()
     {
         $communication = Communication::create();
+        $emails = Emails::create();
+        $email = Email::create();
+
+        $email = $email->withEmail("email@test.com");
+        $emails = $emails->withPRI($email)->withSEC($email)->withTER($email);
         $contactCreate = ContactCreate::create()
             ->withSalutation('greeting')
             ->withFirstName("Ben")
             ->withLastName("Ten")
-            ->withPostAddressIds(["111","222","333"])
-            ->withCommunication($communication);
+            ->withPostAddressIds(["111", "222", "333"])
+            ->withCommunication($communication->withEmails($emails));
         self::assertEquals($this->getJsonData(), $contactCreate->toJson());
     }
 
@@ -59,11 +72,18 @@ class ContactCreateTest extends TestCase
         $data = $this->getJsonData();
         $contact = ContactCreate::fromJson($data);
 
-        self::assertEquals("greeting'", $contact->getS);
-        self::assertEquals("test@domain.com", $contact->getPrimaryEmail());
-        self::assertEquals("test2@domain.com", $contact->getSecondaryEmail());
-        self::assertEquals("test3@domain.com", $contact->getTertiaryEmail());
-        self::assertEquals("Joe", $contact->getFirstName());
+        $communication = Communication::create();
+        $emails = Emails::create();
+        $email = Email::create();
+
+        $email = $email->withEmail("email@test.com");
+        $emails = $emails->withPRI($email)->withSEC($email)->withTER($email);
+
+        self::assertEquals("greeting", $contact->getSalutation());
+        self::assertEquals("Ben", $contact->getFirstName());
+        self::assertEquals("Ten", $contact->getLastName());
+        self::assertEquals(["111", "222", "333"], $contact->getPostAddressIds());
+        self::assertEquals($communication->withEmails($emails)->toJson(), $contact->getCommunication()->toJson());
     }
 
     /**
@@ -74,6 +94,6 @@ class ContactCreateTest extends TestCase
         $data = $this->getJsonData();
         $contactCreate1 = ContactCreate::fromJson($data);
         $contactCreate2 = ContactCreate::fromJson($data);
-        self::assertTrue($contactCreate1->equals($contactCreate2));
+        self::assertEquals($contactCreate1->toJson(), $contactCreate2->toJson());
     }
 }
