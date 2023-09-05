@@ -46,6 +46,30 @@ class Emails
     }
 
     /**
+     * @param Emails $emailsToCompare
+     * @return bool
+     */
+    public function equals(Emails $emailsToCompare): bool
+    {
+        if (!is_null($this->getPRI())
+            && !is_null($emailsToCompare->getPRI())
+            && !$this->getPRI()->equals($emailsToCompare->getPRI())) {
+            return false;
+        }
+
+        if (is_null($this->getSEC())) {
+            return !(!is_null($this->getTER()) && !is_null($emailsToCompare->getTER()) && !$this->getTER()->equals($emailsToCompare->getTER()));
+        }
+        if (is_null($emailsToCompare->getSEC())) {
+            return !(!is_null($this->getTER()) && !is_null($emailsToCompare->getTER()) && !$this->getTER()->equals($emailsToCompare->getTER()));
+        }
+        if ($this->getSEC()->equals($emailsToCompare->getSEC())) {
+            return !(!is_null($this->getTER()) && !is_null($emailsToCompare->getTER()) && !$this->getTER()->equals($emailsToCompare->getTER()));
+        }
+        return false;
+    }
+
+    /**
      * @return Email|null
      */
     public function getPRI(): ?Email

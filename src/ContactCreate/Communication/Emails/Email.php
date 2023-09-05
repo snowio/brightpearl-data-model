@@ -26,6 +26,15 @@ class Email
     }
 
     /**
+     * @param Email $emailToCompare
+     * @return bool
+     */
+    public function equals(Email $emailToCompare): bool
+    {
+        return $this->getEmail() === $emailToCompare->getEmail();
+    }
+
+    /**
      * @return array<string, mixed>
      */
     public function toJson(): array

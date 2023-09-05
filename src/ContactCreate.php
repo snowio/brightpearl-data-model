@@ -61,37 +61,19 @@ class ContactCreate
      */
     public function equals(ContactCreate $contactCreateToCompare): bool
     {
-        if (!is_null($this->getSalutation())
-            && !is_null($contactCreateToCompare->getSalutation())
-            && !$this->getSalutation()->equals($contactCreateToCompare->getSalutation())) {
+        if ($this->getFirstName() !== $contactCreateToCompare->getFirstName()) {
             return false;
         }
-
-        if (!is_null($this->getFirstName())
-            && !is_null($contactCreateToCompare->getFirstName())
-            && !$this->getFirstName()->equals($contactCreateToCompare->getFirstName())) {
-            return false;
-        }
-
-        if (!is_null($this->getLastName())
-            && !is_null($contactCreateToCompare->getLastName())
-            && !$this->getLastName()->equals($contactCreateToCompare->getLastName())) {
-            return false;
-        }
-
-        if (!is_null($this->getLastName())
-            && !is_null($contactCreateToCompare->getLastName())
-            && !$this->getLastName()->equals($contactCreateToCompare->getLastName())) {
-            return false;
-        }
-
         if ($this->getLastName() !== $contactCreateToCompare->getLastName()) {
             return false;
         }
         if ($this->getPostAddressIds() !== $contactCreateToCompare->getPostAddressIds()) {
             return false;
         }
-        return $this->getCommunication() === $contactCreateToCompare->getCommunication()->equals($contactCreateToCompare->getCommunication());
+        if ($this->getSalutation() !== $contactCreateToCompare->getSalutation()) {
+            return false;
+        }
+        return !(!is_null($this->getCommunication()) && !is_null($contactCreateToCompare->getCommunication()) && !$this->getCommunication()->equals($contactCreateToCompare->getCommunication()));
     }
 
     /**

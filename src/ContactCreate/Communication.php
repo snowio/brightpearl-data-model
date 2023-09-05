@@ -41,7 +41,20 @@ class Communication
         }
         return ['emails' => $this->getEmails()->toJson()];
     }
-    
+
+    /**
+     * @param Communication $communicationToCompare
+     * @return bool
+     */
+    public function equals(Communication $communicationToCompare): bool
+    {
+        return !(
+            !is_null($this->getEmails())
+            && !is_null($communicationToCompare->getEmails())
+            && !$this->getEmails()->equals($communicationToCompare->getEmails())
+        );
+    }
+
     /**
      * @return Emails|null
      */
