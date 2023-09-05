@@ -47,6 +47,21 @@ class Currency
     }
 
     /**
+     * @param Currency $currencyToCompare
+     * @return bool
+     */
+    public function equals(Currency $currencyToCompare): bool
+    {
+        if ($this->getCode() !== $currencyToCompare->getCode()) {
+            return false;
+        }
+        if ($this->getFixedExchangeRate() !== $currencyToCompare->getFixedExchangeRate()) {
+            return false;
+        }
+        return $this->getExchangeRate() === $currencyToCompare->getExchangeRate();
+    }
+
+    /**
      * @return string|null
      */
     public function getCode(): ?string

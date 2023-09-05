@@ -55,7 +55,7 @@ class Row
     {
         return [
             'productId' => $this->getProductId(),
-            'name' => $this->getExternalRef(),
+            'name' => $this->getName(),
             'quantity' => $this->getQuantity(),
             'taxCode' => $this->getTaxCode(),
             'net' => $this->getNet(),
@@ -63,6 +63,36 @@ class Row
             'nominalCode' => $this->getNominalCode(),
             'externalRef' => $this->getExternalRef()
         ];
+    }
+
+    /**
+     * @param Row $rowToCompare
+     * @return bool
+     */
+    public function equals(Row $rowToCompare): bool
+    {
+        if ($this->getProductId() !== $rowToCompare->getProductId()) {
+            return false;
+        }
+        if ($this->getName() !== $rowToCompare->getName()) {
+            return false;
+        }
+        if ($this->getQuantity() !== $rowToCompare->getQuantity()) {
+            return false;
+        }
+        if ($this->getTaxCode() !== $rowToCompare->getTaxCode()) {
+            return false;
+        }
+        if ($this->getNet() !== $rowToCompare->getNet()) {
+            return false;
+        }
+        if ($this->getTax() !== $rowToCompare->getTax()) {
+            return false;
+        }
+        if ($this->getNominalCode() !== $rowToCompare->getNominalCode()) {
+            return false;
+        }
+        return $this->getExternalRef() === $rowToCompare->getExternalRef();
     }
 
     /**

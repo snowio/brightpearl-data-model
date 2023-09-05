@@ -22,7 +22,7 @@ class Customer
     public static function fromJson(array $json): self
     {
         $result = new self();
-        $result->id = is_numeric($json['id']) ? (int) $json['id'] : null;
+        $result->id = is_numeric($json['id']) ? (int)$json['id'] : null;
         return $result;
     }
 
@@ -34,6 +34,15 @@ class Customer
         return [
             'id' => $this->getId()
         ];
+    }
+
+    /**
+     * @param Customer $customerToCompare
+     * @return bool
+     */
+    public function equals(Customer $customerToCompare): bool
+    {
+        return $this->getId() === $customerToCompare->getId();
     }
 
     /**

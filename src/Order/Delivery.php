@@ -48,6 +48,24 @@ class Delivery
     }
 
     /**
+     * @param Delivery $deliveryToCompare
+     * @return bool
+     */
+    public function equals(Delivery $deliveryToCompare): bool
+    {
+        if (!is_null($this->getAddress())
+            && !is_null($deliveryToCompare->getAddress())
+            && !$this->getAddress()->equals($deliveryToCompare->getAddress())) {
+            return false;
+        }
+        if ($this->getDate() !== $deliveryToCompare->getDate()) {
+            return false;
+        }
+
+        return $this->getShippingMethodId() === $deliveryToCompare->getShippingMethodId();
+    }
+
+    /**
      * @return string|null
      */
     public function getDate(): ?string

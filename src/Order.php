@@ -133,6 +133,86 @@ class Order
     }
 
     /**
+     * @param Order $orderToCompare
+     * @return bool
+     */
+    public function equals(Order $orderToCompare): bool
+    {
+        if (!is_null($this->getCustomer())
+            && !is_null($orderToCompare->getCustomer())
+            && !$this->getCustomer()->equals($orderToCompare->getCustomer())) {
+            return false;
+        }
+        if (!is_null($this->getBilling())
+            && !is_null($orderToCompare->getBilling())
+            && !$this->getBilling()->equals($orderToCompare->getBilling())) {
+            return false;
+        }
+        if (!is_null($this->getCurrency())
+            && !is_null($orderToCompare->getCurrency())
+            && !$this->getCurrency()->equals($orderToCompare->getCurrency())) {
+            return false;
+        }
+        if (!is_null($this->getDelivery())
+            && !is_null($orderToCompare->getDelivery())
+            && !$this->getDelivery()->equals($orderToCompare->getDelivery())) {
+            return false;
+        }
+
+        $getRowsCount = count($this->getRows());
+        if ($getRowsCount !== count($orderToCompare->getRows())) {
+            return false;
+        }
+
+        for ($i = 0; $i < $getRowsCount; $i++) {
+            if (!$this->getRows()[$i]->equals($orderToCompare->getRows()[$i])) {
+                return false;
+            }
+        }
+
+        if ($this->getRef() !== $orderToCompare->getRef()) {
+            return false;
+        }
+        if ($this->getTaxDate() !== $orderToCompare->getTaxDate()) {
+            return false;
+        }
+        if ($this->getParentId() !== $orderToCompare->getParentId()) {
+            return false;
+        }
+        if ($this->getStatusId() !== $orderToCompare->getStatusId()) {
+            return false;
+        }
+        if ($this->getWarehouseId() !== $orderToCompare->getWarehouseId()) {
+            return false;
+        }
+        if ($this->getStaffOwnerId() !== $orderToCompare->getStaffOwnerId()) {
+            return false;
+        }
+        if ($this->getProjectId() !== $orderToCompare->getProjectId()) {
+            return false;
+        }
+        if ($this->getChannelId() !== $orderToCompare->getChannelId()) {
+            return false;
+        }
+        if ($this->getExternalRef() !== $orderToCompare->getExternalRef()) {
+            return false;
+        }
+        if ($this->getInstalledIntegrationInstanceId() !== $orderToCompare->getInstalledIntegrationInstanceId()) {
+            return false;
+        }
+        if ($this->getLeadSourceId() !== $orderToCompare->getLeadSourceId()) {
+            return false;
+        }
+        if ($this->getTeamId() !== $orderToCompare->getTeamId()) {
+            return false;
+        }
+        if ($this->getPriceListId() !== $orderToCompare->getPriceListId()) {
+            return false;
+        }
+        return $this->getPriceModeCode() === $orderToCompare->getPriceModeCode();
+    }
+
+    /**
      * @return Customer|null
      */
     public function getCustomer(): ?Customer

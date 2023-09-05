@@ -74,6 +74,42 @@ class Address
     }
 
     /**
+     * @param Address $addressToCompare
+     * @return bool
+     */
+    public function equals(Address $addressToCompare): bool
+    {
+        if ($this->getAddressFullName() !== $addressToCompare->getAddressFullName()) {
+            return false;
+        }
+        if ($this->getCompanyName() !== $addressToCompare->getCompanyName()) {
+            return false;
+        }
+        if ($this->getAddressLine1() !== $addressToCompare->getAddressLine1()) {
+            return false;
+        }
+        if ($this->getAddressLine2() !== $addressToCompare->getAddressLine2()) {
+            return false;
+        }
+        if ($this->getAddressLine3() !== $addressToCompare->getAddressLine3()) {
+            return false;
+        }
+        if ($this->getAddressLine4() !== $addressToCompare->getAddressLine4()) {
+            return false;
+        }
+        if ($this->getPostalCode() !== $addressToCompare->getPostalCode()) {
+            return false;
+        }
+        if ($this->getCountryIsoCode() !== $addressToCompare->getCountryIsoCode()) {
+            return false;
+        }
+        if ($this->getEmail() !== $addressToCompare->getEmail()) {
+            return false;
+        }
+        return $this->getTelephone() === $addressToCompare->getTelephone();
+    }
+
+    /**
      * @return string|null
      */
     public function getAddressFullName(): ?string

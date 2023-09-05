@@ -25,7 +25,7 @@ class Billing
     {
         $result = new self();
         $address = is_array($json['address']) ? $json['address'] : [];
-        $result->contactId = is_numeric($json['contactId']) ? (int) $json['contactId'] : null;
+        $result->contactId = is_numeric($json['contactId']) ? (int)$json['contactId'] : null;
         $result->address = Address::fromJson($address);
 
         return $result;
@@ -42,6 +42,28 @@ class Billing
             'contactId' => $this->getContactId(),
             'address' => $address
         ];
+    }
+
+    /**
+     * @param Billing $billingToCompare
+     * @return bool
+     */
+    public function equals(Billing $billingToCompare): bool
+    {
+        if (is_null($this->getAddress()) && is_null($billingToCompare->getAddress())) {
+            return $this->getContactId() === $billingToCompare->getContactId();
+        }
+        if (is_null($this->getAddress())) {
+            return false;
+        }
+        if (is_null($billingToCompare->getAddress())) {
+            return false;
+        }
+        if ($this->getAddress()->equals($billingToCompare->getAddress())) {
+            return $this->getContactId() === $billingToCompare->getContactId();
+        }
+
+        return false;
     }
 
     /**
