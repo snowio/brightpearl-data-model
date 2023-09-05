@@ -22,7 +22,7 @@ class Emails
     }
 
     /**
-     * @param array<mixed> $json
+     * @param array<string, mixed> $json
      */
     public static function fromJson(array $json): self
     {
@@ -34,7 +34,7 @@ class Emails
     }
 
     /**
-     * @return array<mixed>
+     * @return array<string, mixed>
      */
     public function toJson(): array
     {
@@ -53,6 +53,10 @@ class Emails
         return $this->PRI;
     }
 
+    /**
+     * @param Email $PRI
+     * @return self
+     */
     public function withPRI(Email $PRI): self
     {
         $clone = clone $this;
@@ -70,6 +74,7 @@ class Emails
 
     /**
      * @param Email|null $SEC
+     * @return Emails
      */
     public function withSEC(?Email $SEC): Emails
     {
@@ -88,6 +93,7 @@ class Emails
 
     /**
      * @param Email|null $TER
+     * @return Emails
      */
     public function withTER(?Email $TER): Emails
     {

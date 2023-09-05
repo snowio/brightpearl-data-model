@@ -6,16 +6,19 @@ use SnowIO\BrightpearlDataModel\ContactCreate\Communication\Emails;
 
 class Communication
 {
-    /** @var \SnowIO\BrightpearlDataModel\ContactCreate\Communication\Emails|null $emails */
+    /** @var Emails|null $emails */
     private $emails;
 
+    /**
+     * @return self
+     */
     public static function create(): self
     {
         return new self();
     }
 
     /**
-     * @param array<mixed> $json
+     * @param array<string, mixed> $json
      */
     public static function fromJson(array $json): self
     {
@@ -29,7 +32,7 @@ class Communication
     }
 
     /**
-     * @return array<mixed>
+     * @return array<string, mixed>
      */
     public function toJson(): array
     {
@@ -39,11 +42,18 @@ class Communication
         return ['emails' => $this->getEmails()->toJson()];
     }
 
+    /**
+     * @return Emails|null
+     */
     public function getEmails(): ?Emails
     {
         return $this->emails;
     }
 
+    /**
+     * @param Emails $emails
+     * @return Communication
+     */
     public function withEmails(Emails $emails): Communication
     {
         $clone = clone $this;

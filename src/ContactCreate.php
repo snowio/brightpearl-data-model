@@ -6,15 +6,15 @@ use SnowIO\BrightpearlDataModel\ContactCreate\Communication;
 
 class ContactCreate
 {
-    /** @var mixed|string|null $salutation */
+    /** @var string|null $salutation */
     private $salutation;
-    /** @var mixed|string|null $firstName */
+    /** @var string|null $firstName */
     private $firstName;
-    /** @var mixed|string|null $lastName */
+    /** @var string|null $lastName */
     private $lastName;
-    /** @var mixed|mixed[]|null $postAddressIds */
+    /** @var mixed[]|array<string, mixed>|null $postAddressIds */
     private $postAddressIds;
-    /** @var \SnowIO\BrightpearlDataModel\ContactCreate\Communication|null $communication */
+    /** @var Communication|null $communication */
     private $communication;
 
     /**
@@ -26,28 +26,39 @@ class ContactCreate
     }
 
     /**
-     * @param array<mixed> $json
+     * @param array<string, mixed> $json
      */
     public static function fromJson(array $json): self
     {
         $communication = Communication::create();
         $result = new self();
-        $result->salutation = $json['salutation'] ?? null;
-        $result->firstName = $json['firstName'] ?? null;
-        $result->lastName = $json['lastName'] ?? null;
-        $result->postAddressIds = $json['postAddressIds'] ?? null;
-        $result->communication = $communication->fromJson($json['communication']);
+        $result->salutation = is_string($json['salutation']) ? $json['salutation'] : null;
+        $result->firstName = is_string($json['firstName']) ? $json['firstName'] : null;
+        $result->lastName = is_string($json['lastName']) ? $json['lastName'] : null;
+        $result->postAddressIds = is_array($json['postAddressIds']) ? $json['postAddressIds'] : [];
+        $result->communication = $communication->fromJson(is_array($json['communication']) ? $json['communication'] : []);
         return $result;
     }
 
     /**
-     * @return array<mixed>
+     * @return array<string, mixed>
      */
     public function toJson(): array
     {
-        return ['salutation' => $this->getSalutation() ?? null, 'firstName' => $this->getFirstName(), 'lastName' => $this->getLastName(), 'postAddressIds' => $this->getPostAddressIds(), 'communication' => is_null($this->getCommunication()) ? [] : $this->getCommunication()->toJson()];
+        $communication = is_null($this->getCommunication()) ? [] : $this->getCommunication()->toJson();
+        return [
+            'salutation' => $this->getSalutation(),
+            'firstName' => $this->getFirstName(),
+            'lastName' => $this->getLastName(),
+            'postAddressIds' => $this->getPostAddressIds(),
+            'communication' => $communication
+        ];
     }
 
+    /**
+     * @param ContactCreate $contactCreateToCompare
+     * @return bool
+     */
     public function equals(ContactCreate $contactCreateToCompare): bool
     {
         if ($this->getSalutation() !== $contactCreateToCompare->getSalutation()) {
@@ -70,9 +81,13 @@ class ContactCreate
      */
     public function getSalutation(): ?string
     {
-        return is_string($this->salutation) ? $this->salutation : null;
+        return $this->salutation;
     }
 
+    /**
+     * @param string $salutation
+     * @return ContactCreate
+     */
     public function withSalutation(string $salutation): ContactCreate
     {
         $clone = clone $this;
@@ -85,9 +100,13 @@ class ContactCreate
      */
     public function getFirstName(): ?string
     {
-        return is_string($this->firstName) ? $this->firstName : null;
+        return $this->firstName;
     }
 
+    /**
+     * @param string $firstName
+     * @return ContactCreate
+     */
     public function withFirstName(string $firstName): ContactCreate
     {
         $clone = clone $this;
@@ -100,9 +119,13 @@ class ContactCreate
      */
     public function getLastName(): ?string
     {
-        return is_string($this->lastName) ? $this->lastName : null;
+        return $this->lastName;
     }
 
+    /**
+     * @param string $lastName
+     * @return ContactCreate
+     */
     public function withLastName(string $lastName): ContactCreate
     {
         $clone = clone $this;
@@ -111,15 +134,15 @@ class ContactCreate
     }
 
     /**
-     * @return array<mixed>|null
+     * @return array<string, mixed>|null
      */
     public function getPostAddressIds(): ?array
     {
-        return is_array($this->postAddressIds) ? $this->postAddressIds : null;
+        return $this->postAddressIds;
     }
 
     /**
-     * @param array<mixed> $postAddressIds
+     * @param array<string, mixed> $postAddressIds
      */
     public function withPostAddressIds(array $postAddressIds): ContactCreate
     {
@@ -128,11 +151,18 @@ class ContactCreate
         return $clone;
     }
 
+    /**
+     * @return Communication|null
+     */
     public function getCommunication(): ?Communication
     {
         return $this->communication;
     }
 
+    /**
+     * @param Communication $communication
+     * @return ContactCreate
+     */
     public function withCommunication(Communication $communication): ContactCreate
     {
         $clone = clone $this;
