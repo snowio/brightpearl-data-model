@@ -41,7 +41,7 @@ class Communication
         }
         return ['emails' => $this->getEmails()->toJson()];
     }
-
+    
     /**
      * @return Emails|null
      */

@@ -93,6 +93,6 @@ class ContactCreateTest extends TestCase
         $data = $this->getJsonData();
         $contactCreate1 = ContactCreate::fromJson($data);
         $contactCreate2 = ContactCreate::fromJson($data);
-        self::assertEquals($contactCreate1->toJson(), $contactCreate2->toJson());
+        self::assertTrue($contactCreate1->equals($contactCreate2));
     }
 }
