@@ -26,11 +26,11 @@ class Email
     }
 
     /**
-     * @return array<mixed>
+     * @return array<string, mixed>
      */
     public function toJson(): array
     {
-        return ['email' => $this->email ?? null];
+        return ['email' => $this->getEmail()];
     }
 
     /**

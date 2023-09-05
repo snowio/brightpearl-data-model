@@ -38,17 +38,17 @@ class Emails
      */
     public function toJson(): array
     {
-        $json = [];
-        $json['PRI'] = $this->PRI !== null ? $this->PRI->toJson() : null;
-        $json['SEC'] = $this->SEC !== null ? $this->SEC->toJson() : null;
-        $json['TER'] = $this->TER !== null ? $this->TER->toJson() : null;
-        return array_filter($json);
+        return [
+            'PRI' => $this->PRI !== null ? $this->PRI->toJson() : null,
+            'SEC' => $this->SEC !== null ? $this->SEC->toJson() : null,
+            'TER' => $this->TER !== null ? $this->TER->toJson() : null
+        ];
     }
 
     /**
      * @return Email|null
      */
-    public function getPRI(): ?\SnowIO\BrightpearlDataModel\ContactCreate\Communication\Emails\Email
+    public function getPRI(): ?Email
     {
         return $this->PRI;
     }

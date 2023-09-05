@@ -11,7 +11,7 @@ use SnowIO\BrightpearlDataModel\ContactCreate\Communication\Emails\Email;
 class ContactCreateTest extends TestCase
 {
     /**
-     * @return array<mixed>
+     * @return array<string, mixed>
      */
     private function getJsonData(): array
     {
@@ -70,20 +70,19 @@ class ContactCreateTest extends TestCase
     public function testGetters()
     {
         $data = $this->getJsonData();
-        $contact = ContactCreate::fromJson($data);
+        $contactCreate = ContactCreate::fromJson($data);
 
-        $communication = Communication::create();
-        $emails = Emails::create();
-        $email = Email::create();
+        self::assertEquals("greeting", $contactCreate->getSalutation());
+        self::assertEquals("Ben", $contactCreate->getFirstName());
+        self::assertEquals("Ten", $contactCreate->getLastName());
+        self::assertEquals(["111", "222", "333"], $contactCreate->getPostAddressIds());
+        self::assertEquals( ['emails' => [
+            'PRI' => ['email' => 'email@test.com'],
+            'SEC' => ['email' => 'email@test.com'],
+            'TER' => ['email' => 'email@test.com'],
+        ]
+    ], $contactCreate->getCommunication()->toJson());
 
-        $email = $email->withEmail("email@test.com");
-        $emails = $emails->withPRI($email)->withSEC($email)->withTER($email);
-
-        self::assertEquals("greeting", $contact->getSalutation());
-        self::assertEquals("Ben", $contact->getFirstName());
-        self::assertEquals("Ten", $contact->getLastName());
-        self::assertEquals(["111", "222", "333"], $contact->getPostAddressIds());
-        self::assertEquals($communication->withEmails($emails)->toJson(), $contact->getCommunication()->toJson());
     }
 
     /**
