@@ -12,7 +12,7 @@ class ContactCreate
     private $firstName;
     /** @var string|null $lastName */
     private $lastName;
-    /** @var mixed[]|array<string, mixed>|null $postAddressIds */
+    /** @var mixed[]|null $postAddressIds */
     private $postAddressIds;
     /** @var Communication|null $communication */
     private $communication;
@@ -134,7 +134,7 @@ class ContactCreate
     }
 
     /**
-     * @return array<string, mixed>|null
+     * @return array<mixed>|null
      */
     public function getPostAddressIds(): ?array
     {
@@ -142,9 +142,9 @@ class ContactCreate
     }
 
     /**
-     * @param array<string, mixed> $postAddressIds
+     * @param array<mixed>|null $postAddressIds
      */
-    public function withPostAddressIds(array $postAddressIds): ContactCreate
+    public function withPostAddressIds(?array $postAddressIds): ContactCreate
     {
         $clone = clone $this;
         $clone->postAddressIds = $postAddressIds;
