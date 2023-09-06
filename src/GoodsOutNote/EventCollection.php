@@ -6,20 +6,28 @@ use SnowIO\BrightpearlDataModel\GoodsOutNote\Event\Event;
 
 class EventCollection
 {
-    private function __construct()
-    {
-    }
 
     /** @var Event[] $items */
     private $items;
 
+    /**
+     * @param Event[] $items
+     */
+    private function __construct(array $items = [])
+    {
+        $this->items = $items;
+    }
+
+    /**
+     * @return self
+     */
     public static function create(): self
     {
         return new self();
     }
 
     /**
-     * @param array<string, mixed>$items
+     * @param Event[] $items
      */
     public static function of(array $items): self
     {
@@ -46,8 +54,8 @@ class EventCollection
     }
 
     /**
-     * @param array<mixed> $json
-     * todo: this
+     * @param array<string, Event>$json
+     * TODO: Look at
      */
     public static function fromJson(array $json): self
     {

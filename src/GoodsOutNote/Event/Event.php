@@ -35,6 +35,7 @@ class Event
 
     /**
      * @param array<string, mixed> $json
+     * TODO: Look at
      */
     public static function fromJson(array $json): self
     {
@@ -45,6 +46,10 @@ class Event
         return $result;
     }
 
+    /**
+     * @param Event $eventToCompare
+     * @return bool
+     */
     public function equals(Event $eventToCompare): bool
     {
 

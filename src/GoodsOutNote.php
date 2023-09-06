@@ -73,23 +73,23 @@ class GoodsOutNote
         $result->orderId = is_int($json['orderId']) ? $json['orderId'] : null;
         $result->warehouseId = is_int($json['warehouseId']) ? $json['warehouseId'] : null;
         $result->externalRef = is_string($json['externalRef']) ? $json['externalRef'] : null;
-        $result->transfer = is_bool($json['transfer']) ?? false;
-        $result->priority = is_bool($json['priority']) ?? false;
-        $result->status = Status::fromJson($json['status']);
-        $result->shipping = Shipping::fromJson($json['shipping']);
+        $result->transfer = is_bool($json['transfer']) && $json['transfer'];
+        $result->priority = is_bool($json['priority']) && $json['priority'];
+        $result->status = Status::fromJson(is_array($json['status']) ? $json['status'] : []);
+        $result->shipping = Shipping::fromJson(is_array($json['shipping']) ? $json['shipping'] : []);
         $result->releaseDate = is_string($json['releaseDate']) ? $json['releaseDate'] : null;
         $result->createdOn = is_string($json['createdOn']) ? $json['createdOn'] : null;
         $result->createdBy = is_int($json['createdBy']) ? $json['createdBy'] : null;
-        $result->orderRows = OrderRowCollection::fromJson($json['orderRows']);
+        $result->orderRows = OrderRowCollection::fromJson(is_array($json['orderRows']) ? $json['orderRows'] : []);
         $result->sequence = is_int($json['sequence']) ? $json['sequence'] : null;
-        $result->events = EventCollection::fromJson($json['events']);
+        $result->events = EventCollection::fromJson(is_array($json['events']) ? $json['events'] : []);
         $result->labelUri = is_string($json['labelUri']) ? $json['labelUri'] : null;
-        $result->lastEventVersion = is_int($json['lastEventVersion']) ?: null;
+        $result->lastEventVersion = is_int($json['lastEventVersion']) ? $json['lastEventVersion'] : null;
         return $result;
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function toJson(): array
     {

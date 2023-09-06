@@ -6,21 +6,45 @@ use SnowIO\BrightpearlDataModel\GoodsOutNote\Row\Order;
 
 class OrderRowCollection implements \IteratorAggregate
 {
+    /** @var Order[][] */
+    private $items = [];
+
+    /**
+     * @param Order[][] $items
+     */
+    private function __construct(array $items = [])
+    {
+        $this->items = $items;
+    }
+
+    /**
+     * @return self
+     */
     public static function create(): self
     {
         return new self();
     }
 
+    /**
+     * @param Order[][] $items
+     */
     public static function of(array $items): self
     {
         return new self($items);
     }
 
-    public function map(callable $function)
+    /**
+     * @param callable $function
+     * @return array<mixed>
+     */
+    public function map(callable $function) : array
     {
         return array_map($function, $this->items);
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function toJson(): array
     {
         return array_map(function (array $orders) {
@@ -30,6 +54,10 @@ class OrderRowCollection implements \IteratorAggregate
         }, $this->items);
     }
 
+    /**
+     * @param array<mixed> $json
+     * TODO : look at this
+     */
     public static function fromJson(array $json): self
     {
         return new self(array_map(function (array $orderRow) {
@@ -39,18 +67,13 @@ class OrderRowCollection implements \IteratorAggregate
         }, $json));
     }
 
+    /**
+     * @return \Iterator
+     */
     public function getIterator(): \Iterator
     {
         foreach ($this->items as $item) {
             yield $item;
         }
-    }
-
-    /** @var Order[][] */
-    private $items = [];
-
-    private function __construct(array $items = [])
-    {
-        $this->items = $items;
     }
 }
