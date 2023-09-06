@@ -113,7 +113,7 @@ class CustomerPayment
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getTransactionRef(): ?string
     {
@@ -151,7 +151,7 @@ class CustomerPayment
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getPaymentMethodCode(): ?string
     {
