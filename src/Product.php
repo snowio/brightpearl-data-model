@@ -2,149 +2,178 @@
 
 namespace SnowIO\BrightpearlDataModel;
 
-use Online4Baby\Brightpearl\Product\Composition;
-use Online4Baby\Brightpearl\Product\FinancialDetails;
-use Online4Baby\Brightpearl\Product\Identity;
-use Online4Baby\Brightpearl\Product\Reporting;
-use Online4Baby\Brightpearl\Product\SalesChannel;
-use Online4Baby\Brightpearl\Product\Stock;
-use Online4Baby\Brightpearl\Product\Variations;
-use Online4Baby\Brightpearl\Product\Warehouses;
+use SnowIO\BrightpearlDataModel\Product\Composition;
+use SnowIO\BrightpearlDataModel\Product\FinancialDetails;
+use SnowIO\BrightpearlDataModel\Product\Identity;
+use SnowIO\BrightpearlDataModel\Product\Reporting;
+use SnowIO\BrightpearlDataModel\Product\SalesChannel;
+use SnowIO\BrightpearlDataModel\Product\Stock;
+use SnowIO\BrightpearlDataModel\Product\Variation;
+use SnowIO\BrightpearlDataModel\Product\Warehouses;
 
 class Product
 {
-    /** @var int $id */
+    /** @var int|null $id */
     private $id;
-    /** @var int $brandId */
+    /** @var int|null $brandId */
     private $brandId;
-    /** @var int $productTypeId */
+    /** @var int|null $productTypeId */
     private $productTypeId;
-    /** @var Identity $identity */
+    /** @var Identity|null $identity */
     private $identity;
-    /** @var bool $featured */
+    /** @var bool|null $featured */
     private $featured;
-    /** @var Stock $stock */
+    /** @var Stock|null $stock */
     private $stock;
-    /** @var FinancialDetails $financialDetails */
+    /** @var FinancialDetails|null $financialDetails */
     private $financialDetails;
     /** @var SalesChannel[] $salesChannels */
-    private $salesChannels;
-    /** @var Composition $composition */
+    private $salesChannels = [];
+    /** @var Composition|null $composition */
     private $composition;
-    /** @var Variations[]|null $variations */
-    private $variations = null;
-    /** @var string $createdOn */
+    /** @var Variation[] $variations */
+    private $variations = [];
+    /** @var string|null $createdOn */
     private $createdOn;
-    /** @var string $updatedOn */
+    /** @var string|null $updatedOn */
     private $updatedOn;
     /** @var Warehouses|null $warehouses */
-    private $warehouses = null;
-    /** @var string $nominalCodeStock */
+    private $warehouses;
+    /** @var string|null $nominalCodeStock */
     private $nominalCodeStock;
-    /** @var string $nominalCodePurchases */
+    /** @var string|null $nominalCodePurchases */
     private $nominalCodePurchases;
-    /** @var string $nominalCodeSales */
+    /** @var string|null $nominalCodeSales */
     private $nominalCodeSales;
-    /** @var array $seasonIds */
+    /** @var mixed[] $seasonIds */
     private $seasonIds = [];
     /** @var Reporting|null $reporting */
-    private $reporting = null;
-    /** @var string $status */
+    private $reporting;
+    /** @var string|null $status */
     private $status;
-    /** @var string $salesPopupMessage */
-    private $salesPopupMessage = '';
-    /** @var string $warehousePopupMessage */
-    private $warehousePopupMessage = '';
-    /** @var int $version */
+    /** @var string|null $salesPopupMessage */
+    private $salesPopupMessage;
+    /** @var string|null $warehousePopupMessage */
+    private $warehousePopupMessage;
+    /** @var int|null $version */
     private $version;
-    /** @var array $customFields */
-    private $customFields;
+    /** @var mixed[] $customFields */
+    private $customFields = [];
 
     /**
-     * @param array $json
-     * @return static
+     * @return self
+     */
+    public static function create(): self
+    {
+        return new self();
+    }
+
+    /**
+     * @param array<string, mixed> $json
      */
     public static function fromJson(array $json): self
     {
         $result = new self();
 
-        $result->id = $json['id'];
-        $result->brandId = $json['brandId'];
-        $result->productTypeId = $json['productTypeId'];
-        $result->identity = Identity::fromJson($json['identity']);
-        $result->featured = $json['featured'];
-        $result->stock = Stock::fromJson($json['stock']);
-        $result->financialDetails = FinancialDetails::fromJson($json['financialDetails']);
-        foreach ($json['salesChannels'] as $salesChannel) {
+        $identity = is_array($json['identity']) ? $json['identity'] : [];
+        $stock = is_array($json['stock']) ? $json['stock'] : [];
+        $financialDetails = is_array($json['financialDetails']) ? $json['financialDetails'] : [];
+        $composition = is_array($json['composition']) ? $json['composition'] : [];
+        $warehouses = is_array($json['warehouses']) ? $json['warehouses'] : [];
+        $seasonIds = is_array($json['seasonIds']) ? $json['seasonIds'] : [];
+        $reporting = is_array($json['reporting']) ? $json['reporting'] : [];
+        $customFields = is_array($json['customFields']) ? $json['customFields'] : [];
+
+        $result->id = is_numeric($json['id']) ? (int) $json['id'] : null;
+        $result->brandId = is_numeric($json['brandId']) ? (int) $json['brandId'] : null;
+        $result->productTypeId = is_numeric($json['productTypeId']) ? (int) $json['productTypeId'] : null;
+        $result->identity = Identity::fromJson($identity);
+        $result->featured = is_bool($json['featured']) && $json['featured'];
+        $result->stock = Stock::fromJson($stock);
+        $result->financialDetails = FinancialDetails::fromJson($financialDetails);
+        $result->composition = Composition::fromJson($composition);
+        $result->createdOn = is_string($json['createdOn']) ? $json['createdOn'] : null;
+        $result->updatedOn = is_string($json['updatedOn']) ? $json['updatedOn'] : null;
+        $result->warehouses = Warehouses::fromJson($warehouses);
+        $result->nominalCodeStock = is_string($json['nominalCodeStock']) ? $json['nominalCodeStock'] : null;
+        $result->nominalCodePurchases = is_string($json['nominalCodePurchases']) ? $json['nominalCodePurchases'] : null;
+        $result->nominalCodeSales = is_string($json['nominalCodeSales']) ? $json['nominalCodeSales'] : null;
+        $result->seasonIds = $seasonIds;
+        $result->reporting = Reporting::fromJson($reporting);
+        $result->status = is_string($json['status']) ? $json['status'] : null;
+        $result->salesPopupMessage = is_string($json['salesPopupMessage']) ? $json['salesPopupMessage'] : null;
+        $result->warehousePopupMessage = is_string($json['warehousePopupMessage']) ? $json['warehousePopupMessage'] : null;
+        $result->version = is_numeric($json['version']) ? (int) $json['version'] : null;
+        $result->customFields = $customFields;
+
+        $salesChannels = is_array($json['salesChannels']) ? $json['salesChannels'] : [];
+        foreach ($salesChannels as $salesChannel) {
+            $salesChannel = is_array($salesChannel) ? $salesChannel : [];
             $result->salesChannels[] = SalesChannel::fromJson($salesChannel);
         }
-        $result->composition = Composition::fromJson($json['composition']);
-        $result->variations = isset($json['variations']) ? Variations::fromJson($json['variations']) : null;
-        $result->createdOn = $json['createdOn'];
-        $result->updatedOn = $json['updatedOn'];
-        $result->warehouses = isset($json['warehouses']) ? Warehouses::fromJson($json['warehouses']) : null;
-        $result->nominalCodeStock = $json['nominalCodeStock'];
-        $result->nominalCodePurchases = $json['nominalCodePurchases'];
-        $result->nominalCodeSales = $json['nominalCodeSales'];
-        $result->seasonIds = $json['seasonIds'];
-        $result->reporting = isset($json['reporting']) ? Reporting::fromJson($json['reporting']) : null;
-        $result->status = $json['status'];
-        $result->salesPopupMessage = $json['salesPopupMessage'];
-        $result->warehousePopupMessage = $json['warehousePopupMessage'];
-        $result->version = $json['version'];
-        $result->customFields = $json['customFields'] ?? [];
+
+        $variations = is_array($json['variations']) ? $json['variations'] : [];
+        foreach ($variations as $variation) {
+            $variation = is_array($variation) ? $variation : [];
+            $result->variations[] = Variation::fromJson($variation);
+        }
 
         return $result;
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function toJson(): array
     {
-        $json = [];
-
-        $json['id'] = $this->getId();
-        $json['brandId'] = $this->getBrandId();
-        $json['productTypeId'] = $this->getProductTypeId();
-        $json['identity'] = $this->getIdentity()->toJson();
-        $json['featured'] = $this->isFeatured();
-        $json['stock'] = $this->getStock()->toJson();
-        $json['financialDetails'] = $this->getFinancialDetails()->toJson();
+        $salesChannels = [];
         foreach ($this->getSalesChannels() as $salesChannel) {
-            $json['salesChannels'][] = $salesChannel->toJson();
+            $salesChannels[] = $salesChannel->toJson();
         }
-        $json['composition'] = $this->getComposition()->toJson();
-        if ($this->getVariations()) {
-            foreach ($this->getVariations() as $variation) {
-                $json['variations'][] = $variation->toJson();
-            }
-        }
-        $json['createdOn'] = $this->getCreatedOn();
-        $json['updatedOn'] = $this->getUpdatedOn();
-        if ($this->getWarehouses()) {
-            $json['warehouses'] = $this->getWarehouses()->toJson();
-        }
-        $json['nominalCodeStock'] = $this->getNominalCodeStock();
-        $json['nominalCodePurchases'] = $this->getNominalCodePurchases();
-        $json['nominalCodeSales'] = $this->getNominalCodeSales();
-        $json['seasonIds'] = $this->getSeasonIds();
-        if ($this->getReporting()) {
-            $json['reporting'] = $this->getReporting()->toJson();
-        }
-        $json['status'] = $this->getStatus();
-        $json['salesPopupMessage'] = $this->getSalesPopupMessage();
-        $json['warehousePopupMessage'] = $this->getWarehousePopupMessage();
-        $json['version'] = $this->getVersion();
-        $json['customFields'] = $this->getCustomFields() ?? [];
 
-        return $json;
+        $variations = [];
+        foreach ($this->getVariations() as $variation) {
+            $variations[] = $variation->toJson();
+        }
+
+        $identity = is_null($this->getIdentity()) ? [] : $this->getIdentity()->toJson();
+        $stock = is_null($this->getStock()) ? [] : $this->getStock()->toJson();
+        $financialDetails = is_null($this->getFinancialDetails()) ? [] : $this->getFinancialDetails()->toJson();
+        $composition = is_null($this->getComposition()) ? [] : $this->getComposition()->toJson();
+        $warehouses = is_null($this->getWarehouses()) ? [] : $this->getWarehouses()->toJson();
+        $reporting = is_null($this->getReporting()) ? [] : $this->getReporting()->toJson();
+
+        return [
+            'id' => $this->getId(),
+            'brandId' => $this->getBrandId(),
+            'productTypeId' => $this->getProductTypeId(),
+            'identity' => $identity,
+            'featured' => $this->isFeatured(),
+            'stock' => $stock,
+            'financialDetails' => $financialDetails,
+            'salesChannels' => $salesChannels,
+            'composition' => $composition,
+            'variations' => $variations,
+            'createdOn' => $this->getCreatedOn(),
+            'updatedOn' => $this->getUpdatedOn(),
+            'warehouses' => $warehouses,
+            'nominalCodeStock' => $this->getNominalCodeStock(),
+            'nominalCodePurchases' => $this->getNominalCodePurchases(),
+            'nominalCodeSales' => $this->getNominalCodeSales(),
+            'seasonIds' => $this->getSeasonIds(),
+            'reporting' => $reporting,
+            'status' => $this->getStatus(),
+            'salesPopupMessage' => $this->getSalesPopupMessage(),
+            'warehousePopupMessage' => $this->getWarehousePopupMessage(),
+            'version' => $this->getVersion(),
+            'customFields' => $this->getCustomFields()
+        ];
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -161,9 +190,9 @@ class Product
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getBrandId(): int
+    public function getBrandId(): ?int
     {
         return $this->brandId;
     }
@@ -180,9 +209,9 @@ class Product
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getProductTypeId(): int
+    public function getProductTypeId(): ?int
     {
         return $this->productTypeId;
     }
@@ -199,9 +228,9 @@ class Product
     }
 
     /**
-     * @return Identity
+     * @return Identity|null
      */
-    public function getIdentity(): Identity
+    public function getIdentity(): ?Identity
     {
         return $this->identity;
     }
@@ -218,9 +247,9 @@ class Product
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function isFeatured(): bool
+    public function isFeatured(): ?bool
     {
         return $this->featured;
     }
@@ -237,9 +266,9 @@ class Product
     }
 
     /**
-     * @return Stock
+     * @return Stock|null
      */
-    public function getStock(): Stock
+    public function getStock(): ?Stock
     {
         return $this->stock;
     }
@@ -256,9 +285,9 @@ class Product
     }
 
     /**
-     * @return FinancialDetails
+     * @return FinancialDetails|null
      */
-    public function getFinancialDetails(): FinancialDetails
+    public function getFinancialDetails(): ?FinancialDetails
     {
         return $this->financialDetails;
     }
@@ -294,9 +323,9 @@ class Product
     }
 
     /**
-     * @return Composition
+     * @return Composition|null
      */
-    public function getComposition(): Composition
+    public function getComposition(): ?Composition
     {
         return $this->composition;
     }
@@ -313,18 +342,18 @@ class Product
     }
 
     /**
-     * @return Variations[]|null
+     * @return Variation[]
      */
-    public function getVariations(): ?array
+    public function getVariations(): array
     {
         return $this->variations;
     }
 
     /**
-     * @param Variations[]|null $variations
+     * @param Variation[] $variations
      * @return Product
      */
-    public function withVariations(?array $variations): Product
+    public function withVariations(array $variations): Product
     {
         $clone = clone $this;
         $clone->variations = $variations;
@@ -332,9 +361,9 @@ class Product
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getCreatedOn(): string
+    public function getCreatedOn(): ?string
     {
         return $this->createdOn;
     }
@@ -351,9 +380,9 @@ class Product
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getUpdatedOn(): string
+    public function getUpdatedOn(): ?string
     {
         return $this->updatedOn;
     }
@@ -389,9 +418,9 @@ class Product
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getNominalCodeStock(): string
+    public function getNominalCodeStock(): ?string
     {
         return $this->nominalCodeStock;
     }
@@ -408,9 +437,9 @@ class Product
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getNominalCodePurchases(): string
+    public function getNominalCodePurchases(): ?string
     {
         return $this->nominalCodePurchases;
     }
@@ -427,9 +456,9 @@ class Product
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getNominalCodeSales(): string
+    public function getNominalCodeSales(): ?string
     {
         return $this->nominalCodeSales;
     }
@@ -446,7 +475,7 @@ class Product
     }
 
     /**
-     * @return array
+     * @return array<mixed>
      */
     public function getSeasonIds(): array
     {
@@ -454,7 +483,7 @@ class Product
     }
 
     /**
-     * @param array $seasonIds
+     * @param array<mixed> $seasonIds
      * @return Product
      */
     public function withSeasonIds(array $seasonIds): Product
@@ -484,9 +513,9 @@ class Product
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getStatus(): string
+    public function getStatus(): ?string
     {
         return $this->status;
     }
@@ -503,9 +532,9 @@ class Product
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getSalesPopupMessage(): string
+    public function getSalesPopupMessage(): ?string
     {
         return $this->salesPopupMessage;
     }
@@ -522,9 +551,9 @@ class Product
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getWarehousePopupMessage(): string
+    public function getWarehousePopupMessage(): ?string
     {
         return $this->warehousePopupMessage;
     }
@@ -541,9 +570,9 @@ class Product
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getVersion(): int
+    public function getVersion(): ?int
     {
         return $this->version;
     }
@@ -560,7 +589,7 @@ class Product
     }
 
     /**
-     * @return array
+     * @return array<mixed>
      */
     public function getCustomFields(): array
     {
@@ -568,7 +597,7 @@ class Product
     }
 
     /**
-     * @param array $customFields
+     * @param array<mixed> $customFields
      * @return Product
      */
     public function withCustomFields(array $customFields): Product

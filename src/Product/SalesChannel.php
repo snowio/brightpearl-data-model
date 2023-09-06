@@ -2,65 +2,81 @@
 
 namespace SnowIO\BrightpearlDataModel\Product;
 
-use Online4Baby\Brightpearl\Product\SalesChannel\Category;
-use Online4Baby\Brightpearl\Product\SalesChannel\Description;
+use SnowIO\BrightpearlDataModel\Product\SalesChannel\Category;
+use SnowIO\BrightpearlDataModel\Product\SalesChannel\Description;
 
 class SalesChannel
 {
-    /** @var string $salesChannelName */
+    /** @var string|null $salesChannelName */
     private $salesChannelName;
-    /** @var string $productName */
+    /** @var string|null $productName */
     private $productName;
-    /** @var string $productCondition */
+    /** @var string|null $productCondition */
     private $productCondition;
     /** @var Category[] $categories */
-    private $categories;
-    /** @var Description $description */
+    private $categories = [];
+    /** @var Description|null $description */
     private $description;
-    /** @var Description $shortDescription */
+    /** @var Description|null $shortDescription */
     private $shortDescription;
 
     /**
-     * @param array $json
-     * @return static
+     * @return self
+     */
+    public static function create(): self
+    {
+        return new self();
+    }
+
+    /**
+     * @param array<string, mixed> $json
      */
     public static function fromJson(array $json): self
     {
         $result = new self();
 
-        $result->salesChannelName = $json['salesChannelName'];
-        $result->productName = $json['productName'];
-        $result->productCondition = $json['productCondition'];
-        $result->categories = array_map([Category::class, "fromJson"], $json['categories']);
-        $result->description = Description::fromJson($json['description']);
-        $result->shortDescription = Description::fromJson($json['shortDescription']);
+        $categories = is_array($json['categories']) ? $json['categories'] : [];
+        $description = is_array($json['description']) ? $json['description'] : [];
+        $shortDescription = is_array($json['shortDescription']) ? $json['shortDescription'] : [];
+
+        $result->salesChannelName = is_string($json['salesChannelName']) ? $json['salesChannelName'] : null;
+        $result->productName = is_string($json['productName']) ? $json['productName'] : null;
+        $result->productCondition = is_string($json['productCondition']) ? $json['productCondition'] : null;
+        $result->categories = array_map(function (array $json): Category {
+            return Category::fromJson($json);
+        }, $categories);
+        $result->description = Description::fromJson($description);
+        $result->shortDescription = Description::fromJson($shortDescription);
 
         return $result;
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function toJson(): array
     {
-        $json = [];
-
-        $json['salesChannelName'] = $this->salesChannelName;
-        $json['productName'] = $this->productName;
-        $json['productCondition'] = $this->productCondition;
-        $json['categories'] = array_map(static function (Category $category) {
+        $categories = array_map(static function (Category $category): array {
             return $category->toJson();
         }, $this->categories);
-        $json['description'] = $this->description->toJson();
-        $json['shortDescription'] = $this->shortDescription->toJson();
 
-        return $json;
+        $description = is_null($this->getDescription()) ? [] : $this->getDescription()->toJson();
+        $shortDescription = is_null($this->getShortDescription()) ? [] : $this->getShortDescription()->toJson();
+
+        return [
+            'salesChannelName' => $this->getSalesChannelName(),
+            'productName' => $this->getProductName(),
+            'productCondition' => $this->getProductCondition(),
+            'categories' => $categories,
+            'description' => $description,
+            'shortDescription' => $shortDescription
+        ];
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getSalesChannelName(): string
+    public function getSalesChannelName(): ?string
     {
         return $this->salesChannelName;
     }
@@ -77,9 +93,9 @@ class SalesChannel
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getProductName(): string
+    public function getProductName(): ?string
     {
         return $this->productName;
     }
@@ -96,9 +112,9 @@ class SalesChannel
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getProductCondition(): string
+    public function getProductCondition(): ?string
     {
         return $this->productCondition;
     }
@@ -134,9 +150,9 @@ class SalesChannel
     }
 
     /**
-     * @return Description
+     * @return Description|null
      */
-    public function getDescription(): Description
+    public function getDescription(): ?Description
     {
         return $this->description;
     }
@@ -153,9 +169,9 @@ class SalesChannel
     }
 
     /**
-     * @return Description
+     * @return Description|null
      */
-    public function getShortDescription(): Description
+    public function getShortDescription(): ?Description
     {
         return $this->shortDescription;
     }

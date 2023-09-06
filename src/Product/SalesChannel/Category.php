@@ -4,43 +4,52 @@ namespace SnowIO\BrightpearlDataModel\Product\SalesChannel;
 
 class Category
 {
-    /** @var string $categoryCode */
+    /** @var string|null $categoryCode */
     private $categoryCode;
 
     /**
-     * @param array $json
-     * @return static
+     * @return self
+     */
+    public static function create(): self
+    {
+        return new self();
+    }
+
+    /**
+     * @param array<string, mixed> $json
      */
     public static function fromJson(array $json): self
     {
         $result = new self();
-        $result->categoryCode = $json['categoryCode'];
+
+        $result->categoryCode = is_string($json['categoryCode']) ? $json['categoryCode'] : null;
+
         return $result;
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function toJson(): array
     {
-        $json = [];
-        $json['categoryCode'] = $this->categoryCode;
-        return $json;
+        return [
+            'categoryCode' => $this->getCategoryCode()
+        ];
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getCategoryCode(): string
+    public function getCategoryCode(): ?string
     {
         return $this->categoryCode;
     }
 
     /**
      * @param string $categoryCode
-     * @return Categories
+     * @return Category
      */
-    public function withCategoryCode(string $categoryCode): Categories
+    public function withCategoryCode(string $categoryCode): Category
     {
         $clone = clone $this;
         $clone->categoryCode = $categoryCode;

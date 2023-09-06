@@ -2,48 +2,61 @@
 
 namespace SnowIO\BrightpearlDataModel\Product;
 
+use SnowIO\BrightpearlDataModel\Product\Composition\BundleComponent;
+
 class Composition
 {
-    /** @var bool $bundle */
+    /** @var bool|null $bundle */
     private $bundle;
 
-    /** @var BundleComponentCollection $bundleComponents */
-    private $bundleComponents;
+    /** @var BundleComponent[] $bundleComponents */
+    private $bundleComponents = [];
 
+    /**
+     * @return Composition
+     */
     public static function create(): Composition
     {
         return new self();
     }
 
     /**
-     * @param array $json
-     * @return static
+     * @param array<mixed> $json
      */
     public static function fromJson(array $json): self
     {
         $result = new self();
-        $result->bundle = $json['bundle'] ?? null;
-        $result->bundleComponents = $json['bundle'] === true ?
-            BundleComponentCollection::fromJson($json['bundleComponents'] ?? []) :
-            BundleComponentCollection::create();
+        $bundle = is_bool($json['bundle']) && $json['bundle'];
+        $result->bundle = $bundle;
+        $bundleComponents = $bundle && is_array($json['bundleComponents']) ? $json['bundleComponents'] : [];
+        foreach ($bundleComponents as $bundleComponent) {
+            $bundleComponent = is_array($bundleComponent) ? $bundleComponent : [];
+            $result->bundleComponents[] = BundleComponent::fromJson($bundleComponent);
+        }
+
         return $result;
     }
 
     /**
-     * @return array
+     * @return array<mixed>
      */
     public function toJson(): array
     {
-        $json = [];
-        $json['bundle'] = $this->bundle;
-        $json['bundleComponents'] = $this->getBundleComponents()->toJson();
-        return $json;
+        $bundleComponents = [];
+        foreach ($this->getBundleComponents() as $bundleComponent) {
+            $bundleComponents[] = $bundleComponent->toJson();
+        }
+
+        return [
+            'bundle' => $this->isBundle(),
+            'bundleComponents' => $bundleComponents
+        ];
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function isBundle(): bool
+    public function isBundle(): ?bool
     {
         return $this->bundle;
     }
@@ -60,9 +73,9 @@ class Composition
     }
 
     /**
-     * @return BundleComponentCollection
+     * @return BundleComponent[]
      */
-    public function getBundleComponents(): BundleComponentCollection
+    public function getBundleComponents(): array
     {
         return $this->bundleComponents;
     }

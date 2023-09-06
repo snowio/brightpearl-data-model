@@ -4,34 +4,43 @@ namespace SnowIO\BrightpearlDataModel\Product\Stock;
 
 class Weight
 {
-    /** @var float $magnitude */
+    /** @var float|null $magnitude */
     private $magnitude;
 
     /**
-     * @param array $json
-     * @return static
+     * @return self
+     */
+    public static function create(): self
+    {
+        return new self();
+    }
+
+    /**
+     * @param array<string, mixed> $json
      */
     public static function fromJson(array $json): self
     {
         $result = new self();
-        $result->magnitude = $json['magnitude'];
+
+        $result->magnitude = is_numeric($json['magnitude']) ? (float) $json['magnitude'] : null;
+
         return $result;
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function toJson(): array
     {
-        $json = [];
-        $json['magnitude'] = $this->magnitude;
-        return $json;
+        return [
+            'magnitude' => $this->getMagnitude()
+        ];
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getMagnitude(): float
+    public function getMagnitude(): ?float
     {
         return $this->magnitude;
     }

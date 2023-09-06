@@ -4,42 +4,47 @@ namespace SnowIO\BrightpearlDataModel\Product\FinancialDetails;
 
 class TaxCode
 {
-    /** @var int $id */
+    /** @var int|null $id */
     private $id;
-    /** @var string $code */
+    /** @var string|null $code */
     private $code;
 
     /**
-     * @param array $json
-     * @return static
+     * @return self
+     */
+    public static function create(): self
+    {
+        return new self();
+    }
+
+    /**
+     * @param array<mixed> $json
      */
     public static function fromJson(array $json): self
     {
         $result = new self();
 
-        $result->id = $json['id'];
-        $result->code = $json['code'];
+        $result->id = is_numeric($json['id']) ? (int) $json['id'] : null;
+        $result->code = is_string($json['code']) ? $json['code'] : null;
 
         return $result;
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function toJson(): array
     {
-        $json = [];
-
-        $json['id'] = $this->id;
-        $json['code'] = $this->code;
-
-        return $json;
+        return [
+            'id' => $this->getId(),
+            'code' => $this->getCode(),
+        ];
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -56,9 +61,9 @@ class TaxCode
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getCode(): string
+    public function getCode(): ?string
     {
         return $this->code;
     }

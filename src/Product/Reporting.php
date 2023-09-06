@@ -12,38 +12,37 @@ class Reporting
     private $seasonId;
 
     /**
-     * @param array $json
-     * @return static
+     * @return self
+     */
+    public static function create(): self
+    {
+        return new self();
+    }
+
+    /**
+     * @param array<string, mixed> $json
      */
     public static function fromJson(array $json): self
     {
         $result = new self();
-        $result->categoryId = $json['categoryId'] ?? null;
-        $result->subCategoryId = $json['subCategoryId'] ?? null;
-        $result->seasonId = $json['seasonId'] ?? null;
+
+        $result->categoryId = is_numeric($json['categoryId']) ? (int) $json['categoryId'] : null;
+        $result->subCategoryId = is_numeric($json['subCategoryId']) ? (int) $json['subCategoryId'] : null;
+        $result->seasonId = is_numeric($json['seasonId']) ? (int) $json['seasonId'] : null;
+
         return $result;
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function toJson(): array
     {
-        $json = [];
-
-        if ($this->categoryId) {
-            $json['categoryId'] = $this->categoryId;
-        }
-
-        if ($this->subCategoryId) {
-            $json['subCategoryId'] = $this->subCategoryId;
-        }
-
-        if ($this->seasonId) {
-            $json['seasonId'] = $this->seasonId;
-        }
-
-        return $json;
+        return [
+            'categoryId' => $this->getCategoryId(),
+            'subCategoryId' => $this->getSubCategoryId(),
+            'seasonId' => $this->getSeasonId()
+        ];
     }
 
     /**

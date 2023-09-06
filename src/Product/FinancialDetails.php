@@ -6,42 +6,51 @@ use SnowIO\BrightpearlDataModel\Product\FinancialDetails\TaxCode;
 
 class FinancialDetails
 {
-    /** @var bool $taxable */
+    /** @var bool|null $taxable */
     private $taxable;
-    /** @var TaxCode $taxCode */
+    /** @var TaxCode|null $taxCode */
     private $taxCode;
 
     /**
-     * @param array $json
-     * @return static
+     * @return self
+     */
+    public static function create(): self
+    {
+        return new self();
+    }
+
+    /**
+     * @param array<string, mixed> $json
      */
     public static function fromJson(array $json): self
     {
         $result = new self();
 
-        $result->taxable = $json['taxable'];
-        $result->taxCode = TaxCode::fromJson($json['taxCode']);
+        $taxCode = is_array($json['taxCode']) ? $json['taxCode'] : [];
+
+        $result->taxable = is_bool($json['taxable']) && $json['taxable'];
+        $result->taxCode = TaxCode::fromJson($taxCode);
 
         return $result;
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function toJson(): array
     {
-        $json = [];
+        $taxCode = is_null($this->getTaxCode()) ? [] : $this->getTaxCode()->toJson();
 
-        $json['taxable'] = $this->taxable;
-        $json['taxCode'] = $this->taxCode->toJson();
-
-        return $json;
+        return [
+            'taxable' => $this->isTaxable(),
+            'taxCode' => $taxCode
+        ];
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function isTaxable(): bool
+    public function isTaxable(): ?bool
     {
         return $this->taxable;
     }
@@ -58,9 +67,9 @@ class FinancialDetails
     }
 
     /**
-     * @return TaxCode
+     * @return TaxCode|null
      */
-    public function getTaxCode(): TaxCode
+    public function getTaxCode(): ?TaxCode
     {
         return $this->taxCode;
     }

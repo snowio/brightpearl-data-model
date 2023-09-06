@@ -12,38 +12,37 @@ class Warehouses
     private $reorderQuantity;
 
     /**
-     * @param array $json
-     * @return static
+     * @return self
+     */
+    public static function create(): self
+    {
+        return new self();
+    }
+
+    /**
+     * @param array<string, mixed> $json
      */
     public static function fromJson(array $json): self
     {
         $result = new self();
-        $result->defaultLocationId = $json['defaultLocationId'] ?? null;
-        $result->reorderLevel = $json['reorderLevel'] ?? null;
-        $result->reorderQuantity = $json['reorderQuantity'] ?? null;
+
+        $result->defaultLocationId = is_numeric($json['defaultLocationId']) ? (int) $json['defaultLocationId'] : null;
+        $result->reorderLevel = is_numeric($json['reorderLevel']) ? (int) $json['reorderLevel'] : null;
+        $result->reorderQuantity = is_numeric($json['reorderQuantity']) ? (int) $json['reorderQuantity'] : null;
+
         return $result;
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function toJson(): array
     {
-        $json = [];
-
-        if ($this->defaultLocationId) {
-            $json['defaultLocationId'] = $this->defaultLocationId;
-        }
-
-        if ($this->reorderLevel) {
-            $json['reorderLevel'] = $this->reorderLevel;
-        }
-
-        if ($this->reorderQuantity) {
-            $json['reorderQuantity'] = $this->reorderQuantity;
-        }
-
-        return $json;
+        return [
+            'defaultLocationId' => $this->getDefaultLocationId(),
+            'reorderLevel' => $this->getReorderLevel(),
+            'reorderQuantity' => $this->getReorderQuantity()
+        ];
     }
 
     /**

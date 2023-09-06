@@ -1,14 +1,14 @@
 <?php
 
-namespace SnowIO\BrightpearlDataModel\Product;
+namespace SnowIO\BrightpearlDataModel\Product\Composition;
 
 class BundleComponent
 {
-    /** @var int $productId  */
+    /** @var int|null $productId  */
     private $productId;
-    /** @var int $productQuantity */
+    /** @var int|null $productQuantity */
     private $productQuantity;
-    /** @var string $sku */
+    /** @var string|null $sku */
     private $sku;
 
     /**
@@ -20,34 +20,35 @@ class BundleComponent
     }
 
     /**
-     * @param array $json
-     * @return static
+     * @param array<string, mixed> $json
      */
     public static function fromJson(array $json): self
     {
         $result = new self();
-        $result->productId = $json['productId'];
-        $result->productQuantity = $json['productQuantity'];
-        $result->sku = $json['sku'] ?? null;
+
+        $result->productId = is_numeric($json['productId']) ? (int) $json['productId'] : null;
+        $result->productQuantity = is_numeric($json['productQuantity']) ? (int) $json['productQuantity'] : null;
+        $result->sku = is_string($json['sku']) ? $json['sku'] : null;
+
         return $result;
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function toJson(): array
     {
-        $json = [];
-        $json['productId'] = $this->productId;
-        $json['productQuantity'] = $this->productQuantity;
-        $json['sku'] = $this->sku;
-        return $json;
+        return [
+            'productId' => $this->getProductId(),
+            'productQuantity' => $this->getProductQuantity(),
+            'sku' => $this->getSku()
+        ];
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getProductId(): int
+    public function getProductId(): ?int
     {
         return $this->productId;
     }
@@ -64,9 +65,9 @@ class BundleComponent
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getProductQuantity(): int
+    public function getProductQuantity(): ?int
     {
         return $this->productQuantity;
     }

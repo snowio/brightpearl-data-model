@@ -4,48 +4,55 @@ namespace SnowIO\BrightpearlDataModel\Product\Stock;
 
 class Dimensions
 {
-    /** @var float $length */
+    /** @var float|null $length */
     private $length;
-    /** @var float $height */
+    /** @var float|null $height */
     private $height;
-    /** @var float $width */
+    /** @var float|null $width */
     private $width;
-    /** @var float $volume */
+    /** @var float|null $volume */
     private $volume;
 
     /**
-     * @param array $json
-     * @return static
+     * @return self
+     */
+    public static function create(): self
+    {
+        return new self();
+    }
+
+    /**
+     * @param array<string, mixed> $json
      */
     public static function fromJson(array $json): self
     {
         $result = new self();
-        $result->length = $json['length'];
-        $result->height = $json['height'];
-        $result->width = $json['width'];
-        $result->volume = $json['volume'];
+
+        $result->length = is_numeric($json['length']) ? (float) $json['length'] : null;
+        $result->height = is_numeric($json['height']) ? (float) $json['height'] : null;
+        $result->width = is_numeric($json['width']) ? (float) $json['width'] : null;
+        $result->volume = is_numeric($json['volume']) ? (float) $json['volume'] : null;
+
         return $result;
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function toJson(): array
     {
-        $json = [];
-
-        $json['length'] = $this->length;
-        $json['height'] = $this->height;
-        $json['width'] = $this->width;
-        $json['volume'] = $this->volume;
-
-        return $json;
+        return [
+            'length' => $this->getLength(),
+            'height' => $this->getHeight(),
+            'width' => $this->getWidth(),
+            'volume' => $this->getVolume(),
+        ];
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getLength(): float
+    public function getLength(): ?float
     {
         return $this->length;
     }
@@ -62,9 +69,9 @@ class Dimensions
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getHeight(): float
+    public function getHeight(): ?float
     {
         return $this->height;
     }
@@ -81,9 +88,9 @@ class Dimensions
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getWidth(): float
+    public function getWidth(): ?float
     {
         return $this->width;
     }
@@ -100,9 +107,9 @@ class Dimensions
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getVolume(): float
+    public function getVolume(): ?float
     {
         return $this->volume;
     }

@@ -4,42 +4,51 @@ namespace SnowIO\BrightpearlDataModel\Product\SalesChannel;
 
 class Description
 {
-    /** @var string $languageCode */
+    /** @var string|null $languageCode */
     private $languageCode;
-    /** @var string $text */
+    /** @var string|null $text */
     private $text;
-    /** @var string $format */
+    /** @var string|null $format */
     private $format;
 
     /**
-     * @param array $json
-     * @return static
+     * @return self
+     */
+    public static function create(): self
+    {
+        return new self();
+    }
+
+    /**
+     * @param array<string, mixed> $json
      */
     public static function fromJson(array $json): self
     {
         $result = new self();
-        $result->languageCode = $json['languageCode'];
-        $result->text = $json['text'] ?? '';
-        $result->format = $json['format'];
+
+        $result->languageCode = is_string($json['languageCode']) ? $json['languageCode'] : null;
+        $result->text = is_string($json['text']) ? $json['text'] : null;
+        $result->format = is_string($json['format']) ? $json['format'] : null;
+
         return $result;
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function toJson(): array
     {
-        $json = [];
-        $json['languageCode'] = $this->languageCode;
-        $json['text'] = $this->text ?? '';
-        $json['format'] = $this->format;
-        return $json;
+        return [
+            'languageCode' => $this->getLanguageCode(),
+            'text' => $this->getText(),
+            'format' => $this->getFormat(),
+        ];
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getLanguageCode(): string
+    public function getLanguageCode(): ?string
     {
         return $this->languageCode;
     }
@@ -56,9 +65,9 @@ class Description
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getText(): string
+    public function getText(): ?string
     {
         return $this->text;
     }
@@ -75,9 +84,9 @@ class Description
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getFormat(): string
+    public function getFormat(): ?string
     {
         return $this->format;
     }

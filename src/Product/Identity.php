@@ -4,58 +4,63 @@ namespace SnowIO\BrightpearlDataModel\Product;
 
 class Identity
 {
-    /** @var string $sku */
-    private $sku = '';
-    /** @var string $isbn */
-    private $isbn = '';
-    /** @var string $ean */
-    private $ean = '';
-    /** @var string $upc */
-    private $upc = '';
-    /** @var string $mpn */
-    private $mpn = '';
-    /** @var string $barcode */
-    private $barcode = '';
+    /** @var string|null $sku */
+    private $sku;
+    /** @var string|null $isbn */
+    private $isbn;
+    /** @var string|null $ean */
+    private $ean;
+    /** @var string|null $upc */
+    private $upc;
+    /** @var string|null $mpn */
+    private $mpn;
+    /** @var string|null $barcode */
+    private $barcode;
 
     /**
-     * @param array $json
-     * @return static
+     * @return self
+     */
+    public static function create(): self
+    {
+        return new self();
+    }
+
+    /**
+     * @param array<string, mixed> $json
      */
     public static function fromJson(array $json): self
     {
         $result = new self();
 
-        $result->sku = $json['sku'] ?? '';
-        $result->isbn = $json['isbn'] ?? '';
-        $result->ean = $json['ean'] ?? '';
-        $result->upc = $json['upc'] ?? '';
-        $result->mpn = $json['mpn'] ?? '';
-        $result->barcode = $json['barcode'] ?? '';
+        $result->sku = is_string($json['sku']) ? $json['sku'] : null;
+        $result->isbn = is_string($json['isbn']) ? $json['isbn'] : null;
+        $result->ean = is_string($json['ean']) ? $json['ean'] : null;
+        $result->upc = is_string($json['upc']) ? $json['upc'] : null;
+        $result->mpn = is_string($json['mpn']) ? $json['mpn'] : null;
+        $result->barcode = is_string($json['barcode']) ? $json['barcode'] : null;
 
         return $result;
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function toJson(): array
     {
-        $json = [];
-
-        $json['sku'] = $this->sku;
-        $json['isbn'] = $this->isbn;
-        $json['ean'] = $this->ean;
-        $json['upc'] = $this->upc;
-        $json['mpn'] = $this->mpn;
-        $json['barcode'] = $this->barcode;
-
-        return $json;
+        return [
+            'sku' => $this->getSku(),
+            'isbn' => $this->getIsbn(),
+            'ean' => $this->getEan(),
+            'upc' => $this->getUpc(),
+            'mpn' => $this->getMpn(),
+            'barcode' => $this->getBarcode()
+        ];
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getSku(): string
+    public function getSku(): ?string
     {
         return $this->sku;
     }
@@ -72,9 +77,9 @@ class Identity
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getIsbn(): string
+    public function getIsbn(): ?string
     {
         return $this->isbn;
     }
@@ -91,9 +96,9 @@ class Identity
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getEan(): string
+    public function getEan(): ?string
     {
         return $this->ean;
     }
@@ -110,9 +115,9 @@ class Identity
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getUpc(): string
+    public function getUpc(): ?string
     {
         return $this->upc;
     }
@@ -129,9 +134,9 @@ class Identity
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getMpn(): string
+    public function getMpn(): ?string
     {
         return $this->mpn;
     }
@@ -148,9 +153,9 @@ class Identity
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getBarcode(): string
+    public function getBarcode(): ?string
     {
         return $this->barcode;
     }
