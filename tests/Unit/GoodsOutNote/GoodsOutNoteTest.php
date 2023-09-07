@@ -200,20 +200,17 @@ class GoodsOutNoteTest extends TestCase
         self::assertEquals(042000, $goodsOutNote->getCreatedBy());
 
         self::assertInstanceOf(OrderRowCollection::class, $goodsOutNote->getOrderRows());
-        self::assertEquals([
-            [
-                'productId' => 1111,
-                'quantity' => 20,
-                'locationId' => 88,
-                'externalRef' => 'order-ref1'
-            ],
-            [
-                'productId' => 2222,
-                'quantity' => 440,
-                'locationId' => 7,
-                'externalRef' => 'order-ref2'
-            ]], $goodsOutNote->getOrderRows()->toJson());
-
+        $orderItems = iterator_to_array($goodsOutNote->getOrderRows()->getIterator());
+        self::assertInstanceOf(Order::class, $orderItems[0]);
+        self::assertInstanceOf(Order::class, $orderItems[1]);
+        self::assertEquals(1111, $orderItems[0]->getProductId());
+        self::assertEquals(20, $orderItems[0]->getQuantity());
+        self::assertEquals(88, $orderItems[0]->getLocationId());
+        self::assertEquals('order-ref1', $orderItems[0]->getExternalRef());
+        self::assertEquals(2222, $orderItems[1]->getProductId());
+        self::assertEquals(440, $orderItems[1]->getQuantity());
+        self::assertEquals(7, $orderItems[1]->getLocationId());
+        self::assertEquals('order-ref2', $orderItems[1]->getExternalRef());
         self::assertEquals(54, $goodsOutNote->getSequence());
         self::assertInstanceOf(EventCollection::class, $goodsOutNote->getEvents());
         self::assertEquals(  [
