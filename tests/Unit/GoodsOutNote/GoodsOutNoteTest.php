@@ -172,18 +172,18 @@ class GoodsOutNoteTest extends TestCase
         self::assertEquals(111, $goodsOutNote->getOrderId());
         self::assertEquals(6657, $goodsOutNote->getWarehouseId());
         self::assertEquals("external-ref", $goodsOutNote->getExternalRef());
-        self::assertEquals(true, $goodsOutNote->isTransfer());
-        self::assertEquals(true, $goodsOutNote->isPriority());
+        self::assertTrue(true, $goodsOutNote->isTransfer());
+        self::assertTrue(true, $goodsOutNote->isPriority());
 
         self::assertInstanceOf(Status::class, $goodsOutNote->getStatus());
-        self::assertEquals(true, $goodsOutNote->getStatus()->isPacked());
+        self::assertTrue(true, $goodsOutNote->getStatus()->isPacked());
         self::assertEquals(3, $goodsOutNote->getStatus()->getPackedById());
         self::assertEquals("20/20/2000", $goodsOutNote->getStatus()->getPackedOn());
-        self::assertEquals(true, $goodsOutNote->getStatus()->isPicked());
-        self::assertEquals(true, $goodsOutNote->getStatus()->isPrinted());
+        self::assertTrue(true, $goodsOutNote->getStatus()->isPicked());
+        self::assertTrue(true, $goodsOutNote->getStatus()->isPrinted());
         self::assertEquals(13434, $goodsOutNote->getStatus()->getPickedById());
         self::assertEquals(23434, $goodsOutNote->getStatus()->getPrintedById());
-        self::assertEquals(false, $goodsOutNote->getStatus()->isShipped());
+        self::assertFalse(false, $goodsOutNote->getStatus()->isShipped());
         self::assertEquals(126, $goodsOutNote->getStatus()->getShippedById());
         self::assertEquals("15/04/2020", $goodsOutNote->getStatus()->getShippedOn());
         self::assertEquals("20/02/2003", $goodsOutNote->getStatus()->getPrintedOn());
@@ -213,18 +213,15 @@ class GoodsOutNoteTest extends TestCase
         self::assertEquals('order-ref2', $orderItems[1]->getExternalRef());
         self::assertEquals(54, $goodsOutNote->getSequence());
         self::assertInstanceOf(EventCollection::class, $goodsOutNote->getEvents());
-        self::assertEquals(  [
-        [
-            'occurred' => '20/20/0220',
-            'eventOwnerId' => 4344,
-            'eventCode' => 'event-code1'
-        ],
-        [
-            'occurred' => '210/0/00001',
-            'eventOwnerId' => 1111,
-            'eventCode' => 'event-code2'
-        ]
-    ], $goodsOutNote->getEvents()->toJson());
+        $eventItems = iterator_to_array($goodsOutNote->getEvents()->getIterator());
+        self::assertInstanceOf(Event::class, $eventItems[0]);
+        self::assertInstanceOf(Event::class, $eventItems[1]);
+        self::assertEquals("20/20/0220", $eventItems[0]->getOccurred());
+        self::assertEquals(4344, $eventItems[0]->getEventOwnerId());
+        self::assertEquals("event-code1", $eventItems[0]->getEventCode());
+        self::assertEquals("210/0/00001", $eventItems[1]->getOccurred());
+        self::assertEquals(1111, $eventItems[1]->getEventOwnerId());
+        self::assertEquals("event-code2", $eventItems[1]->getEventCode());
         self::assertEquals("uri", $goodsOutNote->getLabelUri());
         self::assertEquals(22, $goodsOutNote->getLastEventVersion());
     }

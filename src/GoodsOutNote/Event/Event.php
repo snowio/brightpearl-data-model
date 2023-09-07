@@ -35,7 +35,6 @@ class Event
 
     /**
      * @param array<string, mixed> $json
-     * TODO: Look at
      */
     public static function fromJson(array $json): self
     {
