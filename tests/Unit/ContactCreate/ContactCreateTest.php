@@ -96,3 +96,4 @@ class ContactCreateTest extends TestCase
         self::assertTrue($contactCreate1->equals($contactCreate2));
     }
 }
+
