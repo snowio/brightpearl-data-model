@@ -20,11 +20,11 @@ class GoodsOutNoteTest extends TestCase
     {
 
         return [
-            'orderId' => 2222,
-            'warehouseId' => 222,
-            'externalRef' => "eee",
-            'transfer' => " ddd",
-            'priority' => "3",
+            'orderId' => 111,
+            'warehouseId' => 6657,
+            'externalRef' => "external-ref",
+            'transfer' => true,
+            'priority' => true,
             'status' => [
                 'packed' => true,
                 'packedById' => 3,
@@ -40,7 +40,7 @@ class GoodsOutNoteTest extends TestCase
                 'pickedOn' => "18/02/2004",
             ],
             'shipping' => [
-                'shippingMethodId' => 111111,
+                'shippingMethodId' => 11111,
                 'boxes' => 2222,
                 'reference' => "big-box",
                 'weight' => "20kg",
@@ -53,26 +53,26 @@ class GoodsOutNoteTest extends TestCase
                     'productId' => 1111,
                     'quantity' => 20,
                     'locationId' => 88,
-                    'externalRef' => "order-ref"
+                    'externalRef' => "order-ref1"
                 ],
                 [
                     'productId' => 2222,
-                    'quantity' => 10,
-                    'locationId' => 12,
+                    'quantity' => 440,
+                    'locationId' => 7,
                     'externalRef' => "order-ref2"
                 ]
             ],
             'sequence' => 54,
             'events' => [
                 [
-                    'occurred' => "event-code",
+                    'occurred' => "20/20/0220",
                     'eventOwnerId' => 4344,
-                    'eventCode' => "20/20/0220"
+                    'eventCode' => "event-code1"
                 ],
                 [
-                    'occurred' => "event-code-2",
-                    'eventOwnerId' => 3433,
-                    'eventCode' => "20/21/0220"
+                    'occurred' => "210/0/00001",
+                    'eventOwnerId' => 1111,
+                    'eventCode' => "event-code2"
                 ]
             ],
             'labelUri' => "uri",
@@ -115,24 +115,36 @@ class GoodsOutNoteTest extends TestCase
             ->withReference("big-box")
             ->withWeight("20kg");
 
-        $order = Order::create()
+        $order1 = Order::create()
             ->withProductId(1111)
             ->withQuantity(20)
             ->withLocationId(88)
-            ->withExternalRef("order-ref");
-        $orderRowCollection = OrderRowCollection::create()->of([$order, $order]);
+            ->withExternalRef("order-ref1");
 
-        $event = Event::create()
-            ->withEventCode("event-code")
+        $order2 = Order::create()
+            ->withProductId(2222)
+            ->withQuantity(440)
+            ->withLocationId(7)
+            ->withExternalRef("order-ref2");
+
+        $orderRowCollection = OrderRowCollection::create()->of([$order1, $order2]);
+
+        $event1 = Event::create()
+            ->withEventCode("event-code1")
             ->withEventOwnerId(4344)
             ->withOccurred("20/20/0220");
 
-        $eventCollection = EventCollection::create()->of($event->toJson());
+        $event2 = Event::create()
+            ->withEventCode("event-code2")
+            ->withEventOwnerId(1111)
+            ->withOccurred("210/0/00001");
+
+        $eventCollection = EventCollection::create()->of([$event1, $event2]);
 
         $goodOutNote = GoodsOutNote::create()
             ->withOrderId(111)
             ->withWarehouseId(6657)
-            ->withExternalRef("ref")
+            ->withExternalRef("external-ref")
             ->withTransfer(true)
             ->withPriority(true)
             ->withStatus($status)
@@ -154,7 +166,70 @@ class GoodsOutNoteTest extends TestCase
      */
     public function testGetters()
     {
+        $data = $this->getJsonData();
+        $goodsOutNote = GoodsOutNote::fromJson($data);
 
+        self::assertEquals(111, $goodsOutNote->getOrderId());
+        self::assertEquals(6657, $goodsOutNote->getWarehouseId());
+        self::assertEquals("external-ref", $goodsOutNote->getExternalRef());
+        self::assertEquals(true, $goodsOutNote->isTransfer());
+        self::assertEquals(true, $goodsOutNote->isPriority());
+
+        self::assertInstanceOf(Status::class, $goodsOutNote->getStatus());
+        self::assertEquals(true, $goodsOutNote->getStatus()->isPacked());
+        self::assertEquals(3, $goodsOutNote->getStatus()->getPackedById());
+        self::assertEquals("20/20/2000", $goodsOutNote->getStatus()->getPackedOn());
+        self::assertEquals(true, $goodsOutNote->getStatus()->isPicked());
+        self::assertEquals(true, $goodsOutNote->getStatus()->isPrinted());
+        self::assertEquals(13434, $goodsOutNote->getStatus()->getPickedById());
+        self::assertEquals(23434, $goodsOutNote->getStatus()->getPrintedById());
+        self::assertEquals(false, $goodsOutNote->getStatus()->isShipped());
+        self::assertEquals(126, $goodsOutNote->getStatus()->getShippedById());
+        self::assertEquals("15/04/2020", $goodsOutNote->getStatus()->getShippedOn());
+        self::assertEquals("20/02/2003", $goodsOutNote->getStatus()->getPrintedOn());
+        self::assertEquals("18/02/2004", $goodsOutNote->getStatus()->getPickedOn());
+
+        self::assertInstanceOf(Shipping::class, $goodsOutNote->getShipping());
+        self::assertEquals(11111, $goodsOutNote->getShipping()->getShippingMethodId());
+        self::assertEquals(2222, $goodsOutNote->getShipping()->getBoxes());
+        self::assertEquals("big-box", $goodsOutNote->getShipping()->getReference());
+        self::assertEquals("20kg", $goodsOutNote->getShipping()->getWeight());
+
+        self::assertEquals("20/20/2003", $goodsOutNote->getReleaseDate());
+        self::assertEquals("20/20/20002", $goodsOutNote->getCreatedOn());
+        self::assertEquals(042000, $goodsOutNote->getCreatedBy());
+
+        self::assertInstanceOf(OrderRowCollection::class, $goodsOutNote->getOrderRows());
+        self::assertEquals([
+            [
+                'productId' => 1111,
+                'quantity' => 20,
+                'locationId' => 88,
+                'externalRef' => 'order-ref1'
+            ],
+            [
+                'productId' => 2222,
+                'quantity' => 440,
+                'locationId' => 7,
+                'externalRef' => 'order-ref2'
+            ]], $goodsOutNote->getOrderRows()->toJson());
+
+        self::assertEquals(54, $goodsOutNote->getSequence());
+        self::assertInstanceOf(EventCollection::class, $goodsOutNote->getEvents());
+        self::assertEquals(  [
+        [
+            'occurred' => '20/20/0220',
+            'eventOwnerId' => 4344,
+            'eventCode' => 'event-code1'
+        ],
+        [
+            'occurred' => '210/0/00001',
+            'eventOwnerId' => 1111,
+            'eventCode' => 'event-code2'
+        ]
+    ], $goodsOutNote->getEvents()->toJson());
+        self::assertEquals("uri", $goodsOutNote->getLabelUri());
+        self::assertEquals(22, $goodsOutNote->getLastEventVersion());
     }
 
     /**

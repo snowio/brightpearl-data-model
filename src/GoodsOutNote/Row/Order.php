@@ -43,12 +43,12 @@ class Order
      */
     public function toJson(): array
     {
-        $json = [];
-        $json['productId'] = $this->getProductId();
-        $json['quantity'] = $this->getQuantity();
-        $json['locationId'] = $this->getLocationId();
-        $json['externalRef'] = $this->getExternalRef();
-        return $json;
+        return [
+            'productId' => $this->getProductId(),
+            'quantity' => $this->getQuantity(),
+            'locationId' => $this->getLocationId(),
+            'externalRef' => $this->getExternalRef()
+        ];
     }
 
     /**
@@ -57,7 +57,6 @@ class Order
      */
     public function equals(Order $orderToCompare): bool
     {
-
         if ($this->getProductId() !== $orderToCompare->getProductId()) {
             return false;
         }

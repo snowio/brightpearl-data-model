@@ -18,16 +18,16 @@ class GoodsOutNote
     /** @var string|null $externalRef */
     private $externalRef;
 
-    /** @var bool $transfer */
+    /** @var bool|null $transfer */
     private $transfer;
 
-    /** @var bool $priority */
+    /** @var bool|null $priority */
     private $priority;
 
-    /** @var Status $status */
+    /** @var Status|null $status */
     private $status;
 
-    /** @var Shipping $shipping */
+    /** @var Shipping|null $shipping */
     private $shipping;
 
     /** @var string|null $releaseDate */
@@ -39,13 +39,13 @@ class GoodsOutNote
     /** @var int|null $createdBy */
     private $createdBy;
 
-    /** @var OrderRowCollection $orderRows */
+    /** @var OrderRowCollection|null $orderRows */
     private $orderRows;
 
     /** @var int|null $sequence */
     private $sequence;
 
-    /** @var EventCollection $events */
+    /** @var EventCollection|null $events */
     private $events;
 
     /** @var string|null $labelUri */
@@ -65,7 +65,6 @@ class GoodsOutNote
 
     /**
      * @param array<string, mixed> $json
-     * todo: this
      */
     public static function fromJson(array $json): self
     {
@@ -93,30 +92,34 @@ class GoodsOutNote
      */
     public function toJson(): array
     {
-        $json = [];
-        $json['orderId'] = $this->getOrderId();
-        $json['warehouseId'] = $this->getWarehouseId();
-        $json['externalRef'] = $this->getExternalRef();
-        $json['transfer'] = $this->isTransfer();
-        $json['priority'] = $this->isPriority();
-        $json['status'] = $this->getStatus()->toJson();
-        $json['shipping'] = $this->getShipping()->toJson();
-        $json['releaseDate'] = $this->getReleaseDate();
-        $json['createdOn'] = $this->getCreatedOn();
-        $json['createdBy'] = $this->getCreatedBy();
-        $json['orderRows'] = $this->getOrderRows()->toJson();
-        $json['sequence'] = $this->getSequence();
-        $json['events'] = $this->getEvents()->toJson();
-        $json['labelUri'] = $this->getLabelUri();
-        $json['lastEventVersion'] = $this->getLastEventVersion();
-        return $json;
+        $status = is_null($this->getStatus()) ? [] : $this->getStatus()->toJson();
+        $shipping = is_null($this->getShipping()) ? [] : $this->getShipping()->toJson();
+        $orderRows = is_null($this->getOrderRows()) ? [] : $this->getOrderRows()->toJson();
+        $events = is_null($this->getEvents()) ? [] : $this->getEvents()->toJson();
+
+        return [
+            'orderId' => $this->getOrderId(),
+            'warehouseId' => $this->getWarehouseId(),
+            'externalRef' => $this->getExternalRef(),
+            'transfer' => $this->isTransfer(),
+            'priority' => $this->isPriority(),
+            'status' => $status,
+            'shipping' => $shipping,
+            'releaseDate' => $this->getReleaseDate(),
+            'createdOn' => $this->getCreatedOn(),
+            'createdBy' => $this->getCreatedBy(),
+            'orderRows' => $orderRows,
+            'sequence' => $this->getSequence(),
+            'events' => $events,
+            'labelUri' => $this->getLabelUri(),
+            'lastEventVersion' => $this->getLastEventVersion()
+        ];
     }
 
 
     /**
      * @param GoodsOutNote $GoodsOutNoteToCompare
      * @return bool
-     * todo: this
      */
     public function equals(GoodsOutNote $GoodsOutNoteToCompare): bool
     {
@@ -313,33 +316,33 @@ class GoodsOutNote
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function isTransfer(): bool
+    public function isTransfer(): ?bool
     {
         return $this->transfer;
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function isPriority(): bool
+    public function isPriority(): ?bool
     {
         return $this->priority;
     }
 
     /**
-     * @return Status
+     * @return Status|null
      */
-    public function getStatus(): Status
+    public function getStatus(): ?Status
     {
         return $this->status;
     }
 
     /**
-     * @return Shipping
+     * @return Shipping|null
      */
-    public function getShipping(): Shipping
+    public function getShipping(): ?Shipping
     {
         return $this->shipping;
     }
@@ -369,9 +372,9 @@ class GoodsOutNote
     }
 
     /**
-     * @return OrderRowCollection
+     * @return OrderRowCollection|null
      */
-    public function getOrderRows(): OrderRowCollection
+    public function getOrderRows(): ?OrderRowCollection
     {
         return $this->orderRows;
     }
@@ -385,9 +388,9 @@ class GoodsOutNote
     }
 
     /**
-     * @return EventCollection
+     * @return EventCollection|null
      */
-    public function getEvents(): EventCollection
+    public function getEvents(): ?EventCollection
     {
         return $this->events;
     }

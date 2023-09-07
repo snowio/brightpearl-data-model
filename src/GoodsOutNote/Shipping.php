@@ -16,6 +16,7 @@ class Shipping
 
     /** @var string|null $weight */
     private $weight;
+
     /**
      * @return self
      */
@@ -42,12 +43,12 @@ class Shipping
      */
     public function toJson(): array
     {
-        $json = [];
-        $json['reference'] = $this->getReference();
-        $json['boxes'] = $this->getBoxes();
-        $json['shippingMethodId'] = $this->getShippingMethodId();
-        $json['weight'] = $this->getWeight();
-        return $json;
+        return [
+            'reference' => $this->getReference(),
+            'boxes' => $this->getBoxes(),
+            'shippingMethodId' => $this->getShippingMethodId(),
+            'weight' => $this->getWeight()
+        ];
     }
 
     /**
@@ -56,7 +57,6 @@ class Shipping
      */
     public function equals(Shipping $shippingToCompare): bool
     {
-
         if ($this->getReference() !== $shippingToCompare->getReference()) {
             return false;
         }

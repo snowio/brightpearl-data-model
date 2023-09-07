@@ -74,20 +74,20 @@ class Status
      */
     public function toJson(): array
     {
-        $json = [];
-        $json['shipped'] = $this->isShipped();
-        $json['packed'] = $this->isPacked();
-        $json['picked'] = $this->isPicked();
-        $json['printed'] = $this->isPrinted();
-        $json['pickedOn'] = $this->getPickedOn();
-        $json['packedOn'] = $this->getPackedOn();
-        $json['shippedOn'] = $this->getShippedOn();
-        $json['printedOn'] = $this->getPrintedOn();
-        $json['pickedById'] = $this->getPickedById();
-        $json['packedById'] = $this->getPackedById();
-        $json['shippedById'] = $this->getShippedById();
-        $json['printedById'] = $this->getPrintedById();
-        return $json;
+        return [
+            'shipped' => $this->isShipped(),
+            'packed' => $this->isPacked(),
+            'picked' => $this->isPicked(),
+            'printed' => $this->isPrinted(),
+            'pickedOn' => $this->getPickedOn(),
+            'packedOn' => $this->getPackedOn(),
+            'shippedOn' => $this->getShippedOn(),
+            'printedOn' => $this->getPrintedOn(),
+            'pickedById' => $this->getPickedById(),
+            'packedById' => $this->getPackedById(),
+            'shippedById' => $this->getShippedById(),
+            'printedById' => $this->getPrintedById()
+        ];
     }
 
     /**
@@ -96,7 +96,6 @@ class Status
      */
     public function equals(Status $statusToCompare): bool
     {
-
         if ($this->isShipped() !== $statusToCompare->isShipped()) {
             return false;
         }

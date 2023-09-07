@@ -2,21 +2,14 @@
 
 namespace SnowIO\BrightpearlDataModel\GoodsOutNote;
 
+use Iterator;
 use SnowIO\BrightpearlDataModel\GoodsOutNote\Event\Event;
 
 class EventCollection
 {
 
-    /** @var Event[] $items */
-    private $items;
-
-    /**
-     * @param Event[] $items
-     */
-    private function __construct(array $items = [])
-    {
-        $this->items = $items;
-    }
+    /** @var Event[] */
+    private $items = [];
 
     /**
      * @return self
@@ -31,12 +24,20 @@ class EventCollection
      */
     public static function of(array $items): self
     {
-        return new self($items);
+        $result = new self();
+
+        foreach ($items as $event) {
+            if ($event instanceof Event) {
+                $result->items[] = $event;
+            }
+        }
+
+        return $result;
     }
 
     /**
      * @param callable $function
-     * @return array<string, mixed>
+     * @return array<mixed>
      */
     public function map(callable $function): array
     {
@@ -44,36 +45,40 @@ class EventCollection
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<mixed>
      */
     public function toJson(): array
     {
-        return array_map(static function (Event $event) {
-            return $event->toJson();
-        }, $this->items);
+        $json = [];
+        foreach ($this->items as $event) {
+            $json[] = $event->toJson();
+        }
+
+        return $json;
     }
 
     /**
-     * @param array<string, Event>$json
-     * TODO: Look at
+     * @param array<mixed> $json
      */
     public static function fromJson(array $json): self
     {
-        $result = self::create();
+        $result = new self();
         foreach ($json as $item) {
-            $result->items[] = Event::fromJson($item);
+            if (!is_array($item)) {
+                continue;
+            }
+            $result->items[] = Event::create()->fromJson($item);
         }
         return $result;
     }
 
     /**
-     * @return \Iterator
+     * @return Iterator
      */
-    public function getIterator(): \Iterator
+    public function getIterator(): Iterator
     {
         foreach ($this->items as $item) {
             yield $item;
         }
     }
-
 }

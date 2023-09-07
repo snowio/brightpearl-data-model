@@ -26,7 +26,7 @@ class OrderRowCollection implements IteratorAggregate
     {
         $result = new self();
 
-        foreach($items as $order) {
+        foreach ($items as $order) {
             if ($order instanceof Order) {
                 $result->items[] = $order;
             }
@@ -50,7 +50,7 @@ class OrderRowCollection implements IteratorAggregate
     public function toJson(): array
     {
         $json = [];
-        foreach($this->items as $order) {
+        foreach ($this->items as $order) {
             $json[] = $order->toJson();
         }
 
@@ -64,7 +64,7 @@ class OrderRowCollection implements IteratorAggregate
     {
         $result = new self();
 
-        foreach($json as $item) {
+        foreach ($json as $item) {
             if (!is_array($item)) {
                 continue;
             }

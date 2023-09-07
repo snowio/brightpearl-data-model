@@ -26,11 +26,11 @@ class Event
      */
     public function toJson(): array
     {
-        $json = [];
-        $json['occurred'] = $this->getOccurred();
-        $json['eventOwnerId'] = $this->getEventOwnerId();
-        $json['eventCode'] = $this->getEventCode();
-        return $json;
+        return [
+            'occurred' => $this->getOccurred(),
+            'eventOwnerId' => $this->getEventOwnerId(),
+            'eventCode' => $this->getEventCode()
+        ];
     }
 
     /**
@@ -52,7 +52,6 @@ class Event
      */
     public function equals(Event $eventToCompare): bool
     {
-
         if ($this->getOccurred() !== $eventToCompare->getOccurred()) {
             return false;
         }
