@@ -49,19 +49,30 @@ class GoodsOutNoteTest extends TestCase
             'createdOn' => "20/20/20002",
             'createdBy' => 042000,
             'orderRows' => [
-                'items' => [
+                [
                     'productId' => 1111,
                     'quantity' => 20,
                     'locationId' => 88,
-                    'externalRef' => "order-ref",
+                    'externalRef' => "order-ref"
+                ],
+                [
+                    'productId' => 2222,
+                    'quantity' => 10,
+                    'locationId' => 12,
+                    'externalRef' => "order-ref2"
                 ]
             ],
             'sequence' => 54,
             'events' => [
-                'items' => [
+                [
                     'occurred' => "event-code",
                     'eventOwnerId' => 4344,
-                    'eventCode' => "20/20/0220",
+                    'eventCode' => "20/20/0220"
+                ],
+                [
+                    'occurred' => "event-code-2",
+                    'eventOwnerId' => 3433,
+                    'eventCode' => "20/21/0220"
                 ]
             ],
             'labelUri' => "uri",
@@ -109,8 +120,7 @@ class GoodsOutNoteTest extends TestCase
             ->withQuantity(20)
             ->withLocationId(88)
             ->withExternalRef("order-ref");
-// Here is the problem!!!!
-        $orderRowCollection = OrderRowCollection::create()->of([$order,$order]);
+        $orderRowCollection = OrderRowCollection::create()->of([$order, $order]);
 
         $event = Event::create()
             ->withEventCode("event-code")

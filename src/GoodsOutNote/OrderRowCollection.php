@@ -2,20 +2,14 @@
 
 namespace SnowIO\BrightpearlDataModel\GoodsOutNote;
 
+use Iterator;
+use IteratorAggregate;
 use SnowIO\BrightpearlDataModel\GoodsOutNote\Row\Order;
 
-class OrderRowCollection implements \IteratorAggregate
+class OrderRowCollection implements IteratorAggregate
 {
-    /** @var Order[][] */
+    /** @var Order[] */
     private $items = [];
-
-    /**
-     * @param Order[][] $items
-     */
-    private function __construct(array $items = [])
-    {
-        $this->items = $items;
-    }
 
     /**
      * @return self
@@ -26,11 +20,19 @@ class OrderRowCollection implements \IteratorAggregate
     }
 
     /**
-     * @param Order[][] $items
+     * @param Order[] $items
      */
     public static function of(array $items): self
     {
-        return new self($items);
+        $result = new self();
+
+        foreach($items as $order) {
+            if ($order instanceof Order) {
+                $result->items[] = $order;
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -47,30 +49,35 @@ class OrderRowCollection implements \IteratorAggregate
      */
     public function toJson(): array
     {
-        return array_map(function (array $orders) {
-            return array_map(function (Order $order) {
-                return $order->toJson();
-            }, $orders);
-        }, $this->items);
+        $json = [];
+        foreach($this->items as $order) {
+            $json[] = $order->toJson();
+        }
+
+        return $json;
     }
 
     /**
      * @param array<mixed> $json
-     * TODO : look at this
      */
     public static function fromJson(array $json): self
     {
-        return new self(array_map(function (array $orderRow) {
-            return array_map(function (array $item) {
-                return Order::fromJson($item);
-            }, $orderRow);
-        }, $json));
+        $result = new self();
+
+        foreach($json as $item) {
+            if (!is_array($item)) {
+                continue;
+            }
+            $result->items[] = Order::create()->fromJson($item);
+        }
+
+        return $result;
     }
 
     /**
-     * @return \Iterator
+     * @return Iterator
      */
-    public function getIterator(): \Iterator
+    public function getIterator(): Iterator
     {
         foreach ($this->items as $item) {
             yield $item;
