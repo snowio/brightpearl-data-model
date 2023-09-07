@@ -32,7 +32,7 @@ class RowCollection implements IteratorAggregate
      */
     public function toJson(): array
     {
-        return  array_map(static function (Row $row): array {
+        return array_map(static function (Row $row): array {
             return $row->toJson();
         }, $this->items);
     }
