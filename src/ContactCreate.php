@@ -170,4 +170,3 @@ class ContactCreate
         return $clone;
     }
 }
-
