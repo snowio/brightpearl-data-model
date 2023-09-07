@@ -109,15 +109,15 @@ class GoodsOutNoteTest extends TestCase
             ->withQuantity(20)
             ->withLocationId(88)
             ->withExternalRef("order-ref");
-
-        $orderRowCollection = OrderRowCollection::create()->fromJson($order->toJson());
+// Here is the problem!!!!
+        $orderRowCollection = OrderRowCollection::create()->of([$order,$order]);
 
         $event = Event::create()
             ->withEventCode("event-code")
             ->withEventOwnerId(4344)
             ->withOccurred("20/20/0220");
 
-        $eventCollection = EventCollection::create()->fromJson($event->toJson());
+        $eventCollection = EventCollection::create()->of($event->toJson());
 
         $goodOutNote = GoodsOutNote::create()
             ->withOrderId(111)
