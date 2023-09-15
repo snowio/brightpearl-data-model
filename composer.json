@@ -14,7 +14,7 @@
         "fix": "vendor/bin/rector process && vendor/bin/php-cs-fixer fix --diff",
         "test:static": "vendor/bin/phpstan analyse --no-interaction --no-progress",
         "test:lint": "vendor/bin/rector process --dry-run && vendor/bin/php-cs-fixer fix --dry-run --diff",
-        "test:unit": "vendor/bin/phpunit",
+        "test:unit": "vendor/bin/phpunit --coverage-clover=coverage.xml",
         "test-static-analysis": [
             "@test:static",
             "@test:lint"
