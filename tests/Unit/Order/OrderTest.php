@@ -156,7 +156,6 @@ class OrderTest extends TestCase
             ->withTax("14")
             ->withNominalCode("ABCDEF")
             ->withExternalRef("FEDCBA");
-
         $row2 = Order\Row::create()
             ->withProductId(456789)
             ->withName("Product Example 2")
@@ -166,6 +165,7 @@ class OrderTest extends TestCase
             ->withTax("15")
             ->withNominalCode("ABCDEF2")
             ->withExternalRef("FEDCBA2");
+        $rows = Order\RowCollection::of([$row1, $row2]);
 
         $order = Order::create()
             ->withCustomer($customer)
@@ -186,7 +186,7 @@ class OrderTest extends TestCase
             ->withPriceModeCode("SOMECODE")
             ->withCurrency($currency)
             ->withDelivery($delivery)
-            ->withRows([$row1, $row2]);
+            ->withRows($rows);
 
         self::assertEquals($this->getJsonData(), $order->toJson());
     }
@@ -251,26 +251,27 @@ class OrderTest extends TestCase
         self::assertEquals("12345678902", $order->getDelivery()->getAddress()->getTelephone());
         self::assertEquals("test2@domain.com", $order->getDelivery()->getAddress()->getEmail());
 
-        self::assertIsArray($order->getRows());
-        self::assertInstanceOf(Order\Row::class, $order->getRows()[0]);
-        self::assertEquals(123456, $order->getRows()[0]->getProductId());
-        self::assertEquals("Product Example 1", $order->getRows()[0]->getName());
-        self::assertEquals("123", $order->getRows()[0]->getQuantity());
-        self::assertEquals("ABC", $order->getRows()[0]->getTaxCode());
-        self::assertEquals("100", $order->getRows()[0]->getNet());
-        self::assertEquals("14", $order->getRows()[0]->getTax());
-        self::assertEquals("ABCDEF", $order->getRows()[0]->getNominalCode());
-        self::assertEquals("FEDCBA", $order->getRows()[0]->getExternalRef());
+        self::assertInstanceOf(Order\RowCollection::class, $order->getRows());
+        $rows = iterator_to_array($order->getRows()->getIterator());
+        self::assertInstanceOf(Order\Row::class, $rows[0]);
+        self::assertEquals(123456, $rows[0]->getProductId());
+        self::assertEquals("Product Example 1", $rows[0]->getName());
+        self::assertEquals("123", $rows[0]->getQuantity());
+        self::assertEquals("ABC", $rows[0]->getTaxCode());
+        self::assertEquals("100", $rows[0]->getNet());
+        self::assertEquals("14", $rows[0]->getTax());
+        self::assertEquals("ABCDEF", $rows[0]->getNominalCode());
+        self::assertEquals("FEDCBA", $rows[0]->getExternalRef());
 
-        self::assertInstanceOf(Order\Row::class, $order->getRows()[1]);
-        self::assertEquals(456789, $order->getRows()[1]->getProductId());
-        self::assertEquals("Product Example 2", $order->getRows()[1]->getName());
-        self::assertEquals("456", $order->getRows()[1]->getQuantity());
-        self::assertEquals("DEF", $order->getRows()[1]->getTaxCode());
-        self::assertEquals("101", $order->getRows()[1]->getNet());
-        self::assertEquals("15", $order->getRows()[1]->getTax());
-        self::assertEquals("ABCDEF2", $order->getRows()[1]->getNominalCode());
-        self::assertEquals("FEDCBA2", $order->getRows()[1]->getExternalRef());
+        self::assertInstanceOf(Order\Row::class, $rows[1]);
+        self::assertEquals(456789, $rows[1]->getProductId());
+        self::assertEquals("Product Example 2", $rows[1]->getName());
+        self::assertEquals("456", $rows[1]->getQuantity());
+        self::assertEquals("DEF", $rows[1]->getTaxCode());
+        self::assertEquals("101", $rows[1]->getNet());
+        self::assertEquals("15", $rows[1]->getTax());
+        self::assertEquals("ABCDEF2", $rows[1]->getNominalCode());
+        self::assertEquals("FEDCBA2", $rows[1]->getExternalRef());
     }
 
     /**

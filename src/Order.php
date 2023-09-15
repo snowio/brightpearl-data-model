@@ -7,6 +7,7 @@ use SnowIO\BrightpearlDataModel\Order\Currency;
 use SnowIO\BrightpearlDataModel\Order\Customer;
 use SnowIO\BrightpearlDataModel\Order\Delivery;
 use SnowIO\BrightpearlDataModel\Order\Row;
+use SnowIO\BrightpearlDataModel\Order\RowCollection;
 
 class Order
 {
@@ -46,8 +47,8 @@ class Order
     private $currency;
     /** @var Delivery|null $delivery */
     private $delivery;
-    /** @var Row[] $rows */
-    private $rows = [];
+    /** @var RowCollection|null $rows */
+    private $rows;
 
     /**
      * @return self
@@ -89,9 +90,7 @@ class Order
         $result->priceModeCode = is_string($json['priceModeCode']) ? $json['priceModeCode'] : null;
         $result->currency = Currency::fromJson($currency);
         $result->delivery = Delivery::fromJson($delivery);
-        $result->rows = array_map(function (array $json): Row {
-            return Row::fromJson($json);
-        }, $rows);
+        $result->rows = RowCollection::fromJson($rows);
 
         return $result;
     }
@@ -105,9 +104,7 @@ class Order
         $billing = is_null($this->getBilling()) ? [] : $this->getBilling()->toJson();
         $currency = is_null($this->getCurrency()) ? [] : $this->getCurrency()->toJson();
         $delivery = is_null($this->getDelivery()) ? [] : $this->getDelivery()->toJson();
-        $rows = array_map(static function (Row $row): array {
-            return $row->toJson();
-        }, $this->getRows());
+        $rows = is_null($this->getRows()) ? [] : $this->getRows()->toJson();
 
         return [
             'customer' => $customer,
@@ -159,13 +156,24 @@ class Order
             return false;
         }
 
-        $getRowsCount = count($this->getRows());
-        if ($getRowsCount !== count($orderToCompare->getRows())) {
+        $rows = $this->getRows() instanceof RowCollection
+            ? iterator_to_array($this->getRows()) : [];
+        $rowsToCompare = $orderToCompare->getRows() instanceof RowCollection
+            ? iterator_to_array($orderToCompare->getRows()) : [];
+
+        $getRowsCount = count($rows);
+        if ($getRowsCount !== count($rowsToCompare)) {
             return false;
         }
 
         for ($i = 0; $i < $getRowsCount; $i++) {
-            if (!$this->getRows()[$i]->equals($orderToCompare->getRows()[$i])) {
+            if (!$rows[$i] instanceof Row) {
+                return false;
+            }
+            if (!$rowsToCompare[$i] instanceof Row) {
+                return false;
+            }
+            if (!$rows[$i]->equals($rowsToCompare[$i])) {
                 return false;
             }
         }
@@ -555,18 +563,18 @@ class Order
     }
 
     /**
-     * @return Row[]
+     * @return RowCollection|null
      */
-    public function getRows(): array
+    public function getRows(): ?RowCollection
     {
         return $this->rows;
     }
 
     /**
-     * @param Row[] $rows
+     * @param RowCollection|null $rows
      * @return Order
      */
-    public function withRows(array $rows): Order
+    public function withRows(?RowCollection $rows): Order
     {
         $clone = clone $this;
         $clone->rows = $rows;

@@ -11,24 +11,23 @@ class RowCollection implements IteratorAggregate
     private $items = [];
 
     /**
-     * @return self
+     * @param Row[] $items
      */
-    public static function create(): self
+    public static function of(array $items): self
     {
-        return new self();
+        $result = new self();
+
+        foreach ($items as $order) {
+            if ($order instanceof Row) {
+                $result->items[] = $order;
+            }
+        }
+
+        return $result;
     }
 
     /**
-     * @param callable $function
      * @return array<mixed>
-     */
-    public function map(callable $function): array
-    {
-        return array_map($function, $this->items);
-    }
-
-    /**
-     * @return array<string, mixed>
      */
     public function toJson(): array
     {
@@ -38,16 +37,20 @@ class RowCollection implements IteratorAggregate
     }
 
     /**
-     * @param array<string, mixed> $json
+     * @param array<mixed> $json
      * @return self
      */
     public static function fromJson(array $json): self
     {
-        $result = self::create();
+        $result = new self();
+
         foreach ($json as $item) {
-            $row = is_array($item) ? $item : [];
-            $result->items[] = Row::fromJson($row);
+            if (!is_array($item)) {
+                continue;
+            }
+            $result->items[] = Row::create()->fromJson($item);
         }
+
         return $result;
     }
 
