@@ -199,6 +199,7 @@ class Contact
 
     /**
      * @param int $contactId
+     * @return Contact
      */
     public function withContactId(int $contactId): Contact
     {
@@ -217,6 +218,7 @@ class Contact
 
     /**
      * @param string|null $primaryEmail
+     * @return Contact
      */
     public function withPrimaryEmail(?string $primaryEmail): Contact
     {
@@ -235,6 +237,7 @@ class Contact
 
     /**
      * @param string|null $secondaryEmail
+     * @return Contact
      */
     public function withSecondaryEmail(?string $secondaryEmail): Contact
     {
@@ -253,6 +256,7 @@ class Contact
 
     /**
      * @param string|null $tertiaryEmail
+     * @return Contact
      */
     public function withTertiaryEmail(?string $tertiaryEmail): Contact
     {
@@ -271,6 +275,7 @@ class Contact
 
     /**
      * @param string|null $firstName
+     * @return Contact
      */
     public function withFirstName(?string $firstName): Contact
     {
@@ -289,6 +294,7 @@ class Contact
 
     /**
      * @param string|null $lastName
+     * @return Contact
      */
     public function withLastName(?string $lastName): Contact
     {
@@ -307,6 +313,7 @@ class Contact
 
     /**
      * @param bool|null $isSupplier
+     * @return Contact
      */
     public function withIsSupplier(?bool $isSupplier): Contact
     {
@@ -325,6 +332,7 @@ class Contact
 
     /**
      * @param string|null $companyName
+     * @return Contact
      */
     public function withCompanyName(?string $companyName): Contact
     {
@@ -343,6 +351,7 @@ class Contact
 
     /**
      * @param bool|null $isStaff
+     * @return Contact
      */
     public function withIsStaff(?bool $isStaff): Contact
     {
@@ -361,6 +370,7 @@ class Contact
 
     /**
      * @param bool|null $isCustomer
+     * @return Contact
      */
     public function withIsCustomer(?bool $isCustomer): Contact
     {
@@ -379,6 +389,7 @@ class Contact
 
     /**
      * @param string|null $createdOn
+     * @return Contact
      */
     public function withCreatedOn(?string $createdOn): Contact
     {
@@ -397,6 +408,7 @@ class Contact
 
     /**
      * @param string|null $updatedOn
+     * @return Contact
      */
     public function withUpdatedOn(?string $updatedOn): Contact
     {
@@ -415,6 +427,7 @@ class Contact
 
     /**
      * @param string|null $lastContactedOn
+     * @return Contact
      */
     public function withLastContactedOn(?string $lastContactedOn): Contact
     {
@@ -433,6 +446,7 @@ class Contact
 
     /**
      * @param string|null $lastOrderedOn
+     * @return Contact
      */
     public function withLastOrderedOn(?string $lastOrderedOn): Contact
     {
@@ -451,6 +465,7 @@ class Contact
 
     /**
      * @param int|null $nominalCode
+     * @return Contact
      */
     public function withNominalCode(?int $nominalCode): Contact
     {
@@ -469,6 +484,7 @@ class Contact
 
     /**
      * @param bool|null $isPrimary
+     * @return Contact
      */
     public function withIsPrimary(?bool $isPrimary): Contact
     {
@@ -487,6 +503,7 @@ class Contact
 
     /**
      * @param string|null $pri
+     * @return Contact
      */
     public function withPri(?string $pri): Contact
     {
@@ -505,6 +522,7 @@ class Contact
 
     /**
      * @param string|null $sec
+     * @return Contact
      */
     public function withSec(?string $sec): Contact
     {
@@ -523,6 +541,7 @@ class Contact
 
     /**
      * @param string|null $mob
+     * @return Contact
      */
     public function withMob(?string $mob): Contact
     {
@@ -541,6 +560,7 @@ class Contact
 
     /**
      * @param string|null $exactCompanyName
+     * @return Contact
      */
     public function withExactCompanyName(?string $exactCompanyName): Contact
     {
@@ -559,6 +579,7 @@ class Contact
 
     /**
      * @param string|null $title
+     * @return Contact
      */
     public function withTitle(?string $title): Contact
     {
