@@ -91,51 +91,6 @@ class Status
     }
 
     /**
-     * @param Status $statusToCompare
-     * @return bool
-     */
-    public function equals(Status $statusToCompare): bool
-    {
-        if ($this->isShipped() !== $statusToCompare->isShipped()) {
-            return false;
-        }
-
-        if ($this->isPacked() !== $statusToCompare->isPacked()) {
-            return false;
-        }
-
-        if ($this->isPicked() !== $statusToCompare->isPicked()) {
-            return false;
-        }
-
-        if ($this->getPackedOn() !== $statusToCompare->getPackedOn()) {
-            return false;
-        }
-
-        if ($this->getShippedOn() !== $statusToCompare->getShippedOn()) {
-            return false;
-        }
-
-        if ($this->getPrintedOn() !== $statusToCompare->getPrintedOn()) {
-            return false;
-        }
-
-        if ($this->getPickedById() !== $statusToCompare->getPickedById()) {
-            return false;
-        }
-
-        if ($this->getPackedById() !== $statusToCompare->getPackedById()) {
-            return false;
-        }
-
-        if ($this->getShippedById() !== $statusToCompare->getShippedById()) {
-            return false;
-        }
-
-        return $this->getPrintedById() === $statusToCompare->getPrintedById();
-    }
-
-    /**
      * @param bool|null $shipped
      * @return Status
      */

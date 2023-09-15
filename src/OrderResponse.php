@@ -12,13 +12,6 @@ use SnowIO\BrightpearlDataModel\OrderResponse\TotalValue;
 
 class OrderResponse
 {
-    /** @var string */
-    public const SALES_CREDIT_TYPE_CODE = 'SC';
-    /** @var string */
-    public const SALES_ORDER_TYPE_CODE = 'SO';
-    /** @var string */
-    public const PURCHASE_ORDER_TYPE_CODE = 'PO';
-
     /** @var int|null $id */
     private $id;
     /** @var int|null $parentOrderId */

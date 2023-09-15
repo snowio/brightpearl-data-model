@@ -52,27 +52,6 @@ class Shipping
     }
 
     /**
-     * @param Shipping $shippingToCompare
-     * @return bool
-     */
-    public function equals(Shipping $shippingToCompare): bool
-    {
-        if ($this->getReference() !== $shippingToCompare->getReference()) {
-            return false;
-        }
-
-        if ($this->getBoxes() !== $shippingToCompare->getBoxes()) {
-            return false;
-        }
-
-        if ($this->getWeight() !== $shippingToCompare->getWeight()) {
-            return false;
-        }
-
-        return $this->getShippingMethodId() === $shippingToCompare->getShippingMethodId();
-    }
-
-    /**
      * @param string|null $reference
      * @return Shipping
      */

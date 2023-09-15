@@ -11,14 +11,6 @@ class RowCollection implements IteratorAggregate
     private $items = [];
 
     /**
-     * @return self
-     */
-    public static function create(): self
-    {
-        return new self();
-    }
-
-    /**
      * @param Row[] $items
      */
     public static function of(array $items): self
@@ -32,15 +24,6 @@ class RowCollection implements IteratorAggregate
         }
 
         return $result;
-    }
-
-    /**
-     * @param callable $function
-     * @return array<mixed>
-     */
-    public function map(callable $function) : array
-    {
-        return array_map($function, $this->items);
     }
 
     /**

@@ -7,10 +7,6 @@ use IteratorAggregate;
 
 class PartiesCollection implements IteratorAggregate
 {
-    const SUPPLIER = 'supplier';
-    const BILLING = 'billing';
-    const DELIVERY = 'delivery';
-
     /** @var Parties[] */
     private $items = [];
 
@@ -36,15 +32,6 @@ class PartiesCollection implements IteratorAggregate
         }
 
         return $result;
-    }
-
-    /**
-     * @param callable $function
-     * @return array<mixed>
-     */
-    public function map(callable $function): array
-    {
-        return array_map($function, $this->items);
     }
 
     /**

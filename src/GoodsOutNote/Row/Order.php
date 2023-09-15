@@ -52,27 +52,6 @@ class Order
     }
 
     /**
-     * @param Order $orderToCompare
-     * @return bool
-     */
-    public function equals(Order $orderToCompare): bool
-    {
-        if ($this->getProductId() !== $orderToCompare->getProductId()) {
-            return false;
-        }
-
-        if ($this->getQuantity() !== $orderToCompare->getQuantity()) {
-            return false;
-        }
-
-        if ($this->getExternalRef() !== $orderToCompare->getExternalRef()) {
-            return false;
-        }
-
-        return $this->getLocationId() === $orderToCompare->getLocationId();
-    }
-
-    /**
      * @param int|null $productId
      * @return Order
      */

@@ -36,15 +36,6 @@ class EventCollection
     }
 
     /**
-     * @param callable $function
-     * @return array<mixed>
-     */
-    public function map(callable $function): array
-    {
-        return array_map($function, $this->items);
-    }
-
-    /**
      * @return array<mixed>
      */
     public function toJson(): array

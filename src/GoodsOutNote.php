@@ -116,16 +116,6 @@ class GoodsOutNote
         ];
     }
 
-
-    /**
-     * @param GoodsOutNote $GoodsOutNoteToCompare
-     * @return bool
-     */
-    public function equals(GoodsOutNote $GoodsOutNoteToCompare): bool
-    {
-        return true;
-    }
-
     /**
      * @param int|null $orderId
      * @return GoodsOutNote

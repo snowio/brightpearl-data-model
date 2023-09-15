@@ -46,23 +46,6 @@ class Event
     }
 
     /**
-     * @param Event $eventToCompare
-     * @return bool
-     */
-    public function equals(Event $eventToCompare): bool
-    {
-        if ($this->getOccurred() !== $eventToCompare->getOccurred()) {
-            return false;
-        }
-
-        if ($this->getEventOwnerId() !== $eventToCompare->getEventOwnerId()) {
-            return false;
-        }
-
-        return $this->getEventCode() === $eventToCompare->getEventCode();
-    }
-
-    /**
      * @param string|null $occurred
      * @return Event
      */

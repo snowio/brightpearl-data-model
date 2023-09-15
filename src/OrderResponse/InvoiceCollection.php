@@ -35,15 +35,6 @@ class InvoiceCollection implements IteratorAggregate
     }
 
     /**
-     * @param callable $function
-     * @return array<mixed>
-     */
-    public function map(callable $function): array
-    {
-        return array_map($function, $this->items);
-    }
-
-    /**
      * @return array<string, mixed>
      */
     public function toJson(): array
