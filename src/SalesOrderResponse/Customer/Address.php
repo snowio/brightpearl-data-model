@@ -18,17 +18,14 @@ class Address
     protected $addressLine4;
     /** @var string|null $postalCode */
     protected $postalCode;
-
     /** @var string|null $countryIsoCode */
     protected $countryIsoCode;
     /** @var string|null $telephone */
     protected $telephone;
     /** @var string|null $mobileTelephone */
     protected $mobileTelephone;
-
     /** @var string|null $email */
     protected $email;
-
     /** @var string|null $fax */
     protected $fax;
 
@@ -79,6 +76,7 @@ class Address
             'telephone' => $this->getTelephone(),
             'mobileTelephone' => $this->getMobileTelephone(),
             'email' => $this->getEmail(),
+            'fax' => $this->getFax(),
         ];
     }
 

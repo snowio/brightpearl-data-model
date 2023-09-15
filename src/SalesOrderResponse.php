@@ -79,14 +79,21 @@ class SalesOrderResponse
 
     /**
      * @param array<string, mixed> $json
-     * @return static
      */
     public static function fromJson(array $json): self
     {
+        $customer = is_array($json['customer']) ? $json['customer'] : [];
+        $billing = is_array($json['billing']) ? $json['billing'] : [];
+        $delivery = is_array($json['delivery']) ? $json['delivery'] : [];
+        $currency = is_array($json['currency']) ? $json['currency'] : [];
+        $rows = is_array($json['rows']) ? $json['rows'] : [];
+        $total = is_array($json['total']) ? $json['total'] : [];
+        $invoice = is_array($json['invoice']) ? $json['invoice'] : [];
+
         $result = new self();
         $result->id = is_int($json['id']) ? $json['id'] : null;
-        $result->customer = Customer::fromJson(is_array($json['customer']) ? $json['customer'] : []);
-        $result->billing = Billing::fromJson(is_array($json['billing']) ? $json['billing'] : []);
+        $result->customer = Customer::fromJson($customer);
+        $result->billing = Billing::fromJson($billing);
         $result->ref = is_string($json['ref']) ? $json['ref'] : null;
         $result->placedOn = is_string($json['placedOn']) ? $json['placedOn'] : null;
         $result->parentId = is_int($json['parentId']) ? $json['parentId'] : null;
@@ -99,15 +106,15 @@ class SalesOrderResponse
         $result->teamId = is_int($json['teamId']) ? $json['teamId'] : null;
         $result->priceListId = is_int($json['priceListId']) ? $json['priceListId'] : null;
         $result->priceModeCode = is_string($json['priceModeCode']) ? $json['priceModeCode'] : null;
-        $result->delivery = Delivery::fromJson(is_array($json['delivery']) ? $json['delivery'] : []);
-        $result->currency = Currency::fromJson(is_array($json['currency']) ? $json['currency'] : []);
-        $result->rows = RowCollection::fromJson($json['rows']);
-        $result->total = Total::fromJson($json['total']);
+        $result->delivery = Delivery::fromJson($delivery);
+        $result->currency = Currency::fromJson($currency);
+        $result->rows = RowCollection::fromJson($rows);
+        $result->total = Total::fromJson($total);
         $result->stockStatusCode = is_string($json['stockStatusCode']) ? $json['stockStatusCode'] : null;
         $result->createdBy = is_int($json['createdBy']) ? $json['createdBy'] : null;
         $result->createdOn = is_string($json['createdOn']) ? $json['createdOn'] : null;
         $result->updatedOn = is_string($json['updatedOn']) ? $json['updatedOn'] : null;
-        $result->invoice = Invoice::fromJson(is_array($json['invoice']) ? $json['invoice'] : []);
+        $result->invoice = Invoice::fromJson($invoice);
         $result->orderWeighting = is_int($json['orderWeighting']) ? $json['orderWeighting'] : null;
         $result->costPriceListId = is_int($json['costPriceListId']) ? $json['costPriceListId'] : null;
         $result->customerId = is_int($json['customerId']) ? $json['customerId'] : null;
@@ -124,6 +131,9 @@ class SalesOrderResponse
         $rows = is_null($this->getRows()) ? [] : $this->getRows()->toJson();
         $total = is_null($this->getTotal()) ? [] : $this->getTotal()->toJson();
         $invoice = is_null($this->getInvoice()) ? [] : $this->getInvoice()->toJson();
+        $delivery = is_null($this->getDelivery()) ? [] : $this->getDelivery()->toJson();
+        $currency = is_null($this->getCurrency()) ? [] : $this->getCurrency()->toJson();
+
         return [
             'id' => $this->getId(),
             'customer' => $customer,
@@ -140,8 +150,8 @@ class SalesOrderResponse
             'teamId' => $this->getTeamId(),
             'priceListId' => $this->getPriceListId(),
             'priceModeCode' => $this->getPriceModeCode(),
-            'delivery' => $this->getDelivery(),
-            'currency' => $this->getCurrency(),
+            'delivery' => $delivery,
+            'currency' => $currency,
             'rows' => $rows,
             'total' => $total,
             'stockStatusCode' => $this->getStockStatusCode(),

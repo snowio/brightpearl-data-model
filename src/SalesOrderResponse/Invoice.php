@@ -12,6 +12,14 @@ class Invoice
     protected $dueDate;
 
     /**
+     * @return self
+     */
+    public static function create(): self
+    {
+        return new self();
+    }
+
+    /**
      * @return array<string, mixed>
      */
     public function toJson(): array
