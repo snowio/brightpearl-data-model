@@ -118,6 +118,7 @@ class SalesOrderResponse
         $result->orderWeighting = is_int($json['orderWeighting']) ? $json['orderWeighting'] : null;
         $result->costPriceListId = is_int($json['costPriceListId']) ? $json['costPriceListId'] : null;
         $result->customerId = is_int($json['customerId']) ? $json['customerId'] : null;
+        $result->taxDate = is_string($json['taxDate']) ? $json['taxDate'] : null;
         return $result;
     }
 
@@ -162,6 +163,7 @@ class SalesOrderResponse
             'orderWeighting' => $this->getOrderWeighting(),
             'costPriceListId' => $this->getCostPriceListId(),
             'customerId' => $this->getCustomerId(),
+            'taxDate' => $this->getTaxDate(),
         ];
     }
 

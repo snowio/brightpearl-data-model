@@ -144,6 +144,7 @@ class SalesOrderResponseTest extends TestCase
             'orderWeighting' => 654,
             'costPriceListId' => 543,
             'customerId' => 432,
+            'taxDate' => "2023-09-01 04:03:53",
         ];
     }
 
@@ -272,7 +273,8 @@ class SalesOrderResponseTest extends TestCase
             ->withInvoice($invoice)
             ->withOrderWeighting(654)
             ->withCostPriceListId(543)
-            ->withCustomerId(432);
+            ->withCustomerId(432)
+            ->withTaxDate("2023-09-01 04:03:53");
 
         self::assertEquals($this->getJsonData(), $order->toJson());
     }
@@ -413,6 +415,6 @@ class SalesOrderResponseTest extends TestCase
         self::assertEquals(654, $order->getOrderWeighting());
         self::assertEquals(543, $order->getCostPriceListId());
         self::assertEquals(432, $order->getCustomerId());
-
+        self::assertEquals("2023-09-01 04:03:53", $order->getTaxDate());
     }
 }
