@@ -5,11 +5,11 @@ namespace SnowIO\BrightpearlDataModel\SalesOrderResponse;
 class Invoice
 {
     /** @var string|null $invoiceReference */
-    protected $invoiceReference;
+    private $invoiceReference;
     /** @var string|null $taxDate */
-    protected $taxDate;
+    private $taxDate;
     /** @var string|null $dueDate */
-    protected $dueDate;
+    private $dueDate;
 
     /**
      * @return self

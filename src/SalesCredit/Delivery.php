@@ -7,11 +7,11 @@ use SnowIO\BrightpearlDataModel\SalesCredit\Delivery\Address;
 class Delivery
 {
     /** @var Address|null $address */
-    protected $address;
+    private $address;
     /** @var string|null $date */
-    protected $date;
+    private $date;
     /** @var int|null */
-    protected $shippingMethodId;
+    private $shippingMethodId;
 
     /**
      * @return self

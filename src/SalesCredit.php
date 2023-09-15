@@ -9,44 +9,43 @@ use SnowIO\BrightpearlDataModel\SalesCredit\RowCollection;
 class SalesCredit
 {
     /** @var int|null */
-    protected $customerId;
+    private $customerId;
     /** @var string|null */
-    protected $ref;
+    private $ref;
     /** @var string|null */
-    protected $placedOn;
+    private $placedOn;
     /** @var string|null */
-    protected $taxDate;
+    private $taxDate;
     /** @var int|null */
-    protected $parentId;
+    private $parentId;
     /** @var int|null */
-    protected $statusId;
+    private $statusId;
     /** @var int|null */
-    protected $warehouseId;
+    private $warehouseId;
     /** @var int|null */
-    protected $staffOwnerId;
+    private $staffOwnerId;
     /** @var int|null */
-    protected $projectId;
+    private $projectId;
     /** @var int|null */
-    protected $channelId;
+    private $channelId;
     /** @var string|null */
-    protected $externalRef;
+    private $externalRef;
     /** @var int|null */
-    protected $installedIntegrationInstanceId;
+    private $installedIntegrationInstanceId;
     /** @var int|null */
-    protected $leadSourceId;
+    private $leadSourceId;
     /** @var int|null */
-    protected $teamId;
+    private $teamId;
     /** @var int|null */
-    protected $priceListId;
+    private $priceListId;
     /** @var string|null */
-    protected $priceModeCode;
-
+    private $priceModeCode;
     /** @var Currency|null */
-    protected $currency;
+    private $currency;
     /** @var Delivery|null $delivery */
-    protected $delivery;
+    private $delivery;
     /** @var RowCollection|null $rows */
-    protected $rows;
+    private $rows;
 
     /**
      * @return self

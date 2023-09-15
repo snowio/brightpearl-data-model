@@ -7,9 +7,9 @@ use SnowIO\BrightpearlDataModel\SalesOrderResponse\Customer\Address;
 class Delivery
 {
     /** @var Address|null $address */
-    protected $address;
+    private $address;
     /** @var int|null */
-    protected $shippingMethodId;
+    private $shippingMethodId;
 
     /**
      * @return self

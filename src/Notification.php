@@ -5,9 +5,9 @@ namespace SnowIO\BrightpearlDataModel;
 class Notification
 {
     /** @var string|null $entityId */
-    protected $entityId;
+    private $entityId;
     /** @var string|null $timestamp */
-    protected $timestamp;
+    private $timestamp;
 
     /**
      * @return self

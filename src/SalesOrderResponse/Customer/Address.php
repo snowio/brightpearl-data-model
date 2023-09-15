@@ -5,29 +5,29 @@ namespace SnowIO\BrightpearlDataModel\SalesOrderResponse\Customer;
 class Address
 {
     /** @var string|null $addressFullName */
-    protected $addressFullName;
+    private $addressFullName;
     /** @var string|null $companyName */
-    protected $companyName;
+    private $companyName;
     /** @var string|null $addressLine1 */
-    protected $addressLine1;
+    private $addressLine1;
     /** @var string|null $addressLine2 */
-    protected $addressLine2;
+    private $addressLine2;
     /** @var string|null $addressLine3 */
-    protected $addressLine3;
+    private $addressLine3;
     /** @var string|null $addressLine4 */
-    protected $addressLine4;
+    private $addressLine4;
     /** @var string|null $postalCode */
-    protected $postalCode;
+    private $postalCode;
     /** @var string|null $countryIsoCode */
-    protected $countryIsoCode;
+    private $countryIsoCode;
     /** @var string|null $telephone */
-    protected $telephone;
+    private $telephone;
     /** @var string|null $mobileTelephone */
-    protected $mobileTelephone;
+    private $mobileTelephone;
     /** @var string|null $email */
-    protected $email;
+    private $email;
     /** @var string|null $fax */
-    protected $fax;
+    private $fax;
 
     /**
      * @return self

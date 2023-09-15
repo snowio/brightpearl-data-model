@@ -5,28 +5,21 @@ namespace SnowIO\BrightpearlDataModel\SalesCredit\RowCollection;
 class Row
 {
     /** @var int|null $productId */
-    protected $productId;
-
+    private $productId;
     /** @var string|null $name */
-    protected $name;
-
+    private $name;
     /** @var string|null $quantity */
-    protected $quantity;
-
+    private $quantity;
     /** @var string|null $taxCode */
-    protected $taxCode;
-
+    private $taxCode;
     /** @var string|null $net */
-    protected $net;
-
+    private $net;
     /** @var string|null $tax */
-    protected $tax;
-
+    private $tax;
     /** @var string|null $nominalCode */
-    protected $nominalCode;
-
+    private $nominalCode;
     /** @var string|null $externalRef */
-    protected $externalRef;
+    private $externalRef;
 
     /**
      * @return self

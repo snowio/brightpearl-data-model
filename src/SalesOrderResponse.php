@@ -13,35 +13,35 @@ use SnowIO\BrightpearlDataModel\SalesOrderResponse\Total;
 class SalesOrderResponse
 {
     /** @var int|null $id */
-    protected $id;
+    private $id;
     /** @var string|null $ref */
-    protected $ref;
+    private $ref;
     /** @var string|null $placedOn */
-    protected $placedOn;
+    private $placedOn;
     /** @var string|null $taxDate */
-    protected $taxDate;
+    private $taxDate;
     /** @var int|null $parentId */
-    protected $parentId;
+    private $parentId;
     /** @var int|null $statusId */
-    protected $statusId;
+    private $statusId;
     /** @var int|null $warehouseId */
-    protected $warehouseId;
+    private $warehouseId;
     /** @var int|null $channelId */
-    protected $channelId;
+    private $channelId;
     /** @var int|null $staffOwnerId */
-    protected $staffOwnerId;
+    private $staffOwnerId;
     /** @var int|null $projectId */
-    protected $projectId;
+    private $projectId;
     /** @var int|null $leadSourceId */
-    protected $leadSourceId;
+    private $leadSourceId;
     /** @var int|null $teamId */
-    protected $teamId;
+    private $teamId;
     /** @var int|null $priceListId */
-    protected $priceListId;
+    private $priceListId;
     /** @var string|null $priceModeCode */
-    protected $priceModeCode;
+    private $priceModeCode;
     /** @var Billing|null $billing */
-    protected $billing;
+    private $billing;
     /** @var Customer|null $customer */
     private $customer;
     /** @var Delivery|null $delivery */
@@ -55,19 +55,19 @@ class SalesOrderResponse
     /** @var Total|null $total */
     private $total;
     /** @var string|null $stockStatusCode */
-    protected $stockStatusCode;
+    private $stockStatusCode;
     /** @var int|null $createdBy */
-    protected $createdBy;
+    private $createdBy;
     /** @var string|null $createdOn */
-    protected $createdOn;
+    private $createdOn;
     /** @var string|null $updatedOn */
-    protected $updatedOn;
+    private $updatedOn;
     /** @var int|null $orderWeighting */
-    protected $orderWeighting;
+    private $orderWeighting;
     /** @var int|null $costPriceListId */
-    protected $costPriceListId;
+    private $costPriceListId;
     /** @var int|null $customerId */
-    protected $customerId;
+    private $customerId;
 
     /**
      * @return self

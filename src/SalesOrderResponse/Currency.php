@@ -5,11 +5,11 @@ namespace SnowIO\BrightpearlDataModel\SalesOrderResponse;
 class Currency
 {
     /** @var bool|null $fixedExchangeRate */
-    protected $fixedExchangeRate;
+    private $fixedExchangeRate;
     /** @var string|null $exchangeRate */
-    protected $exchangeRate;
+    private $exchangeRate;
     /** @var string|null $code */
-    protected $code;
+    private $code;
 
     /**
      * @return self
