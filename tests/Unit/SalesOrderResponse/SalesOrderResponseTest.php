@@ -169,7 +169,7 @@ class SalesOrderResponseTest extends TestCase
             ->withAddressLine2("SomeAddressLine2")
             ->withAddressLine3("SomeAddressLine3")
             ->withAddressLine4("SomeAddressLine4")
-            ->withPostalcode("SomePostalcode")
+            ->withPostalCode("SomePostalcode")
             ->withCountryIsoCode("GB")
             ->withTelephone("0987654321")
             ->withMobileTelephone("1234567890")
