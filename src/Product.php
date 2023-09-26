@@ -13,6 +13,11 @@ use SnowIO\BrightpearlDataModel\Product\Warehouses;
 
 class Product
 {
+    const DATETIME_FORMAT = "Y-m-d\TH:i:s.BP";
+    const LANG_FORMAT_PLAINTEXT = "PLAINTEXT";
+    const LANG_FORMAT_HTML_FRAGMENT = "HTML_FRAGMENT";
+    const LANG_FORMAT_HTML = "HTML_DOCUMENT";
+
     /** @var int|null $id */
     private $id;
     /** @var int|null $brandId */
