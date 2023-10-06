@@ -175,6 +175,13 @@ class Product
         ];
     }
 
+    public function equals($object): bool
+    {
+        return ($object instanceof Product) &&
+            ($this->id === $object->id) &&
+            $this->toJson() === $object->toJson();
+    }
+
     /**
      * @return int|null
      */
