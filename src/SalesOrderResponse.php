@@ -2,6 +2,7 @@
 
 namespace SnowIO\BrightpearlDataModel;
 
+use SnowIO\BrightpearlDataModel\Api\ModelInterface;
 use SnowIO\BrightpearlDataModel\SalesOrderResponse\Billing;
 use SnowIO\BrightpearlDataModel\SalesOrderResponse\Currency;
 use SnowIO\BrightpearlDataModel\SalesOrderResponse\Customer;
@@ -10,7 +11,7 @@ use SnowIO\BrightpearlDataModel\SalesOrderResponse\Invoice;
 use SnowIO\BrightpearlDataModel\SalesOrderResponse\RowCollection;
 use SnowIO\BrightpearlDataModel\SalesOrderResponse\Total;
 
-class SalesOrderResponse
+class SalesOrderResponse implements ModelInterface
 {
     /** @var int|null $id */
     private $id;
@@ -72,7 +73,7 @@ class SalesOrderResponse
     /**
      * @return self
      */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
@@ -80,7 +81,7 @@ class SalesOrderResponse
     /**
      * @param array<string, mixed> $json
      */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $customer = is_array($json['customer']) ? $json['customer'] : [];
         $billing = is_array($json['billing']) ? $json['billing'] : [];
@@ -165,6 +166,15 @@ class SalesOrderResponse
             'customerId' => $this->getCustomerId(),
             'taxDate' => $this->getTaxDate(),
         ];
+    }
+
+    /**
+     * @param ModelInterface $salesOrderResponseToCompare
+     * @return bool
+     */
+    public function equals(ModelInterface $salesOrderResponseToCompare): bool
+    {
+        return $this->toJson() === $salesOrderResponseToCompare->toJson();
     }
 
     /**

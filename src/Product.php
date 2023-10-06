@@ -2,6 +2,7 @@
 
 namespace SnowIO\BrightpearlDataModel;
 
+use SnowIO\BrightpearlDataModel\Api\ModelInterface;
 use SnowIO\BrightpearlDataModel\Product\Composition;
 use SnowIO\BrightpearlDataModel\Product\FinancialDetails;
 use SnowIO\BrightpearlDataModel\Product\Identity;
@@ -11,7 +12,7 @@ use SnowIO\BrightpearlDataModel\Product\Stock;
 use SnowIO\BrightpearlDataModel\Product\Variation;
 use SnowIO\BrightpearlDataModel\Product\Warehouses;
 
-class Product
+class Product implements ModelInterface
 {
     const DATETIME_FORMAT = "Y-m-d\TH:i:s.BP";
     const LANG_FORMAT_PLAINTEXT = "PLAINTEXT";
@@ -68,7 +69,7 @@ class Product
     /**
      * @return self
      */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
@@ -76,7 +77,7 @@ class Product
     /**
      * @param array<string, mixed> $json
      */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
 
@@ -173,6 +174,15 @@ class Product
             'version' => $this->getVersion(),
             'customFields' => $this->getCustomFields()
         ];
+    }
+
+    /**
+     * @param ModelInterface $productToCompare
+     * @return bool
+     */
+    public function equals(ModelInterface $productToCompare): bool
+    {
+        return $this->toJson() === $productToCompare->toJson();
     }
 
     /**
