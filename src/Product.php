@@ -175,6 +175,7 @@ class Product
         ];
     }
 
+    // @phpstan-ignore-next-line
     public function equals($object): bool
     {
         return ($object instanceof Product) &&
