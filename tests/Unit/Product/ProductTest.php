@@ -423,4 +423,15 @@ class ProductTest extends TestCase
         self::assertEquals(456, $product->getVersion());
         self::assertEquals(["custom field 1", "custom field 2", "custom field 3"], $product->getCustomFields());
     }
+
+    /**
+     * @return void
+     */
+    public function testEquals()
+    {
+        $data = $this->getJsonData();
+        $product1 = Product::fromJson($data);
+        $product2 = Product::fromJson($data);
+        self::assertTrue($product1->equals($product2));
+    }
 }
