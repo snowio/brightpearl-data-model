@@ -11,7 +11,7 @@ interface ModelInterface
 
     /**
      * @param array<mixed> $json
-     * @return static
+     * @return self
      */
     public static function fromJson(array $json): self;
 
@@ -21,8 +21,8 @@ interface ModelInterface
     public function toJson(): array;
 
     /**
-     * @param mixed $other
+     * @param self $other
      * @return bool
      */
-    public function equals($other): bool;
+    public function equals(self $other): bool;
 }

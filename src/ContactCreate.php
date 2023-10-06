@@ -2,9 +2,10 @@
 
 namespace SnowIO\BrightpearlDataModel;
 
+use SnowIO\BrightpearlDataModel\Api\ModelInterface;
 use SnowIO\BrightpearlDataModel\ContactCreate\Communication;
 
-class ContactCreate
+class ContactCreate implements ModelInterface
 {
     /** @var string|null $salutation */
     private $salutation;
@@ -20,7 +21,7 @@ class ContactCreate
     /**
      * @return self
      */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
@@ -28,7 +29,7 @@ class ContactCreate
     /**
      * @param array<string, mixed> $json
      */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $communication = Communication::create();
         $result = new self();
@@ -56,11 +57,14 @@ class ContactCreate
     }
 
     /**
-     * @param ContactCreate $contactCreateToCompare
+     * @param ModelInterface $contactCreateToCompare
      * @return bool
      */
-    public function equals(ContactCreate $contactCreateToCompare): bool
+    public function equals(ModelInterface $contactCreateToCompare): bool
     {
+        if (!$contactCreateToCompare instanceof ContactCreate) {
+            return false;
+        }
         if ($this->getFirstName() !== $contactCreateToCompare->getFirstName()) {
             return false;
         }

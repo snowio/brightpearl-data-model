@@ -2,7 +2,9 @@
 
 namespace SnowIO\BrightpearlDataModel;
 
-class PostalAddress
+use SnowIO\BrightpearlDataModel\Api\ModelInterface;
+
+class PostalAddress implements ModelInterface
 {
     /** @var string|null $addressLine1 */
     private $addressLine1;
@@ -18,9 +20,9 @@ class PostalAddress
     private $countryIsoCode;
 
     /**
-     * @return self
+     * @return ModelInterface
      */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
@@ -28,7 +30,7 @@ class PostalAddress
     /**
      * @param array<string, mixed> $json
      */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
         $result->addressLine1 = is_string($json['addressLine1']) ? $json['addressLine1'] : null;
@@ -59,7 +61,7 @@ class PostalAddress
      * @param PostalAddress $postalAddressToCompare
      * @return bool
      */
-    public function equals(PostalAddress $postalAddressToCompare): bool
+    public function equals(ModelInterface $postalAddressToCompare): bool
     {
         if ($this->getAddressLine1() !== $postalAddressToCompare->getAddressLine1()) {
             return false;

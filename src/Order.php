@@ -2,6 +2,7 @@
 
 namespace SnowIO\BrightpearlDataModel;
 
+use SnowIO\BrightpearlDataModel\Api\ModelInterface;
 use SnowIO\BrightpearlDataModel\Order\Billing;
 use SnowIO\BrightpearlDataModel\Order\Currency;
 use SnowIO\BrightpearlDataModel\Order\Customer;
@@ -9,7 +10,7 @@ use SnowIO\BrightpearlDataModel\Order\Delivery;
 use SnowIO\BrightpearlDataModel\Order\Row;
 use SnowIO\BrightpearlDataModel\Order\RowCollection;
 
-class Order
+class Order implements ModelInterface
 {
     /** @var Customer|null */
     private $customer;
@@ -51,18 +52,18 @@ class Order
     private $rows;
 
     /**
-     * @return self
+     * @return ModelInterface
      */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
     /**
      * @param array<string, mixed> $json
-     * @return self
+     * @return ModelInterface
      */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
 
@@ -133,7 +134,7 @@ class Order
      * @param Order $orderToCompare
      * @return bool
      */
-    public function equals(Order $orderToCompare): bool
+    public function equals(ModelInterface $orderToCompare): bool
     {
         if (!is_null($this->getCustomer())
             && !is_null($orderToCompare->getCustomer())
