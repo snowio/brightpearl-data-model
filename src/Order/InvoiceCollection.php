@@ -8,7 +8,7 @@ use SnowIO\BrightpearlDataModel\Api\ModelInterface;
 
 class InvoiceCollection implements IteratorAggregate
 {
-    /** @var ModelInterface[] */
+    /** @var \SnowIO\BrightpearlDataModel\Order\Invoice[]|\SnowIO\BrightpearlDataModel\Api\ModelInterface[] */
     private $items = [];
 
     /**

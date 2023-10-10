@@ -7,7 +7,8 @@ use SnowIO\BrightpearlDataModel\Order\Parties\Delivery;
 
 class Parties implements ModelInterface
 {
-    /** @var Delivery|null $delivery */
+    /** @var \SnowIO\BrightpearlDataModel\Order\Parties\Delivery|null $delivery
+     */
     private $delivery;
 
     /**
@@ -71,5 +72,4 @@ class Parties implements ModelInterface
         $clone->delivery = $delivery;
         return $clone;
     }
-
 }

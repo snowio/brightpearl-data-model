@@ -68,5 +68,4 @@ class Status implements ModelInterface
         $clone->id = $id;
         return $clone;
     }
-
 }

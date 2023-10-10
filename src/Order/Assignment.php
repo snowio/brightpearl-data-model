@@ -71,5 +71,4 @@ class Assignment implements ModelInterface
         $clone->current = $current;
         return $clone;
     }
-
 }
