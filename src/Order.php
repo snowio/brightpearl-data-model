@@ -3,6 +3,7 @@
 namespace SnowIO\BrightpearlDataModel;
 
 use SnowIO\BrightpearlDataModel\Api\ModelInterface;
+use SnowIO\BrightpearlDataModel\Order\Assignment;
 use SnowIO\BrightpearlDataModel\Order\Billing;
 use SnowIO\BrightpearlDataModel\Order\Currency;
 use SnowIO\BrightpearlDataModel\Order\Customer;
@@ -47,16 +48,15 @@ class Order implements ModelInterface
     /** @var int|null $contactId */
     private $contactId;
 
-    /** @var Parties|null $contactId */
-    private $contactId;
+    /** @var Parties|null $parties */
+    private $parties;
 
-
-assignment
+    /** @var Assignment|null $assignment */
+    private $assignment;
 
     /** @var int|null $warehouseId */
     private $warehouseId;
-
-
+    
     /**
      * @return ModelInterface
      */
