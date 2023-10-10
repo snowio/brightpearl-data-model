@@ -2,67 +2,74 @@
 
 namespace SnowIO\BrightpearlDataModel;
 
+use SnowIO\BrightpearlDataModel\Api\ModelInterface;
 use SnowIO\BrightpearlDataModel\Order\Billing;
 use SnowIO\BrightpearlDataModel\Order\Currency;
 use SnowIO\BrightpearlDataModel\Order\Customer;
 use SnowIO\BrightpearlDataModel\Order\Delivery;
+use SnowIO\BrightpearlDataModel\Order\InvoiceCollection;
+use SnowIO\BrightpearlDataModel\Order\Parties;
 use SnowIO\BrightpearlDataModel\Order\Row;
 use SnowIO\BrightpearlDataModel\Order\RowCollection;
+use SnowIO\BrightpearlDataModel\Order\Status;
 
-class Order
+class Order implements ModelInterface
 {
-    /** @var Customer|null */
-    private $customer;
-    /** @var Billing|null */
-    private $billing;
-    /** @var string|null $ref */
-    private $ref;
-    /** @var string|null $taxDate */
-    private $taxDate;
-    /** @var int|null $parentId */
-    private $parentId;
-    /** @var int|null $statusId */
-    private $statusId;
-    /** @var int|null $warehouseId */
-    private $warehouseId;
-    /** @var int|null $staffOwnerId */
-    private $staffOwnerId;
-    /** @var int|null $projectId */
-    private $projectId;
-    /** @var int|null $channelId */
-    private $channelId;
-    /** @var string|null $externalRef */
-    private $externalRef;
-    /** @var int|null $installedIntegrationInstanceId */
-    private $installedIntegrationInstanceId;
-    /** @var int|null $leadSourceId */
-    private $leadSourceId;
-    /** @var int|null $teamId */
-    private $teamId;
+    /** @var string|null $orderTypeCode*/
+    private $orderTypeCode;
+
+    /** @var string|null $reference*/
+    private $reference;
+
+    /** @var string|null $parentOrderId*/
+    private $parentOrderId;
+
     /** @var int|null $priceListId */
     private $priceListId;
+
     /** @var string|null $priceModeCode */
     private $priceModeCode;
-    /** @var Currency|null $currency */
-    private $currency;
+
+    /** @var string|null $placedOn */
+    private $placedOn;
+    /** @var Status|null $status */
+    private $status;
+
     /** @var Delivery|null $delivery */
     private $delivery;
-    /** @var RowCollection|null $rows */
-    private $rows;
+
+    /** @var InvoiceCollection|null $invoices */
+    private $invoices;
+
+    /** @var Currency|null $currency */
+    private $currency;
+
+    /** @var int|null $contactId */
+    private $contactId;
+
+    /** @var Parties|null $contactId */
+    private $contactId;
+
+
+assignment
+
+    /** @var int|null $warehouseId */
+    private $warehouseId;
+
 
     /**
-     * @return self
+     * @return ModelInterface
      */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
     /**
      * @param array<string, mixed> $json
-     * @return self
+     * @return ModelInterface
      */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
 
@@ -133,7 +140,7 @@ class Order
      * @param Order $orderToCompare
      * @return bool
      */
-    public function equals(Order $orderToCompare): bool
+    public function equals(ModelInterface $orderToCompare): bool
     {
         if (!is_null($this->getCustomer())
             && !is_null($orderToCompare->getCustomer())
