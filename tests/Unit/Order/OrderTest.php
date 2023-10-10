@@ -13,81 +13,57 @@ class OrderTest extends TestCase
     private function getJsonData(): array
     {
         return [
-            "customer" => [
-                "id" => 123
+            "orderTypeCode" => "PO",
+            "reference" => "SW51454",
+            "parentOrderId" => "273SWNX",
+            "priceListId" => 1,
+            "priceModeCode" => "INC",
+            "placedOn" => "2011-09-29T11:12:24.000+01:00",
+            "orderStatus" => [
+                "orderStatusId" => 6
             ],
-            "billing" => [
-                "contactId" => 234,
-                "address" => [
+            "delivery" => [
+                "deliveryDate" => "2011-09-29T11:12:24.000+01:00",
+                "shippingMethodId" => 1
+            ],
+            "invoices" => [
+                [
+                    "taxDate" => "2011-09-29T11:12:24.000+01:00",
+                ]
+            ],
+            "currency" => [
+                "orderCurrencyCode" => "GBP",
+                "fixedExchangeRate" => true,
+                "exchangeRate" => "1.23"
+            ],
+            "contactId" => 9,
+            "parties" => [
+                "delivery" => [
                     "addressFullName" => "Snow avenue",
-                    "companyName" => "Snow",
+                    "companyName" => "snow",
                     "addressLine1" => "some street",
                     "addressLine2" => "some area",
                     "addressLine3" => "some town",
                     "addressLine4" => "some city",
                     "postalCode" => "AB12 ABC",
+                    "countryId" => "3",
                     "countryIsoCode" => "GBR",
                     "telephone" => "1234567890",
+                    "mobileTelephone" => "1234567890",
+                    "fax" => "1234567890",
                     "email" => "test@domain.com",
-                ],
-            ],
-            "ref" => "ABC123XYZ890",
-            "taxDate" => "2023-09-01",
-            "parentId" => 345,
-            "statusId" => 456,
-            "warehouseId" => 567,
-            "staffOwnerId" => 678,
-            "projectId" => 789,
-            "channelId" => 890,
-            "externalRef" => "098ZYX321CBA",
-            "installedIntegrationInstanceId" => 901,
-            "leadSourceId" => 109,
-            "teamId" => 987,
-            "priceListId" => 876,
-            "priceModeCode" => "SOMECODE",
-            "currency" => [
-                "code" => "ABC123",
-                "fixedExchangeRate" => true,
-                "exchangeRate" => "1.1",
-            ],
-            "delivery" => [
-                "date" => "2023-09-01 16:03:53",
-                "address" => [
-                    "addressFullName" => "Snow avenue 2",
-                    "companyName" => "Snow 2",
-                    "addressLine1" => "some street 2",
-                    "addressLine2" => "some area 2",
-                    "addressLine3" => "some town 2",
-                    "addressLine4" => "some city 2",
-                    "postalCode" => "AB12 ABC 2",
-                    "countryIsoCode" => "GBR 2",
-                    "telephone" => "12345678902",
-                    "email" => "test2@domain.com",
-                ],
-                "shippingMethodId" => 765,
-            ],
-            "rows" => [
-                [
-                    'productId' => 123456,
-                    'name' => "Product Example 1",
-                    'quantity' => "123",
-                    'taxCode' => "ABC",
-                    'net' => "100",
-                    'tax' => "14",
-                    'nominalCode' => "ABCDEF",
-                    'externalRef' => "FEDCBA"
-                ],
-                [
-                    'productId' => 456789,
-                    'name' => "Product Example 2",
-                    'quantity' => "456",
-                    'taxCode' => "DEF",
-                    'net' => "101",
-                    'tax' => "15",
-                    'nominalCode' => "ABCDEF2",
-                    'externalRef' => "FEDCBA2"
                 ]
-            ]
+            ],
+            "warehouseId" => 2,
+            "assignment" => [
+                "current" => [
+                    "staffOwnerContactId" => null,
+                    "projectId" => null,
+                    "channelId" => null,
+                    "leadSourceId" => null,
+                    "teamId" => null
+                ],
+            ],
         ];
     }
 
@@ -109,7 +85,7 @@ class OrderTest extends TestCase
         $customer = Order\Customer::create()
             ->withId(123);
 
-        $address1 = Order\Address::create()
+        $Delivery = Order\Parties\Delivery::create()
             ->withAddressFullName("Snow avenue")
             ->withCompanyName("Snow")
             ->withAddressLine1("some street")
@@ -121,22 +97,6 @@ class OrderTest extends TestCase
             ->withTelephone("1234567890")
             ->withEmail("test@domain.com");
 
-        $address2 = Order\Address::create()
-            ->withAddressFullName("Snow avenue 2")
-            ->withCompanyName("Snow 2")
-            ->withAddressLine1("some street 2")
-            ->withAddressLine2("some area 2")
-            ->withAddressLine3("some town 2")
-            ->withAddressLine4("some city 2")
-            ->withPostalCode("AB12 ABC 2")
-            ->withCountryIsoCode("GBR 2")
-            ->withTelephone("12345678902")
-            ->withEmail("test2@domain.com");
-
-        $billing = Order\Billing::create()
-            ->withContactId(234)
-            ->withAddress($address1);
-
         $currency = Order\Currency::create()
             ->withCode("ABC123")
             ->withFixedExchangeRate(true)
@@ -144,7 +104,6 @@ class OrderTest extends TestCase
 
         $delivery = Order\Delivery::create()
             ->withDate("2023-09-01 16:03:53")
-            ->withAddress($address2)
             ->withShippingMethodId(765);
 
         $row1 = Order\Row::create()

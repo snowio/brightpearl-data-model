@@ -68,7 +68,7 @@ class Order implements ModelInterface
     public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-        $status = is_array($json['orderStatusId']) ? $json['orderStatusId'] : [];
+        $status = is_array($json['orderStatus']) ? $json['orderStatus'] : [];
         $delivery = is_array($json['delivery']) ? $json['delivery'] : [];
         $invoices = is_array($json['invoices']) ? $json['invoices'] : [];
         $currency = is_array($json['currency']) ? $json['currency'] : [];
