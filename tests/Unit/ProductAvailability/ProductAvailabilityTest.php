@@ -64,4 +64,15 @@ class ProductAvailabilityTest extends TestCase
         self::assertEquals(333, $productAvailability->getTotal()->getAllocated());
         self::assertEquals(444, $productAvailability->getTotal()->getInTransit());
     }
+
+    /**
+     * @return void
+     */
+    public function testEquals()
+    {
+        $data = $this->getJsonData();
+        $productAvailability1 = ProductAvailability::fromJson($data);
+        $productAvailability2 = ProductAvailability::fromJson($data);
+        self::assertTrue($productAvailability1->equals($productAvailability2));
+    }
 }

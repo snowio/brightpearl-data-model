@@ -417,4 +417,15 @@ class SalesOrderResponseTest extends TestCase
         self::assertEquals(432, $order->getCustomerId());
         self::assertEquals("2023-09-01 04:03:53", $order->getTaxDate());
     }
+
+    /**
+     * @return void
+     */
+    public function testEquals()
+    {
+        $data = $this->getJsonData();
+        $salesOrderResponse1 = SalesOrderResponse::fromJson($data);
+        $salesOrderResponse2 = SalesOrderResponse::fromJson($data);
+        self::assertTrue($salesOrderResponse1->equals($salesOrderResponse2));
+    }
 }

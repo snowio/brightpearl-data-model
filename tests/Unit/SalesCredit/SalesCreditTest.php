@@ -231,4 +231,15 @@ class SalesCreditTest extends TestCase
         self::assertEquals("code-2", $salesCreditRow[1]->getNominalCode());
         self::assertEquals("ref-2", $salesCreditRow[1]->getExternalRef());
     }
+
+    /**
+     * @return void
+     */
+    public function testEquals()
+    {
+        $data = $this->getJsonData();
+        $salesCredit1 = SalesCredit::fromJson($data);
+        $salesCredit2 = SalesCredit::fromJson($data);
+        self::assertTrue($salesCredit1->equals($salesCredit2));
+    }
 }

@@ -2,11 +2,12 @@
 
 namespace SnowIO\BrightpearlDataModel;
 
+use SnowIO\BrightpearlDataModel\Api\ModelInterface;
 use SnowIO\BrightpearlDataModel\SalesCredit\Currency;
 use SnowIO\BrightpearlDataModel\SalesCredit\Delivery;
 use SnowIO\BrightpearlDataModel\SalesCredit\RowCollection;
 
-class SalesCredit
+class SalesCredit implements ModelInterface
 {
     /** @var int|null */
     private $customerId;
@@ -50,7 +51,7 @@ class SalesCredit
     /**
      * @return self
      */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
@@ -59,7 +60,7 @@ class SalesCredit
      * @param array<string, mixed> $json
      * @return SalesCredit
      */
-    public static function fromJson(array $json): SalesCredit
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
         $result->customerId = is_int($json['customerId']) ? $json['customerId'] : null;
@@ -113,6 +114,15 @@ class SalesCredit
             'delivery' => $delivery,
             'rows' => $rows
         ];
+    }
+
+    /**
+     * @param ModelInterface $salesCreditToCompare
+     * @return bool
+     */
+    public function equals(ModelInterface $salesCreditToCompare): bool
+    {
+        return $this->toJson() === $salesCreditToCompare->toJson();
     }
 
     /**

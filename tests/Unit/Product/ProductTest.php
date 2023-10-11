@@ -412,6 +412,9 @@ class ProductTest extends TestCase
         self::assertEquals(["custom field 1", "custom field 2", "custom field 3"], $product->getCustomFields());
     }
 
+    /**
+     * @return void
+     */
     public function testEquals()
     {
         $data = $this->getJsonData();

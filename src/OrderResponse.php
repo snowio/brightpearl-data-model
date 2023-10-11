@@ -2,6 +2,7 @@
 
 namespace SnowIO\BrightpearlDataModel;
 
+use SnowIO\BrightpearlDataModel\Api\ModelInterface;
 use SnowIO\BrightpearlDataModel\OrderResponse\Delivery;
 use SnowIO\BrightpearlDataModel\OrderResponse\InvoiceCollection;
 use SnowIO\BrightpearlDataModel\OrderResponse\OrderStatus;
@@ -10,7 +11,7 @@ use SnowIO\BrightpearlDataModel\OrderResponse\RowCollection;
 use SnowIO\BrightpearlDataModel\OrderResponse\State;
 use SnowIO\BrightpearlDataModel\OrderResponse\TotalValue;
 
-class OrderResponse
+class OrderResponse implements ModelInterface
 {
     /** @var int|null $id */
     private $id;
@@ -72,7 +73,7 @@ class OrderResponse
     /**
      * @return self
      */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
@@ -80,7 +81,7 @@ class OrderResponse
     /**
      * @param array<string, mixed> $json
      */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
 
@@ -167,6 +168,15 @@ class OrderResponse
             'isDropship' => $this->getIsDropship(),
             'orderWeighting' => $this->getOrderWeighting()
         ];
+    }
+
+    /**
+     * @param ModelInterface $orderResponseToCompare
+     * @return bool
+     */
+    public function equals(ModelInterface $orderResponseToCompare): bool
+    {
+        return $this->toJson() === $orderResponseToCompare->toJson();
     }
 
     /**
