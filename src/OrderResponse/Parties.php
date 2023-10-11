@@ -2,73 +2,43 @@
 
 namespace SnowIO\BrightpearlDataModel\OrderResponse;
 
-class Parties
+use SnowIO\BrightpearlDataModel\Api\ModelInterface;
+use SnowIO\BrightpearlDataModel\OrderResponse\Parties\Billing;
+use SnowIO\BrightpearlDataModel\OrderResponse\Parties\Delivery;
+use SnowIO\BrightpearlDataModel\OrderResponse\Parties\Supplier;
+
+class Parties implements ModelInterface
 {
-    /** @var int|null $contactId */
-    private $contactId;
-    /** @var string|null $addressFullName */
-    private $addressFullName;
-    /** @var string|null $companyName */
-    private $companyName;
-    /** @var string|null $addressLine1 */
-    private $addressLine1;
-    /** @var string|null $addressLine2 */
-    private $addressLine2;
-    /** @var string|null $addressLine3 */
-    private $addressLine3;
-    /** @var string|null $addressLine4 */
-    private $addressLine4;
-    /** @var string|null $postalCode */
-    private $postalCode;
-    /** @var string|null $country */
-    private $country;
-    /** @var string|null $telephone */
-    private $telephone;
-    /** @var string|null $mobileTelephone */
-    private $mobileTelephone;
-    /** @var string|null $fax */
-    private $fax;
-    /** @var string|null $email */
-    private $email;
-    /** @var int|null $countryId */
-    private $countryId;
-    /** @var string|null $countryIsoCode */
-    private $countryIsoCode;
-    /** @var string|null $countryIsoCode3 */
-    private $countryIsoCode3;
+    /** @var Delivery|null $delivery */
+    private $delivery;
+
+    /** @var Supplier|null $supplier */
+    private $supplier;
+
+    /** @var Billing|null $billing */
+    private $billing;
 
     /**
      * @return self
      */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
     /**
-     * @param array<string,mixed> $json
+     * @param array<string, mixed> $json
+     * @return self
      */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
+        $supplier = is_array($json['supplier']) ? $json['supplier'] : [];
+        $delivery = is_array($json['delivery']) ? $json['delivery'] : [];
+        $billing = is_array($json['billing']) ? $json['billing'] : [];
         $result = new self();
-
-        $result->contactId = is_numeric($json['contactId']) ? (int)$json['contactId'] : null;
-        $result->addressFullName = is_string($json['addressFullName']) ? $json['addressFullName'] : null;
-        $result->companyName = is_string($json['companyName']) ? $json['companyName'] : null;
-        $result->addressLine1 = is_string($json['addressLine1']) ? $json['addressLine1'] : null;
-        $result->addressLine2 = is_string($json['addressLine2']) ? $json['addressLine2'] : null;
-        $result->addressLine3 = is_string($json['addressLine3']) ? $json['addressLine3'] : null;
-        $result->addressLine4 = is_string($json['addressLine4']) ? $json['addressLine4'] : null;
-        $result->postalCode = is_string($json['postalCode']) ? $json['postalCode'] : null;
-        $result->country = is_string($json['country']) ? $json['country'] : null;
-        $result->telephone = is_string($json['telephone']) ? $json['telephone'] : null;
-        $result->mobileTelephone = is_string($json['mobileTelephone']) ? $json['mobileTelephone'] : null;
-        $result->fax = is_string($json['fax']) ? $json['fax'] : null;
-        $result->email = is_string($json['email']) ? $json['email'] : null;
-        $result->countryId = is_numeric($json['countryId']) ? (int)$json['countryId'] : null;
-        $result->countryIsoCode = is_string($json['countryIsoCode']) ? $json['countryIsoCode'] : null;
-        $result->countryIsoCode3 = is_string($json['countryIsoCode3']) ? $json['countryIsoCode3'] : null;
-
+        $result->supplier = Supplier::fromJson($supplier);
+        $result->delivery = Delivery::fromJson($delivery);
+        $result->billing = Billing::fromJson($billing);
         return $result;
     }
 
@@ -77,327 +47,95 @@ class Parties
      */
     public function toJson(): array
     {
+        $supplier = is_null($this->getSupplier()) ? [] : $this->getSupplier()->toJson();
+        $delivery = is_null($this->getDelivery()) ? [] : $this->getDelivery()->toJson();
+        $billing = is_null($this->getBilling()) ? [] : $this->getBilling()->toJson();
         return [
-            'contactId' => $this->getContactId(),
-            'addressFullName' => $this->getAddressFullName(),
-            'companyName' => $this->getCompanyName(),
-            'addressLine1' => $this->getAddressLine1(),
-            'addressLine2' => $this->getAddressLine2(),
-            'addressLine3' => $this->getAddressLine3(),
-            'addressLine4' => $this->getAddressLine4(),
-            'postalCode' => $this->getPostalCode(),
-            'country' => $this->getCountry(),
-            'telephone' => $this->getTelephone(),
-            'mobileTelephone' => $this->getMobileTelephone(),
-            'fax' => $this->getFax(),
-            'email' => $this->getEmail(),
-            'countryId' => $this->getCountryId(),
-            'countryIsoCode' => $this->getCountryIsoCode(),
-            'countryIsoCode3' => $this->getCountryIsoCode3()
+            'supplier' => $supplier,
+            'delivery' => $delivery,
+            'billing' => $billing
         ];
     }
 
     /**
-     * @param int $contactId
-     * @return $this
+     * todo fixs this
+     * @param ModelInterface $partiesToCompare
+     * @return bool
      */
-    public function withContactId(int $contactId): Parties
+    public function equals(ModelInterface $partiesToCompare): bool
+    {
+        if (!$partiesToCompare instanceof Parties) {
+            return false;
+        }
+        if (!is_null($this->getDelivery())
+            && !is_null($partiesToCompare->getDelivery())
+            && !$this->getDelivery()->equals($partiesToCompare->getDelivery())) {
+            return false;
+        }
+        if ($this->getDelivery() === null) {
+            return false;
+        }
+        if (!$partiesToCompare->getDelivery() instanceof Delivery) {
+            return false;
+        }
+
+        return $this->getDelivery()->equals($partiesToCompare->getDelivery());
+    }
+
+    /**
+     * @return Delivery|null
+     */
+    public function getDelivery(): ?Delivery
+    {
+        return $this->delivery;
+    }
+
+    /**
+     * @param Delivery|null $delivery
+     * @return self
+     */
+    public function withDelivery(?Delivery $delivery): self
     {
         $clone = clone $this;
-        $clone->contactId = $contactId;
+        $clone->delivery = $delivery;
         return $clone;
     }
 
     /**
-     * @return int|null
+     * @return Supplier|null
      */
-    public function getContactId(): ?int
+    public function getSupplier(): ?Supplier
     {
-        return $this->contactId;
+        return $this->supplier;
     }
 
     /**
-     * @param string $addressFullName
-     * @return $this
+     * @param Supplier|null $supplier
+     * @return self
      */
-    public function withAddressFullName(string $addressFullName): Parties
+    public function withSupplier(?Supplier $supplier): self
     {
         $clone = clone $this;
-        $clone->addressFullName = $addressFullName;
+        $clone->supplier = $supplier;
         return $clone;
     }
 
     /**
-     * @return string|null
+     * @return Billing|null
      */
-    public function getAddressFullName(): ?string
+    public function getBilling(): ?Billing
     {
-        return $this->addressFullName;
+        return $this->billing;
     }
 
     /**
-     * @param string $companyName
-     * @return $this
+     * @param Billing|null $billing
+     * @return self
      */
-    public function withCompanyName(string $companyName): Parties
+    public function withBilling(?Billing $billing): self
     {
         $clone = clone $this;
-        $clone->companyName = $companyName;
+        $clone->billing = $billing;
         return $clone;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCompanyName(): ?string
-    {
-        return $this->companyName;
-    }
-
-    /**
-     * @param string $addressLine1
-     * @return $this
-     */
-    public function withAddressLine1(string $addressLine1): Parties
-    {
-        $clone = clone $this;
-        $clone->addressLine1 = $addressLine1;
-        return $clone;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getAddressLine1(): ?string
-    {
-        return $this->addressLine1;
-    }
-
-    /**
-     * @param string $addressLine2
-     * @return $this
-     */
-    public function withAddressLine2(string $addressLine2): Parties
-    {
-        $clone = clone $this;
-        $clone->addressLine2 = $addressLine2;
-        return $clone;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getAddressLine2(): ?string
-    {
-        return $this->addressLine2;
-    }
-
-    /**
-     * @param string $addressLine3
-     * @return $this
-     */
-    public function withAddressLine3(string $addressLine3): Parties
-    {
-        $clone = clone $this;
-        $clone->addressLine3 = $addressLine3;
-        return $clone;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getAddressLine3(): ?string
-    {
-        return $this->addressLine3;
-    }
-
-    /**
-     * @param string $addressLine4
-     * @return $this
-     */
-    public function withAddressLine4(string $addressLine4): Parties
-    {
-        $clone = clone $this;
-        $clone->addressLine4 = $addressLine4;
-        return $clone;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getAddressLine4(): ?string
-    {
-        return $this->addressLine4;
-    }
-
-    /**
-     * @param string $postalCode
-     * @return $this
-     */
-    public function withPostalCode(string $postalCode): Parties
-    {
-        $clone = clone $this;
-        $clone->postalCode = $postalCode;
-        return $clone;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPostalCode(): ?string
-    {
-        return $this->postalCode;
-    }
-
-    /**
-     * @param string $country
-     * @return $this
-     */
-    public function withCountry(string $country): Parties
-    {
-        $clone = clone $this;
-        $clone->country = $country;
-        return $clone;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCountry(): ?string
-    {
-        return $this->country;
-    }
-
-    /**
-     * @param string $telephone
-     * @return $this
-     */
-    public function withTelephone(string $telephone): Parties
-    {
-        $clone = clone $this;
-        $clone->telephone = $telephone;
-        return $clone;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getTelephone(): ?string
-    {
-        return $this->telephone;
-    }
-
-    /**
-     * @param string $mobileTelephone
-     * @return $this
-     */
-    public function withMobileTelephone(string $mobileTelephone): Parties
-    {
-        $clone = clone $this;
-        $clone->mobileTelephone = $mobileTelephone;
-        return $clone;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getMobileTelephone(): ?string
-    {
-        return $this->mobileTelephone;
-    }
-
-    /**
-     * @param string $fax
-     * @return $this
-     */
-    public function withFax(string $fax): Parties
-    {
-        $clone = clone $this;
-        $clone->fax = $fax;
-        return $clone;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getFax(): ?string
-    {
-        return $this->fax;
-    }
-
-    /**
-     * @param string $email
-     * @return $this
-     */
-    public function withEmail(string $email): Parties
-    {
-        $clone = clone $this;
-        $clone->email = $email;
-        return $clone;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    /**
-     * @param int $countryId
-     * @return $this
-     */
-    public function withCountryId(int $countryId): Parties
-    {
-        $clone = clone $this;
-        $clone->countryId = $countryId;
-        return $clone;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getCountryId(): ?int
-    {
-        return $this->countryId;
-    }
-
-    /**
-     * @param string $countryIsoCode
-     * @return $this
-     */
-    public function withCountryIsoCode(string $countryIsoCode): Parties
-    {
-        $clone = clone $this;
-        $clone->countryIsoCode = $countryIsoCode;
-        return $clone;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCountryIsoCode(): ?string
-    {
-        return $this->countryIsoCode;
-    }
-
-    /**
-     * @param string $countryIsoCode3
-     * @return $this
-     */
-    public function withCountryIsoCode3(string $countryIsoCode3): Parties
-    {
-        $clone = clone $this;
-        $clone->countryIsoCode3 = $countryIsoCode3;
-        return $clone;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCountryIsoCode3(): ?string
-    {
-        return $this->countryIsoCode3;
     }
 }
