@@ -144,13 +144,11 @@ class Order implements ModelInterface
             && !$this->getCurrency()->equals($orderToCompare->getCurrency())) {
             return false;
         }
-        // failing here
         if (!is_null($this->getParties())
             && !is_null($orderToCompare->getParties())
             && !$this->getParties()->equals($orderToCompare->getParties())) {
             return false;
         }
-        // failing here
         if (!is_null($this->getAssignment())
             && !is_null($orderToCompare->getAssignment())
             && !$this->getAssignment()->equals($orderToCompare->getAssignment())) {

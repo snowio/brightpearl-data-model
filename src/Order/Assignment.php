@@ -50,7 +50,14 @@ class Assignment implements ModelInterface
         if (!$assignmentToCompare instanceof Assignment) {
             return false;
         }
-        return $this->getCurrent() === $assignmentToCompare->getCurrent();
+        if ($this->getCurrent() === null) {
+            return false;
+        }
+        if (!$assignmentToCompare->getCurrent() instanceof Current) {
+            return false;
+        }
+
+        return $this->getCurrent()->equals($assignmentToCompare->getCurrent());
     }
 
     /**

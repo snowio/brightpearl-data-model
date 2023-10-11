@@ -56,7 +56,14 @@ class Parties implements ModelInterface
             && !$this->getDelivery()->equals($partiesToCompare->getDelivery())) {
             return false;
         }
-        return $this->getDelivery() === $partiesToCompare->getDelivery();
+        if ($this->getDelivery() === null) {
+            return false;
+        }
+        if (!$partiesToCompare->getDelivery() instanceof Delivery) {
+            return false;
+        }
+
+        return $this->getDelivery()->equals($partiesToCompare->getDelivery());
     }
 
     /**
