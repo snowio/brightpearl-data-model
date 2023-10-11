@@ -13,81 +13,57 @@ class OrderTest extends TestCase
     private function getJsonData(): array
     {
         return [
-            "customer" => [
-                "id" => 123
+            "orderTypeCode" => "PO",
+            "reference" => "SW51454",
+            "parentOrderId" => "273SWNX",
+            "priceListId" => 1,
+            "priceModeCode" => "INC",
+            "placedOn" => "2011-09-29T11:12:24.000+01:00",
+            "orderStatus" => [
+                "orderStatusId" => 6
             ],
-            "billing" => [
-                "contactId" => 234,
-                "address" => [
+            "delivery" => [
+                "deliveryDate" => "2011-09-29T11:12:24.000+01:00",
+                "shippingMethodId" => 1
+            ],
+            "invoices" => [
+                [
+                    "taxDate" => "2011-09-29T11:12:24.000+01:00",
+                ]
+            ],
+            "currency" => [
+                "orderCurrencyCode" => "GBP",
+                "fixedExchangeRate" => true,
+                "exchangeRate" => "1.23"
+            ],
+            "contactId" => 9,
+            "parties" => [
+                "delivery" => [
                     "addressFullName" => "Snow avenue",
-                    "companyName" => "Snow",
+                    "companyName" => "snow",
                     "addressLine1" => "some street",
                     "addressLine2" => "some area",
                     "addressLine3" => "some town",
                     "addressLine4" => "some city",
                     "postalCode" => "AB12 ABC",
+                    "countryId" => "3",
                     "countryIsoCode" => "GBR",
                     "telephone" => "1234567890",
+                    "mobileTelephone" => "1234567890",
+                    "fax" => "1234567890",
                     "email" => "test@domain.com",
-                ],
-            ],
-            "ref" => "ABC123XYZ890",
-            "taxDate" => "2023-09-01",
-            "parentId" => 345,
-            "statusId" => 456,
-            "warehouseId" => 567,
-            "staffOwnerId" => 678,
-            "projectId" => 789,
-            "channelId" => 890,
-            "externalRef" => "098ZYX321CBA",
-            "installedIntegrationInstanceId" => 901,
-            "leadSourceId" => 109,
-            "teamId" => 987,
-            "priceListId" => 876,
-            "priceModeCode" => "SOMECODE",
-            "currency" => [
-                "code" => "ABC123",
-                "fixedExchangeRate" => true,
-                "exchangeRate" => "1.1",
-            ],
-            "delivery" => [
-                "date" => "2023-09-01 16:03:53",
-                "address" => [
-                    "addressFullName" => "Snow avenue 2",
-                    "companyName" => "Snow 2",
-                    "addressLine1" => "some street 2",
-                    "addressLine2" => "some area 2",
-                    "addressLine3" => "some town 2",
-                    "addressLine4" => "some city 2",
-                    "postalCode" => "AB12 ABC 2",
-                    "countryIsoCode" => "GBR 2",
-                    "telephone" => "12345678902",
-                    "email" => "test2@domain.com",
-                ],
-                "shippingMethodId" => 765,
-            ],
-            "rows" => [
-                [
-                    'productId' => 123456,
-                    'name' => "Product Example 1",
-                    'quantity' => "123",
-                    'taxCode' => "ABC",
-                    'net' => "100",
-                    'tax' => "14",
-                    'nominalCode' => "ABCDEF",
-                    'externalRef' => "FEDCBA"
-                ],
-                [
-                    'productId' => 456789,
-                    'name' => "Product Example 2",
-                    'quantity' => "456",
-                    'taxCode' => "DEF",
-                    'net' => "101",
-                    'tax' => "15",
-                    'nominalCode' => "ABCDEF2",
-                    'externalRef' => "FEDCBA2"
                 ]
-            ]
+            ],
+            "warehouseId" => 2,
+            "assignment" => [
+                "current" => [
+                    "staffOwnerContactId" => 123,
+                    "projectId" => 456,
+                    "channelId" => 789,
+                    "leadSourceId" => 101112,
+                    "teamId" => 131415
+                ],
+            ],
         ];
     }
 
@@ -106,88 +82,66 @@ class OrderTest extends TestCase
      */
     public function testWithers()
     {
-        $customer = Order\Customer::create()
-            ->withId(123);
-
-        $address1 = Order\Address::create()
+        $partiesDelivery = Order\Parties\Delivery::create()
             ->withAddressFullName("Snow avenue")
-            ->withCompanyName("Snow")
+            ->withCompanyName("snow")
             ->withAddressLine1("some street")
             ->withAddressLine2("some area")
             ->withAddressLine3("some town")
             ->withAddressLine4("some city")
             ->withPostalCode("AB12 ABC")
+            ->withCountryId("3")
             ->withCountryIsoCode("GBR")
             ->withTelephone("1234567890")
+            ->withMobileTelephone("1234567890")
+            ->withFax("1234567890")
             ->withEmail("test@domain.com");
 
-        $address2 = Order\Address::create()
-            ->withAddressFullName("Snow avenue 2")
-            ->withCompanyName("Snow 2")
-            ->withAddressLine1("some street 2")
-            ->withAddressLine2("some area 2")
-            ->withAddressLine3("some town 2")
-            ->withAddressLine4("some city 2")
-            ->withPostalCode("AB12 ABC 2")
-            ->withCountryIsoCode("GBR 2")
-            ->withTelephone("12345678902")
-            ->withEmail("test2@domain.com");
-
-        $billing = Order\Billing::create()
-            ->withContactId(234)
-            ->withAddress($address1);
+        $parties = Order\Parties::create()
+            ->withDelivery($partiesDelivery);
 
         $currency = Order\Currency::create()
-            ->withCode("ABC123")
+            ->withCode("GBP")
             ->withFixedExchangeRate(true)
-            ->withExchangeRate("1.1");
+            ->withExchangeRate("1.23");
+
+        $current = Order\Assignment\Current::create()
+            ->withStaffOwnerContactId(123)
+            ->withProjectId(456)
+            ->withChannelId(789)
+            ->withLeadSourceId(101112)
+            ->withTeamId(131415);
+
+        $assignment = Order\Assignment::create()
+            ->withCurrent($current);
 
         $delivery = Order\Delivery::create()
-            ->withDate("2023-09-01 16:03:53")
-            ->withAddress($address2)
-            ->withShippingMethodId(765);
+            ->withDate("2011-09-29T11:12:24.000+01:00")
+            ->withShippingMethodId(1);
 
-        $row1 = Order\Row::create()
-            ->withProductId(123456)
-            ->withName("Product Example 1")
-            ->withQuantity("123")
-            ->withTaxCode("ABC")
-            ->withNet("100")
-            ->withTax("14")
-            ->withNominalCode("ABCDEF")
-            ->withExternalRef("FEDCBA");
-        $row2 = Order\Row::create()
-            ->withProductId(456789)
-            ->withName("Product Example 2")
-            ->withQuantity("456")
-            ->withTaxCode("DEF")
-            ->withNet("101")
-            ->withTax("15")
-            ->withNominalCode("ABCDEF2")
-            ->withExternalRef("FEDCBA2");
-        $rows = Order\RowCollection::of([$row1, $row2]);
+        $status = Order\Status::create()
+            ->withId(6);
+
+        $invoice = Order\Invoice::create()
+            ->withTaxDate("2011-09-29T11:12:24.000+01:00");
+
+        $invoiceCollection = Order\InvoiceCollection::fromJson([$invoice->toJson()]);
 
         $order = Order::create()
-            ->withCustomer($customer)
-            ->withBilling($billing)
-            ->withRef("ABC123XYZ890")
-            ->withTaxDate("2023-09-01")
-            ->withParentId(345)
-            ->withStatusId(456)
-            ->withWarehouseId(567)
-            ->withStaffOwnerId(678)
-            ->withProjectId(789)
-            ->withChannelId(890)
-            ->withExternalRef("098ZYX321CBA")
-            ->withInstalledIntegrationInstanceId(901)
-            ->withLeadSourceId(109)
-            ->withTeamId(987)
-            ->withPriceListId(876)
-            ->withPriceModeCode("SOMECODE")
-            ->withCurrency($currency)
+            ->withOrderTypeCode("PO")
+            ->withReference("SW51454")
+            ->withParentOrderId("273SWNX")
+            ->withPriceListId(1)
+            ->withPriceModeCode("INC")
+            ->withPlacedOn("2011-09-29T11:12:24.000+01:00")
+            ->withStatus($status)
             ->withDelivery($delivery)
-            ->withRows($rows);
-
+            ->withInvoices($invoiceCollection)
+            ->withCurrency($currency)
+            ->withContactId(9)
+            ->withParties($parties)
+            ->withWareHouseId(2)
+            ->withAssignment($assignment);
         self::assertEquals($this->getJsonData(), $order->toJson());
     }
 
@@ -199,79 +153,58 @@ class OrderTest extends TestCase
         $data = $this->getJsonData();
         $order = Order::fromJson($data);
 
-        self::assertInstanceOf(Order\Customer::class, $order->getCustomer());
-        self::assertEquals(123, $order->getCustomer()->getId());
-
-        self::assertInstanceOf(Order\Billing::class, $order->getBilling());
-        self::assertEquals(234, $order->getBilling()->getContactId());
-        self::assertInstanceOf(Order\Address::class, $order->getBilling()->getAddress());
-        self::assertEquals("Snow avenue", $order->getBilling()->getAddress()->getAddressFullName());
-        self::assertEquals("Snow", $order->getBilling()->getAddress()->getCompanyName());
-        self::assertEquals("some street", $order->getBilling()->getAddress()->getAddressLine1());
-        self::assertEquals("some area", $order->getBilling()->getAddress()->getAddressLine2());
-        self::assertEquals("some town", $order->getBilling()->getAddress()->getAddressLine3());
-        self::assertEquals("some city", $order->getBilling()->getAddress()->getAddressLine4());
-        self::assertEquals("AB12 ABC", $order->getBilling()->getAddress()->getPostalCode());
-        self::assertEquals("GBR", $order->getBilling()->getAddress()->getCountryIsoCode());
-        self::assertEquals("1234567890", $order->getBilling()->getAddress()->getTelephone());
-        self::assertEquals("test@domain.com", $order->getBilling()->getAddress()->getEmail());
-
-        self::assertEquals("ABC123XYZ890", $order->getRef());
-        self::assertEquals("2023-09-01", $order->getTaxDate());
-        self::assertEquals(345, $order->getParentId());
-        self::assertEquals(456, $order->getStatusId());
-        self::assertEquals(567, $order->getWarehouseId());
-        self::assertEquals(678, $order->getStaffOwnerId());
-        self::assertEquals(789, $order->getProjectId());
-        self::assertEquals(890, $order->getChannelId());
-        self::assertEquals("098ZYX321CBA", $order->getExternalRef());
-        self::assertEquals(901, $order->getInstalledIntegrationInstanceId());
-        self::assertEquals(109, $order->getLeadSourceId());
-        self::assertEquals(987, $order->getTeamId());
-        self::assertEquals(876, $order->getPriceListId());
-        self::assertEquals("SOMECODE", $order->getPriceModeCode());
-
-        self::assertInstanceOf(Order\Currency::class, $order->getCurrency());
-        self::assertEquals("ABC123", $order->getCurrency()->getCode());
-        self::assertTrue($order->getCurrency()->getFixedExchangeRate());
-        self::assertEquals("1.1", $order->getCurrency()->getExchangeRate());
+        self::assertEquals("PO", $order->getOrderTypeCode());
+        self::assertEquals("SW51454", $order->getReference());
+        self::assertEquals("273SWNX", $order->getParentOrderId());
+        self::assertEquals(1, $order->getPriceListId());
+        self::assertEquals("INC", $order->getPriceModeCode());
+        self::assertEquals("2011-09-29T11:12:24.000+01:00", $order->getPlacedOn());
+        self::assertInstanceOf(Order\Status::class, $order->getStatus());
+        self::assertEquals(6, $order->getStatus()->getId());
 
         self::assertInstanceOf(Order\Delivery::class, $order->getDelivery());
-        self::assertEquals("2023-09-01 16:03:53", $order->getDelivery()->getDate());
-        self::assertEquals(765, $order->getDelivery()->getShippingMethodId());
-        self::assertInstanceOf(Order\Address::class, $order->getDelivery()->getAddress());
-        self::assertEquals("Snow avenue 2", $order->getDelivery()->getAddress()->getAddressFullName());
-        self::assertEquals("Snow 2", $order->getDelivery()->getAddress()->getCompanyName());
-        self::assertEquals("some street 2", $order->getDelivery()->getAddress()->getAddressLine1());
-        self::assertEquals("some area 2", $order->getDelivery()->getAddress()->getAddressLine2());
-        self::assertEquals("some town 2", $order->getDelivery()->getAddress()->getAddressLine3());
-        self::assertEquals("some city 2", $order->getDelivery()->getAddress()->getAddressLine4());
-        self::assertEquals("AB12 ABC 2", $order->getDelivery()->getAddress()->getPostalCode());
-        self::assertEquals("GBR 2", $order->getDelivery()->getAddress()->getCountryIsoCode());
-        self::assertEquals("12345678902", $order->getDelivery()->getAddress()->getTelephone());
-        self::assertEquals("test2@domain.com", $order->getDelivery()->getAddress()->getEmail());
+        self::assertEquals("2011-09-29T11:12:24.000+01:00", $order->getDelivery()->getDate());
+        self::assertEquals(1, $order->getDelivery()->getShippingMethodId());
 
-        self::assertInstanceOf(Order\RowCollection::class, $order->getRows());
-        $rows = iterator_to_array($order->getRows()->getIterator());
-        self::assertInstanceOf(Order\Row::class, $rows[0]);
-        self::assertEquals(123456, $rows[0]->getProductId());
-        self::assertEquals("Product Example 1", $rows[0]->getName());
-        self::assertEquals("123", $rows[0]->getQuantity());
-        self::assertEquals("ABC", $rows[0]->getTaxCode());
-        self::assertEquals("100", $rows[0]->getNet());
-        self::assertEquals("14", $rows[0]->getTax());
-        self::assertEquals("ABCDEF", $rows[0]->getNominalCode());
-        self::assertEquals("FEDCBA", $rows[0]->getExternalRef());
+        self::assertInstanceOf(Order\InvoiceCollection::class, $order->getInvoices());
+        $invoiceRows = iterator_to_array($order->getInvoices()->getIterator());
+        self::assertInstanceOf(Order\Invoice::class, $invoiceRows[0]);
+        self::assertEquals("2011-09-29T11:12:24.000+01:00", $invoiceRows[0]->getTaxDate());
 
-        self::assertInstanceOf(Order\Row::class, $rows[1]);
-        self::assertEquals(456789, $rows[1]->getProductId());
-        self::assertEquals("Product Example 2", $rows[1]->getName());
-        self::assertEquals("456", $rows[1]->getQuantity());
-        self::assertEquals("DEF", $rows[1]->getTaxCode());
-        self::assertEquals("101", $rows[1]->getNet());
-        self::assertEquals("15", $rows[1]->getTax());
-        self::assertEquals("ABCDEF2", $rows[1]->getNominalCode());
-        self::assertEquals("FEDCBA2", $rows[1]->getExternalRef());
+        self::assertInstanceOf(Order\Currency::class, $order->getCurrency());
+        self::assertEquals("GBP", $order->getCurrency()->getCode());
+        self::assertEquals(true, $order->getCurrency()->getFixedExchangeRate());
+        self::assertEquals("1.23", $order->getCurrency()->getExchangeRate());
+
+        self::assertEquals(9, $order->getContactId());
+
+        self::assertInstanceOf(Order\Parties::class, $order->getParties());
+        self::assertInstanceOf(Order\Parties\Delivery::class, $order->getParties()->getDelivery());
+
+        self::assertEquals("Snow avenue", $order->getParties()->getDelivery()->getAddressFullName());
+        self::assertEquals("snow", $order->getParties()->getDelivery()->getCompanyName());
+        self::assertEquals("some street", $order->getParties()->getDelivery()->getAddressLine1());
+        self::assertEquals("some area", $order->getParties()->getDelivery()->getAddressLine2());
+        self::assertEquals("some town", $order->getParties()->getDelivery()->getAddressLine3());
+        self::assertEquals("some city", $order->getParties()->getDelivery()->getAddressLine4());
+        self::assertEquals("AB12 ABC", $order->getParties()->getDelivery()->getPostalCode());
+        self::assertEquals(3, $order->getParties()->getDelivery()->getCountryId());
+        self::assertEquals("GBR", $order->getParties()->getDelivery()->getCountryIsoCode());
+        self::assertEquals("1234567890", $order->getParties()->getDelivery()->getTelephone());
+        self::assertEquals("1234567890", $order->getParties()->getDelivery()->getMobileTelephone());
+        self::assertEquals("1234567890", $order->getParties()->getDelivery()->getFax());
+        self::assertEquals("test@domain.com", $order->getParties()->getDelivery()->getEmail());
+
+        self::assertEquals(2, $order->getWarehouseId());
+
+        self::assertInstanceOf(Order\Assignment::class, $order->getAssignment());
+        self::assertInstanceOf(Order\Assignment\Current::class, $order->getAssignment()->getCurrent());
+
+        self::assertEquals(123, $order->getAssignment()->getCurrent()->getStaffOwnerContactId());
+        self::assertEquals(456, $order->getAssignment()->getCurrent()->getProjectId());
+        self::assertEquals(789, $order->getAssignment()->getCurrent()->getChannelId());
+        self::assertEquals(101112, $order->getAssignment()->getCurrent()->getLeadSourceId());
+        self::assertEquals(131415, $order->getAssignment()->getCurrent()->getTeamId());
     }
 
     /**

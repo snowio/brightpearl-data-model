@@ -27,7 +27,7 @@ class Currency
     {
         $result = new self();
 
-        $result->code = is_string($json['code']) ? $json['code'] : null;
+        $result->code = is_string($json['orderCurrencyCode']) ? $json['orderCurrencyCode'] : null;
         $result->fixedExchangeRate = is_bool($json['fixedExchangeRate']) && $json['fixedExchangeRate'];
         $result->exchangeRate = is_string($json['exchangeRate']) ? $json['exchangeRate'] : null;
 
@@ -40,7 +40,7 @@ class Currency
     public function toJson(): array
     {
         return [
-            'code' => $this->getCode(),
+            'orderCurrencyCode' => $this->getCode(),
             'fixedExchangeRate' => $this->getFixedExchangeRate(),
             'exchangeRate' => $this->getExchangeRate()
         ];

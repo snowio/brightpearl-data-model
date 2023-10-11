@@ -2,96 +2,93 @@
 
 namespace SnowIO\BrightpearlDataModel;
 
-use SnowIO\BrightpearlDataModel\Order\Billing;
+use SnowIO\BrightpearlDataModel\Api\ModelInterface;
+use SnowIO\BrightpearlDataModel\Order\Assignment;
 use SnowIO\BrightpearlDataModel\Order\Currency;
-use SnowIO\BrightpearlDataModel\Order\Customer;
 use SnowIO\BrightpearlDataModel\Order\Delivery;
-use SnowIO\BrightpearlDataModel\Order\Row;
-use SnowIO\BrightpearlDataModel\Order\RowCollection;
+use SnowIO\BrightpearlDataModel\Order\InvoiceCollection;
+use SnowIO\BrightpearlDataModel\Order\Parties;
+use SnowIO\BrightpearlDataModel\Order\Status;
 
-class Order
+class Order implements ModelInterface
 {
-    /** @var Customer|null */
-    private $customer;
-    /** @var Billing|null */
-    private $billing;
-    /** @var string|null $ref */
-    private $ref;
-    /** @var string|null $taxDate */
-    private $taxDate;
-    /** @var int|null $parentId */
-    private $parentId;
-    /** @var int|null $statusId */
-    private $statusId;
-    /** @var int|null $warehouseId */
-    private $warehouseId;
-    /** @var int|null $staffOwnerId */
-    private $staffOwnerId;
-    /** @var int|null $projectId */
-    private $projectId;
-    /** @var int|null $channelId */
-    private $channelId;
-    /** @var string|null $externalRef */
-    private $externalRef;
-    /** @var int|null $installedIntegrationInstanceId */
-    private $installedIntegrationInstanceId;
-    /** @var int|null $leadSourceId */
-    private $leadSourceId;
-    /** @var int|null $teamId */
-    private $teamId;
+    /** @var string|null $orderTypeCode */
+    private $orderTypeCode;
+
+    /** @var string|null $reference */
+    private $reference;
+
+    /** @var string|null $parentOrderId */
+    private $parentOrderId;
+
     /** @var int|null $priceListId */
     private $priceListId;
+
     /** @var string|null $priceModeCode */
     private $priceModeCode;
-    /** @var Currency|null $currency */
-    private $currency;
+
+    /** @var string|null $placedOn */
+    private $placedOn;
+    /** @var Status|null $status */
+    private $status;
+
     /** @var Delivery|null $delivery */
     private $delivery;
-    /** @var RowCollection|null $rows */
-    private $rows;
+
+    /** @var InvoiceCollection|null $invoices */
+    private $invoices;
+
+    /** @var Currency|null $currency */
+    private $currency;
+
+    /** @var int|null $contactId */
+    private $contactId;
+
+    /** @var Parties|null $parties */
+    private $parties;
+
+    /** @var Assignment|null $assignment */
+    private $assignment;
+
+    /** @var int|null $warehouseId */
+    private $warehouseId;
 
     /**
-     * @return self
+     * @return ModelInterface
      */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
     /**
      * @param array<string, mixed> $json
-     * @return self
+     * @return ModelInterface
      */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-
-        $customer = is_array($json['customer']) ? $json['customer'] : [];
-        $billing = is_array($json['billing']) ? $json['billing'] : [];
-        $currency = is_array($json['currency']) ? $json['currency'] : [];
+        $status = is_array($json['orderStatus']) ? $json['orderStatus'] : [];
         $delivery = is_array($json['delivery']) ? $json['delivery'] : [];
-        $rows = is_array($json['rows']) ? $json['rows'] : [];
+        $invoices = is_array($json['invoices']) ? $json['invoices'] : [];
+        $currency = is_array($json['currency']) ? $json['currency'] : [];
+        $parties = is_array($json['parties']) ? $json['parties'] : [];
+        $assignment = is_array($json['assignment']) ? $json['assignment'] : [];
 
-        $result->customer = Customer::fromJson($customer);
-        $result->billing = Billing::fromJson($billing);
-        $result->ref = is_string($json['ref']) ? $json['ref'] : null;
-        $result->taxDate = is_string($json['taxDate']) ? $json['taxDate'] : null;
-        $result->parentId = is_numeric($json['parentId']) ? (int)$json['parentId'] : null;
-        $result->statusId = is_numeric($json['statusId']) ? (int)$json['statusId'] : null;
-        $result->warehouseId = is_numeric($json['warehouseId']) ? (int)$json['warehouseId'] : null;
-        $result->staffOwnerId = is_numeric($json['staffOwnerId']) ? (int)$json['staffOwnerId'] : null;
-        $result->projectId = is_numeric($json['projectId']) ? (int)$json['projectId'] : null;
-        $result->channelId = is_numeric($json['channelId']) ? (int)$json['channelId'] : null;
-        $result->externalRef = is_string($json['externalRef']) ? $json['externalRef'] : null;
-        $result->installedIntegrationInstanceId = is_numeric($json['installedIntegrationInstanceId']) ? (int)$json['installedIntegrationInstanceId'] : null;
-        $result->leadSourceId = is_numeric($json['leadSourceId']) ? (int)$json['leadSourceId'] : null;
-        $result->teamId = is_numeric($json['teamId']) ? (int)$json['teamId'] : null;
+        $result->orderTypeCode = is_string($json['orderTypeCode']) ? $json['orderTypeCode'] : null;
+        $result->reference = is_string($json['reference']) ? $json['reference'] : null;
+        $result->parentOrderId = is_string($json['parentOrderId']) ? $json['parentOrderId'] : null;
         $result->priceListId = is_numeric($json['priceListId']) ? (int)$json['priceListId'] : null;
         $result->priceModeCode = is_string($json['priceModeCode']) ? $json['priceModeCode'] : null;
-        $result->currency = Currency::fromJson($currency);
+        $result->placedOn = is_string($json['placedOn']) ? $json['placedOn'] : null;
+        $result->status = Status::fromJson($status);
         $result->delivery = Delivery::fromJson($delivery);
-        $result->rows = RowCollection::fromJson($rows);
-
+        $result->invoices = InvoiceCollection::fromJson($invoices);
+        $result->currency = Currency::fromJson($currency);
+        $result->contactId = is_numeric($json['contactId']) ? (int)$json['contactId'] : null;
+        $result->parties = Parties::fromJson($parties);
+        $result->assignment = Assignment::fromJson($assignment);
+        $result->warehouseId = is_numeric($json['warehouseId']) ? (int)$json['warehouseId'] : null;
         return $result;
     }
 
@@ -100,32 +97,27 @@ class Order
      */
     public function toJson(): array
     {
-        $customer = is_null($this->getCustomer()) ? [] : $this->getCustomer()->toJson();
-        $billing = is_null($this->getBilling()) ? [] : $this->getBilling()->toJson();
-        $currency = is_null($this->getCurrency()) ? [] : $this->getCurrency()->toJson();
+        $status = is_null($this->getStatus()) ? [] : $this->getStatus()->toJson();
         $delivery = is_null($this->getDelivery()) ? [] : $this->getDelivery()->toJson();
-        $rows = is_null($this->getRows()) ? [] : $this->getRows()->toJson();
-
+        $invoices = is_null($this->getInvoices()) ? [] : $this->getInvoices()->toJson();
+        $currency = is_null($this->getCurrency()) ? [] : $this->getCurrency()->toJson();
+        $parties = is_null($this->getParties()) ? [] : $this->getParties()->toJson();
+        $assignment = is_null($this->getAssignment()) ? [] : $this->getAssignment()->toJson();
         return [
-            'customer' => $customer,
-            'billing' => $billing,
-            'ref' => $this->getRef(),
-            'taxDate' => $this->getTaxDate(),
-            'parentId' => $this->getParentId(),
-            'statusId' => $this->getStatusId(),
-            'warehouseId' => $this->getWarehouseId(),
-            'staffOwnerId' => $this->getStaffOwnerId(),
-            'projectId' => $this->getProjectId(),
-            'channelId' => $this->getChannelId(),
-            'externalRef' => $this->getExternalRef(),
-            'installedIntegrationInstanceId' => $this->getInstalledIntegrationInstanceId(),
-            'leadSourceId' => $this->getLeadSourceId(),
-            'teamId' => $this->getTeamId(),
+            'orderTypeCode' => $this->getOrderTypeCode(),
+            'reference' => $this->getReference(),
+            'parentOrderId' => $this->getParentOrderId(),
             'priceListId' => $this->getPriceListId(),
             'priceModeCode' => $this->getPriceModeCode(),
-            'currency' => $currency,
+            'placedOn' => $this->getPlacedOn(),
+            'orderStatus' => $status,
             'delivery' => $delivery,
-            'rows' => $rows
+            'invoices' => $invoices,
+            'currency' => $currency,
+            'contactId' => $this->getContactId(),
+            'parties' => $parties,
+            'assignment' => $assignment,
+            'warehouseId' => $this->getWarehouseId(),
         ];
     }
 
@@ -133,356 +125,116 @@ class Order
      * @param Order $orderToCompare
      * @return bool
      */
-    public function equals(Order $orderToCompare): bool
+    public function equals(ModelInterface $orderToCompare): bool
     {
-        if (!is_null($this->getCustomer())
-            && !is_null($orderToCompare->getCustomer())
-            && !$this->getCustomer()->equals($orderToCompare->getCustomer())) {
+        if (!is_null($this->getStatus())
+            && !is_null($orderToCompare->getStatus())
+            && !$this->getStatus()->equals($orderToCompare->getStatus())) {
             return false;
         }
-        if (!is_null($this->getBilling())
-            && !is_null($orderToCompare->getBilling())
-            && !$this->getBilling()->equals($orderToCompare->getBilling())) {
-            return false;
-        }
-        if (!is_null($this->getCurrency())
-            && !is_null($orderToCompare->getCurrency())
-            && !$this->getCurrency()->equals($orderToCompare->getCurrency())) {
-            return false;
-        }
+
         if (!is_null($this->getDelivery())
             && !is_null($orderToCompare->getDelivery())
             && !$this->getDelivery()->equals($orderToCompare->getDelivery())) {
             return false;
         }
 
-        $rows = $this->getRows() instanceof RowCollection
-            ? iterator_to_array($this->getRows()) : [];
-        $rowsToCompare = $orderToCompare->getRows() instanceof RowCollection
-            ? iterator_to_array($orderToCompare->getRows()) : [];
-
-        $getRowsCount = count($rows);
-        if ($getRowsCount !== count($rowsToCompare)) {
+        if (!is_null($this->getCurrency())
+            && !is_null($orderToCompare->getCurrency())
+            && !$this->getCurrency()->equals($orderToCompare->getCurrency())) {
+            return false;
+        }
+        if (!is_null($this->getParties())
+            && !is_null($orderToCompare->getParties())
+            && !$this->getParties()->equals($orderToCompare->getParties())) {
+            return false;
+        }
+        if (!is_null($this->getAssignment())
+            && !is_null($orderToCompare->getAssignment())
+            && !$this->getAssignment()->equals($orderToCompare->getAssignment())) {
             return false;
         }
 
-        for ($i = 0; $i < $getRowsCount; $i++) {
-            if (!$rows[$i] instanceof Row) {
-                return false;
-            }
-            if (!$rowsToCompare[$i] instanceof Row) {
-                return false;
-            }
-            if (!$rows[$i]->equals($rowsToCompare[$i])) {
-                return false;
-            }
-        }
-
-        if ($this->getRef() !== $orderToCompare->getRef()) {
+        if ($this->getOrderTypeCode() !== $orderToCompare->getOrderTypeCode()) {
             return false;
         }
-        if ($this->getTaxDate() !== $orderToCompare->getTaxDate()) {
+        if ($this->getReference() !== $orderToCompare->getReference()) {
             return false;
         }
-        if ($this->getParentId() !== $orderToCompare->getParentId()) {
-            return false;
-        }
-        if ($this->getStatusId() !== $orderToCompare->getStatusId()) {
-            return false;
-        }
-        if ($this->getWarehouseId() !== $orderToCompare->getWarehouseId()) {
-            return false;
-        }
-        if ($this->getStaffOwnerId() !== $orderToCompare->getStaffOwnerId()) {
-            return false;
-        }
-        if ($this->getProjectId() !== $orderToCompare->getProjectId()) {
-            return false;
-        }
-        if ($this->getChannelId() !== $orderToCompare->getChannelId()) {
-            return false;
-        }
-        if ($this->getExternalRef() !== $orderToCompare->getExternalRef()) {
-            return false;
-        }
-        if ($this->getInstalledIntegrationInstanceId() !== $orderToCompare->getInstalledIntegrationInstanceId()) {
-            return false;
-        }
-        if ($this->getLeadSourceId() !== $orderToCompare->getLeadSourceId()) {
-            return false;
-        }
-        if ($this->getTeamId() !== $orderToCompare->getTeamId()) {
+        if ($this->getParentOrderId() !== $orderToCompare->getParentOrderId()) {
             return false;
         }
         if ($this->getPriceListId() !== $orderToCompare->getPriceListId()) {
             return false;
         }
-        return $this->getPriceModeCode() === $orderToCompare->getPriceModeCode();
+        if ($this->getPriceModeCode() !== $orderToCompare->getPriceModeCode()) {
+            return false;
+        }
+        if ($this->getPlacedOn() !== $orderToCompare->getPlacedOn()) {
+            return false;
+        }
+
+        if ($this->getContactId() !== $orderToCompare->getContactId()) {
+            return false;
+        }
+
+        return $this->getWarehouseId() === $orderToCompare->getWarehouseId();
     }
 
     /**
-     * @return Customer|null
+     * @return string|null
      */
-    public function getCustomer(): ?Customer
+    public function getOrderTypeCode(): ?string
     {
-        return $this->customer;
+        return $this->orderTypeCode;
     }
 
     /**
-     * @param Customer $customer
+     * @param string $orderTypeCode
      * @return Order
      */
-    public function withCustomer(Customer $customer): Order
+    public function withOrderTypeCode(string $orderTypeCode): self
     {
         $clone = clone $this;
-        $clone->customer = $customer;
-        return $clone;
-    }
-
-    /**
-     * @return Billing|null
-     */
-    public function getBilling(): ?Billing
-    {
-        return $this->billing;
-    }
-
-    /**
-     * @param Billing $billing
-     * @return Order
-     */
-    public function withBilling(Billing $billing): Order
-    {
-        $clone = clone $this;
-        $clone->billing = $billing;
+        $clone->orderTypeCode = $orderTypeCode;
         return $clone;
     }
 
     /**
      * @return string|null
      */
-    public function getRef(): ?string
+    public function getReference(): ?string
     {
-        return $this->ref;
+        return $this->reference;
     }
 
     /**
-     * @param string|null $ref
+     * @param string $reference
      * @return Order
      */
-    public function withRef(?string $ref): Order
+    public function withReference(string $reference): Order
     {
         $clone = clone $this;
-        $clone->ref = $ref;
+        $clone->reference = $reference;
         return $clone;
     }
 
     /**
      * @return string|null
      */
-    public function getTaxDate(): ?string
+    public function getParentOrderId(): ?string
     {
-        return $this->taxDate;
+        return $this->parentOrderId;
     }
 
     /**
-     * @param string|null $taxDate
+     * @param string $parentOrderId
      * @return Order
      */
-    public function withTaxDate(?string $taxDate): Order
+    public function withParentOrderId(string $parentOrderId): Order
     {
         $clone = clone $this;
-        $clone->taxDate = $taxDate;
-        return $clone;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getParentId(): ?int
-    {
-        return $this->parentId;
-    }
-
-    /**
-     * @param int|null $parentId
-     * @return Order
-     */
-    public function withParentId(?int $parentId): Order
-    {
-        $clone = clone $this;
-        $clone->parentId = $parentId;
-        return $clone;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getStatusId(): ?int
-    {
-        return $this->statusId;
-    }
-
-    /**
-     * @param int|null $statusId
-     * @return Order
-     */
-    public function withStatusId(?int $statusId): Order
-    {
-        $clone = clone $this;
-        $clone->statusId = $statusId;
-        return $clone;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getWarehouseId(): ?int
-    {
-        return $this->warehouseId;
-    }
-
-    /**
-     * @param int|null $warehouseId
-     * @return Order
-     */
-    public function withWarehouseId(?int $warehouseId): Order
-    {
-        $clone = clone $this;
-        $clone->warehouseId = $warehouseId;
-        return $clone;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getStaffOwnerId(): ?int
-    {
-        return $this->staffOwnerId;
-    }
-
-    /**
-     * @param int|null $staffOwnerId
-     * @return Order
-     */
-    public function withStaffOwnerId(?int $staffOwnerId): Order
-    {
-        $clone = clone $this;
-        $clone->staffOwnerId = $staffOwnerId;
-        return $clone;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getProjectId(): ?int
-    {
-        return $this->projectId;
-    }
-
-    /**
-     * @param int|null $projectId
-     * @return Order
-     */
-    public function withProjectId(?int $projectId): Order
-    {
-        $clone = clone $this;
-        $clone->projectId = $projectId;
-        return $clone;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getChannelId(): ?int
-    {
-        return $this->channelId;
-    }
-
-    /**
-     * @param int|null $channelId
-     * @return Order
-     */
-    public function withChannelId(?int $channelId): Order
-    {
-        $clone = clone $this;
-        $clone->channelId = $channelId;
-        return $clone;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getExternalRef(): ?string
-    {
-        return $this->externalRef;
-    }
-
-    /**
-     * @param string|null $externalRef
-     * @return Order
-     */
-    public function withExternalRef(?string $externalRef): Order
-    {
-        $clone = clone $this;
-        $clone->externalRef = $externalRef;
-        return $clone;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getInstalledIntegrationInstanceId(): ?int
-    {
-        return $this->installedIntegrationInstanceId;
-    }
-
-    /**
-     * @param int|null $installedIntegrationInstanceId
-     * @return Order
-     */
-    public function withInstalledIntegrationInstanceId(?int $installedIntegrationInstanceId): Order
-    {
-        $clone = clone $this;
-        $clone->installedIntegrationInstanceId = $installedIntegrationInstanceId;
-        return $clone;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getLeadSourceId(): ?int
-    {
-        return $this->leadSourceId;
-    }
-
-    /**
-     * @param int|null $leadSourceId
-     * @return Order
-     */
-    public function withLeadSourceId(?int $leadSourceId): Order
-    {
-        $clone = clone $this;
-        $clone->leadSourceId = $leadSourceId;
-        return $clone;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getTeamId(): ?int
-    {
-        return $this->teamId;
-    }
-
-    /**
-     * @param int|null $teamId
-     * @return Order
-     */
-    public function withTeamId(?int $teamId): Order
-    {
-        $clone = clone $this;
-        $clone->teamId = $teamId;
+        $clone->parentOrderId = $parentOrderId;
         return $clone;
     }
 
@@ -525,21 +277,40 @@ class Order
     }
 
     /**
-     * @return Currency|null
+     * @return string|null
      */
-    public function getCurrency(): ?Currency
+    public function getPlacedOn(): ?string
     {
-        return $this->currency;
+        return $this->placedOn;
     }
 
     /**
-     * @param Currency $currency
+     * @param string|null $placedOn
      * @return Order
      */
-    public function withCurrency(Currency $currency): Order
+    public function withPlacedOn(?string $placedOn): Order
     {
         $clone = clone $this;
-        $clone->currency = $currency;
+        $clone->placedOn = $placedOn;
+        return $clone;
+    }
+
+    /**
+     * @return Status|null
+     */
+    public function getStatus(): ?Status
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param Status|null $status
+     * @return Order
+     */
+    public function withStatus(?Status $status): Order
+    {
+        $clone = clone $this;
+        $clone->status = $status;
         return $clone;
     }
 
@@ -552,10 +323,10 @@ class Order
     }
 
     /**
-     * @param Delivery $delivery
+     * @param Delivery|null $delivery
      * @return Order
      */
-    public function withDelivery(Delivery $delivery): Order
+    public function withDelivery(?Delivery $delivery): Order
     {
         $clone = clone $this;
         $clone->delivery = $delivery;
@@ -563,21 +334,116 @@ class Order
     }
 
     /**
-     * @return RowCollection|null
+     * @return InvoiceCollection|null
      */
-    public function getRows(): ?RowCollection
+    public function getInvoices(): ?InvoiceCollection
     {
-        return $this->rows;
+        return $this->invoices;
     }
 
     /**
-     * @param RowCollection|null $rows
+     * @param InvoiceCollection|null $invoices
      * @return Order
      */
-    public function withRows(?RowCollection $rows): Order
+    public function withInvoices(?InvoiceCollection $invoices): Order
     {
         $clone = clone $this;
-        $clone->rows = $rows;
+        $clone->invoices = $invoices;
+        return $clone;
+    }
+
+    /**
+     * @return Currency|null
+     */
+    public function getCurrency(): ?Currency
+    {
+        return $this->currency;
+    }
+
+    /**
+     * @param Currency|null $currency
+     * @return Order
+     */
+    public function withCurrency(?Currency $currency): Order
+    {
+        $clone = clone $this;
+        $clone->currency = $currency;
+        return $clone;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getContactId(): ?int
+    {
+        return $this->contactId;
+    }
+
+    /**
+     * @param int|null $contactId
+     * @return Order
+     */
+    public function withContactId(?int $contactId): Order
+    {
+        $clone = clone $this;
+        $clone->contactId = $contactId;
+        return $clone;
+    }
+
+    /**
+     * @return Parties|null
+     */
+    public function getParties(): ?Parties
+    {
+        return $this->parties;
+    }
+
+    /**
+     * @param Parties|null $parties
+     * @return Order
+     */
+    public function withParties(?Parties $parties): Order
+    {
+        $clone = clone $this;
+        $clone->parties = $parties;
+        return $clone;
+    }
+
+    /**
+     * @return Assignment|null
+     */
+    public function getAssignment(): ?Assignment
+    {
+        return $this->assignment;
+    }
+
+    /**
+     * @param Assignment|null $assignment
+     * @return Order
+     */
+    public function withAssignment(?Assignment $assignment): Order
+    {
+        $clone = clone $this;
+        $clone->assignment = $assignment;
+        return $clone;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getWarehouseId(): ?int
+    {
+        return $this->warehouseId;
+    }
+
+    /**
+     * @param int|null $warehouseId
+     * @return Order
+     */
+    public function withWarehouseId(?int $warehouseId): Order
+    {
+        $clone = clone $this;
+        $clone->warehouseId = $warehouseId;
         return $clone;
     }
 }
