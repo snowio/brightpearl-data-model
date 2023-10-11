@@ -1,6 +1,6 @@
 <?php
 
-namespace SnowIO\BrightpearlDataModel\SalesOrder;
+namespace SnowIO\BrightpearlDataModel\SalesOrder\Get;
 
 use Iterator;
 use IteratorAggregate;
@@ -10,9 +10,6 @@ class RowCollection implements IteratorAggregate
     /** @var Row[] $items */
     private $items = [];
 
-    /**
-     * @param Row[] $items
-     */
     public static function of(array $items): self
     {
         $result = new self();
@@ -26,14 +23,11 @@ class RowCollection implements IteratorAggregate
         return $result;
     }
 
-    public function equals($other): bool
+    public function equals(RowCollection $other): bool
     {
         return $this->toJson() === $other->toJson();
     }
 
-    /**
-     * @return array<mixed>
-     */
     public function toJson(): array
     {
         return array_map(static function (Row $row): array {
@@ -41,10 +35,6 @@ class RowCollection implements IteratorAggregate
         }, $this->items);
     }
 
-    /**
-     * @param array<mixed> $json
-     * @return self
-     */
     public static function fromJson(array $json): self
     {
         $result = new self();
@@ -53,15 +43,12 @@ class RowCollection implements IteratorAggregate
             if (!is_array($item)) {
                 continue;
             }
-            $result->items[] = Row::create()->fromJson($item);
+            $result->items[] = Row::fromJson($item);
         }
 
         return $result;
     }
 
-    /**
-     * @return Iterator
-     */
     public function getIterator(): Iterator
     {
         foreach ($this->items as $item) {

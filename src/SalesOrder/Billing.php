@@ -9,18 +9,11 @@ class Billing
     /** @var Address|null $address */
     private $address;
 
-    /**
-     * @return self
-     */
     public static function create(): self
     {
         return new self();
     }
 
-    /**
-     * @param array<string, mixed> $json
-     * @return self
-     */
     public static function fromJson(array $json): self
     {
         $result = new self();
@@ -29,9 +22,6 @@ class Billing
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         $address = is_null($this->getAddress()) ? [] : $this->getAddress()->toJson();
@@ -42,10 +32,6 @@ class Billing
         ];
     }
 
-    /**
-     * @param Billing $billingToCompare
-     * @return bool
-     */
     public function equals(Billing $billingToCompare): bool
     {
         if (is_null($this->getAddress()) && is_null($billingToCompare->getAddress())) {
@@ -64,18 +50,11 @@ class Billing
         return false;
     }
 
-    /**
-     * @return int|null
-     */
     public function getContactId(): ?int
     {
         return $this->contactId;
     }
 
-    /**
-     * @param int|null $contactId
-     * @return Billing
-     */
     public function withContactId(?int $contactId): Billing
     {
         $clone = clone $this;
@@ -83,18 +62,11 @@ class Billing
         return $clone;
     }
 
-    /**
-     * @return Address|null
-     */
     public function getAddress(): ?Address
     {
         return $this->address;
     }
 
-    /**
-     * @param Address|null $address
-     * @return Billing
-     */
     public function withAddress(?Address $address): Billing
     {
         $clone = clone $this;

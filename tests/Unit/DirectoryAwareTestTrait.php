@@ -3,7 +3,7 @@ namespace SnowIO\BrightpearlDataModel\Test\Unit;
 
 trait DirectoryAwareTestTrait
 {
-    function getJson(string $filePath): array
+    public function getJson(string $filePath): array
     {
         return json_decode(file_get_contents($filePath), $assoc = true);
     }

@@ -1,21 +1,22 @@
 {
   "customer": {
-    "id": 10
+    "id": 123,
+    "address": null
   },
-  "ref": "Created via new Sales Order POST endpoint",
-  "installedIntegrationInstanceId": 3,
-  "placedOn": "2016-09-29T11:12:24.000+01:00",
-  "taxDate": "2016-06-08T12:57:25+00:00",
   "externalRef": "hsdf74-2js7-jdsfi38-73jsd8",
-  "warehouseId": null,
-  "projectId": null,
-  "statusId": 1,
+  "ref": "ABC123XYZ890",
+  "placedOn": null,
+  "taxDate": "2023-09-01",
+  "installedIntegrationInstanceId": 3,
+  "warehouseId": 567,
+  "projectId": 1,
+  "statusId": null,
   "channelId": 1,
   "leadSourceId": 4,
   "staffOwnerId": 6,
-  "teamId": null,
+  "teamId": 987,
   "priceListId": 2,
-  "priceModeCode": "INC",
+  "priceModeCode": "SOMECODE",
   "currency": {
     "code": "GBP",
     "fixedExchangeRate": true,
@@ -34,35 +35,48 @@
       "countryIsoCode": "GBR",
       "telephone": "01234 567890",
       "mobileTelephone": "070707070707",
+      "fax": "0707070707072",
       "email": "john.doe@brightpearl.com"
     },
     "shippingMethodId": 6
   },
   "billing": {
+    "contactId": 234,
     "address": {
-      "addressFullName": "John Doe2",
-      "companyName": "BrightPearl2",
-      "addressLine1": "First floor2",
-      "addressLine2": "New Bond House2",
-      "addressLine3": "Bristol2",
-      "addressLine4": "near Cabot Circus2",
-      "postalCode": "BS2 9AG2",
+      "addressFullName": "Snow avenue",
+      "companyName": "Snow",
+      "addressLine1": "some street",
+      "addressLine2": "some area",
+      "addressLine3": "some town",
+      "addressLine4": "some city",
+      "postalCode": "AB12 ABC",
       "countryIsoCode": "GBR",
-      "telephone": "01234 5678902",
-      "mobileTelephone": "0707070707072",
-      "email": "john.doe@brightpearl.com2"
+      "telephone": "1234567890",
+      "mobileTelephone": "1234567890",
+      "fax": "1234567890",
+      "email": "test@domain.com"
     }
   },
   "rows": [
     {
-      "productId": 2140,
-      "name": "Abel",
-      "quantity": "1",
-      "taxCode": "T20",
+      "productId": 123456,
+      "name": "Product Example 1",
+      "quantity": "123",
+      "taxCode": "ABC",
       "net": "100",
-      "tax": "20",
-      "nominalCode": "4000",
-      "externalRef": "7hgfjksdf-234sfd-w34-sdf-w234"
+      "tax": "14",
+      "nominalCode": "ABCDEF",
+      "externalRef": "FEDCBA"
+    },
+    {
+      "productId": 456789,
+      "name": "Product Example 2",
+      "quantity": "456",
+      "taxCode": "DEF",
+      "net": "101",
+      "tax": "15",
+      "nominalCode": "ABCDEF2",
+      "externalRef": "FEDCBA2"
     }
   ]
 }

@@ -2,11 +2,11 @@
 
 namespace SnowIO\BrightpearlDataModel\SalesOrder;
 
-use SnowIO\BrightpearlDataModel\SalesOrder\Get\Delivery;
+use SnowIO\BrightpearlDataModel\SalesOrder\Get\Row;
 
 class GetSalesOrder
 {
-    /** @var string|null $id */
+    /** @var int|null $id */
     private $id;
     /** @var Customer|null */
     private $customer;
@@ -14,6 +14,8 @@ class GetSalesOrder
     private $billing;
     /** @var string|null $ref */
     private $ref;
+    /** @var string|null $externalRef */
+    private $externalRef;
     /** @var string|null $placedOn */
     private $placedOn;
     /** @var string|null $taxDate */
@@ -42,9 +44,9 @@ class GetSalesOrder
     private $currency;
     /** @var Delivery|null $delivery */
     private $delivery;
-    /** @var RowCollection|null $rows */
+    /** @var Get\RowCollection|null $rows */
     private $rows;
-    /** @var Total|null $total */
+    /** @var Total $total */
     private $total;
 
     /** @var string|null $orderPaymentStatus */
@@ -74,6 +76,17 @@ class GetSalesOrder
     /** @var int|null $customerId */
     private $customerId;
 
+    public function __construct()
+    {
+        $this->total = Total::create();
+        $this->invoice = Invoice::create();
+        $this->customer = Customer::create();
+        $this->delivery = Delivery::create();
+        $this->currency = Currency::create();
+        $this->billing = Billing::create();
+        $this->rows = Get\RowCollection::of([]);
+    }
+
     public static function create(): self
     {
         return new self();
@@ -82,9 +95,9 @@ class GetSalesOrder
     public static function fromJson(array $json): self
     {
         $result = new self();
-
         $result->id = $json['id'] ?? null;
         $result->ref = $json['ref'] ?? null;
+        $result->externalRef = $json['externalRef'] ?? null;
         $result->placedOn = $json['placedOn'] ?? null;
         $result->taxDate = $json['taxDate'] ?? null;
         $result->parentId = $json['parentId'] ?? null;
@@ -97,15 +110,13 @@ class GetSalesOrder
         $result->teamId = $json['teamId'] ?? null;
         $result->priceListId = $json['priceListId'] ?? null;
         $result->priceModeCode = $json['priceModeCode'] ?? null;
-
         $result->customer = Customer::fromJson($json['customer'] ?? []);
         $result->billing = Billing::fromJson($json['billing'] ?? []);
         $result->currency = Currency::fromJson($json['currency'] ?? []);
         $result->delivery = Delivery::fromJson($json['delivery'] ?? []);
-        $result->rows = RowCollection::fromJson($json['rows'] ?? []);
+        $result->rows = Get\RowCollection::fromJson($json['rows'] ?? []);
         $result->total = Total::fromJson($json['total'] ?? []);
         $result->invoice = Invoice::fromJson($json['invoice'] ?? []);
-
         $result->orderPaymentStatus = $json['orderPaymentStatus'] ?? null;
         $result->allocationStatusCode = $json['allocationStatusCode'] ?? null;
         $result->stockStatusCode = $json['stockStatusCode'] ?? null;
@@ -118,7 +129,6 @@ class GetSalesOrder
         $result->isCanceled = $json['isCanceled'] ?? null;
         $result->installedIntegrationInstanceId = $json['installedIntegrationInstanceId'] ?? null;
         $result->customerId = $json['customerId'] ?? null;
-
         return $result;
     }
 
@@ -129,6 +139,7 @@ class GetSalesOrder
             'customer' => $this->getCustomer()->toJson(),
             'billing' => $this->getBilling()->toJson(),
             'ref' => $this->getRef(),
+            'externalRef' => $this->getExternalRef(),
             'placedOn' => $this->getPlacedOn(),
             'taxDate' => $this->getTaxDate(),
             'parentId' => $this->getParentId(),
@@ -144,7 +155,7 @@ class GetSalesOrder
             'currency' => $this->getCurrency()->toJson(),
             'delivery' => $this->getDelivery()->toJson(),
             'rows' => $this->getRows()->toJson(),
-            'total' => $this->getTotal()->toJson(),
+            'total' => $this->total->hasData() ? $this->getTotal()->toJson() : null,
             "orderPaymentStatus" => $this->getOrderPaymentStatus(),
             "allocationStatusCode" => $this->getAllocationStatusCode(),
             "stockStatusCode" => $this->getStockStatusCode(),
@@ -152,7 +163,7 @@ class GetSalesOrder
             "createdBy" => $this->getCreatedBy(),
             "createdOn" => $this->getCreatedOn(),
             "updatedOn" => $this->getUpdatedOn(),
-            'invoice' => $this->getInvoice()->toJson(),
+            'invoice' => $this->invoice->hasData() ? $this->invoice->toJson() : null,
             "orderWeighting" => $this->getOrderWeighting(),
             "costPriceListId" => $this->getCostPriceListId(),
             "isCanceled" => $this->getIsCanceled(),
@@ -161,91 +172,43 @@ class GetSalesOrder
         ];
     }
 
-    public function equals(GetSalesOrder $orderToCompare): bool
+    public function equals($other): bool
     {
-        if (!is_null($this->getCustomer())
-            && !is_null($orderToCompare->getCustomer())
-            && !$this->getCustomer()->equals($orderToCompare->getCustomer())) {
-            return false;
-        }
-        if (!is_null($this->getBilling())
-            && !is_null($orderToCompare->getBilling())
-            && !$this->getBilling()->equals($orderToCompare->getBilling())) {
-            return false;
-        }
-        if (!is_null($this->getCurrency())
-            && !is_null($orderToCompare->getCurrency())
-            && !$this->getCurrency()->equals($orderToCompare->getCurrency())) {
-            return false;
-        }
-        if (!is_null($this->getDelivery())
-            && !is_null($orderToCompare->getDelivery())
-            && !$this->getDelivery()->equals($orderToCompare->getDelivery())) {
-            return false;
-        }
-
-        $rows = $this->getRows() instanceof RowCollection
-            ? iterator_to_array($this->getRows()) : [];
-        $rowsToCompare = $orderToCompare->getRows() instanceof RowCollection
-            ? iterator_to_array($orderToCompare->getRows()) : [];
-
-        $getRowsCount = count($rows);
-        if ($getRowsCount !== count($rowsToCompare)) {
-            return false;
-        }
-
-        for ($i = 0; $i < $getRowsCount; $i++) {
-            if (!$rows[$i] instanceof Row) {
-                return false;
-            }
-            if (!$rowsToCompare[$i] instanceof Row) {
-                return false;
-            }
-            if (!$rows[$i]->equals($rowsToCompare[$i])) {
-                return false;
-            }
-        }
-
-        if ($this->getRef() !== $orderToCompare->getRef()) {
-            return false;
-        }
-        if ($this->getTaxDate() !== $orderToCompare->getTaxDate()) {
-            return false;
-        }
-        if ($this->getParentId() !== $orderToCompare->getParentId()) {
-            return false;
-        }
-        if ($this->getStatusId() !== $orderToCompare->getStatusId()) {
-            return false;
-        }
-        if ($this->getWarehouseId() !== $orderToCompare->getWarehouseId()) {
-            return false;
-        }
-        if ($this->getStaffOwnerId() !== $orderToCompare->getStaffOwnerId()) {
-            return false;
-        }
-        if ($this->getProjectId() !== $orderToCompare->getProjectId()) {
-            return false;
-        }
-        if ($this->getChannelId() !== $orderToCompare->getChannelId()) {
-            return false;
-        }
-        if ($this->getExternalRef() !== $orderToCompare->getExternalRef()) {
-            return false;
-        }
-        if ($this->getInstalledIntegrationInstanceId() !== $orderToCompare->getInstalledIntegrationInstanceId()) {
-            return false;
-        }
-        if ($this->getLeadSourceId() !== $orderToCompare->getLeadSourceId()) {
-            return false;
-        }
-        if ($this->getTeamId() !== $orderToCompare->getTeamId()) {
-            return false;
-        }
-        if ($this->getPriceListId() !== $orderToCompare->getPriceListId()) {
-            return false;
-        }
-        return $this->getPriceModeCode() === $orderToCompare->getPriceModeCode();
+        return ($other instanceof GetSalesOrder) &&
+            ($this->id === $other->id) &&
+            ($this->customer->equals($other->customer)) &&
+            ($this->billing->equals($other->billing)) &&
+            ($this->ref === $other->ref) &&
+            ($this->externalRef === $other->externalRef) &&
+            ($this->placedOn === $other->placedOn) &&
+            ($this->taxDate === $other->taxDate) &&
+            ($this->parentId === $other->parentId) &&
+            ($this->statusId === $other->statusId) &&
+            ($this->warehouseId === $other->warehouseId) &&
+            ($this->staffOwnerId === $other->staffOwnerId) &&
+            ($this->projectId === $other->projectId) &&
+            ($this->channelId === $other->channelId) &&
+            ($this->leadSourceId === $other->leadSourceId) &&
+            ($this->teamId === $other->teamId) &&
+            ($this->priceListId === $other->priceListId) &&
+            ($this->priceModeCode === $other->priceModeCode) &&
+            ($this->currency->equals($other->currency)) &&
+            ($this->delivery->equals($other->delivery)) &&
+            ($this->rows->equals($other->rows)) &&
+            ($this->total->equals($other->total)) &&
+            ($this->orderPaymentStatus === $other->orderPaymentStatus) &&
+            ($this->allocationStatusCode === $other->allocationStatusCode) &&
+            ($this->stockStatusCode === $other->stockStatusCode) &&
+            ($this->shippingStatusCode === $other->shippingStatusCode) &&
+            ($this->createdBy === $other->createdBy) &&
+            ($this->createdOn === $other->createdOn) &&
+            ($this->updatedOn === $other->updatedOn) &&
+            ($this->invoice->equals($other->invoice)) &&
+            ($this->orderWeighting === $other->orderWeighting) &&
+            ($this->costPriceListId === $other->costPriceListId) &&
+            ($this->isCanceled === $other->isCanceled) &&
+            ($this->installedIntegrationInstanceId === $other->installedIntegrationInstanceId) &&
+            ($this->customerId === $other->customerId);
     }
 
     public function getCustomer(): ?Customer
@@ -284,12 +247,12 @@ class GetSalesOrder
         return $clone;
     }
 
-    public function getId(): ?string
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function withId(?string $id): self
+    public function withId(?int $id): self
     {
         $clone = clone $this;
         $clone->id = $id;
@@ -305,6 +268,18 @@ class GetSalesOrder
     {
         $clone = clone $this;
         $clone->ref = $ref;
+        return $clone;
+    }
+
+    public function getExternalRef(): ?string
+    {
+        return $this->externalRef;
+    }
+
+    public function withExternalRef(?string $externalRef): GetSalesOrder
+    {
+        $clone = clone $this;
+        $clone->externalRef = $externalRef;
         return $clone;
     }
 
@@ -488,12 +463,12 @@ class GetSalesOrder
         return $clone;
     }
 
-    public function getRows(): ?RowCollection
+    public function getRows(): ?Get\RowCollection
     {
         return $this->rows;
     }
 
-    public function withRows(?RowCollection $rows): GetSalesOrder
+    public function withRows(?Get\RowCollection $rows): GetSalesOrder
     {
         $clone = clone $this;
         $clone->rows = $rows;

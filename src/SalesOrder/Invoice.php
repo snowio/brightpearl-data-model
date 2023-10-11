@@ -38,15 +38,16 @@ class Invoice
         ];
     }
 
-    public function equals(Currency $currencyToCompare): bool
+    public function hasData()
     {
-        if ($this->getCode() !== $currencyToCompare->getCode()) {
-            return false;
-        }
-        if ($this->getTaxDate() !== $currencyToCompare->getTaxDate()) {
-            return false;
-        }
-        return $this->getDueDate() === $currencyToCompare->getDueDate();
+        return count(array_filter($this->toJson()));
+    }
+
+    public function equals(Invoice $other): bool
+    {
+        return $this->invoiceReference === $other->invoiceReference &&
+            $this->taxDate === $other->taxDate &&
+            $this->dueDate === $this->dueDate;
     }
 
     public function getInvoiceReference(): ?string

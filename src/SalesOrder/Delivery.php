@@ -1,8 +1,6 @@
 <?php
 
-namespace SnowIO\BrightpearlDataModel\SalesOrder\Get;
-
-use SnowIO\BrightpearlDataModel\SalesOrder\Address;
+namespace SnowIO\BrightpearlDataModel\SalesOrder;
 
 class Delivery
 {
@@ -38,10 +36,10 @@ class Delivery
         ];
     }
 
-    public function equals(Delivery $deliveryToCompare): bool
+    public function equals($other): bool
     {
-        return ($this->getShippingMethodId() === $deliveryToCompare->getShippingMethodId()) &&
-            ($this->getAddress()->equals($deliveryToCompare->getAddress()));
+        return $this->shippingMethodId === $other->shippingMethodId &&
+            $this->getAddress()->equals($other->getAddress());
     }
 
     public function getAddress(): Address
@@ -73,7 +71,7 @@ class Delivery
         return $this->date;
     }
 
-    public function withDate(?int $date): self
+    public function withDate(?string $date): self
     {
         $clone = clone $this;
         $clone->date = $date;

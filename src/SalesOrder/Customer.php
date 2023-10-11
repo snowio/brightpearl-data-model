@@ -2,23 +2,30 @@
 
 namespace SnowIO\BrightpearlDataModel\SalesOrder;
 
-class Customer
+use SnowIO\BrightpearlDataModel\ModelInterface;
+
+class Customer implements ModelInterface
 {
     /** @var int|null $id */
     private $id;
-    /** @var Address|null */
+    /** @var Address */
     private $address;
 
-    public static function create(): self
+    public function __construct()
+    {
+        $this->address = Address::create();
+    }
+
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
         $result->id = $json['id'] ?? null;
-        $result->address = isset($json['address']) ? Address::fromJson($json['address'] ?? []) : null;
+        $result->address = Address::fromJson($json['address'] ?? []);
         return $result;
     }
 
@@ -26,14 +33,14 @@ class Customer
     {
         return [
             'id' => $this->getId(),
-            'address' => $this->address ? $this->address->toJson() : null
+            'address' => $this->address->hasData() ? $this->address->toJson() : null
         ];
     }
 
-    public function equals(Customer $customerToCompare): bool
+    public function equals($other): bool
     {
-        return $this->getId() === $customerToCompare->getId() &&
-            $this->address->equals($customerToCompare->getAddress());
+        return $this->getId() === $other->getId() &&
+            $this->address->equals($other->getAddress());
     }
 
     public function getAddress(): Address

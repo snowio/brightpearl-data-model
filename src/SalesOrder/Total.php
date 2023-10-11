@@ -25,6 +25,11 @@ class Total
         return new self();
     }
 
+    public function hasData()
+    {
+        return count(array_filter($this->toJson()));
+    }
+
     public static function fromJson(array $json): self
     {
         $result = new self();
@@ -49,14 +54,14 @@ class Total
         ];
     }
 
-    public function equals(Total $totalToCompare): bool
+    public function equals(Total $other): bool
     {
-        return ($this->net === $totalToCompare->net) &&
-            ($this->tax === $totalToCompare->tax) &&
-            ($this->gross === $totalToCompare->gross) &&
-            ($this->baseNet === $totalToCompare->baseNet) &&
-            ($this->baseTax === $totalToCompare->baseTax) &&
-            ($this->baseGross === $totalToCompare->baseGross);
+        return ($this->net === $other->net) &&
+            ($this->tax === $other->tax) &&
+            ($this->gross === $other->gross) &&
+            ($this->baseNet === $other->baseNet) &&
+            ($this->baseTax === $other->baseTax) &&
+            ($this->baseGross === $other->baseGross);
     }
 
     public function getNet(): ?string
