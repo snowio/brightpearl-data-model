@@ -110,7 +110,7 @@ class Order implements ModelInterface
             'priceListId' => $this->getPriceListId(),
             'priceModeCode' => $this->getPriceModeCode(),
             'placedOn' => $this->getPlacedOn(),
-            'status' => $status,
+            'orderStatus' => $status,
             'delivery' => $delivery,
             'invoices' => $invoices,
             'currency' => $currency,
@@ -144,13 +144,13 @@ class Order implements ModelInterface
             && !$this->getCurrency()->equals($orderToCompare->getCurrency())) {
             return false;
         }
-
+        // failing here
         if (!is_null($this->getParties())
             && !is_null($orderToCompare->getParties())
             && !$this->getParties()->equals($orderToCompare->getParties())) {
             return false;
         }
-
+        // failing here
         if (!is_null($this->getAssignment())
             && !is_null($orderToCompare->getAssignment())
             && !$this->getAssignment()->equals($orderToCompare->getAssignment())) {
@@ -179,7 +179,6 @@ class Order implements ModelInterface
         if ($this->getContactId() !== $orderToCompare->getContactId()) {
             return false;
         }
-
 
         return $this->getWarehouseId() === $orderToCompare->getWarehouseId();
     }
@@ -310,7 +309,7 @@ class Order implements ModelInterface
      * @param Status|null $status
      * @return Order
      */
-    public function withStatusId(?Status $status): Order
+    public function withStatus(?Status $status): Order
     {
         $clone = clone $this;
         $clone->status = $status;

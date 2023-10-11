@@ -132,7 +132,7 @@ class Current implements ModelInterface
      * @param int|null $projectId
      * @return $this
      */
-    public function withProjectIdd(?int $projectId): ModelInterface
+    public function withProjectId(?int $projectId): ModelInterface
     {
         $clone = clone $this;
         $clone->projectId = $projectId;

@@ -51,6 +51,11 @@ class Parties implements ModelInterface
         if (!$partiesToCompare instanceof Parties) {
             return false;
         }
+        if (!is_null($this->getDelivery())
+            && !is_null($partiesToCompare->getDelivery())
+            && !$this->getDelivery()->equals($partiesToCompare->getDelivery())) {
+            return false;
+        }
         return $this->getDelivery() === $partiesToCompare->getDelivery();
     }
 
@@ -66,7 +71,7 @@ class Parties implements ModelInterface
      * @param Delivery|null $delivery
      * @return self
      */
-    public function withId(?Delivery $delivery): self
+    public function withDelivery(?Delivery $delivery): self
     {
         $clone = clone $this;
         $clone->delivery = $delivery;

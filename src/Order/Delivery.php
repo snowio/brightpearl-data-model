@@ -35,7 +35,7 @@ class Delivery
     public function toJson(): array
     {
         return [
-            'date' => $this->getDate(),
+            'deliveryDate' => $this->getDate(),
             'shippingMethodId' => $this->getShippingMethodId()
         ];
     }

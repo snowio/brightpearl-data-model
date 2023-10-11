@@ -40,7 +40,7 @@ class Currency
     public function toJson(): array
     {
         return [
-            'code' => $this->getCode(),
+            'orderCurrencyCode' => $this->getCode(),
             'fixedExchangeRate' => $this->getFixedExchangeRate(),
             'exchangeRate' => $this->getExchangeRate()
         ];
