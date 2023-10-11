@@ -1,0 +1,119 @@
+{
+  "id": 29,
+  "customer": {
+    "id": 10,
+    "address": {
+      "addressFullName": "Test Test",
+      "companyName": "Test",
+      "addressLine1": "street",
+      "addressLine2": "Suburb",
+      "addressLine3": "city",
+      "addressLine4": "state",
+      "postalCode": "123",
+      "countryIsoCode": "GB",
+      "telephone": "999999",
+      "mobileTelephone": "999999",
+      "fax": "",
+      "email": "ns@amp.com"
+    }
+  },
+  "billing": {
+    "contactId": 10,
+    "address": {
+      "addressFullName": "Test Test",
+      "companyName": "Test",
+      "addressLine1": "street",
+      "addressLine2": "Suburb",
+      "addressLine3": "city",
+      "addressLine4": "state",
+      "postalCode": "123",
+      "countryIsoCode": "GB",
+      "telephone": "999999",
+      "mobileTelephone": "999999",
+      "fax": "",
+      "email": "ns@amp.com"
+    }
+  },
+  "ref": "SO_123",
+  "placedOn": "2023-10-09T14:04:42.000+01:00",
+  "taxDate": "2023-10-09T00:00:00.000+01:00",
+  "parentId": 0,
+  "statusId": 3,
+  "warehouseId": 2,
+  "channelId": 1,
+  "staffOwnerId": 13,
+  "projectId": 0,
+  "leadSourceId": 4,
+  "teamId": 0,
+  "priceListId": 1,
+  "priceModeCode": "EXC",
+  "currency": {
+    "code": "GBP",
+    "exchangeRate": "1.000000",
+    "fixedExchangeRate": false
+  },
+  "delivery": {
+    "address": {
+      "addressFullName": "Test Test",
+      "companyName": "Test",
+      "addressLine1": "",
+      "addressLine2": "",
+      "addressLine3": "",
+      "addressLine4": "",
+      "postalCode": "",
+      "countryIsoCode": "GB",
+      "telephone": "",
+      "mobileTelephone": "",
+      "fax": "",
+      "email": ""
+    },
+    "shippingMethodId": 1
+  },
+  "rows": [
+    {
+      "id": 29,
+      "productId": 1009,
+      "name": "Standalone Product 233",
+      "sku": "TEST-NEI3",
+      "quantity": "1.0000",
+      "taxCode": "T20",
+      "tax": "22.40",
+      "net": "112.0000",
+      "nominalCode": "4000",
+      "productPrice": "112.0000",
+      "discountPercentage": "0.00",
+      "sequence": 10,
+      "bundleChild": false,
+      "bundleParent": false,
+      "parentRowId": 0,
+      "taxClassId": 7,
+      "taxCalculator": "brightpearl",
+      "clonedFromId": 0
+    }
+  ],
+  "total": {
+    "net": "112.00",
+    "tax": "22.40",
+    "gross": "134.40",
+    "baseNet": "112.00",
+    "baseTax": "22.40",
+    "baseGross": "134.40"
+  },
+  "orderPaymentStatus": "UNPAID",
+  "allocationStatusCode": "ANA",
+  "stockStatusCode": "SON",
+  "shippingStatusCode": "SNS",
+  "createdBy": 13,
+  "createdOn": "2023-10-09T14:04:42.000+01:00",
+  "updatedOn": "2023-10-11T14:04:43.000+01:00",
+  "invoice": {
+    "invoiceReference": "",
+    "taxDate": "2023-10-09T00:00:00.000+01:00",
+    "dueDate": "2023-10-09T01:00:00.000+01:00"
+  },
+  "orderWeighting": 100,
+  "costPriceListId": 1,
+  "isCanceled": false,
+  "customerId": 10,
+  "installedIntegrationInstanceId": null
+}

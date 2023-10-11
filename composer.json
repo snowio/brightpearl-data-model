@@ -31,7 +31,8 @@
         "phpunit/phpunit": "^9.5",
         "rector/rector": "^0.12",
         "phpstan/phpstan": "^1.5",
-        "friendsofphp/php-cs-fixer": "^3.4"
+        "friendsofphp/php-cs-fixer": "^3.4",
+        "ext-json": "*"
     },
     "require": {
         "php": "^7.3"

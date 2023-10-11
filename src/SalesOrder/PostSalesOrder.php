@@ -1,6 +1,6 @@
 <?php
 
-namespace SnowIO\BrightpearlDataModel;
+namespace SnowIO\BrightpearlDataModel\SalesOrder;
 
 use SnowIO\BrightpearlDataModel\Order\Billing;
 use SnowIO\BrightpearlDataModel\Order\Currency;
@@ -9,7 +9,7 @@ use SnowIO\BrightpearlDataModel\Order\Delivery;
 use SnowIO\BrightpearlDataModel\Order\Row;
 use SnowIO\BrightpearlDataModel\Order\RowCollection;
 
-class SalesOrder
+class PostSalesOrder
 {
     /** @var Customer|null */
     private $customer;
@@ -50,18 +50,11 @@ class SalesOrder
     /** @var RowCollection|null $rows */
     private $rows;
 
-    /**
-     * @return self
-     */
     public static function create(): self
     {
         return new self();
     }
 
-    /**
-     * @param array<string, mixed> $json
-     * @return self
-     */
     public static function fromJson(array $json): self
     {
         $result = new self();
@@ -94,9 +87,6 @@ class SalesOrder
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         $customer = is_null($this->getCustomer()) ? [] : $this->getCustomer()->toJson();
@@ -128,11 +118,7 @@ class SalesOrder
         ];
     }
 
-    /**
-     * @param Order $orderToCompare
-     * @return bool
-     */
-    public function equals(Order $orderToCompare): bool
+    public function equals(GetSalesOrder $orderToCompare): bool
     {
         if (!is_null($this->getCustomer())
             && !is_null($orderToCompare->getCustomer())
@@ -219,361 +205,228 @@ class SalesOrder
         return $this->getPriceModeCode() === $orderToCompare->getPriceModeCode();
     }
 
-    /**
-     * @return Customer|null
-     */
     public function getCustomer(): ?Customer
     {
         return $this->customer;
     }
 
-    /**
-     * @param Customer $customer
-     * @return Order
-     */
-    public function withCustomer(Customer $customer): Order
+    public function withCustomer(Customer $customer): GetSalesOrder
     {
         $clone = clone $this;
         $clone->customer = $customer;
         return $clone;
     }
 
-    /**
-     * @return Billing|null
-     */
     public function getBilling(): ?Billing
     {
         return $this->billing;
     }
 
-    /**
-     * @param Billing $billing
-     * @return Order
-     */
-    public function withBilling(Billing $billing): Order
+    public function withBilling(Billing $billing): GetSalesOrder
     {
         $clone = clone $this;
         $clone->billing = $billing;
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getRef(): ?string
     {
         return $this->ref;
     }
 
-    /**
-     * @param string|null $ref
-     * @return Order
-     */
-    public function withRef(?string $ref): Order
+    public function withRef(?string $ref): GetSalesOrder
     {
         $clone = clone $this;
         $clone->ref = $ref;
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getTaxDate(): ?string
     {
         return $this->taxDate;
     }
 
-    /**
-     * @param string|null $taxDate
-     * @return Order
-     */
-    public function withTaxDate(?string $taxDate): Order
+    public function withTaxDate(?string $taxDate): GetSalesOrder
     {
         $clone = clone $this;
         $clone->taxDate = $taxDate;
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getParentId(): ?int
     {
         return $this->parentId;
     }
 
-    /**
-     * @param int|null $parentId
-     * @return Order
-     */
-    public function withParentId(?int $parentId): Order
+    public function withParentId(?int $parentId): GetSalesOrder
     {
         $clone = clone $this;
         $clone->parentId = $parentId;
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getStatusId(): ?int
     {
         return $this->statusId;
     }
 
-    /**
-     * @param int|null $statusId
-     * @return Order
-     */
-    public function withStatusId(?int $statusId): Order
+    public function withStatusId(?int $statusId): GetSalesOrder
     {
         $clone = clone $this;
         $clone->statusId = $statusId;
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getWarehouseId(): ?int
     {
         return $this->warehouseId;
     }
 
-    /**
-     * @param int|null $warehouseId
-     * @return Order
-     */
-    public function withWarehouseId(?int $warehouseId): Order
+    public function withWarehouseId(?int $warehouseId): GetSalesOrder
     {
         $clone = clone $this;
         $clone->warehouseId = $warehouseId;
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getStaffOwnerId(): ?int
     {
         return $this->staffOwnerId;
     }
 
-    /**
-     * @param int|null $staffOwnerId
-     * @return Order
-     */
-    public function withStaffOwnerId(?int $staffOwnerId): Order
+    public function withStaffOwnerId(?int $staffOwnerId): GetSalesOrder
     {
         $clone = clone $this;
         $clone->staffOwnerId = $staffOwnerId;
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getProjectId(): ?int
     {
         return $this->projectId;
     }
 
-    /**
-     * @param int|null $projectId
-     * @return Order
-     */
-    public function withProjectId(?int $projectId): Order
+    public function withProjectId(?int $projectId): GetSalesOrder
     {
         $clone = clone $this;
         $clone->projectId = $projectId;
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getChannelId(): ?int
     {
         return $this->channelId;
     }
 
-    /**
-     * @param int|null $channelId
-     * @return Order
-     */
-    public function withChannelId(?int $channelId): Order
+    public function withChannelId(?int $channelId): GetSalesOrder
     {
         $clone = clone $this;
         $clone->channelId = $channelId;
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getExternalRef(): ?string
     {
         return $this->externalRef;
     }
 
-    /**
-     * @param string|null $externalRef
-     * @return Order
-     */
-    public function withExternalRef(?string $externalRef): Order
+    public function withExternalRef(?string $externalRef): GetSalesOrder
     {
         $clone = clone $this;
         $clone->externalRef = $externalRef;
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getInstalledIntegrationInstanceId(): ?int
     {
         return $this->installedIntegrationInstanceId;
     }
 
-    /**
-     * @param int|null $installedIntegrationInstanceId
-     * @return Order
-     */
-    public function withInstalledIntegrationInstanceId(?int $installedIntegrationInstanceId): Order
+    public function withInstalledIntegrationInstanceId(?int $installedIntegrationInstanceId): GetSalesOrder
     {
         $clone = clone $this;
         $clone->installedIntegrationInstanceId = $installedIntegrationInstanceId;
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getLeadSourceId(): ?int
     {
         return $this->leadSourceId;
     }
 
-    /**
-     * @param int|null $leadSourceId
-     * @return Order
-     */
-    public function withLeadSourceId(?int $leadSourceId): Order
+    public function withLeadSourceId(?int $leadSourceId): GetSalesOrder
     {
         $clone = clone $this;
         $clone->leadSourceId = $leadSourceId;
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getTeamId(): ?int
     {
         return $this->teamId;
     }
 
-    /**
-     * @param int|null $teamId
-     * @return Order
-     */
-    public function withTeamId(?int $teamId): Order
+    public function withTeamId(?int $teamId): GetSalesOrder
     {
         $clone = clone $this;
         $clone->teamId = $teamId;
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getPriceListId(): ?int
     {
         return $this->priceListId;
     }
 
-    /**
-     * @param int|null $priceListId
-     * @return Order
-     */
-    public function withPriceListId(?int $priceListId): Order
+    public function withPriceListId(?int $priceListId): GetSalesOrder
     {
         $clone = clone $this;
         $clone->priceListId = $priceListId;
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getPriceModeCode(): ?string
     {
         return $this->priceModeCode;
     }
 
-    /**
-     * @param string|null $priceModeCode
-     * @return Order
-     */
-    public function withPriceModeCode(?string $priceModeCode): Order
+    public function withPriceModeCode(?string $priceModeCode): GetSalesOrder
     {
         $clone = clone $this;
         $clone->priceModeCode = $priceModeCode;
         return $clone;
     }
 
-    /**
-     * @return Currency|null
-     */
     public function getCurrency(): ?Currency
     {
         return $this->currency;
     }
 
-    /**
-     * @param Currency $currency
-     * @return Order
-     */
-    public function withCurrency(Currency $currency): Order
+    public function withCurrency(Currency $currency): GetSalesOrder
     {
         $clone = clone $this;
         $clone->currency = $currency;
         return $clone;
     }
 
-    /**
-     * @return Delivery|null
-     */
     public function getDelivery(): ?Delivery
     {
         return $this->delivery;
     }
 
-    /**
-     * @param Delivery $delivery
-     * @return Order
-     */
-    public function withDelivery(Delivery $delivery): Order
+    public function withDelivery(Delivery $delivery): GetSalesOrder
     {
         $clone = clone $this;
         $clone->delivery = $delivery;
         return $clone;
     }
 
-    /**
-     * @return RowCollection|null
-     */
     public function getRows(): ?RowCollection
     {
         return $this->rows;
     }
 
-    /**
-     * @param RowCollection|null $rows
-     * @return Order
-     */
-    public function withRows(?RowCollection $rows): Order
+    public function withRows(?RowCollection $rows): GetSalesOrder
     {
         $clone = clone $this;
         $clone->rows = $rows;
