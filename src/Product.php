@@ -176,6 +176,14 @@ class Product implements ModelInterface
         ];
     }
 
+    // @phpstan-ignore-next-line
+    public function equals($object): bool
+    {
+        return ($object instanceof Product) &&
+            ($this->id === $object->id) &&
+            $this->toJson() === $object->toJson();
+    }
+
     /**
      * @param ModelInterface $productToCompare
      * @return bool

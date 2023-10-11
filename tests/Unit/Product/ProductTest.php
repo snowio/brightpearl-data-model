@@ -7,9 +7,6 @@ use SnowIO\BrightpearlDataModel\Product;
 
 class ProductTest extends TestCase
 {
-    /**
-     * @return array
-     */
     private function getJsonData(): array
     {
         return [
@@ -153,9 +150,6 @@ class ProductTest extends TestCase
         ];
     }
 
-    /**
-     * @return void
-     */
     public function testFromJsonToJson()
     {
         $data = $this->getJsonData();
@@ -163,9 +157,6 @@ class ProductTest extends TestCase
         self::assertEquals($data, $product->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testWithers()
     {
         $identity = Product\Identity::create()
@@ -300,9 +291,6 @@ class ProductTest extends TestCase
         self::assertEquals($this->getJsonData(), $product->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testGetters()
     {
         $data = $this->getJsonData();
@@ -433,5 +421,9 @@ class ProductTest extends TestCase
         $product1 = Product::fromJson($data);
         $product2 = Product::fromJson($data);
         self::assertTrue($product1->equals($product2));
+
+        $product1 = Product::fromJson($data);
+        $product2 = Product::fromJson($data)->withId(1);
+        self::assertFalse($product1->equals($product2));
     }
 }
