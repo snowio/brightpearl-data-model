@@ -6,7 +6,7 @@ class Customer
 {
     /** @var int|null $id */
     private $id;
-    /** @var Address */
+    /** @var Address|null */
     private $address;
 
     public static function create(): self
@@ -18,7 +18,7 @@ class Customer
     {
         $result = new self();
         $result->id = $json['id'] ?? null;
-        $result->address = Address::fromJson($json['address'] ?? null);
+        $result->address = isset($json['address']) ? Address::fromJson($json['address'] ?? []) : null;
         return $result;
     }
 
@@ -26,7 +26,7 @@ class Customer
     {
         return [
             'id' => $this->getId(),
-            'address' => $this->address->toJson()
+            'address' => $this->address ? $this->address->toJson() : null
         ];
     }
 

@@ -1,171 +1,24 @@
 <?php
 
-namespace SnowIO\BrightpearlDataModel\Test\Unit\Order;
+namespace SnowIO\BrightpearlDataModel\Test\Unit\SalesOrder;
 
 use PHPUnit\Framework\TestCase;
 use SnowIO\BrightpearlDataModel\Order;
 use SnowIO\BrightpearlDataModel\SalesOrder;
+use SnowIO\BrightpearlDataModel\SalesOrder\PostSalesOrder;
+use SnowIO\BrightpearlDataModel\Test\Unit\DirectoryAwareTestTrait;
 
-class SalesOrderTest extends TestCase
+class PostSalesOrderTest extends TestCase
 {
-
-    /**
-     * @return array
-     */
-    private function getJsonData(): string
-    {
-        $json = '{
-            "id": 44,
-            "customer": {
-                "id": 10,
-                "address": {
-                    "addressFullName": "Test Test",
-                    "companyName": "Test",
-                    "addressLine1": "",
-                    "addressLine2": "",
-                    "addressLine3": "",
-                    "addressLine4": "",
-                    "postalCode": "",
-                    "countryIsoCode": "GB",
-                    "telephone": "",
-                    "mobileTelephone": "",
-                    "fax": "",
-                    "email": ""
-                }
-            },
-            "billing": {
-                "contactId": 10,
-                "address": {
-                    "addressFullName": "Liam Toohey",
-                    "companyName": "",
-                    "addressLine1": "Apartment 15, 164 Oldham Road",
-                    "addressLine2": "Popworks Building",
-                    "addressLine3": "Manchester",
-                    "addressLine4": "Greater Manchester",
-                    "postalCode": "M4 6BQ",
-                    "countryIsoCode": "GB",
-                    "telephone": "07387088748",
-                    "mobileTelephone": "",
-                    "fax": "",
-                    "email": "lt-buyer@amp.co"
-                }
-            },
-            "ref": "SW51454",
-            "externalRef": "1000558303_berlinottcordjetdark",
-            "placedOn": "2023-10-09T17:54:59.000+01:00",
-            "taxDate": "2023-10-09T00:00:00.000+01:00",
-            "parentId": 0,
-            "statusId": 2,
-            "warehouseId": 2,
-            "channelId": 1,
-            "staffOwnerId": 0,
-            "projectId": 0,
-            "leadSourceId": 0,
-            "teamId": 0,
-            "priceListId": 1,
-            "priceModeCode": "EXC",
-            "currency": {
-                "code": "GBP",
-                "exchangeRate": "1.000000",
-                "fixedExchangeRate": true
-            },
-            "delivery": {
-                "address": {
-                    "addressFullName": "Liam Toohey",
-                    "companyName": "",
-                    "addressLine1": "Apartment 15, 164 Oldham Road",
-                    "addressLine2": "Popworks Building",
-                    "addressLine3": "Manchester",
-                    "addressLine4": "Greater Manchester",
-                    "postalCode": "M4 6BQ",
-                    "countryIsoCode": "GB",
-                    "telephone": "07387088748",
-                    "mobileTelephone": "",
-                    "fax": "",
-                    "email": "lt-buyer@amp.co"
-                },
-                "shippingMethodId": 1
-            },
-            "rows": [
-                {
-                    "id": 41,
-                    "productId": 1179,
-                    "name": "Aero",
-                    "sku": "aerocoffeetablebp",
-                    "quantity": "1.0000",
-                    "taxCode": "T20",
-                    "tax": "5.83",
-                    "net": "29.1700",
-                    "nominalCode": "4000",
-                    "externalRef": "115",
-                    "productPrice": "0.0000",
-                    "discountPercentage": "0.00",
-                    "sequence": 10,
-                    "bundleChild": false,
-                    "bundleParent": false,
-                    "parentRowId": 0,
-                    "taxClassId": 7,
-                    "taxCalculator": "brightpearl",
-                    "clonedFromId": 0
-                },
-                {
-                    "id": 42,
-                    "productId": 1288,
-                    "name": "Shipping",
-                    "sku": "aeroshelvnarrshinycop",
-                    "quantity": "1.0000",
-                    "taxCode": "T20",
-                    "tax": "0.0000",
-                    "net": "4.0000",
-                    "nominalCode": "4040",
-                    "externalRef": "000000061",
-                    "productPrice": "0.0000",
-                    "discountPercentage": "0.00",
-                    "sequence": 10,
-                    "bundleChild": false,
-                    "bundleParent": false,
-                    "parentRowId": 0,
-                    "taxClassId": 7,
-                    "taxCalculator": "manual",
-                    "clonedFromId": 0
-                }
-            ],
-            "total": {
-                "net": "33.17",
-                "tax": "5.83",
-                "gross": "39.00",
-                "baseNet": "33.17",
-                "baseTax": "5.83",
-                "baseGross": "39.00"
-            },
-            "orderPaymentStatus": "UNPAID",
-            "allocationStatusCode": "ANR",
-            "stockStatusCode": "NON",
-            "shippingStatusCode": "NST",
-            "createdBy": 4,
-            "createdOn": "2023-10-09T17:54:59.000+01:00",
-            "updatedOn": "2023-10-09T17:54:59.000+01:00",
-            "invoice": {
-                "invoiceReference": "",
-                "taxDate": "2023-10-09T00:00:00.000+01:00",
-                "dueDate": "2023-10-09T01:00:00.000+01:00"
-            },
-            "orderWeighting": 100,
-            "costPriceListId": 1,
-            "isCanceled": false,
-            "customerId": 10
-        }';
-        return $json;
-    }
+    use DirectoryAwareTestTrait;
 
     /**
      * @return void
      */
     public function testFromJsonToJson()
     {
-        $json = json_decode($this->getJsonData(), true);
-        $salesOrder = SalesOrder::fromJson($json);
-        //$order = Order::fromJson($data);
+        $json = $this->getFromTestFileDirectory('SalesOrder/post-sales-order.json');
+        $salesOrder = PostSalesOrder::fromJson($json);
         self::assertEquals($json, $salesOrder->toJson());
     }
 

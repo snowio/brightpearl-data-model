@@ -1,0 +1,68 @@
+{
+  "customer": {
+    "id": 10
+  },
+  "ref": "Created via new Sales Order POST endpoint",
+  "installedIntegrationInstanceId": 3,
+  "placedOn": "2016-09-29T11:12:24.000+01:00",
+  "taxDate": "2016-06-08T12:57:25+00:00",
+  "externalRef": "hsdf74-2js7-jdsfi38-73jsd8",
+  "warehouseId": null,
+  "projectId": null,
+  "statusId": 1,
+  "channelId": 1,
+  "leadSourceId": 4,
+  "staffOwnerId": 6,
+  "teamId": null,
+  "priceListId": 2,
+  "priceModeCode": "INC",
+  "currency": {
+    "code": "GBP",
+    "fixedExchangeRate": true,
+    "exchangeRate": "1"
+  },
+  "delivery": {
+    "date": "2016-09-29T11:12:24.000+01:00",
+    "address": {
+      "addressFullName": "John Doe",
+      "companyName": "BrightPearl",
+      "addressLine1": "First floor",
+      "addressLine2": "New Bond House",
+      "addressLine3": "Bristol",
+      "addressLine4": "near Cabot Circus",
+      "postalCode": "BS2 9AG",
+      "countryIsoCode": "GBR",
+      "telephone": "01234 567890",
+      "mobileTelephone": "070707070707",
+      "email": "john.doe@brightpearl.com"
+    },
+    "shippingMethodId": 6
+  },
+  "billing": {
+    "address": {
+      "addressFullName": "John Doe2",
+      "companyName": "BrightPearl2",
+      "addressLine1": "First floor2",
+      "addressLine2": "New Bond House2",
+      "addressLine3": "Bristol2",
+      "addressLine4": "near Cabot Circus2",
+      "postalCode": "BS2 9AG2",
+      "countryIsoCode": "GBR",
+      "telephone": "01234 5678902",
+      "mobileTelephone": "0707070707072",
+      "email": "john.doe@brightpearl.com2"
+    }
+  },
+  "rows": [
+    {
+      "productId": 2140,
+      "name": "Abel",
+      "quantity": "1",
+      "taxCode": "T20",
+      "net": "100",
+      "tax": "20",
+      "nominalCode": "4000",
+      "externalRef": "7hgfjksdf-234sfd-w34-sdf-w234"
+    }
+  ]
+}

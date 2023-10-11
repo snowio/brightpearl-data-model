@@ -2,21 +2,22 @@
 
 namespace SnowIO\BrightpearlDataModel\SalesOrder;
 
-use SnowIO\BrightpearlDataModel\Order\Billing;
-use SnowIO\BrightpearlDataModel\Order\Currency;
-use SnowIO\BrightpearlDataModel\Order\Customer;
-use SnowIO\BrightpearlDataModel\Order\Delivery;
-use SnowIO\BrightpearlDataModel\Order\Row;
-use SnowIO\BrightpearlDataModel\Order\RowCollection;
+use SnowIO\BrightpearlDataModel\SalesOrder\Get\Delivery;
 
 class PostSalesOrder
 {
+    /** @var string|null $id */
+    private $id;
+    /** @var string|null $externalRef */
+    private $externalRef;
     /** @var Customer|null */
     private $customer;
     /** @var Billing|null */
     private $billing;
     /** @var string|null $ref */
     private $ref;
+    /** @var string|null $placedOn */
+    private $placedOn;
     /** @var string|null $taxDate */
     private $taxDate;
     /** @var int|null $parentId */
@@ -31,10 +32,6 @@ class PostSalesOrder
     private $projectId;
     /** @var int|null $channelId */
     private $channelId;
-    /** @var string|null $externalRef */
-    private $externalRef;
-    /** @var int|null $installedIntegrationInstanceId */
-    private $installedIntegrationInstanceId;
     /** @var int|null $leadSourceId */
     private $leadSourceId;
     /** @var int|null $teamId */
@@ -49,6 +46,35 @@ class PostSalesOrder
     private $delivery;
     /** @var RowCollection|null $rows */
     private $rows;
+    /** @var Total|null $total */
+    private $total;
+
+    /** @var string|null $orderPaymentStatus */
+    private $orderPaymentStatus;
+    /** @var string|null $allocationStatusCode */
+    private $allocationStatusCode;
+    /** @var string|null $stockStatusCode */
+    private $stockStatusCode;
+    /** @var string|null $shippingStatusCode */
+    private $shippingStatusCode;
+    /** @var int|null $createdBy */
+    private $createdBy;
+    /** @var string|null $createdOn */
+    private $createdOn;
+    /** @var string|null $updatedOn */
+    private $updatedOn;
+    /** @var Invoice|null $invoice */
+    private $invoice;
+    /** @var int|null $orderWeighting */
+    private $orderWeighting;
+    /** @var int|null $costPriceListId */
+    private $costPriceListId;
+    /** @var bool|null $isCanceled */
+    private $isCanceled;
+    /** @var int|null $installedIntegrationInstanceId */
+    private $installedIntegrationInstanceId;
+    /** @var int|null $customerId */
+    private $customerId;
 
     public static function create(): self
     {
@@ -59,46 +85,55 @@ class PostSalesOrder
     {
         $result = new self();
 
-        $customer = is_array($json['customer']) ? $json['customer'] : [];
-        $billing = is_array($json['billing']) ? $json['billing'] : [];
-        $currency = is_array($json['currency']) ? $json['currency'] : [];
-        $delivery = is_array($json['delivery']) ? $json['delivery'] : [];
-        $rows = is_array($json['rows']) ? $json['rows'] : [];
+        $result->id = $json['id'] ?? null;
+        $result->externalRef = $json['externalRef'] ?? null;
+        $result->ref = $json['ref'] ?? null;
+        $result->placedOn = $json['placedOn'] ?? null;
+        $result->taxDate = $json['taxDate'] ?? null;
+        $result->parentId = $json['parentId'] ?? null;
+        $result->statusId = $json['statusId'] ?? null;
+        $result->warehouseId = $json['warehouseId'] ?? null;
+        $result->staffOwnerId = $json['staffOwnerId'] ?? null;
+        $result->projectId = $json['projectId'] ?? null;
+        $result->channelId = $json['channelId'] ?? null;
+        $result->leadSourceId = $json['leadSourceId'] ?? null;
+        $result->teamId = $json['teamId'] ?? null;
+        $result->priceListId = $json['priceListId'] ?? null;
+        $result->priceModeCode = $json['priceModeCode'] ?? null;
 
-        $result->customer = Customer::fromJson($customer);
-        $result->billing = Billing::fromJson($billing);
-        $result->ref = is_string($json['ref']) ? $json['ref'] : null;
-        $result->taxDate = is_string($json['taxDate']) ? $json['taxDate'] : null;
-        $result->parentId = is_numeric($json['parentId']) ? (int)$json['parentId'] : null;
-        $result->statusId = is_numeric($json['statusId']) ? (int)$json['statusId'] : null;
-        $result->warehouseId = is_numeric($json['warehouseId']) ? (int)$json['warehouseId'] : null;
-        $result->staffOwnerId = is_numeric($json['staffOwnerId']) ? (int)$json['staffOwnerId'] : null;
-        $result->projectId = is_numeric($json['projectId']) ? (int)$json['projectId'] : null;
-        $result->channelId = is_numeric($json['channelId']) ? (int)$json['channelId'] : null;
-        $result->externalRef = is_string($json['externalRef']) ? $json['externalRef'] : null;
-        $result->leadSourceId = is_numeric($json['leadSourceId']) ? (int)$json['leadSourceId'] : null;
-        $result->teamId = is_numeric($json['teamId']) ? (int)$json['teamId'] : null;
-        $result->priceListId = is_numeric($json['priceListId']) ? (int)$json['priceListId'] : null;
-        $result->priceModeCode = is_string($json['priceModeCode']) ? $json['priceModeCode'] : null;
-        $result->currency = Currency::fromJson($currency);
-        $result->delivery = Delivery::fromJson($delivery);
-        $result->rows = RowCollection::fromJson($rows);
+        $result->customer = Customer::fromJson($json['customer'] ?? []);
+        $result->billing = Billing::fromJson($json['billing'] ?? []);
+        $result->currency = Currency::fromJson($json['currency'] ?? []);
+        $result->delivery = Delivery::fromJson($json['delivery'] ?? []);
+        $result->rows = RowCollection::fromJson($json['rows'] ?? []);
+        $result->total = Total::fromJson($json['total'] ?? []);
+        $result->invoice = Invoice::fromJson($json['invoice'] ?? []);
+
+        $result->orderPaymentStatus = $json['orderPaymentStatus'] ?? null;
+        $result->allocationStatusCode = $json['allocationStatusCode'] ?? null;
+        $result->stockStatusCode = $json['stockStatusCode'] ?? null;
+        $result->shippingStatusCode = $json['shippingStatusCode'] ?? null;
+        $result->createdBy = $json['createdBy'] ?? null;
+        $result->createdOn = $json['createdOn'] ?? null;
+        $result->updatedOn = $json['updatedOn'] ?? null;
+        $result->orderWeighting = $json['orderWeighting'] ?? null;
+        $result->costPriceListId = $json['costPriceListId'] ?? null;
+        $result->isCanceled = $json['isCanceled'] ?? null;
+        $result->installedIntegrationInstanceId = $json['installedIntegrationInstanceId'] ?? null;
+        $result->customerId = $json['customerId'] ?? null;
 
         return $result;
     }
 
     public function toJson(): array
     {
-        $customer = is_null($this->getCustomer()) ? [] : $this->getCustomer()->toJson();
-        $billing = is_null($this->getBilling()) ? [] : $this->getBilling()->toJson();
-        $currency = is_null($this->getCurrency()) ? [] : $this->getCurrency()->toJson();
-        $delivery = is_null($this->getDelivery()) ? [] : $this->getDelivery()->toJson();
-        $rows = is_null($this->getRows()) ? [] : $this->getRows()->toJson();
-
         return [
-            'customer' => $customer,
-            'billing' => $billing,
+            'id' => $this->getId(),
+            'customer' => $this->getCustomer()->toJson(),
+            'billing' => $this->getBilling()->toJson(),
+            'externalRef' => $this->getExternalRef(),
             'ref' => $this->getRef(),
+            'placedOn' => $this->getPlacedOn(),
             'taxDate' => $this->getTaxDate(),
             'parentId' => $this->getParentId(),
             'statusId' => $this->getStatusId(),
@@ -106,15 +141,27 @@ class PostSalesOrder
             'staffOwnerId' => $this->getStaffOwnerId(),
             'projectId' => $this->getProjectId(),
             'channelId' => $this->getChannelId(),
-            'externalRef' => $this->getExternalRef(),
-            'installedIntegrationInstanceId' => $this->getInstalledIntegrationInstanceId(),
             'leadSourceId' => $this->getLeadSourceId(),
             'teamId' => $this->getTeamId(),
             'priceListId' => $this->getPriceListId(),
             'priceModeCode' => $this->getPriceModeCode(),
-            'currency' => $currency,
-            'delivery' => $delivery,
-            'rows' => $rows
+            'currency' => $this->getCurrency()->toJson(),
+            'delivery' => $this->getDelivery()->toJson(),
+            'rows' => $this->getRows()->toJson(),
+            'total' => $this->getTotal()->toJson(),
+            "orderPaymentStatus" => $this->getOrderPaymentStatus(),
+            "allocationStatusCode" => $this->getAllocationStatusCode(),
+            "stockStatusCode" => $this->getStockStatusCode(),
+            "shippingStatusCode" => $this->getShippingStatusCode(),
+            "createdBy" => $this->getCreatedBy(),
+            "createdOn" => $this->getCreatedOn(),
+            "updatedOn" => $this->getUpdatedOn(),
+            'invoice' => $this->getInvoice()->toJson(),
+            "orderWeighting" => $this->getOrderWeighting(),
+            "costPriceListId" => $this->getCostPriceListId(),
+            "isCanceled" => $this->getIsCanceled(),
+            "installedIntegrationInstanceId" => $this->getInstalledIntegrationInstanceId(),
+            "customerId" => $this->getCustomerId(),
         ];
     }
 
@@ -229,6 +276,30 @@ class PostSalesOrder
         return $clone;
     }
 
+    public function getInvoice(): ?Invoice
+    {
+        return $this->invoice;
+    }
+
+    public function withInvoice(Invoice $invoice): GetSalesOrder
+    {
+        $clone = clone $this;
+        $clone->invoice = $invoice;
+        return $clone;
+    }
+
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
+    public function withId(?string $id): self
+    {
+        $clone = clone $this;
+        $clone->id = $id;
+        return $clone;
+    }
+
     public function getRef(): ?string
     {
         return $this->ref;
@@ -241,6 +312,18 @@ class PostSalesOrder
         return $clone;
     }
 
+    public function getExternalRef(): ?string
+    {
+        return $this->externalRef;
+    }
+
+    public function withExternalRef(?string $externalRef): GetSalesOrder
+    {
+        $clone = clone $this;
+        $clone->externalRef = $externalRef;
+        return $clone;
+    }
+
     public function getTaxDate(): ?string
     {
         return $this->taxDate;
@@ -250,6 +333,18 @@ class PostSalesOrder
     {
         $clone = clone $this;
         $clone->taxDate = $taxDate;
+        return $clone;
+    }
+
+    public function getPlacedOn(): ?string
+    {
+        return $this->placedOn;
+    }
+
+    public function withPlacedOn(?string $placedOn): GetSalesOrder
+    {
+        $clone = clone $this;
+        $clone->placedOn = $placedOn;
         return $clone;
     }
 
@@ -322,18 +417,6 @@ class PostSalesOrder
     {
         $clone = clone $this;
         $clone->channelId = $channelId;
-        return $clone;
-    }
-
-    public function getExternalRef(): ?string
-    {
-        return $this->externalRef;
-    }
-
-    public function withExternalRef(?string $externalRef): GetSalesOrder
-    {
-        $clone = clone $this;
-        $clone->externalRef = $externalRef;
         return $clone;
     }
 
@@ -430,6 +513,151 @@ class PostSalesOrder
     {
         $clone = clone $this;
         $clone->rows = $rows;
+        return $clone;
+    }
+
+    public function getTotal(): ?Total
+    {
+        return $this->total;
+    }
+
+    public function withTotal(?Total $total): GetSalesOrder
+    {
+        $clone = clone $this;
+        $clone->total = $total;
+        return $clone;
+    }
+
+
+    public function getOrderPaymentStatus(): ?string
+    {
+        return $this->orderPaymentStatus;
+    }
+
+    public function withOrderPaymentStatus(?string $orderPaymentStatus): self
+    {
+        $clone = clone $this;
+        $clone->orderPaymentStatus = $orderPaymentStatus;
+        return $clone;
+    }
+
+    public function getAllocationStatusCode(): ?string
+    {
+        return $this->allocationStatusCode;
+    }
+
+    public function withAllocationStatusCode(?string $allocationStatusCode): self
+    {
+        $clone = clone $this;
+        $clone->allocationStatusCode = $allocationStatusCode;
+        return $clone;
+    }
+
+    public function getStockStatusCode(): ?string
+    {
+        return $this->stockStatusCode;
+    }
+
+    public function withStockStatusCode(?string $stockStatusCode): self
+    {
+        $clone = clone $this;
+        $clone->stockStatusCode = $stockStatusCode;
+        return $clone;
+    }
+
+    public function getShippingStatusCode(): ?string
+    {
+        return $this->shippingStatusCode;
+    }
+
+    public function withShippingStatusCode(?string $shippingStatusCode): self
+    {
+        $clone = clone $this;
+        $clone->shippingStatusCode = $shippingStatusCode;
+        return $clone;
+    }
+
+    public function getCreatedBy(): ?int
+    {
+        return $this->createdBy;
+    }
+
+    public function withCreatedBy(?int $createdBy): self
+    {
+        $clone = clone $this;
+        $clone->createdBy = $createdBy;
+        return $clone;
+    }
+
+    public function getCreatedOn(): ?string
+    {
+        return $this->createdOn;
+    }
+
+    public function withCreatedOn(?string $createdOn): self
+    {
+        $clone = clone $this;
+        $clone->createdOn = $createdOn;
+        return $clone;
+    }
+
+    public function getUpdatedOn(): ?string
+    {
+        return $this->updatedOn;
+    }
+
+    public function withUpdatedOn(?string $updatedOn): self
+    {
+        $clone = clone $this;
+        $clone->updatedOn = $updatedOn;
+        return $clone;
+    }
+
+    public function getOrderWeighting(): ?int
+    {
+        return $this->orderWeighting;
+    }
+
+    public function withOrderWeighting(?int $orderWeighting): self
+    {
+        $clone = clone $this;
+        $clone->orderWeighting = $orderWeighting;
+        return $clone;
+    }
+
+    public function getCostPriceListId(): ?int
+    {
+        return $this->costPriceListId;
+    }
+
+    public function withCostPriceListId(?int $costPriceListId): self
+    {
+        $clone = clone $this;
+        $clone->costPriceListId = $costPriceListId;
+        return $clone;
+    }
+
+    public function getIsCanceled(): ?bool
+    {
+        return $this->isCanceled;
+    }
+
+    public function withIsCanceled(?bool $isCanceled): self
+    {
+        $clone = clone $this;
+        $clone->isCanceled = $isCanceled;
+        return $clone;
+    }
+
+    public function getCustomerId(): ?int
+    {
+        return $this->customerId;
+    }
+
+    public function withCustomerId(?int $customerId): self
+    {
+        $clone = clone $this;
+        $clone->customerId = $customerId;
         return $clone;
     }
 }

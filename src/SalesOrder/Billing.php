@@ -24,10 +24,8 @@ class Billing
     public static function fromJson(array $json): self
     {
         $result = new self();
-        $address = is_array($json['address']) ? $json['address'] : [];
-        $result->contactId = is_numeric($json['contactId']) ? (int)$json['contactId'] : null;
-        $result->address = Address::fromJson($address);
-
+        $result->contactId = isset($json['contactId']) ? $json['contactId'] : null;
+        $result->address = isset($json['address']) ? Address::fromJson($json['address'] ?? []) : null;
         return $result;
     }
 

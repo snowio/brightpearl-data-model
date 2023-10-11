@@ -10,6 +10,8 @@ class Delivery
     private $address;
     /** @var int|null $shippingMethodId */
     private $shippingMethodId;
+    /** @var string|null $date */
+    private $date;
 
     public static function create(): self
     {
@@ -23,6 +25,7 @@ class Delivery
         $result = new self();
         $result->address = Address::fromJson($json['address'] ?? []);
         $result->shippingMethodId = $json['shippingMethodId'] ?? null;
+        $result->date = $json['date'] ?? null;
         return $result;
     }
 
@@ -30,7 +33,8 @@ class Delivery
     {
         return [
             'address' => $this->getAddress()->toJson(),
-            'shippingMethodId' => $this->getShippingMethodId()
+            'shippingMethodId' => $this->getShippingMethodId(),
+            'date' => $this->getDate()
         ];
     }
 
@@ -61,6 +65,18 @@ class Delivery
     {
         $clone = clone $this;
         $clone->shippingMethodId = $shippingMethodId;
+        return $clone;
+    }
+
+    public function getDate(): ?string
+    {
+        return $this->date;
+    }
+
+    public function withDate(?int $date): self
+    {
+        $clone = clone $this;
+        $clone->date = $date;
         return $clone;
     }
 }
