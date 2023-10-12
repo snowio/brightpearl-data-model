@@ -25,7 +25,7 @@ class Delivery implements ModelInterface
     /** @var string|null $postalCode */
     private $postalCode;
 
-    /** @var string|null $countryId */
+    /** @var int|null $countryId */
     private $countryId;
 
     /** @var string|null $countryIsoCode */
@@ -71,7 +71,7 @@ class Delivery implements ModelInterface
         $result->addressLine4 = is_string($json['addressLine4']) ? $json['addressLine4'] : null;
         $result->postalCode = is_string($json['postalCode']) ? $json['postalCode'] : null;
         $result->country = is_string($json['country']) ? $json['country'] : null;
-        $result->countryId = is_string($json['countryId']) ? $json['countryId'] : null;
+        $result->countryId = is_int($json['countryId']) ? $json['countryId'] : null;
         $result->countryIsoCode = is_string($json['countryIsoCode']) ? $json['countryIsoCode'] : null;
         $result->telephone = is_string($json['telephone']) ? $json['telephone'] : null;
         $result->mobileTelephone = is_string($json['mobileTelephone']) ? $json['mobileTelephone'] : null;
@@ -329,18 +329,18 @@ class Delivery implements ModelInterface
     }
 
     /**
-     * @return string
+     * @return int|null
      */
-    public function getCountryId(): ?string
+    public function getCountryId(): ?int
     {
         return $this->countryId;
     }
 
     /**
-     * @param string $countryId
+     * @param int|null $countryId
      * @return $this
      */
-    public function withCountryId(string $countryId): ModelInterface
+    public function withCountryId(?int $countryId): ModelInterface
     {
         $clone = clone $this;
         $clone->countryId = $countryId;
