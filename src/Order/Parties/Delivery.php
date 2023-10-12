@@ -10,41 +10,30 @@ class Delivery implements ModelInterface
     private $addressFullName;
     /** @var string|null $companyName */
     private $companyName;
-
     /** @var string|null $addressLine1 */
     private $addressLine1;
-
     /** @var string|null $addressLine2 */
     private $addressLine2;
-
     /** @var string|null $addressLine3 */
     private $addressLine3;
     /** @var string|null $addressLine4 */
     private $addressLine4;
-
     /** @var string|null $postalCode */
     private $postalCode;
-
     /** @var string|null $countryId */
     private $countryId;
-
     /** @var string|null $countryIsoCode */
     private $countryIsoCode;
-
     /** @var string|null $telephone */
     private $telephone;
     /** @var string|null $mobileTelephone */
     private $mobileTelephone;
-
     /** @var string|null $fax */
     private $fax;
-
     /** @var string|null $email */
     private $email;
-
     /** @var string|null $country */
     private $country;
-
     /** @var string|null $countryIsoCode3 */
     private $countryIsoCode3;
 

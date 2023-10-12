@@ -42,18 +42,11 @@ class Billing implements ModelInterface
             $this->address->equals($other->address);
     }
 
-    /**
-     * @return int|null
-     */
     public function getContactId(): ?int
     {
         return $this->contactId;
     }
 
-    /**
-     * @param int|null $contactId
-     * @return Billing
-     */
     public function withContactId(?int $contactId): Billing
     {
         $clone = clone $this;
@@ -61,18 +54,11 @@ class Billing implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return Address|null
-     */
     public function getAddress(): ?Address
     {
         return $this->address;
     }
 
-    /**
-     * @param Address|null $address
-     * @return Billing
-     */
     public function withAddress(?Address $address): Billing
     {
         $clone = clone $this;

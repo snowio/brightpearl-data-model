@@ -39,18 +39,11 @@ class Delivery implements ModelInterface
             $this->shippingMethodId === $other->shippingMethodId;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDate(): ?string
     {
         return $this->date;
     }
 
-    /**
-     * @param string|null $date
-     * @return Delivery
-     */
     public function withDate(?string $date): Delivery
     {
         $clone = clone $this;
@@ -58,18 +51,11 @@ class Delivery implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getShippingMethodId(): ?int
     {
         return $this->shippingMethodId;
     }
 
-    /**
-     * @param int|null $shippingMethodId
-     * @return Delivery
-     */
     public function withShippingMethodId(?int $shippingMethodId): Delivery
     {
         $clone = clone $this;

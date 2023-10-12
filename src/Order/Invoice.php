@@ -9,28 +9,18 @@ class Invoice implements ModelInterface
     /** @var string|null $taxDate */
     private $taxDate;
 
-
-    /**
-     * @return self
-     */
     public static function create(): ModelInterface
     {
         return new self();
     }
 
-    /**
-     * @param array<string, mixed> $json
-     */
     public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-        $result->taxDate = is_string($json['taxDate']) ? $json['taxDate'] : null;
+        $result->taxDate = $json['taxDate'] ?? null;
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         return [
@@ -38,18 +28,11 @@ class Invoice implements ModelInterface
         ];
     }
 
-    /**
-     * @return string|null
-     */
     public function getTaxDate(): ?string
     {
         return $this->taxDate;
     }
 
-    /**
-     * @param string|null $taxDate
-     * @return Invoice
-     */
     public function withTaxDate(?string $taxDate): Invoice
     {
         $clone = clone $this;
@@ -57,15 +40,9 @@ class Invoice implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @param ModelInterface $invoiceToCompare
-     * @return bool
-     */
-    public function equals(ModelInterface $invoiceToCompare): bool
+    public function equals($other): bool
     {
-        if (!$invoiceToCompare instanceof Invoice) {
-            return false;
-        }
-        return $this->getTaxDate() === $invoiceToCompare->getTaxDate();
+        return $other instanceof Invoice &&
+            $this->taxDate === $other->taxDate;
     }
 }

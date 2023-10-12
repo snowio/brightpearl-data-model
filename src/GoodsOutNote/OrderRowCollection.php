@@ -59,4 +59,22 @@ class OrderRowCollection implements IteratorAggregate
             yield $item;
         }
     }
+    public function equals(OrderRowCollection $compare): bool
+    {
+        if (count($this->items) !== count(iterator_to_array($compare->getIterator()))) {
+            return false;
+        }
+        $foundItems = [];
+        foreach ($this->items as $item) {
+            foreach ($compare->getIterator() as $compareItem) {
+                if ($item->equals($compareItem)) {
+                    $foundItems[] = $item;
+                }
+            }
+        }
+        if (count($foundItems) !== count($this->items)) {
+            return false;
+        }
+        return true;
+    }
 }

@@ -9,28 +9,18 @@ class Status implements ModelInterface
     /** @var int|null $id */
     private $id;
 
-    /**
-     * @return self
-     */
     public static function create(): ModelInterface
     {
         return new self();
     }
 
-    /**
-     * @param array<string, mixed> $json
-     * @return self
-     */
     public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-        $result->id = is_numeric($json['orderStatusId']) ? (int)$json['orderStatusId'] : null;
+        $result->id = $json['orderStatusId'] ?? null;
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         return [
@@ -38,30 +28,17 @@ class Status implements ModelInterface
         ];
     }
 
-    /**
-     * @param ModelInterface $statusToCompare
-     * @return bool
-     */
-    public function equals(ModelInterface $statusToCompare): bool
+    public function equals(ModelInterface $other): bool
     {
-        if (!$statusToCompare instanceof Status) {
-            return false;
-        }
-        return $this->getId() === $statusToCompare->getId();
+        return $other instanceof Status &&
+            $this->id === $other->id;
     }
 
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int|null $id
-     * @return self
-     */
     public function withId(?int $id): self
     {
         $clone = clone $this;

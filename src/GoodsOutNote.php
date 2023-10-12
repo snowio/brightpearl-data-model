@@ -100,9 +100,9 @@ class GoodsOutNote implements ModelInterface
             $this->releaseDate === $other->releaseDate &&
             $this->createdOn === $other->createdOn &&
             $this->createdBy === $other->createdBy &&
-            $this->orderRows->toJson() === $other->orderRows->toJson() &&
+            $this->orderRows->equals($other->orderRows) &&
             $this->sequence === $other->sequence &&
-            $this->events->toJson() === $other->events->toJson() &&
+            $this->events->equals($other->events) &&
             $this->labelUri === $other->labelUri &&
             $this->lastEventVersion === $other->lastEventVersion;
     }

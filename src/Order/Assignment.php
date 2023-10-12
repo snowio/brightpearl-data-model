@@ -10,68 +10,36 @@ class Assignment implements ModelInterface
     /** @var Current|null $current */
     private $current;
 
-    /**
-     * @return self
-     */
     public static function create(): ModelInterface
     {
         return new self();
     }
 
-    /**
-     * @param array<string, mixed> $json
-     * @return self
-     */
     public static function fromJson(array $json): ModelInterface
     {
-        $current = is_array($json['current']) ? $json['current'] : [];
         $result = new self();
-        $result->current = Current::fromJson($current);
+        $result->current = Current::fromJson($json['current']?? []);
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
-        $current = is_null($this->getCurrent()) ? [] : $this->getCurrent()->toJson();
         return [
-            'current' => $current
+            'current' => $this->getCurrent()->toJson()
         ];
     }
 
-    /**
-     * @param ModelInterface $assignmentToCompare
-     * @return bool
-     */
-    public function equals(ModelInterface $assignmentToCompare): bool
+    public function equals(ModelInterface $other): bool
     {
-        if (!$assignmentToCompare instanceof Assignment) {
-            return false;
-        }
-        if ($this->getCurrent() === null) {
-            return false;
-        }
-        if (!$assignmentToCompare->getCurrent() instanceof Current) {
-            return false;
-        }
-
-        return $this->getCurrent()->equals($assignmentToCompare->getCurrent());
+        return $other instanceof Assignment &&
+            $this->getCurrent()->equals($other->getCurrent());
     }
 
-    /**
-     * @return Current|null
-     */
     public function getCurrent(): ?Current
     {
         return $this->current;
     }
 
-    /**
-     * @param Current|null $current
-     * @return self
-     */
     public function withCurrent(?Current $current): self
     {
         $clone = clone $this;
