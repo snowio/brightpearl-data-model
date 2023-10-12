@@ -34,7 +34,7 @@ class Parties implements ModelInterface
     {
         $result = new self();
         $result->supplier = Supplier::fromJson($json['supplier'] ?? []);
-        $result->delivery = Delivery::fromJson( $json['delivery'] ?? []);
+        $result->delivery = Delivery::fromJson($json['delivery'] ?? []);
         $result->billing = Billing::fromJson($json['billing'] ?? []);
         return $result;
     }
