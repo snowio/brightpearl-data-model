@@ -6,7 +6,7 @@ use SnowIO\BrightpearlDataModel\Api\ModelInterface;
 
 class Billing implements ModelInterface
 {
-    /** @var string|null $contactId */
+    /** @var int|null $contactId */
     private $contactId;
 
     /** @var string|null $addressFullName */
@@ -28,7 +28,7 @@ class Billing implements ModelInterface
     /** @var string|null $postalCode */
     private $postalCode;
 
-    /** @var string|null $countryId */
+    /** @var int|null $countryId */
     private $countryId;
 
     /** @var string|null $countryIsoCode */
@@ -169,10 +169,10 @@ class Billing implements ModelInterface
     }
 
     /**
-     * @param string $contactId
+     * @param int $contactId
      * @return Supplier
      */
-    public function withContactId(string $contactId): ModelInterface
+    public function withContactId(int $contactId): ModelInterface
     {
         $clone = clone $this;
         $clone->contactId = $contactId;
@@ -180,9 +180,9 @@ class Billing implements ModelInterface
     }
 
     /**
-     * @return string|null
+     * @return int|null
      */
-    public function getContactId(): ?string
+    public function getContactId(): ?int
     {
         return $this->contactId;
     }
@@ -359,18 +359,18 @@ class Billing implements ModelInterface
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getCountryId(): ?string
+    public function getCountryId(): ?int
     {
         return $this->countryId;
     }
 
     /**
-     * @param string $countryId
+     * @param int|null $countryId
      * @return $this
      */
-    public function withCountryId(string $countryId): ModelInterface
+    public function withCountryId(?int $countryId): ModelInterface
     {
         $clone = clone $this;
         $clone->countryId = $countryId;

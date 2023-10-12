@@ -25,7 +25,7 @@ class Delivery implements ModelInterface
     /** @var string|null $postalCode */
     private $postalCode;
 
-    /** @var string|null $countryId */
+    /** @var int|null $countryId */
     private $countryId;
 
     /** @var string|null $countryIsoCode */
@@ -318,18 +318,18 @@ class Delivery implements ModelInterface
     }
 
     /**
-     * @return string
+     * @return int|null
      */
-    public function getCountryId(): ?string
+    public function getCountryId(): ?int
     {
         return $this->countryId;
     }
 
     /**
-     * @param string $countryId
+     * @param int|null $countryId
      * @return $this
      */
-    public function withCountryId(string $countryId): ModelInterface
+    public function withCountryId(?int $countryId): ModelInterface
     {
         $clone = clone $this;
         $clone->countryId = $countryId;
