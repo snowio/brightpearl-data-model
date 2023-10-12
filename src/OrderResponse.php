@@ -173,7 +173,7 @@ class OrderResponse implements ModelInterface
     public function equals(ModelInterface $orderResponseToCompare): bool
     {
         if (!is_null($this->getParties())
-            && !is_null($orderResponseToCompare->getDelivery())
+            && !is_null($orderResponseToCompare->getParties())
             && !$this->getParties()->equals($orderResponseToCompare->getParties())) {
             return false;
         }
