@@ -10,9 +10,7 @@ use SnowIO\BrightpearlDataModel\ContactCreate\Communication\Emails\Email;
 
 class ContactCreateTest extends TestCase
 {
-    /**
-     * @return array<string, mixed>
-     */
+
     private function getJsonData(): array
     {
         return [
@@ -34,9 +32,6 @@ class ContactCreateTest extends TestCase
         ];
     }
 
-    /**
-     * @return void
-     */
     public function testFromJsonToJson()
     {
         $data = $this->getJsonData();
@@ -44,9 +39,6 @@ class ContactCreateTest extends TestCase
         self::assertEquals($data, $contactCreate->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testWithers()
     {
         $communication = Communication::create();
@@ -64,9 +56,6 @@ class ContactCreateTest extends TestCase
         self::assertEquals($this->getJsonData(), $contactCreate->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testGetters()
     {
         $data = $this->getJsonData();
@@ -84,9 +73,6 @@ class ContactCreateTest extends TestCase
     ], $contactCreate->getCommunication()->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testEquals()
     {
         $data = $this->getJsonData();
