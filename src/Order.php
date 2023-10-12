@@ -12,47 +12,6 @@ use SnowIO\BrightpearlDataModel\Order\Status;
 
 class Order implements ModelInterface
 {
-    /** @var string|null $orderTypeCode */
-    protected $orderTypeCode;
-
-    /** @var string|null $reference */
-    protected $reference;
-
-    /** @var string|null $parentOrderId */
-    protected $parentOrderId;
-
-    /** @var int|null $priceListId */
-    protected $priceListId;
-
-    /** @var string|null $priceModeCode */
-    protected $priceModeCode;
-
-    /** @var string|null $placedOn */
-    protected $placedOn;
-    /** @var Status|null $orderStatus */
-    protected $orderStatus;
-
-    /** @var Delivery|null $delivery */
-    protected $delivery;
-
-    /** @var InvoiceCollection|null $invoices */
-    protected $invoices;
-
-    /** @var Currency|null $currency */
-    protected $currency;
-
-    /** @var int|null $contactId */
-    protected $contactId;
-
-    /** @var Parties|null $parties */
-    protected $parties;
-
-    /** @var Assignment|null $assignment */
-    protected $assignment;
-
-    /** @var int|null $warehouseId */
-    protected $warehouseId;
-
     public static function create(): ModelInterface
     {
         return new self();
@@ -123,18 +82,40 @@ class Order implements ModelInterface
             ($this->warehouseId === $other->warehouseId);
     }
 
-    /**
-     * @return string|null
-     */
+    /** @var string|null $orderTypeCode */
+    protected $orderTypeCode;
+    /** @var string|null $reference */
+    protected $reference;
+    /** @var string|null $parentOrderId */
+    protected $parentOrderId;
+    /** @var int|null $priceListId */
+    protected $priceListId;
+    /** @var string|null $priceModeCode */
+    protected $priceModeCode;
+    /** @var string|null $placedOn */
+    protected $placedOn;
+    /** @var Status|null $orderStatus */
+    protected $orderStatus;
+    /** @var Delivery|null $delivery */
+    protected $delivery;
+    /** @var InvoiceCollection|null $invoices */
+    protected $invoices;
+    /** @var Currency|null $currency */
+    protected $currency;
+    /** @var int|null $contactId */
+    protected $contactId;
+    /** @var Parties|null $parties */
+    protected $parties;
+    /** @var Assignment|null $assignment */
+    protected $assignment;
+    /** @var int|null $warehouseId */
+    protected $warehouseId;
+
     public function getOrderTypeCode(): ?string
     {
         return $this->orderTypeCode;
     }
 
-    /**
-     * @param string $orderTypeCode
-     * @return Order
-     */
     public function withOrderTypeCode(string $orderTypeCode): self
     {
         $clone = clone $this;
@@ -142,18 +123,11 @@ class Order implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getReference(): ?string
     {
         return $this->reference;
     }
 
-    /**
-     * @param string $reference
-     * @return Order
-     */
     public function withReference(string $reference): Order
     {
         $clone = clone $this;
@@ -161,18 +135,11 @@ class Order implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getParentOrderId(): ?string
     {
         return $this->parentOrderId;
     }
 
-    /**
-     * @param string $parentOrderId
-     * @return Order
-     */
     public function withParentOrderId(string $parentOrderId): Order
     {
         $clone = clone $this;
@@ -180,18 +147,11 @@ class Order implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getPriceListId(): ?int
     {
         return $this->priceListId;
     }
 
-    /**
-     * @param int|null $priceListId
-     * @return Order
-     */
     public function withPriceListId(?int $priceListId): Order
     {
         $clone = clone $this;
@@ -199,18 +159,11 @@ class Order implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getPriceModeCode(): ?string
     {
         return $this->priceModeCode;
     }
 
-    /**
-     * @param string|null $priceModeCode
-     * @return Order
-     */
     public function withPriceModeCode(?string $priceModeCode): Order
     {
         $clone = clone $this;
@@ -218,18 +171,11 @@ class Order implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getPlacedOn(): ?string
     {
         return $this->placedOn;
     }
 
-    /**
-     * @param string|null $placedOn
-     * @return Order
-     */
     public function withPlacedOn(?string $placedOn): Order
     {
         $clone = clone $this;
@@ -237,18 +183,11 @@ class Order implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return Status|null
-     */
     public function getOrderStatus(): ?Status
     {
         return $this->orderStatus;
     }
 
-    /**
-     * @param Status|null $status
-     * @return Order
-     */
     public function withOrderStatus(?Status $orderStatus): Order
     {
         $clone = clone $this;
@@ -256,18 +195,11 @@ class Order implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return Delivery|null
-     */
     public function getDelivery(): ?Delivery
     {
         return $this->delivery;
     }
 
-    /**
-     * @param Delivery|null $delivery
-     * @return Order
-     */
     public function withDelivery(?Delivery $delivery): Order
     {
         $clone = clone $this;
@@ -275,18 +207,11 @@ class Order implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return InvoiceCollection|null
-     */
     public function getInvoices(): ?InvoiceCollection
     {
         return $this->invoices;
     }
 
-    /**
-     * @param InvoiceCollection|null $invoices
-     * @return Order
-     */
     public function withInvoices(?InvoiceCollection $invoices): Order
     {
         $clone = clone $this;
@@ -294,18 +219,11 @@ class Order implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return Currency|null
-     */
     public function getCurrency(): ?Currency
     {
         return $this->currency;
     }
 
-    /**
-     * @param Currency|null $currency
-     * @return Order
-     */
     public function withCurrency(?Currency $currency): Order
     {
         $clone = clone $this;
@@ -313,18 +231,11 @@ class Order implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getContactId(): ?int
     {
         return $this->contactId;
     }
 
-    /**
-     * @param int|null $contactId
-     * @return Order
-     */
     public function withContactId(?int $contactId): Order
     {
         $clone = clone $this;
@@ -332,18 +243,11 @@ class Order implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return Parties|null
-     */
     public function getParties(): ?Parties
     {
         return $this->parties;
     }
 
-    /**
-     * @param Parties|null $parties
-     * @return Order
-     */
     public function withParties(?Parties $parties): Order
     {
         $clone = clone $this;
@@ -351,18 +255,11 @@ class Order implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return Assignment|null
-     */
     public function getAssignment(): ?Assignment
     {
         return $this->assignment;
     }
 
-    /**
-     * @param Assignment|null $assignment
-     * @return Order
-     */
     public function withAssignment(?Assignment $assignment): Order
     {
         $clone = clone $this;
@@ -370,18 +267,11 @@ class Order implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getWarehouseId(): ?int
     {
         return $this->warehouseId;
     }
 
-    /**
-     * @param int|null $warehouseId
-     * @return Order
-     */
     public function withWarehouseId(?int $warehouseId): Order
     {
         $clone = clone $this;
