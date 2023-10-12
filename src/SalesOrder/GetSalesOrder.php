@@ -2,8 +2,6 @@
 
 namespace SnowIO\BrightpearlDataModel\SalesOrder;
 
-use SnowIO\BrightpearlDataModel\SalesOrder\Get\Row;
-
 class GetSalesOrder
 {
     /** @var int|null $id */
