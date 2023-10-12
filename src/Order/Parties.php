@@ -3,9 +3,9 @@
 namespace SnowIO\BrightpearlDataModel\Order;
 
 use SnowIO\BrightpearlDataModel\Api\ModelInterface;
+use SnowIO\BrightpearlDataModel\Order\Parties\Billing;
 use SnowIO\BrightpearlDataModel\Order\Parties\Delivery;
 use SnowIO\BrightpearlDataModel\Order\Parties\Supplier;
-use SnowIO\BrightpearlDataModel\Order\Parties\Billing;
 
 class Parties implements ModelInterface
 {
