@@ -429,3 +429,4 @@ class SalesOrderResponseTest extends TestCase
         self::assertTrue($salesOrderResponse1->equals($salesOrderResponse2));
     }
 }
+

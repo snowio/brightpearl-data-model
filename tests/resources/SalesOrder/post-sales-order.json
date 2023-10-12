@@ -1,0 +1,82 @@
+{
+  "customer": {
+    "id": 123,
+    "address": null
+  },
+  "externalRef": "hsdf74-2js7-jdsfi38-73jsd8",
+  "ref": "ABC123XYZ890",
+  "placedOn": null,
+  "taxDate": "2023-09-01",
+  "installedIntegrationInstanceId": 3,
+  "warehouseId": 567,
+  "projectId": 1,
+  "statusId": null,
+  "channelId": 1,
+  "leadSourceId": 4,
+  "staffOwnerId": 6,
+  "teamId": 987,
+  "priceListId": 2,
+  "priceModeCode": "SOMECODE",
+  "currency": {
+    "code": "GBP",
+    "fixedExchangeRate": true,
+    "exchangeRate": "1"
+  },
+  "delivery": {
+    "date": "2016-09-29T11:12:24.000+01:00",
+    "address": {
+      "addressFullName": "John Doe",
+      "companyName": "BrightPearl",
+      "addressLine1": "First floor",
+      "addressLine2": "New Bond House",
+      "addressLine3": "Bristol",
+      "addressLine4": "near Cabot Circus",
+      "postalCode": "BS2 9AG",
+      "countryIsoCode": "GBR",
+      "telephone": "01234 567890",
+      "mobileTelephone": "070707070707",
+      "fax": "0707070707072",
+      "email": "john.doe@brightpearl.com"
+    },
+    "shippingMethodId": 6
+  },
+  "billing": {
+    "contactId": 234,
+    "address": {
+      "addressFullName": "Snow avenue",
+      "companyName": "Snow",
+      "addressLine1": "some street",
+      "addressLine2": "some area",
+      "addressLine3": "some town",
+      "addressLine4": "some city",
+      "postalCode": "AB12 ABC",
+      "countryIsoCode": "GBR",
+      "telephone": "1234567890",
+      "mobileTelephone": "1234567890",
+      "fax": "1234567890",
+      "email": "test@domain.com"
+    }
+  },
+  "rows": [
+    {
+      "productId": 123456,
+      "name": "Product Example 1",
+      "quantity": "123",
+      "taxCode": "ABC",
+      "net": "100",
+      "tax": "14",
+      "nominalCode": "ABCDEF",
+      "externalRef": "FEDCBA"
+    },
+    {
+      "productId": 456789,
+      "name": "Product Example 2",
+      "quantity": "456",
+      "taxCode": "DEF",
+      "net": "101",
+      "tax": "15",
+      "nominalCode": "ABCDEF2",
+      "externalRef": "FEDCBA2"
+    }
+  ]
+}

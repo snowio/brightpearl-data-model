@@ -49,6 +49,15 @@ class Dimensions
         ];
     }
 
+    public function equals($other): bool
+    {
+        return $other instanceof Dimensions &&
+            $this->length === $other->length &&
+            $this->height === $other->height &&
+            $this->width === $other->width &&
+            $this->volume === $other->volume;
+    }
+
     /**
      * @return float|null
      */

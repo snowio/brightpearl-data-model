@@ -76,13 +76,12 @@ class ContactCreateTest extends TestCase
         self::assertEquals("Ben", $contactCreate->getFirstName());
         self::assertEquals("Ten", $contactCreate->getLastName());
         self::assertEquals(["111", "222", "333"], $contactCreate->getPostAddressIds());
-        self::assertEquals( ['emails' => [
+        self::assertEquals(['emails' => [
             'PRI' => ['email' => 'email@test.com'],
             'SEC' => ['email' => 'email@test.com'],
             'TER' => ['email' => 'email@test.com'],
         ]
     ], $contactCreate->getCommunication()->toJson());
-
     }
 
     /**
@@ -96,4 +95,3 @@ class ContactCreateTest extends TestCase
         self::assertTrue($contactCreate1->equals($contactCreate2));
     }
 }
-

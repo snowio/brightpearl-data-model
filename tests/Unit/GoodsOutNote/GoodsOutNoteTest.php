@@ -18,7 +18,6 @@ class GoodsOutNoteTest extends TestCase
      */
     private function getJsonData(): array
     {
-
         return [
             'orderId' => 111,
             'warehouseId' => 6657,

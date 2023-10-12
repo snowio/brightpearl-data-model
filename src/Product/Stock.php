@@ -7,6 +7,36 @@ use SnowIO\BrightpearlDataModel\Product\Stock\Weight;
 
 class Stock
 {
+    public static function create(): self
+    {
+        return new self();
+    }
+
+    public static function fromJson(array $json): self
+    {
+        $result = new self();
+        $result->stockTracked = $json['stockTracked'];
+        $result->weight = Weight::fromJson($json['weight'] ?? []);
+        $result->dimensions = Dimensions::fromJson($json['dimensions'] ?? []);
+        return $result;
+    }
+
+    public function toJson(): array
+    {
+        return [
+            'stockTracked' => $this->isStockTracked(),
+            'weight' => $this->getWeight()->toJson(),
+            'dimensions' => $this->getDimensions()->toJson()
+        ];
+    }
+
+    public function equals($other): bool
+    {
+        return $this->stockTracked === $other->stockTracked &&
+            $this->weight->equals($other->weight) &&
+            $this->dimensions->equals($other->dimensions);
+    }
+
     /** @var bool|null $stockTracked */
     private $stockTracked;
     /** @var Weight|null $weight */
@@ -14,58 +44,11 @@ class Stock
     /** @var Dimensions|null $dimensions */
     private $dimensions;
 
-    /**
-     * @return self
-     */
-    public static function create(): self
-    {
-        return new self();
-    }
-
-    /**
-     * @param array<string, mixed> $json
-     */
-    public static function fromJson(array $json): self
-    {
-        $result = new self();
-
-        $weight = is_array($json['weight']) ? $json['weight'] : [];
-        $dimensions = is_array($json['dimensions']) ? $json['dimensions'] : [];
-
-        $result->stockTracked = is_bool($json['stockTracked']) && $json['stockTracked'];
-        $result->weight = Weight::fromJson($weight);
-        $result->dimensions = Dimensions::fromJson($dimensions);
-
-        return $result;
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    public function toJson(): array
-    {
-        $weight = is_null($this->getWeight()) ? [] : $this->getWeight()->toJson();
-        $dimensions = is_null($this->getDimensions()) ? [] : $this->getDimensions()->toJson();
-
-        return [
-            'stockTracked' => $this->isStockTracked(),
-            'weight' => $weight,
-            'dimensions' => $dimensions
-        ];
-    }
-
-    /**
-     * @return bool|null
-     */
     public function isStockTracked(): ?bool
     {
         return $this->stockTracked;
     }
 
-    /**
-     * @param bool $stockTracked
-     * @return Stock
-     */
     public function withStockTracked(bool $stockTracked): Stock
     {
         $clone = clone $this;
@@ -73,18 +56,11 @@ class Stock
         return $clone;
     }
 
-    /**
-     * @return Weight|null
-     */
     public function getWeight(): ?Weight
     {
         return $this->weight;
     }
 
-    /**
-     * @param Weight $weight
-     * @return Stock
-     */
     public function withWeight(Weight $weight): Stock
     {
         $clone = clone $this;
@@ -92,18 +68,11 @@ class Stock
         return $clone;
     }
 
-    /**
-     * @return Dimensions|null
-     */
     public function getDimensions(): ?Dimensions
     {
         return $this->dimensions;
     }
 
-    /**
-     * @param Dimensions $dimensions
-     * @return Stock
-     */
     public function withDimensions(Dimensions $dimensions): Stock
     {
         $clone = clone $this;

@@ -45,6 +45,14 @@ class Reporting
         ];
     }
 
+    public function equals($other): bool
+    {
+        return $other instanceof Reporting &&
+            $this->categoryId === $other->categoryId &&
+            $this->subCategoryId === $other->subCategoryId &&
+            $this->seasonId === $other->seasonId;
+    }
+
     /**
      * @return int|null
      */

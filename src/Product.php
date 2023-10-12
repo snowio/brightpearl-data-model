@@ -14,6 +14,112 @@ use SnowIO\BrightpearlDataModel\Product\Warehouses;
 
 class Product implements ModelInterface
 {
+    public static function create(): ModelInterface
+    {
+        return new self();
+    }
+
+    public static function fromJson(array $json): ModelInterface
+    {
+        $result = new self();
+        $result->id = $json['id'] ?? null;
+        $result->brandId = $json['brandId'] ?? null;
+        $result->productTypeId = $json['productTypeId'] ?? null;
+        $result->identity = Identity::fromJson($json['identity'] ?? []);
+        $result->featured = $json['featured'] ?? false;
+        $result->stock = Stock::fromJson($json['stock'] ?? []);
+        $result->financialDetails = FinancialDetails::fromJson($json['financialDetails'] ?? []);
+        $result->composition = Composition::fromJson($json['composition'] ?? []);
+        $result->createdOn = $json['createdOn'] ?? null;
+        $result->updatedOn = $json['updatedOn'] ?? null;
+        $result->warehouses = Warehouses::fromJson($json['warehouses'] ?? []);
+        $result->nominalCodeStock = $json['nominalCodeStock'] ?? null;
+        $result->nominalCodePurchases = $json['nominalCodePurchases'] ?? null;
+        $result->nominalCodeSales = $json['nominalCodeSales'] ?? null;
+        $result->seasonIds = $json['seasonIds'] ?? [];
+        $result->reporting = Reporting::fromJson($json['reporting'] ?? []);
+        $result->status = $json['status'] ?? null;
+        $result->salesPopupMessage = $json['salesPopupMessage'] ?? null;
+        $result->warehousePopupMessage = $json['warehousePopupMessage'] ?? null;
+        $result->version = $json['version'] ?? null;
+        $result->customFields = $json['customFields'] ?? [];
+
+        $salesChannels = $json['salesChannels'] ?? [];
+        foreach ($salesChannels as $salesChannel) {
+            $salesChannel = is_array($salesChannel) ? $salesChannel : [];
+            $result->salesChannels[] = SalesChannel::fromJson($salesChannel);
+        }
+
+        $variations = $json['variations'] ?? [];
+        foreach ($variations as $variation) {
+            $variation = is_array($variation) ? $variation : [];
+            $result->variations[] = Variation::fromJson($variation);
+        }
+
+        return $result;
+    }
+
+    public function toJson(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'brandId' => $this->getBrandId(),
+            'productTypeId' => $this->getProductTypeId(),
+            'identity' => $this->getIdentity()->toJson(),
+            'featured' => $this->isFeatured(),
+            'stock' => $this->getStock()->toJson(),
+            'financialDetails' => $this->getFinancialDetails()->toJson(),
+            'salesChannels' => array_map(function ($salesChannel) {
+                return $salesChannel->toJson();
+            }, $this->getSalesChannels()),
+            'composition' => $this->getComposition()->toJson(),
+            'variations' => array_map(function ($variation) {
+                return $variation->toJson();
+            }, $this->getVariations()),
+            'createdOn' => $this->getCreatedOn(),
+            'updatedOn' => $this->getUpdatedOn(),
+            'warehouses' => $this->getWarehouses()->toJson(),
+            'nominalCodeStock' => $this->getNominalCodeStock(),
+            'nominalCodePurchases' => $this->getNominalCodePurchases(),
+            'nominalCodeSales' => $this->getNominalCodeSales(),
+            'seasonIds' => $this->getSeasonIds(),
+            'reporting' => $this->getReporting()->toJson(),
+            'status' => $this->getStatus(),
+            'salesPopupMessage' => $this->getSalesPopupMessage(),
+            'warehousePopupMessage' => $this->getWarehousePopupMessage(),
+            'version' => $this->getVersion(),
+            'customFields' => $this->getCustomFields()
+        ];
+    }
+
+    public function equals($other): bool
+    {
+        return ($other instanceof Product) &&
+            ($this->id === $other->id) &&
+            ($this->brandId === $other->brandId) &&
+            ($this->productTypeId === $other->productTypeId) &&
+            ($this->identity->equals($other->identity)) &&
+            ($this->featured === $other->featured) &&
+            ($this->stock->equals($other->stock)) &&
+            ($this->financialDetails->equals($other->financialDetails)) &&
+            ($this->salesChannels == $other->salesChannels) && // not strict for array
+            ($this->composition->equals($other->composition)) &&
+            ($this->variations == $other->variations) && // not strict for array
+            ($this->createdOn === $other->createdOn) &&
+            ($this->updatedOn === $other->updatedOn) &&
+            ($this->warehouses == $other->warehouses) && // not strict for array
+            ($this->nominalCodeStock === $other->nominalCodeStock) &&
+            ($this->nominalCodePurchases === $other->nominalCodePurchases) &&
+            ($this->nominalCodeSales === $other->nominalCodeSales) &&
+            ($this->seasonIds === $other->seasonIds) &&
+            ($this->reporting->equals($other->reporting)) &&
+            ($this->status === $other->status) &&
+            ($this->salesPopupMessage === $other->salesPopupMessage) &&
+            ($this->warehousePopupMessage === $other->warehousePopupMessage) &&
+            ($this->version === $other->version) &&
+            ($this->customFields === $other->customFields);
+    }
+
     const DATETIME_FORMAT = "Y-m-d\TH:i:s.BP";
     const LANG_FORMAT_PLAINTEXT = "PLAINTEXT";
     const LANG_FORMAT_HTML_FRAGMENT = "HTML_FRAGMENT";
@@ -66,145 +172,11 @@ class Product implements ModelInterface
     /** @var mixed[] $customFields */
     private $customFields = [];
 
-    /**
-     * @return self
-     */
-    public static function create(): ModelInterface
-    {
-        return new self();
-    }
-
-    /**
-     * @param array<string, mixed> $json
-     */
-    public static function fromJson(array $json): ModelInterface
-    {
-        $result = new self();
-
-        $identity = is_array($json['identity']) ? $json['identity'] : [];
-        $stock = is_array($json['stock']) ? $json['stock'] : [];
-        $financialDetails = is_array($json['financialDetails']) ? $json['financialDetails'] : [];
-        $composition = is_array($json['composition']) ? $json['composition'] : [];
-        $warehouses = is_array($json['warehouses']) ? $json['warehouses'] : [];
-        $seasonIds = is_array($json['seasonIds']) ? $json['seasonIds'] : [];
-        $reporting = is_array($json['reporting']) ? $json['reporting'] : [];
-        $customFields = is_array($json['customFields']) ? $json['customFields'] : [];
-
-        $result->id = is_numeric($json['id']) ? (int) $json['id'] : null;
-        $result->brandId = is_numeric($json['brandId']) ? (int) $json['brandId'] : null;
-        $result->productTypeId = is_numeric($json['productTypeId']) ? (int) $json['productTypeId'] : null;
-        $result->identity = Identity::fromJson($identity);
-        $result->featured = is_bool($json['featured']) && $json['featured'];
-        $result->stock = Stock::fromJson($stock);
-        $result->financialDetails = FinancialDetails::fromJson($financialDetails);
-        $result->composition = Composition::fromJson($composition);
-        $result->createdOn = is_string($json['createdOn']) ? $json['createdOn'] : null;
-        $result->updatedOn = is_string($json['updatedOn']) ? $json['updatedOn'] : null;
-        $result->warehouses = Warehouses::fromJson($warehouses);
-        $result->nominalCodeStock = is_string($json['nominalCodeStock']) ? $json['nominalCodeStock'] : null;
-        $result->nominalCodePurchases = is_string($json['nominalCodePurchases']) ? $json['nominalCodePurchases'] : null;
-        $result->nominalCodeSales = is_string($json['nominalCodeSales']) ? $json['nominalCodeSales'] : null;
-        $result->seasonIds = $seasonIds;
-        $result->reporting = Reporting::fromJson($reporting);
-        $result->status = is_string($json['status']) ? $json['status'] : null;
-        $result->salesPopupMessage = is_string($json['salesPopupMessage']) ? $json['salesPopupMessage'] : null;
-        $result->warehousePopupMessage = is_string($json['warehousePopupMessage']) ? $json['warehousePopupMessage'] : null;
-        $result->version = is_numeric($json['version']) ? (int) $json['version'] : null;
-        $result->customFields = $customFields;
-
-        $salesChannels = is_array($json['salesChannels']) ? $json['salesChannels'] : [];
-        foreach ($salesChannels as $salesChannel) {
-            $salesChannel = is_array($salesChannel) ? $salesChannel : [];
-            $result->salesChannels[] = SalesChannel::fromJson($salesChannel);
-        }
-
-        $variations = is_array($json['variations']) ? $json['variations'] : [];
-        foreach ($variations as $variation) {
-            $variation = is_array($variation) ? $variation : [];
-            $result->variations[] = Variation::fromJson($variation);
-        }
-
-        return $result;
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    public function toJson(): array
-    {
-        $salesChannels = [];
-        foreach ($this->getSalesChannels() as $salesChannel) {
-            $salesChannels[] = $salesChannel->toJson();
-        }
-
-        $variations = [];
-        foreach ($this->getVariations() as $variation) {
-            $variations[] = $variation->toJson();
-        }
-
-        $identity = is_null($this->getIdentity()) ? [] : $this->getIdentity()->toJson();
-        $stock = is_null($this->getStock()) ? [] : $this->getStock()->toJson();
-        $financialDetails = is_null($this->getFinancialDetails()) ? [] : $this->getFinancialDetails()->toJson();
-        $composition = is_null($this->getComposition()) ? [] : $this->getComposition()->toJson();
-        $warehouses = is_null($this->getWarehouses()) ? [] : $this->getWarehouses()->toJson();
-        $reporting = is_null($this->getReporting()) ? [] : $this->getReporting()->toJson();
-
-        return [
-            'id' => $this->getId(),
-            'brandId' => $this->getBrandId(),
-            'productTypeId' => $this->getProductTypeId(),
-            'identity' => $identity,
-            'featured' => $this->isFeatured(),
-            'stock' => $stock,
-            'financialDetails' => $financialDetails,
-            'salesChannels' => $salesChannels,
-            'composition' => $composition,
-            'variations' => $variations,
-            'createdOn' => $this->getCreatedOn(),
-            'updatedOn' => $this->getUpdatedOn(),
-            'warehouses' => $warehouses,
-            'nominalCodeStock' => $this->getNominalCodeStock(),
-            'nominalCodePurchases' => $this->getNominalCodePurchases(),
-            'nominalCodeSales' => $this->getNominalCodeSales(),
-            'seasonIds' => $this->getSeasonIds(),
-            'reporting' => $reporting,
-            'status' => $this->getStatus(),
-            'salesPopupMessage' => $this->getSalesPopupMessage(),
-            'warehousePopupMessage' => $this->getWarehousePopupMessage(),
-            'version' => $this->getVersion(),
-            'customFields' => $this->getCustomFields()
-        ];
-    }
-
-    // @phpstan-ignore-next-line
-    public function equals($object): bool
-    {
-        return ($object instanceof Product) &&
-            ($this->id === $object->id) &&
-            $this->toJson() === $object->toJson();
-    }
-
-    /**
-     * @param ModelInterface $productToCompare
-     * @return bool
-     */
-    public function equals(ModelInterface $productToCompare): bool
-    {
-        return $this->toJson() === $productToCompare->toJson();
-    }
-
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     * @return Product
-     */
     public function withId(int $id): Product
     {
         $clone = clone $this;
@@ -212,18 +184,11 @@ class Product implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getBrandId(): ?int
     {
         return $this->brandId;
     }
 
-    /**
-     * @param int $brandId
-     * @return Product
-     */
     public function withBrandId(int $brandId): Product
     {
         $clone = clone $this;
@@ -231,18 +196,11 @@ class Product implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getProductTypeId(): ?int
     {
         return $this->productTypeId;
     }
 
-    /**
-     * @param int $productTypeId
-     * @return Product
-     */
     public function withProductTypeId(int $productTypeId): Product
     {
         $clone = clone $this;
@@ -250,18 +208,11 @@ class Product implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return Identity|null
-     */
     public function getIdentity(): ?Identity
     {
         return $this->identity;
     }
 
-    /**
-     * @param Identity $identity
-     * @return Product
-     */
     public function withIdentity(Identity $identity): Product
     {
         $clone = clone $this;
@@ -269,18 +220,11 @@ class Product implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return bool|null
-     */
     public function isFeatured(): ?bool
     {
         return $this->featured;
     }
 
-    /**
-     * @param bool $featured
-     * @return Product
-     */
     public function withFeatured(bool $featured): Product
     {
         $clone = clone $this;
@@ -288,18 +232,11 @@ class Product implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return Stock|null
-     */
     public function getStock(): ?Stock
     {
         return $this->stock;
     }
 
-    /**
-     * @param Stock $stock
-     * @return Product
-     */
     public function withStock(Stock $stock): Product
     {
         $clone = clone $this;
@@ -307,18 +244,11 @@ class Product implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return FinancialDetails|null
-     */
     public function getFinancialDetails(): ?FinancialDetails
     {
         return $this->financialDetails;
     }
 
-    /**
-     * @param FinancialDetails $financialDetails
-     * @return Product
-     */
     public function withFinancialDetails(FinancialDetails $financialDetails): Product
     {
         $clone = clone $this;
@@ -326,18 +256,11 @@ class Product implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return SalesChannel[]
-     */
     public function getSalesChannels(): array
     {
         return $this->salesChannels;
     }
 
-    /**
-     * @param SalesChannel[] $salesChannels
-     * @return Product
-     */
     public function withSalesChannels(array $salesChannels): Product
     {
         $clone = clone $this;
@@ -345,18 +268,11 @@ class Product implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return Composition|null
-     */
     public function getComposition(): ?Composition
     {
         return $this->composition;
     }
 
-    /**
-     * @param Composition $composition
-     * @return Product
-     */
     public function withComposition(Composition $composition): Product
     {
         $clone = clone $this;
@@ -364,18 +280,11 @@ class Product implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return Variation[]
-     */
     public function getVariations(): array
     {
         return $this->variations;
     }
 
-    /**
-     * @param Variation[] $variations
-     * @return Product
-     */
     public function withVariations(array $variations): Product
     {
         $clone = clone $this;
@@ -383,18 +292,11 @@ class Product implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getCreatedOn(): ?string
     {
         return $this->createdOn;
     }
 
-    /**
-     * @param string $createdOn
-     * @return Product
-     */
     public function withCreatedOn(string $createdOn): Product
     {
         $clone = clone $this;
@@ -402,18 +304,11 @@ class Product implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getUpdatedOn(): ?string
     {
         return $this->updatedOn;
     }
 
-    /**
-     * @param string $updatedOn
-     * @return Product
-     */
     public function withUpdatedOn(string $updatedOn): Product
     {
         $clone = clone $this;
@@ -421,18 +316,11 @@ class Product implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return Warehouses|null
-     */
     public function getWarehouses(): ?Warehouses
     {
         return $this->warehouses;
     }
 
-    /**
-     * @param Warehouses|null $warehouses
-     * @return Product
-     */
     public function withWarehouses(?Warehouses $warehouses): Product
     {
         $clone = clone $this;
@@ -440,18 +328,11 @@ class Product implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getNominalCodeStock(): ?string
     {
         return $this->nominalCodeStock;
     }
 
-    /**
-     * @param string $nominalCodeStock
-     * @return Product
-     */
     public function withNominalCodeStock(string $nominalCodeStock): Product
     {
         $clone = clone $this;
@@ -459,18 +340,11 @@ class Product implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getNominalCodePurchases(): ?string
     {
         return $this->nominalCodePurchases;
     }
 
-    /**
-     * @param string $nominalCodePurchases
-     * @return Product
-     */
     public function withNominalCodePurchases(string $nominalCodePurchases): Product
     {
         $clone = clone $this;
@@ -478,18 +352,11 @@ class Product implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getNominalCodeSales(): ?string
     {
         return $this->nominalCodeSales;
     }
 
-    /**
-     * @param string $nominalCodeSales
-     * @return Product
-     */
     public function withNominalCodeSales(string $nominalCodeSales): Product
     {
         $clone = clone $this;
@@ -497,18 +364,11 @@ class Product implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return array<mixed>
-     */
     public function getSeasonIds(): array
     {
         return $this->seasonIds;
     }
 
-    /**
-     * @param array<mixed> $seasonIds
-     * @return Product
-     */
     public function withSeasonIds(array $seasonIds): Product
     {
         $clone = clone $this;
@@ -516,18 +376,11 @@ class Product implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return Reporting|null
-     */
     public function getReporting(): ?Reporting
     {
         return $this->reporting;
     }
 
-    /**
-     * @param Reporting|null $reporting
-     * @return Product
-     */
     public function withReporting(?Reporting $reporting): Product
     {
         $clone = clone $this;
@@ -535,18 +388,11 @@ class Product implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getStatus(): ?string
     {
         return $this->status;
     }
 
-    /**
-     * @param string $status
-     * @return Product
-     */
     public function withStatus(string $status): Product
     {
         $clone = clone $this;
@@ -554,18 +400,11 @@ class Product implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getSalesPopupMessage(): ?string
     {
         return $this->salesPopupMessage;
     }
 
-    /**
-     * @param string $salesPopupMessage
-     * @return Product
-     */
     public function withSalesPopupMessage(string $salesPopupMessage): Product
     {
         $clone = clone $this;
@@ -573,18 +412,11 @@ class Product implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getWarehousePopupMessage(): ?string
     {
         return $this->warehousePopupMessage;
     }
 
-    /**
-     * @param string $warehousePopupMessage
-     * @return Product
-     */
     public function withWarehousePopupMessage(string $warehousePopupMessage): Product
     {
         $clone = clone $this;
@@ -592,18 +424,11 @@ class Product implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getVersion(): ?int
     {
         return $this->version;
     }
 
-    /**
-     * @param int $version
-     * @return Product
-     */
     public function withVersion(int $version): Product
     {
         $clone = clone $this;
@@ -611,18 +436,11 @@ class Product implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return array<mixed>
-     */
     public function getCustomFields(): array
     {
         return $this->customFields;
     }
 
-    /**
-     * @param array<mixed> $customFields
-     * @return Product
-     */
     public function withCustomFields(array $customFields): Product
     {
         $clone = clone $this;
