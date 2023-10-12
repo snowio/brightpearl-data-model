@@ -4,6 +4,7 @@ namespace SnowIO\BrightpearlDataModel\Test\Unit\OrderResponse;
 
 use PHPUnit\Framework\TestCase;
 use SnowIO\BrightpearlDataModel\OrderResponse;
+use SnowIO\BrightpearlDataModel\OrderResponse\Parties;
 
 class OrderResponseTest extends TestCase
 {
@@ -616,5 +617,16 @@ class OrderResponseTest extends TestCase
         $orderResponse1 = OrderResponse::fromJson($data);
         $orderResponse2 = OrderResponse::fromJson($data);
         self::assertTrue($orderResponse1->equals($orderResponse2));
+    }
+
+    /**
+     * @return void
+     */
+    public function testParties()
+    {
+        $data = $this->getJsonData();
+        $parties1 = Parties::fromJson($data['parties']);
+        $parties2 = Parties::fromJson($data['parties']);
+        self::assertTrue($parties1->equals($parties2));
     }
 }
