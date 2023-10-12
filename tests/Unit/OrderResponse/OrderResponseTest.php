@@ -551,4 +551,15 @@ class OrderResponseTest extends TestCase
         self::assertFalse($order->getIsDropship());
         self::assertTrue($order->getHistoricalOrder());
     }
+
+    /**
+     * @return void
+     */
+    public function testEquals()
+    {
+        $data = $this->getJsonData();
+        $orderResponse1 = OrderResponse::fromJson($data);
+        $orderResponse2 = OrderResponse::fromJson($data);
+        self::assertTrue($orderResponse1->equals($orderResponse2));
+    }
 }

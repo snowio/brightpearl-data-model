@@ -2,9 +2,10 @@
 
 namespace SnowIO\BrightpearlDataModel;
 
+use SnowIO\BrightpearlDataModel\Api\ModelInterface;
 use SnowIO\BrightpearlDataModel\ProductAvailability\Total;
 
-class ProductAvailability
+class ProductAvailability implements ModelInterface
 {
     /** @var Total|null $total */
     private $total;
@@ -12,15 +13,16 @@ class ProductAvailability
     /**
      * @return self
      */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
+
     /**
      * @param array<string, mixed> $json
      */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
         $result->total = Total::fromJson(is_array($json['total']) ? $json['total'] : []);
@@ -36,6 +38,15 @@ class ProductAvailability
         $json = [];
         $json['total'] = $total;
         return $json;
+    }
+
+    /**
+     * @param ModelInterface $productAvailabilityToCompare
+     * @return bool
+     */
+    public function equals(ModelInterface $productAvailabilityToCompare): bool
+    {
+        return $this->toJson() === $productAvailabilityToCompare->toJson();
     }
 
     /**

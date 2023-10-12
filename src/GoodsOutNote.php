@@ -2,12 +2,13 @@
 
 namespace SnowIO\BrightpearlDataModel;
 
+use SnowIO\BrightpearlDataModel\Api\ModelInterface;
 use SnowIO\BrightpearlDataModel\GoodsOutNote\EventCollection;
 use SnowIO\BrightpearlDataModel\GoodsOutNote\OrderRowCollection;
 use SnowIO\BrightpearlDataModel\GoodsOutNote\Shipping;
 use SnowIO\BrightpearlDataModel\GoodsOutNote\Status;
 
-class GoodsOutNote
+class GoodsOutNote implements ModelInterface
 {
     /** @var int|null $orderId */
     private $orderId;
@@ -58,7 +59,7 @@ class GoodsOutNote
     /**
      * @return self
      */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
@@ -66,7 +67,7 @@ class GoodsOutNote
     /**
      * @param array<string, mixed> $json
      */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
         $result->orderId = is_int($json['orderId']) ? $json['orderId'] : null;
@@ -114,6 +115,15 @@ class GoodsOutNote
             'labelUri' => $this->getLabelUri(),
             'lastEventVersion' => $this->getLastEventVersion()
         ];
+    }
+
+    /**
+     * @param ModelInterface $goodsOutNoteToCompare
+     * @return bool
+     */
+    public function equals(ModelInterface $goodsOutNoteToCompare): bool
+    {
+        return $this->toJson() === $goodsOutNoteToCompare->toJson();
     }
 
     /**

@@ -6,8 +6,6 @@ class Delivery
 {
     /** @var string|null $date */
     private $date;
-    /** @var Address|null */
-    private $address;
     /** @var int|null $shippingMethodId */
     private $shippingMethodId;
 
@@ -26,9 +24,7 @@ class Delivery
     public static function fromJson(array $json): self
     {
         $result = new self();
-        $address = is_array($json['address']) ? $json['address'] : [];
-        $result->date = is_string($json['date']) ? $json['date'] : null;
-        $result->address = Address::fromJson($address);
+        $result->date = is_string($json['deliveryDate']) ? $json['deliveryDate'] : null;
         $result->shippingMethodId = is_numeric($json['shippingMethodId']) ? (int)$json['shippingMethodId'] : null;
         return $result;
     }
@@ -38,11 +34,8 @@ class Delivery
      */
     public function toJson(): array
     {
-        $address = is_null($this->getAddress()) ? [] : $this->getAddress()->toJson();
-
         return [
-            'date' => $this->getDate(),
-            'address' => $address,
+            'deliveryDate' => $this->getDate(),
             'shippingMethodId' => $this->getShippingMethodId()
         ];
     }
@@ -53,15 +46,9 @@ class Delivery
      */
     public function equals(Delivery $deliveryToCompare): bool
     {
-        if (!is_null($this->getAddress())
-            && !is_null($deliveryToCompare->getAddress())
-            && !$this->getAddress()->equals($deliveryToCompare->getAddress())) {
-            return false;
-        }
         if ($this->getDate() !== $deliveryToCompare->getDate()) {
             return false;
         }
-
         return $this->getShippingMethodId() === $deliveryToCompare->getShippingMethodId();
     }
 
@@ -81,25 +68,6 @@ class Delivery
     {
         $clone = clone $this;
         $clone->date = $date;
-        return $clone;
-    }
-
-    /**
-     * @return Address|null
-     */
-    public function getAddress(): ?Address
-    {
-        return $this->address;
-    }
-
-    /**
-     * @param Address $address
-     * @return Delivery
-     */
-    public function withAddress(Address $address): Delivery
-    {
-        $clone = clone $this;
-        $clone->address = $address;
         return $clone;
     }
 

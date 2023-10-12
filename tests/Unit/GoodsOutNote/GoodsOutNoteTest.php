@@ -224,4 +224,15 @@ class GoodsOutNoteTest extends TestCase
         self::assertEquals("uri", $goodsOutNote->getLabelUri());
         self::assertEquals(22, $goodsOutNote->getLastEventVersion());
     }
+
+    /**
+     * @return void
+     */
+    public function testEquals()
+    {
+        $data = $this->getJsonData();
+        $goodsOutNote1 = GoodsOutNote::fromJson($data);
+        $goodsOutNote2 = GoodsOutNote::fromJson($data);
+        self::assertTrue($goodsOutNote1->equals($goodsOutNote2));
+    }
 }

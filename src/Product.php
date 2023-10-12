@@ -2,6 +2,7 @@
 
 namespace SnowIO\BrightpearlDataModel;
 
+use SnowIO\BrightpearlDataModel\Api\ModelInterface;
 use SnowIO\BrightpearlDataModel\Product\Composition;
 use SnowIO\BrightpearlDataModel\Product\FinancialDetails;
 use SnowIO\BrightpearlDataModel\Product\Identity;
@@ -11,7 +12,7 @@ use SnowIO\BrightpearlDataModel\Product\Stock;
 use SnowIO\BrightpearlDataModel\Product\Variation;
 use SnowIO\BrightpearlDataModel\Product\Warehouses;
 
-class Product
+class Product implements ModelInterface
 {
     public static function create(): self
     {

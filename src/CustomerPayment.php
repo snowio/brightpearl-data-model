@@ -2,7 +2,9 @@
 
 namespace SnowIO\BrightpearlDataModel;
 
-class CustomerPayment
+use SnowIO\BrightpearlDataModel\Api\ModelInterface;
+
+class CustomerPayment implements ModelInterface
 {
     /** @var string|null $transactionRef */
     private $transactionRef;
@@ -28,7 +30,7 @@ class CustomerPayment
     /**
      * @return self
      */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
@@ -36,7 +38,7 @@ class CustomerPayment
     /**
      * @param array<string, mixed> $eventJson
      */
-    public static function fromJson(array $eventJson): self
+    public static function fromJson(array $eventJson): ModelInterface
     {
         $result = new self();
         $result->transactionRef = is_string($eventJson['transactionRef']) ? $eventJson['transactionRef'] : null;
@@ -71,11 +73,14 @@ class CustomerPayment
     }
 
     /**
-     * @param CustomerPayment $customerPaymentToCompare
+     * @param ModelInterface $customerPaymentToCompare
      * @return bool
      */
-    public function equals(CustomerPayment $customerPaymentToCompare): bool
+    public function equals(ModelInterface $customerPaymentToCompare): bool
     {
+        if (!$customerPaymentToCompare instanceof CustomerPayment) {
+            return false;
+        }
         if ($this->getTransactionCode() !== $customerPaymentToCompare->getTransactionCode()) {
             return false;
         }

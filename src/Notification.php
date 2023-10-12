@@ -2,7 +2,9 @@
 
 namespace SnowIO\BrightpearlDataModel;
 
-class Notification
+use SnowIO\BrightpearlDataModel\Api\ModelInterface;
+
+class Notification implements ModelInterface
 {
     /** @var string|null $entityId */
     private $entityId;
@@ -12,7 +14,7 @@ class Notification
     /**
      * @return self
      */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
@@ -20,7 +22,7 @@ class Notification
     /**
      * @param array<string, mixed> $eventJson
      */
-    public static function fromJson(array $eventJson): self
+    public static function fromJson(array $eventJson): ModelInterface
     {
         $result = new self();
         $result->entityId = is_string($eventJson['id']) ? $eventJson['id'] : null;
@@ -43,12 +45,11 @@ class Notification
      * @param Notification $notificationToCompare
      * @return bool
      */
-    public function equals(Notification $notificationToCompare): bool
+    public function equals(ModelInterface $notificationToCompare): bool
     {
         if ($this->getEntityId() !== $notificationToCompare->getEntityId()) {
             return false;
         }
-
         return $this->getTimestamp() === $notificationToCompare->getTimestamp();
     }
 
