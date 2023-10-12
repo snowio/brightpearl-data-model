@@ -141,32 +141,27 @@ class Product
             $variations[] = $variation->toJson();
         }
 
-        $identity = is_null($this->getIdentity()) ? [] : $this->getIdentity()->toJson();
-        $stock = is_null($this->getStock()) ? [] : $this->getStock()->toJson();
-        $financialDetails = is_null($this->getFinancialDetails()) ? [] : $this->getFinancialDetails()->toJson();
-        $composition = is_null($this->getComposition()) ? [] : $this->getComposition()->toJson();
-        $warehouses = is_null($this->getWarehouses()) ? [] : $this->getWarehouses()->toJson();
-        $reporting = is_null($this->getReporting()) ? [] : $this->getReporting()->toJson();
+
 
         return [
             'id' => $this->getId(),
             'brandId' => $this->getBrandId(),
             'productTypeId' => $this->getProductTypeId(),
-            'identity' => $identity,
+            'identity' => $this->getIdentity()->toJson(),
             'featured' => $this->isFeatured(),
-            'stock' => $stock,
-            'financialDetails' => $financialDetails,
+            'stock' => $this->getStock()->toJson(),
+            'financialDetails' => $this->getFinancialDetails()->toJson(),
             'salesChannels' => $salesChannels,
-            'composition' => $composition,
+            'composition' => $this->getComposition()->toJson(),
             'variations' => $variations,
             'createdOn' => $this->getCreatedOn(),
             'updatedOn' => $this->getUpdatedOn(),
-            'warehouses' => $warehouses,
+            'warehouses' => $this->getWarehouses()->toJson(),
             'nominalCodeStock' => $this->getNominalCodeStock(),
             'nominalCodePurchases' => $this->getNominalCodePurchases(),
             'nominalCodeSales' => $this->getNominalCodeSales(),
             'seasonIds' => $this->getSeasonIds(),
-            'reporting' => $reporting,
+            'reporting' => $this->getReporting()->toJson(),
             'status' => $this->getStatus(),
             'salesPopupMessage' => $this->getSalesPopupMessage(),
             'warehousePopupMessage' => $this->getWarehousePopupMessage(),
