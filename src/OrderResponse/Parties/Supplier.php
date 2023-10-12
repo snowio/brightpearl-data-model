@@ -66,22 +66,22 @@ class Supplier implements ModelInterface
     public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-        $result->contactId = is_string($json['contactId']) ? $json['contactId'] : null;
-        $result->addressFullName = is_string($json['addressFullName']) ? $json['addressFullName'] : null;
-        $result->companyName = is_string($json['companyName']) ? $json['companyName'] : null;
-        $result->addressLine1 = is_string($json['addressLine1']) ? $json['addressLine1'] : null;
-        $result->addressLine2 = is_string($json['addressLine2']) ? $json['addressLine2'] : null;
-        $result->addressLine3 = is_string($json['addressLine3']) ? $json['addressLine3'] : null;
-        $result->addressLine4 = is_string($json['addressLine4']) ? $json['addressLine4'] : null;
-        $result->postalCode = is_string($json['postalCode']) ? $json['postalCode'] : null;
-        $result->country = is_string($json['country']) ? $json['country'] : null;
-        $result->countryId = is_string($json['countryId']) ? $json['countryId'] : null;
-        $result->countryIsoCode = is_string($json['countryIsoCode']) ? $json['countryIsoCode'] : null;
-        $result->telephone = is_string($json['telephone']) ? $json['telephone'] : null;
-        $result->mobileTelephone = is_string($json['mobileTelephone']) ? $json['mobileTelephone'] : null;
-        $result->fax = is_string($json['fax']) ? $json['fax'] : null;
-        $result->email = is_string($json['email']) ? $json['email'] : null;
-        $result->countryIsoCode3 = is_string($json['countryIsoCode3']) ? $json['countryIsoCode3'] : null;
+        $result->contactId = $json['contactId'] ?? null;
+        $result->addressFullName = $json['addressFullName'] ?? null;
+        $result->companyName = $json['companyName'] ?? null;
+        $result->addressLine1 = $json['addressLine1'] ?? null;
+        $result->addressLine2 = $json['addressLine2'] ?? null;
+        $result->addressLine3 = $json['addressLine3'] ?? null;
+        $result->addressLine4 = $json['addressLine4'] ?? null;
+        $result->postalCode = $json['postalCode'] ?? null;
+        $result->country = $json['country'] ?? null;
+        $result->countryId = $json['countryId'] ?? null;
+        $result->countryIsoCode = $json['countryIsoCode'] ?? null;
+        $result->telephone = $json['telephone'] ?? null;
+        $result->mobileTelephone = $json['mobileTelephone'] ?? null;
+        $result->fax = $json['fax'] ?? null;
+        $result->email = $json['email'] ?? null;
+        $result->countryIsoCode3 = $json['countryIsoCode3'] ?? null;
         return $result;
     }
 

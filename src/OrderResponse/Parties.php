@@ -32,13 +32,10 @@ class Parties implements ModelInterface
      */
     public static function fromJson(array $json): ModelInterface
     {
-        $supplier = is_array($json['supplier']) ? $json['supplier'] : [];
-        $delivery = is_array($json['delivery']) ? $json['delivery'] : [];
-        $billing = is_array($json['billing']) ? $json['billing'] : [];
         $result = new self();
-        $result->supplier = Supplier::fromJson($supplier);
-        $result->delivery = Delivery::fromJson($delivery);
-        $result->billing = Billing::fromJson($billing);
+        $result->supplier = Supplier::fromJson($json['supplier'] ?? []);
+        $result->delivery = Delivery::fromJson( $json['delivery'] ?? []);
+        $result->billing = Billing::fromJson($json['billing'] ?? []);
         return $result;
     }
 

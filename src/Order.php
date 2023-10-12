@@ -24,7 +24,6 @@ class Order implements ModelInterface
         $delivery = is_array($json['delivery']) ? $json['delivery'] : [];
         $invoices = is_array($json['invoices']) ? $json['invoices'] : [];
         $currency = is_array($json['currency']) ? $json['currency'] : [];
-        $parties = is_array($json['parties']) ? $json['parties'] : [];
         $assignment = is_array($json['assignment']) ? $json['assignment'] : [];
         $result->orderTypeCode = is_string($json['orderTypeCode']) ? $json['orderTypeCode'] : null;
         $result->reference = is_string($json['reference']) ? $json['reference'] : null;
@@ -37,7 +36,7 @@ class Order implements ModelInterface
         $result->invoices = InvoiceCollection::fromJson($invoices);
         $result->currency = Currency::fromJson($currency);
         $result->contactId = is_numeric($json['contactId']) ? (int)$json['contactId'] : null;
-        $result->parties = Parties::fromJson($parties);
+        $result->parties = Parties::fromJson($json['parties'] ?? []);
         $result->assignment = Assignment::fromJson($assignment);
         $result->warehouseId = is_numeric($json['warehouseId']) ? (int)$json['warehouseId'] : null;
         return $result;

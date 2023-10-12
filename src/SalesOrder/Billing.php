@@ -2,6 +2,8 @@
 
 namespace SnowIO\BrightpearlDataModel\SalesOrder;
 
+use SnowIO\BrightpearlDataModel\Address;
+
 class Billing
 {
     /** @var int|null $contactId */

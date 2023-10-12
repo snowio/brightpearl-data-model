@@ -4,45 +4,45 @@ namespace SnowIO\BrightpearlDataModel\Order;
 
 use SnowIO\BrightpearlDataModel\Api\ModelInterface;
 use SnowIO\BrightpearlDataModel\Order\Parties\Delivery;
+use SnowIO\BrightpearlDataModel\Order\Parties\Supplier;
+use SnowIO\BrightpearlDataModel\Order\Parties\Billing;
 
 class Parties implements ModelInterface
 {
-    /** @var \SnowIO\BrightpearlDataModel\Order\Parties\Delivery|null $delivery
-     */
+    /** @var Delivery|null $delivery */
     private $delivery;
 
-    /**
-     * @return self
-     */
+    /** @var Supplier|null $supplier */
+    private $supplier;
+
+    /** @var Billing|null $billing */
+    private $billing;
+
     public static function create(): ModelInterface
     {
         return new self();
     }
 
-    /**
-     * @param array<string, mixed> $json
-     * @return self
-     */
     public static function fromJson(array $json): ModelInterface
     {
-        $delivery = is_array($json['delivery']) ? $json['delivery'] : [];
         $result = new self();
-        $result->delivery = Delivery::fromJson($delivery);
+        $result->supplier = Supplier::fromJson( $json['supplier'] ?? []);
+        $result->delivery = Delivery::fromJson($json['delivery'] ?? []);
+        $result->billing = Billing::fromJson($json['billing'] ?? []);
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
-        $delivery = is_null($this->getDelivery()) ? [] : $this->getDelivery()->toJson();
         return [
-            'delivery' => $delivery
+            'supplier' => $this->getSupplier()->toJson(),
+            'delivery' => $this->getDelivery()->toJson(),
+            'billing' => $this->getBilling()->toJson()
         ];
     }
 
     /**
+     * todo fixs this
      * @param ModelInterface $partiesToCompare
      * @return bool
      */
@@ -82,6 +82,44 @@ class Parties implements ModelInterface
     {
         $clone = clone $this;
         $clone->delivery = $delivery;
+        return $clone;
+    }
+
+    /**
+     * @return Supplier|null
+     */
+    public function getSupplier(): ?Supplier
+    {
+        return $this->supplier;
+    }
+
+    /**
+     * @param Supplier|null $supplier
+     * @return self
+     */
+    public function withSupplier(?Supplier $supplier): self
+    {
+        $clone = clone $this;
+        $clone->supplier = $supplier;
+        return $clone;
+    }
+
+    /**
+     * @return Billing|null
+     */
+    public function getBilling(): ?Billing
+    {
+        return $this->billing;
+    }
+
+    /**
+     * @param Billing|null $billing
+     * @return self
+     */
+    public function withBilling(?Billing $billing): self
+    {
+        $clone = clone $this;
+        $clone->billing = $billing;
         return $clone;
     }
 }

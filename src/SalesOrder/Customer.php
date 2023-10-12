@@ -2,6 +2,7 @@
 
 namespace SnowIO\BrightpearlDataModel\SalesOrder;
 
+use SnowIO\BrightpearlDataModel\Address;
 use SnowIO\BrightpearlDataModel\ModelInterface;
 
 class Customer implements ModelInterface

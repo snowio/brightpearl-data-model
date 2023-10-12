@@ -2,38 +2,29 @@
 
 namespace SnowIO\BrightpearlDataModel\Order;
 
-class Billing
+use SnowIO\BrightpearlDataModel\Address;
+use SnowIO\BrightpearlDataModel\ModelInterface;
+
+class Billing implements ModelInterface
 {
     /** @var int|null $contactId */
     private $contactId;
     /** @var Address|null $address */
     private $address;
 
-    /**
-     * @return self
-     */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
-    /**
-     * @param array<string, mixed> $json
-     * @return self
-     */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-        $address = is_array($json['address']) ? $json['address'] : [];
-        $result->contactId = is_numeric($json['contactId']) ? (int)$json['contactId'] : null;
-        $result->address = Address::fromJson($address);
-
+        $result->contactId = $json['contactId'] ?? null;
+        $result->address = Address::fromJson($json['address'] ?? []);
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         $address = is_null($this->getAddress()) ? [] : $this->getAddress()->toJson();
@@ -44,26 +35,11 @@ class Billing
         ];
     }
 
-    /**
-     * @param Billing $billingToCompare
-     * @return bool
-     */
-    public function equals(Billing $billingToCompare): bool
+    public function equals($other): bool
     {
-        if (is_null($this->getAddress()) && is_null($billingToCompare->getAddress())) {
-            return $this->getContactId() === $billingToCompare->getContactId();
-        }
-        if (is_null($this->getAddress())) {
-            return false;
-        }
-        if (is_null($billingToCompare->getAddress())) {
-            return false;
-        }
-        if ($this->getAddress()->equals($billingToCompare->getAddress())) {
-            return $this->getContactId() === $billingToCompare->getContactId();
-        }
-
-        return false;
+        return $other instanceof Billing &&
+            $this->contactId === $other->contactId &&
+            $this->address->equals($other->address);
     }
 
     /**

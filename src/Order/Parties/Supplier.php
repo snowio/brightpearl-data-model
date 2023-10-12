@@ -1,11 +1,14 @@
 <?php
 
-namespace SnowIO\BrightpearlDataModel\OrderResponse\Parties;
+namespace SnowIO\BrightpearlDataModel\Order\Parties;
 
 use SnowIO\BrightpearlDataModel\Api\ModelInterface;
 
-class Delivery implements ModelInterface
+class Supplier implements ModelInterface
 {
+    /** @var string|null $contactId */
+    private $contactId;
+
     /** @var string|null $addressFullName */
     private $addressFullName;
     /** @var string|null $companyName */
@@ -48,14 +51,22 @@ class Delivery implements ModelInterface
     /** @var string|null $countryIsoCode3 */
     private $countryIsoCode3;
 
+    /**
+     * @return ModelInterface
+     */
     public static function create(): ModelInterface
     {
         return new self();
     }
 
+    /**
+     * @param array<string, mixed> $json
+     * @return self
+     */
     public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
+        $result->contactId = $json['contactId'] ?? null;
         $result->addressFullName = $json['addressFullName'] ?? null;
         $result->companyName = $json['companyName'] ?? null;
         $result->addressLine1 = $json['addressLine1'] ?? null;
@@ -80,6 +91,7 @@ class Delivery implements ModelInterface
     public function toJson(): array
     {
         return [
+            'contactId' => $this->getContactId(),
             'addressFullName' => $this->getAddressFullName(),
             'companyName' => $this->getCompanyName(),
             'addressLine1' => $this->getAddressLine1(),
@@ -98,11 +110,19 @@ class Delivery implements ModelInterface
         ];
     }
 
+    /**
+     * @param ModelInterface $deliveryToCompare
+     * @return bool
+     */
     public function equals(ModelInterface $deliveryToCompare): bool
     {
         if (!$deliveryToCompare instanceof Delivery) {
             return false;
         }
+        if ($this->getContactId() !== $deliveryToCompare->getCountryId()) {
+            return false;
+        }
+
         if ($this->getAddressFullName() !== $deliveryToCompare->getAddressFullName()) {
             return false;
         }
@@ -149,10 +169,29 @@ class Delivery implements ModelInterface
     }
 
     /**
+     * @param string $contactId
+     * @return Supplier
+     */
+    public function withContactId(string $contactId): ModelInterface
+    {
+        $clone = clone $this;
+        $clone->contactId = $contactId;
+        return $clone;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getContactId(): ?string
+    {
+        return $this->contactId;
+    }
+
+    /**
      * @param string $countryIsoCode3
      * @return $this
      */
-    public function withCountryIsoCode3(string $countryIsoCode3): Delivery
+    public function withCountryIsoCode3(string $countryIsoCode3): ModelInterface
     {
         $clone = clone $this;
         $clone->countryIsoCode3 = $countryIsoCode3;
@@ -166,11 +205,12 @@ class Delivery implements ModelInterface
     {
         return $this->countryIsoCode3;
     }
+
     /**
      * @param string $country
      * @return $this
      */
-    public function withCountry(string $country): Delivery
+    public function withCountry(string $country):ModelInterface
     {
         $clone = clone $this;
         $clone->country = $country;
@@ -184,6 +224,7 @@ class Delivery implements ModelInterface
     {
         return $this->country;
     }
+
     /**
      * @return string
      */

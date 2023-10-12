@@ -97,9 +97,6 @@ class OrderTest extends TestCase
             ->withFax("1234567890")
             ->withEmail("test@domain.com");
 
-        $parties = Order\Parties::create()
-            ->withDelivery($partiesDelivery);
-
         $currency = Order\Currency::create()
             ->withCode("GBP")
             ->withFixedExchangeRate(true)
@@ -139,7 +136,11 @@ class OrderTest extends TestCase
             ->withInvoices($invoiceCollection)
             ->withCurrency($currency)
             ->withContactId(9)
-            ->withParties($parties)
+            ->withParties(Order\Parties::create()
+                ->withDelivery($partiesDelivery)
+                ->withSupplier(Order\Parties\Supplier::create())
+                ->withBilling(Order\Parties\Billing::create())
+            )
             ->withWareHouseId(2)
             ->withAssignment($assignment);
         self::assertEquals($this->getJsonData(), $order->toJson());

@@ -3,6 +3,7 @@
 namespace SnowIO\BrightpearlDataModel\Test\Unit\SalesOrder;
 
 use PHPUnit\Framework\TestCase;
+use SnowIO\BrightpearlDataModel\Address;
 use SnowIO\BrightpearlDataModel\Order;
 use SnowIO\BrightpearlDataModel\SalesOrder;
 use SnowIO\BrightpearlDataModel\SalesOrder\PostSalesOrder;
@@ -21,7 +22,7 @@ class PostSalesOrderTest extends TestCase
 
     public function testWithers()
     {
-        $address1 = SalesOrder\Address::create()
+        $address1 = Address::create()
             ->withAddressFullName("Snow avenue")
             ->withCompanyName("Snow")
             ->withAddressLine1("some street")
@@ -35,7 +36,7 @@ class PostSalesOrderTest extends TestCase
             ->withFax('1234567890')
             ->withEmail("test@domain.com");
 
-        $address2 = SalesOrder\Address::create()
+        $address2 = Address::create()
             ->withAddressFullName("John Doe")
             ->withCompanyName("BrightPearl")
             ->withAddressLine1("First floor")
@@ -116,7 +117,7 @@ class PostSalesOrderTest extends TestCase
 
         self::assertInstanceOf(SalesOrder\Billing::class, $order->getBilling());
         self::assertEquals(234, $order->getBilling()->getContactId());
-        self::assertInstanceOf(SalesOrder\Address::class, $order->getBilling()->getAddress());
+        self::assertInstanceOf(Address::class, $order->getBilling()->getAddress());
         self::assertEquals("Snow avenue", $order->getBilling()->getAddress()->getAddressFullName());
         self::assertEquals("Snow", $order->getBilling()->getAddress()->getCompanyName());
         self::assertEquals("some street", $order->getBilling()->getAddress()->getAddressLine1());
@@ -149,7 +150,7 @@ class PostSalesOrderTest extends TestCase
         self::assertInstanceOf(SalesOrder\Delivery::class, $order->getDelivery());
         self::assertEquals("2016-09-29T11:12:24.000+01:00", $order->getDelivery()->getDate());
         self::assertEquals(6, $order->getDelivery()->getShippingMethodId());
-        self::assertInstanceOf(SalesOrder\Address::class, $order->getDelivery()->getAddress());
+        self::assertInstanceOf(Address::class, $order->getDelivery()->getAddress());
         self::assertEquals("John Doe", $order->getDelivery()->getAddress()->getAddressFullName());
         self::assertEquals("BrightPearl", $order->getDelivery()->getAddress()->getCompanyName());
         self::assertEquals("First floor", $order->getDelivery()->getAddress()->getAddressLine1());
