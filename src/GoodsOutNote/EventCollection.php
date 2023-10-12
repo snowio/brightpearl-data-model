@@ -3,25 +3,19 @@
 namespace SnowIO\BrightpearlDataModel\GoodsOutNote;
 
 use Iterator;
+use IteratorAggregate;
 use SnowIO\BrightpearlDataModel\GoodsOutNote\Event\Event;
 
-class EventCollection
+class EventCollection implements IteratorAggregate
 {
-
     /** @var Event[] */
     private $items = [];
 
-    /**
-     * @return self
-     */
     public static function create(): self
     {
         return new self();
     }
 
-    /**
-     * @param Event[] $items
-     */
     public static function of(array $items): self
     {
         $result = new self();
@@ -35,22 +29,15 @@ class EventCollection
         return $result;
     }
 
-    /**
-     * @return array<mixed>
-     */
     public function toJson(): array
     {
         $json = [];
         foreach ($this->items as $event) {
             $json[] = $event->toJson();
         }
-
         return $json;
     }
 
-    /**
-     * @param array<mixed> $json
-     */
     public static function fromJson(array $json): self
     {
         $result = new self();
@@ -63,9 +50,6 @@ class EventCollection
         return $result;
     }
 
-    /**
-     * @return Iterator
-     */
     public function getIterator(): Iterator
     {
         foreach ($this->items as $item) {

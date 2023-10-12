@@ -11,17 +11,11 @@ class OrderRowCollection implements IteratorAggregate
     /** @var Order[] */
     private $items = [];
 
-    /**
-     * @return self
-     */
     public static function create(): self
     {
         return new self();
     }
 
-    /**
-     * @param Order[] $items
-     */
     public static function of(array $items): self
     {
         $result = new self();
@@ -35,9 +29,6 @@ class OrderRowCollection implements IteratorAggregate
         return $result;
     }
 
-    /**
-     * @return array<mixed>
-     */
     public function toJson(): array
     {
         $json = [];
@@ -48,9 +39,6 @@ class OrderRowCollection implements IteratorAggregate
         return $json;
     }
 
-    /**
-     * @param array<mixed> $json
-     */
     public static function fromJson(array $json): self
     {
         $result = new self();
@@ -65,9 +53,6 @@ class OrderRowCollection implements IteratorAggregate
         return $result;
     }
 
-    /**
-     * @return Iterator
-     */
     public function getIterator(): Iterator
     {
         foreach ($this->items as $item) {

@@ -2,45 +2,34 @@
 
 namespace SnowIO\BrightpearlDataModel\GoodsOutNote;
 
-class Shipping
-{
+use SnowIO\BrightpearlDataModel\ModelInterface;
 
+class Shipping implements ModelInterface
+{
     /** @var string|null $reference */
     private $reference;
-
     /** @var int|null */
     private $boxes;
-
     /** @var int|null shippingMethodId */
     private $shippingMethodId;
-
     /** @var string|null $weight */
     private $weight;
 
-    /**
-     * @return self
-     */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
-    /**
-     * @param array<string, mixed> $json
-     */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-        $result->reference = is_string($json['reference']) ? $json['reference'] : null;
-        $result->boxes = is_int($json['boxes']) ? $json['boxes'] : null;
-        $result->shippingMethodId = is_int($json['shippingMethodId']) ? $json['shippingMethodId'] : null;
-        $result->weight = is_string($json['weight']) ? $json['weight'] : null;
+        $result->reference = $json['reference'] ?? null;
+        $result->boxes = $json['boxes'] ?? null;
+        $result->shippingMethodId = $json['shippingMethodId'] ?? null;
+        $result->weight = $json['weight'] ?? null;
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         return [
@@ -51,10 +40,15 @@ class Shipping
         ];
     }
 
-    /**
-     * @param string|null $reference
-     * @return Shipping
-     */
+    public function equals(ModelInterface $other): bool
+    {
+        return $other instanceof Shipping &&
+            $this->reference === $other->reference &&
+            $this->boxes === $other->boxes &&
+            $this->shippingMethodId === $other->shippingMethodId &&
+            $this->weight === $other->weight;
+    }
+
     public function withReference(?string $reference): Shipping
     {
         $clone = clone $this;
@@ -62,10 +56,6 @@ class Shipping
         return $clone;
     }
 
-    /**
-     * @param int|null $boxes
-     * @return Shipping
-     */
     public function withBoxes(?int $boxes): Shipping
     {
         $clone = clone $this;
@@ -73,10 +63,6 @@ class Shipping
         return $clone;
     }
 
-    /**
-     * @param int|null $shippingMethodId
-     * @return Shipping
-     */
     public function withShippingMethodId(?int $shippingMethodId): Shipping
     {
         $clone = clone $this;
@@ -84,10 +70,6 @@ class Shipping
         return $clone;
     }
 
-    /**
-     * @param string|null $weight
-     * @return Shipping
-     */
     public function withWeight(?string $weight): Shipping
     {
         $clone = clone $this;
@@ -95,33 +77,21 @@ class Shipping
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getReference(): ?string
     {
         return $this->reference;
     }
 
-    /**
-     * @return int|null
-     */
     public function getBoxes(): ?int
     {
         return $this->boxes;
     }
 
-    /**
-     * @return int|null
-     */
     public function getShippingMethodId(): ?int
     {
         return $this->shippingMethodId;
     }
 
-    /**
-     * @return string|null
-     */
     public function getWeight(): ?string
     {
         return $this->weight;

@@ -2,45 +2,34 @@
 
 namespace SnowIO\BrightpearlDataModel\GoodsOutNote\Row;
 
-class Order
+use SnowIO\BrightpearlDataModel\ModelInterface;
+
+class Order implements ModelInterface
 {
     /** @var int|null $productId */
     private $productId;
-
     /** @var int|null $quantity */
     private $quantity;
-
     /** @var int|null $locationId */
     private $locationId;
-
     /** @var string|null $externalRef */
     private $externalRef;
 
-
-    /**
-     * @return self
-     */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
-    /**
-     * @param array<string, mixed> $json
-     */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-        $result->productId = is_int($json['productId']) ? $json['productId'] : null;
-        $result->quantity = is_int($json['quantity']) ? $json['quantity'] : null;
-        $result->locationId = is_int($json['locationId']) ? $json['locationId'] : null;
-        $result->externalRef = is_string($json['externalRef']) ? $json['externalRef'] : null;
+        $result->productId = $json['productId'] ?? null;
+        $result->quantity = $json['quantity'] ?? null;
+        $result->locationId = $json['locationId'] ?? null;
+        $result->externalRef = $json['externalRef'] ?? null;
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         return [
@@ -51,10 +40,15 @@ class Order
         ];
     }
 
-    /**
-     * @param int|null $productId
-     * @return Order
-     */
+    public function equals(ModelInterface $other): bool
+    {
+        return $other instanceof Order &&
+            $this->productId === $other->productId &&
+            $this->quantity === $other->quantity &&
+            $this->locationId === $other->locationId &&
+            $this->externalRef === $other->externalRef;
+    }
+
     public function withProductId(?int $productId): Order
     {
         $clone = clone $this;
@@ -62,10 +56,6 @@ class Order
         return $clone;
     }
 
-    /**
-     * @param int|null $quantity
-     * @return Order
-     */
     public function withQuantity(?int $quantity): Order
     {
         $clone = clone $this;
@@ -73,10 +63,6 @@ class Order
         return $clone;
     }
 
-    /**
-     * @param int|null $locationId
-     * @return Order
-     */
     public function withLocationId(?int $locationId): Order
     {
         $clone = clone $this;
@@ -84,10 +70,6 @@ class Order
         return $clone;
     }
 
-    /**
-     * @param string|null $externalRef
-     * @return Order
-     */
     public function withExternalRef(?string $externalRef): Order
     {
         $clone = clone $this;
@@ -95,33 +77,21 @@ class Order
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getProductId(): ?int
     {
         return $this->productId;
     }
 
-    /**
-     * @return int|null
-     */
     public function getQuantity(): ?int
     {
         return $this->quantity;
     }
 
-    /**
-     * @return int|null
-     */
     public function getLocationId(): ?int
     {
         return $this->locationId;
     }
 
-    /**
-     * @return string|null
-     */
     public function getExternalRef(): ?string
     {
         return $this->externalRef;
