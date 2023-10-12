@@ -6,7 +6,7 @@ use SnowIO\BrightpearlDataModel\Api\ModelInterface;
 use SnowIO\BrightpearlDataModel\OrderResponse\Delivery;
 use SnowIO\BrightpearlDataModel\OrderResponse\InvoiceCollection;
 use SnowIO\BrightpearlDataModel\OrderResponse\OrderStatus;
-use SnowIO\BrightpearlDataModel\OrderResponse\PartiesCollection;
+use SnowIO\BrightpearlDataModel\OrderResponse\Parties;
 use SnowIO\BrightpearlDataModel\OrderResponse\RowCollection;
 use SnowIO\BrightpearlDataModel\OrderResponse\State;
 use SnowIO\BrightpearlDataModel\OrderResponse\TotalValue;
@@ -25,7 +25,7 @@ class OrderResponse implements ModelInterface
     private $orderRows;
     /** @var TotalValue|null $totalValue */
     private $totalValue;
-    /** @var PartiesCollection|null */
+    /** @var Parties|null */
     private $parties;
     /** @var string|null $externalRef */
     private $externalRef;
@@ -70,14 +70,10 @@ class OrderResponse implements ModelInterface
     /** @var int|null $orderWeighting */
     private $orderWeighting;
 
-    /**
-     * @return self
-     */
     public static function create(): ModelInterface
     {
         return new self();
     }
-
     /**
      * @param array<string, mixed> $json
      */
@@ -102,7 +98,7 @@ class OrderResponse implements ModelInterface
         $result->reference = is_string($json['reference']) ? $json['reference'] : null;
         $result->state = State::fromJson($state);
         $result->totalValue = TotalValue::fromJson($totalValue);
-        $result->parties = PartiesCollection::fromJson($parties);
+        $result->parties = Parties::fromJson($parties);
         $result->orderPaymentStatus = is_string($json['orderPaymentStatus']) ? $json['orderPaymentStatus'] : null;
         $result->stockStatusCode = is_string($json['stockStatusCode']) ? $json['stockStatusCode'] : null;
         $result->allocationStatusCode = is_string($json['allocationStatusCode']) ? $json['allocationStatusCode'] : null;
@@ -179,18 +175,12 @@ class OrderResponse implements ModelInterface
         return $this->toJson() === $orderResponseToCompare->toJson();
     }
 
-    /**
-     * @return int|null
-     */
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     * @return OrderResponse
-     */
     public function withId(int $id): OrderResponse
     {
         $clone = clone $this;
@@ -198,18 +188,11 @@ class OrderResponse implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getParentOrderId(): ?int
     {
         return $this->parentOrderId;
     }
 
-    /**
-     * @param int|null $parentOrderId
-     * @return OrderResponse
-     */
     public function withParentOrderId(?int $parentOrderId): OrderResponse
     {
         $clone = clone $this;
@@ -217,18 +200,11 @@ class OrderResponse implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getOrderTypeCode(): ?string
     {
         return $this->orderTypeCode;
     }
 
-    /**
-     * @param string $orderTypeCode
-     * @return OrderResponse
-     */
     public function withOrderTypeCode(string $orderTypeCode): OrderResponse
     {
         $clone = clone $this;
@@ -236,18 +212,11 @@ class OrderResponse implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return OrderStatus|null
-     */
     public function getOrderStatus(): ?OrderStatus
     {
         return $this->orderStatus;
     }
 
-    /**
-     * @param OrderStatus $orderStatus
-     * @return OrderResponse
-     */
     public function withOrderStatus(OrderStatus $orderStatus): OrderResponse
     {
         $clone = clone $this;
@@ -255,18 +224,11 @@ class OrderResponse implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return RowCollection|null
-     */
     public function getOrderRows(): ?RowCollection
     {
         return $this->orderRows;
     }
 
-    /**
-     * @param RowCollection $orderRows
-     * @return OrderResponse
-     */
     public function withOrderRows(RowCollection $orderRows): OrderResponse
     {
         $clone = clone $this;
@@ -274,37 +236,23 @@ class OrderResponse implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return PartiesCollection
-     */
-    public function getParties(): ?PartiesCollection
+    public function getParties(): ?Parties
     {
         return $this->parties;
     }
 
-    /**
-     * @param PartiesCollection $parties
-     * @return OrderResponse
-     */
-    public function withParties(PartiesCollection $parties): OrderResponse
+    public function withParties(Parties $parties): OrderResponse
     {
         $clone = clone $this;
         $clone->parties = $parties;
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getExternalRef(): ?string
     {
         return $this->externalRef;
     }
 
-    /**
-     * @param string|null $externalRef
-     * @return OrderResponse
-     */
     public function withExternalRef(?string $externalRef): OrderResponse
     {
         $clone = clone $this;
@@ -312,18 +260,11 @@ class OrderResponse implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getReference(): ?string
     {
         return $this->reference;
     }
 
-    /**
-     * @param string|null $reference
-     * @return OrderResponse
-     */
     public function withReference(?string $reference): OrderResponse
     {
         $clone = clone $this;
@@ -331,18 +272,11 @@ class OrderResponse implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return State|null
-     */
     public function getState(): ?State
     {
         return $this->state;
     }
 
-    /**
-     * @param State|null $state
-     * @return OrderResponse
-     */
     public function withState(?State $state): OrderResponse
     {
         $clone = clone $this;
@@ -350,18 +284,11 @@ class OrderResponse implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return TotalValue|null
-     */
     public function getTotalValue(): ?TotalValue
     {
         return $this->totalValue;
     }
 
-    /**
-     * @param TotalValue|null $totalValue
-     * @return OrderResponse
-     */
     public function withTotalValue(?TotalValue $totalValue): OrderResponse
     {
         $clone = clone $this;
@@ -369,18 +296,11 @@ class OrderResponse implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getOrderPaymentStatus(): ?string
     {
         return $this->orderPaymentStatus;
     }
 
-    /**
-     * @param string|null $orderPaymentStatus
-     * @return OrderResponse
-     */
     public function withOrderPaymentStatus(?string $orderPaymentStatus): OrderResponse
     {
         $clone = clone $this;
@@ -388,18 +308,11 @@ class OrderResponse implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getStockStatusCode(): ?string
     {
         return $this->stockStatusCode;
     }
 
-    /**
-     * @param string|null $stockStatusCode
-     * @return OrderResponse
-     */
     public function withStockStatusCode(?string $stockStatusCode): OrderResponse
     {
         $clone = clone $this;
@@ -407,18 +320,11 @@ class OrderResponse implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getAllocationStatusCode(): ?string
     {
         return $this->allocationStatusCode;
     }
 
-    /**
-     * @param string|null $allocationStatusCode
-     * @return OrderResponse
-     */
     public function withAllocationStatusCode(?string $allocationStatusCode): OrderResponse
     {
         $clone = clone $this;
@@ -426,18 +332,11 @@ class OrderResponse implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getShippingStatusCode(): ?string
     {
         return $this->shippingStatusCode;
     }
 
-    /**
-     * @param string|null $shippingStatusCode
-     * @return OrderResponse
-     */
     public function withShippingStatusCode(?string $shippingStatusCode): OrderResponse
     {
         $clone = clone $this;
@@ -445,18 +344,11 @@ class OrderResponse implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getPlacedOn(): ?string
     {
         return $this->placedOn;
     }
 
-    /**
-     * @param string|null $placedOn
-     * @return OrderResponse
-     */
     public function withPlacedOn(?string $placedOn): OrderResponse
     {
         $clone = clone $this;
@@ -464,18 +356,11 @@ class OrderResponse implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getCreatedOn(): ?string
     {
         return $this->createdOn;
     }
 
-    /**
-     * @param string|null $createdOn
-     * @return OrderResponse
-     */
     public function withCreatedOn(?string $createdOn): OrderResponse
     {
         $clone = clone $this;
@@ -483,18 +368,11 @@ class OrderResponse implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getUpdatedOn(): ?string
     {
         return $this->updatedOn;
     }
 
-    /**
-     * @param string|null $updatedOn
-     * @return OrderResponse
-     */
     public function withUpdatedOn(?string $updatedOn): OrderResponse
     {
         $clone = clone $this;
@@ -502,18 +380,11 @@ class OrderResponse implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getCreatedById(): ?string
     {
         return $this->createdById;
     }
 
-    /**
-     * @param string|null $createdById
-     * @return OrderResponse
-     */
     public function withCreatedById(?string $createdById): OrderResponse
     {
         $clone = clone $this;
@@ -521,18 +392,11 @@ class OrderResponse implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getPriceListId(): ?string
     {
         return $this->priceListId;
     }
 
-    /**
-     * @param string|null $priceListId
-     * @return OrderResponse
-     */
     public function withPriceListId(?string $priceListId): OrderResponse
     {
         $clone = clone $this;
@@ -540,18 +404,11 @@ class OrderResponse implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getPriceModeCode(): ?string
     {
         return $this->priceModeCode;
     }
 
-    /**
-     * @param string|null $priceModeCode
-     * @return OrderResponse
-     */
     public function withPriceModeCode(?string $priceModeCode): OrderResponse
     {
         $clone = clone $this;
@@ -559,18 +416,11 @@ class OrderResponse implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return Delivery|null
-     */
     public function getDelivery(): ?Delivery
     {
         return $this->delivery;
     }
 
-    /**
-     * @param Delivery|null $delivery
-     * @return OrderResponse
-     */
     public function withDelivery(?Delivery $delivery): OrderResponse
     {
         $clone = clone $this;
@@ -578,18 +428,11 @@ class OrderResponse implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return InvoiceCollection|null
-     */
     public function getInvoices(): ?InvoiceCollection
     {
         return $this->invoices;
     }
 
-    /**
-     * @param InvoiceCollection|null $invoices
-     * @return OrderResponse
-     */
     public function withInvoices(?InvoiceCollection $invoices): OrderResponse
     {
         $clone = clone $this;
@@ -597,18 +440,11 @@ class OrderResponse implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getWarehouseId(): ?int
     {
         return $this->warehouseId;
     }
 
-    /**
-     * @param int|null $warehouseId
-     * @return OrderResponse
-     */
     public function withWarehouseId(?int $warehouseId): OrderResponse
     {
         $clone = clone $this;
@@ -616,18 +452,11 @@ class OrderResponse implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getAcknowledged(): ?int
     {
         return $this->acknowledged;
     }
 
-    /**
-     * @param int|null $acknowledged
-     * @return OrderResponse
-     */
     public function withAcknowledged(?int $acknowledged): OrderResponse
     {
         $clone = clone $this;
@@ -635,18 +464,11 @@ class OrderResponse implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getCostPriceListId(): ?int
     {
         return $this->costPriceListId;
     }
 
-    /**
-     * @param int|null $costPriceListId
-     * @return OrderResponse
-     */
     public function withCostPriceListId(?int $costPriceListId): OrderResponse
     {
         $clone = clone $this;
@@ -654,18 +476,12 @@ class OrderResponse implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return bool|null
-     */
     public function getHistoricalOrder(): ?bool
     {
         return $this->historicalOrder;
     }
 
-    /**
-     * @param bool|null $historicalOrder
-     * @return OrderResponse
-     */
+
     public function withHistoricalOrder(?bool $historicalOrder): OrderResponse
     {
         $clone = clone $this;
@@ -673,18 +489,11 @@ class OrderResponse implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return bool|null
-     */
     public function getIsDropship(): ?bool
     {
         return $this->isDropship;
     }
 
-    /**
-     * @param bool|null $isDropship
-     * @return OrderResponse
-     */
     public function withIsDropship(?bool $isDropship): OrderResponse
     {
         $clone = clone $this;
@@ -692,18 +501,11 @@ class OrderResponse implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getOrderWeighting(): ?int
     {
         return $this->orderWeighting;
     }
 
-    /**
-     * @param int|null $orderWeighting
-     * @return OrderResponse
-     */
     public function withOrderWeighting(?int $orderWeighting): OrderResponse
     {
         $clone = clone $this;

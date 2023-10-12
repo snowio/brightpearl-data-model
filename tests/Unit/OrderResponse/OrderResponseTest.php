@@ -142,50 +142,67 @@ class OrderResponseTest extends TestCase
                 'total' => "6.99"
             ],
             'parties' => [
-                [
-                    'contactId' => 123,
-                    'addressFullName' => "SomeAddressFullName",
-                    'companyName' => "SomeCompanyName",
-                    'addressLine1' => "SomeAddressLine1",
-                    'addressLine2' => "SomeAddressLine2",
-                    'addressLine3' => "SomeAddressLine3",
-                    'addressLine4' => "SomeAddressLine4",
-                    'postalCode' => "SomePostalCode",
-                    'country' => "SomeCountry",
-                    'telephone' => "SomeTelephone",
-                    'mobileTelephone' => "SomeMobileTelephone",
-                    'fax' => "SomeFax",
-                    'email' => "some@exmaple.com",
-                    'countryId' => 234,
-                    'countryIsoCode' => "SomeCountryIsoCode",
-                    'countryIsoCode3' => "SomeCountryIsoCode3",
+                    "supplier" => [
+                        'contactId' => 345,
+                        'addressFullName' => "SomeAddressFullName2",
+                        'companyName' => "SomeCompanyName2",
+                        'addressLine1' => "SomeAddressLine12",
+                        'addressLine2' => "SomeAddressLine22",
+                        'addressLine3' => "SomeAddressLine32",
+                        'addressLine4' => "SomeAddressLine42",
+                        'postalCode' => "SomePostalCode2",
+                        'country' => "SomeCountry2",
+                        'telephone' => "SomeTelephone2",
+                        'mobileTelephone' => "SomeMobileTelephone2",
+                        'fax' => "SomeFax2",
+                        'email' => "some2@exmaple.com",
+                        'countryId' => 456,
+                        'countryIsoCode' => "SomeCountryIsoCode2",
+                        'countryIsoCode3' => "SomeCountryIsoCode32",
+                    ],
+                    "delivery" => [
+                        'addressFullName' => "SomeAddressFullName",
+                        'companyName' => "SomeCompanyName",
+                        'addressLine1' => "SomeAddressLine1",
+                        'addressLine2' => "SomeAddressLine2",
+                        'addressLine3' => "SomeAddressLine3",
+                        'addressLine4' => "SomeAddressLine4",
+                        'postalCode' => "SomePostalCode",
+                        'country' => "SomeCountry",
+                        'telephone' => "SomeTelephone",
+                        'mobileTelephone' => "SomeMobileTelephone",
+                        'fax' => "SomeFax",
+                        'email' => "some@exmaple.com",
+                        'countryId' => 234,
+                        'countryIsoCode' => "SomeCountryIsoCode",
+                        'countryIsoCode3' => "SomeCountryIsoCode3",
+                    ],
+                    "billing" => [
+                        'contactId' => 345,
+                        'addressFullName' => "SomeAddressFullName2",
+                        'companyName' => "SomeCompanyName2",
+                        'addressLine1' => "SomeAddressLine12",
+                        'addressLine2' => "SomeAddressLine22",
+                        'addressLine3' => "SomeAddressLine32",
+                        'addressLine4' => "SomeAddressLine42",
+                        'postalCode' => "SomePostalCode2",
+                        'country' => "SomeCountry2",
+                        'telephone' => "SomeTelephone2",
+                        'mobileTelephone' => "SomeMobileTelephone2",
+                        'fax' => "SomeFax2",
+                        'email' => "some2@exmaple.com",
+                        'countryId' => 456,
+                        'countryIsoCode' => "SomeCountryIsoCode2",
+                        'countryIsoCode3' => "SomeCountryIsoCode32",
+                    ]
                 ],
-                [
-                    'contactId' => 345,
-                    'addressFullName' => "SomeAddressFullName2",
-                    'companyName' => "SomeCompanyName2",
-                    'addressLine1' => "SomeAddressLine12",
-                    'addressLine2' => "SomeAddressLine22",
-                    'addressLine3' => "SomeAddressLine32",
-                    'addressLine4' => "SomeAddressLine42",
-                    'postalCode' => "SomePostalCode2",
-                    'country' => "SomeCountry2",
-                    'telephone' => "SomeTelephone2",
-                    'mobileTelephone' => "SomeMobileTelephone2",
-                    'fax' => "SomeFax2",
-                    'email' => "some2@exmaple.com",
-                    'countryId' => 456,
-                    'countryIsoCode' => "SomeCountryIsoCode2",
-                    'countryIsoCode3' => "SomeCountryIsoCode32",
-                ]
-            ],
-            'warehouseId' => 345,
-            'acknowledged' => 456,
-            'costPriceListId' => 567,
-            'historicalOrder' => true,
-            'isDropship' => false,
-            'orderWeighting' => 678
-        ];
+                'warehouseId' => 345,
+                'acknowledged' => 456,
+                'costPriceListId' => 567,
+                'historicalOrder' => true,
+                'isDropship' => false,
+                'orderWeighting' => 678
+            ];
     }
 
     /**
@@ -314,24 +331,7 @@ class OrderResponseTest extends TestCase
             ->withBaseTotal("5.99")
             ->withTotal("6.99");
 
-        $party1 = OrderResponse\Parties::create()
-            ->withContactId(123)
-            ->withAddressFullName("SomeAddressFullName")
-            ->withCompanyName("SomeCompanyName")
-            ->withAddressLine1("SomeAddressLine1")
-            ->withAddressLine2("SomeAddressLine2")
-            ->withAddressLine3("SomeAddressLine3")
-            ->withAddressLine4("SomeAddressLine4")
-            ->withPostalCode("SomePostalCode")
-            ->withCountry("SomeCountry")
-            ->withTelephone("SomeTelephone")
-            ->withMobileTelephone("SomeMobileTelephone")
-            ->withFax("SomeFax")
-            ->withEmail("some@exmaple.com")
-            ->withCountryId(234)
-            ->withCountryIsoCode("SomeCountryIsoCode")
-            ->withCountryIsoCode3("SomeCountryIsoCode3");
-        $party2 = OrderResponse\Parties::create()
+        $partiesSupplier = OrderResponse\Parties\Supplier::create()
             ->withContactId(345)
             ->withAddressFullName("SomeAddressFullName2")
             ->withCompanyName("SomeCompanyName2")
@@ -348,7 +348,46 @@ class OrderResponseTest extends TestCase
             ->withCountryId(456)
             ->withCountryIsoCode("SomeCountryIsoCode2")
             ->withCountryIsoCode3("SomeCountryIsoCode32");
-        $parties = OrderResponse\PartiesCollection::of([$party1, $party2]);
+
+        $partiesDelivery = OrderResponse\Parties\Delivery::create()
+            ->withAddressFullName("SomeAddressFullName")
+            ->withCompanyName("SomeCompanyName")
+            ->withAddressLine1("SomeAddressLine1")
+            ->withAddressLine2("SomeAddressLine2")
+            ->withAddressLine3("SomeAddressLine3")
+            ->withAddressLine4("SomeAddressLine4")
+            ->withPostalCode("SomePostalCode")
+            ->withCountry("SomeCountry")
+            ->withTelephone("SomeTelephone")
+            ->withMobileTelephone("SomeMobileTelephone")
+            ->withFax("SomeFax")
+            ->withEmail("some@exmaple.com")
+            ->withCountryId(234)
+            ->withCountryIsoCode("SomeCountryIsoCode")
+            ->withCountryIsoCode3("SomeCountryIsoCode3");
+
+        $partiesBilling = OrderResponse\Parties\Billing::create()
+            ->withContactId(345)
+            ->withAddressFullName("SomeAddressFullName2")
+            ->withCompanyName("SomeCompanyName2")
+            ->withAddressLine1("SomeAddressLine12")
+            ->withAddressLine2("SomeAddressLine22")
+            ->withAddressLine3("SomeAddressLine32")
+            ->withAddressLine4("SomeAddressLine42")
+            ->withPostalCode("SomePostalCode2")
+            ->withCountry("SomeCountry2")
+            ->withTelephone("SomeTelephone2")
+            ->withMobileTelephone("SomeMobileTelephone2")
+            ->withFax("SomeFax2")
+            ->withEmail("some2@exmaple.com")
+            ->withCountryId(456)
+            ->withCountryIsoCode("SomeCountryIsoCode2")
+            ->withCountryIsoCode3("SomeCountryIsoCode32");
+
+        $parties = OrderResponse\Parties::create()
+            ->withSupplier($partiesSupplier)
+            ->withDelivery($partiesDelivery)
+            ->withBilling($partiesBilling);
 
         $orderResponse = OrderResponse::create()
             ->withId(123)
@@ -487,44 +526,60 @@ class OrderResponseTest extends TestCase
         self::assertEquals("5.99", $order->getTotalValue()->getBaseTotal());
         self::assertEquals("6.99", $order->getTotalValue()->getTotal());
 
-        self::assertInstanceOf(OrderResponse\PartiesCollection::class, $order->getParties());
-        $parties = iterator_to_array($order->getParties()->getIterator());
-        self::assertInstanceOf(OrderResponse\Parties::class, $parties[0]);
-        self::assertInstanceOf(OrderResponse\Parties::class, $parties[1]);
+        self::assertInstanceOf(OrderResponse\Parties::class, $order->getParties());
+        self::assertInstanceOf(OrderResponse\Parties\Supplier::class, $order->getParties()->getSupplier());
+        self::assertInstanceOf(OrderResponse\Parties\Delivery::class, $order->getParties()->getDelivery());
+        self::assertInstanceOf(OrderResponse\Parties\Billing::class, $order->getParties()->getBilling());
 
-        self::assertEquals(123, $parties[0]->getContactId());
-        self::assertEquals('SomeAddressFullName', $parties[0]->getAddressFullName());
-        self::assertEquals('SomeCompanyName', $parties[0]->getCompanyName());
-        self::assertEquals('SomeAddressLine1', $parties[0]->getAddressLine1());
-        self::assertEquals('SomeAddressLine2', $parties[0]->getAddressLine2());
-        self::assertEquals('SomeAddressLine3', $parties[0]->getAddressLine3());
-        self::assertEquals('SomeAddressLine4', $parties[0]->getAddressLine4());
-        self::assertEquals('SomePostalCode', $parties[0]->getPostalCode());
-        self::assertEquals('SomeCountry', $parties[0]->getCountry());
-        self::assertEquals('SomeTelephone', $parties[0]->getTelephone());
-        self::assertEquals('SomeMobileTelephone', $parties[0]->getMobileTelephone());
-        self::assertEquals('SomeFax', $parties[0]->getFax());
-        self::assertEquals('some@exmaple.com', $parties[0]->getEmail());
-        self::assertEquals(234, $parties[0]->getCountryId());
-        self::assertEquals('SomeCountryIsoCode', $parties[0]->getCountryIsoCode());
-        self::assertEquals('SomeCountryIsoCode3', $parties[0]->getCountryIsoCode3());
+        self::assertEquals(345, $order->getParties()->getSupplier()->getContactId());
+        self::assertEquals('SomeAddressFullName2', $order->getParties()->getSupplier()->getAddressFullName());
+        self::assertEquals('SomeCompanyName2', $order->getParties()->getSupplier()->getCompanyName());
+        self::assertEquals('SomeAddressLine12', $order->getParties()->getSupplier()->getAddressLine1());
+        self::assertEquals('SomeAddressLine22', $order->getParties()->getSupplier()->getAddressLine2());
+        self::assertEquals('SomeAddressLine32', $order->getParties()->getSupplier()->getAddressLine3());
+        self::assertEquals('SomeAddressLine42', $order->getParties()->getSupplier()->getAddressLine4());
+        self::assertEquals('SomePostalCode2', $order->getParties()->getSupplier()->getPostalCode());
+        self::assertEquals('SomeCountry2', $order->getParties()->getSupplier()->getCountry());
+        self::assertEquals('SomeTelephone2', $order->getParties()->getSupplier()->getTelephone());
+        self::assertEquals('SomeMobileTelephone2', $order->getParties()->getSupplier()->getMobileTelephone());
+        self::assertEquals('SomeFax2', $order->getParties()->getSupplier()->getFax());
+        self::assertEquals('some2@exmaple.com', $order->getParties()->getSupplier()->getEmail());
+        self::assertEquals(456, $order->getParties()->getSupplier()->getCountryId());
+        self::assertEquals('SomeCountryIsoCode2', $order->getParties()->getSupplier()->getCountryIsoCode());
+        self::assertEquals('SomeCountryIsoCode32', $order->getParties()->getSupplier()->getCountryIsoCode3());
 
-        self::assertEquals(345, $parties[1]->getContactId());
-        self::assertEquals('SomeAddressFullName2', $parties[1]->getAddressFullName());
-        self::assertEquals('SomeCompanyName2', $parties[1]->getCompanyName());
-        self::assertEquals('SomeAddressLine12', $parties[1]->getAddressLine1());
-        self::assertEquals('SomeAddressLine22', $parties[1]->getAddressLine2());
-        self::assertEquals('SomeAddressLine32', $parties[1]->getAddressLine3());
-        self::assertEquals('SomeAddressLine42', $parties[1]->getAddressLine4());
-        self::assertEquals('SomePostalCode2', $parties[1]->getPostalCode());
-        self::assertEquals('SomeCountry2', $parties[1]->getCountry());
-        self::assertEquals('SomeTelephone2', $parties[1]->getTelephone());
-        self::assertEquals('SomeMobileTelephone2', $parties[1]->getMobileTelephone());
-        self::assertEquals('SomeFax2', $parties[1]->getFax());
-        self::assertEquals('some2@exmaple.com', $parties[1]->getEmail());
-        self::assertEquals(456, $parties[1]->getCountryId());
-        self::assertEquals('SomeCountryIsoCode2', $parties[1]->getCountryIsoCode());
-        self::assertEquals('SomeCountryIsoCode32', $parties[1]->getCountryIsoCode3());
+        self::assertEquals('SomeAddressFullName', $order->getParties()->getDelivery()->getAddressFullName());
+        self::assertEquals('SomeCompanyName', $order->getParties()->getDelivery()->getCompanyName());
+        self::assertEquals('SomeAddressLine1', $order->getParties()->getDelivery()->getAddressLine1());
+        self::assertEquals('SomeAddressLine2', $order->getParties()->getDelivery()->getAddressLine2());
+        self::assertEquals('SomeAddressLine3', $order->getParties()->getDelivery()->getAddressLine3());
+        self::assertEquals('SomeAddressLine4', $order->getParties()->getDelivery()->getAddressLine4());
+        self::assertEquals('SomePostalCode', $order->getParties()->getDelivery()->getPostalCode());
+        self::assertEquals('SomeCountry', $order->getParties()->getDelivery()->getCountry());
+        self::assertEquals('SomeTelephone', $order->getParties()->getDelivery()->getTelephone());
+        self::assertEquals('SomeMobileTelephone', $order->getParties()->getDelivery()->getMobileTelephone());
+        self::assertEquals('SomeFax', $order->getParties()->getDelivery()->getFax());
+        self::assertEquals('some@exmaple.com', $order->getParties()->getDelivery()->getEmail());
+        self::assertEquals(234, $order->getParties()->getDelivery()->getCountryId());
+        self::assertEquals('SomeCountryIsoCode',$order->getParties()->getDelivery()->getCountryIsoCode());
+        self::assertEquals('SomeCountryIsoCode3', $order->getParties()->getDelivery()->getCountryIsoCode3());
+
+        self::assertEquals(345, $order->getParties()->getBilling()->getContactId());
+        self::assertEquals('SomeAddressFullName2', $order->getParties()->getBilling()->getAddressFullName());
+        self::assertEquals('SomeCompanyName2', $order->getParties()->getBilling()->getCompanyName());
+        self::assertEquals('SomeAddressLine12', $order->getParties()->getBilling()->getAddressLine1());
+        self::assertEquals('SomeAddressLine22', $order->getParties()->getBilling()->getAddressLine2());
+        self::assertEquals('SomeAddressLine32', $order->getParties()->getBilling()->getAddressLine3());
+        self::assertEquals('SomeAddressLine42', $order->getParties()->getBilling()->getAddressLine4());
+        self::assertEquals('SomePostalCode2', $order->getParties()->getBilling()->getPostalCode());
+        self::assertEquals('SomeCountry2', $order->getParties()->getBilling()->getCountry());
+        self::assertEquals('SomeTelephone2', $order->getParties()->getBilling()->getTelephone());
+        self::assertEquals('SomeMobileTelephone2', $order->getParties()->getBilling()->getMobileTelephone());
+        self::assertEquals('SomeFax2', $order->getParties()->getBilling()->getFax());
+        self::assertEquals('some2@exmaple.com', $order->getParties()->getBilling()->getEmail());
+        self::assertEquals(456, $order->getParties()->getBilling()->getCountryId());
+        self::assertEquals('SomeCountryIsoCode2',$order->getParties()->getBilling()->getCountryIsoCode());
+        self::assertEquals('SomeCountryIsoCode32', $order->getParties()->getBilling()->getCountryIsoCode3());
 
         self::assertInstanceOf(OrderResponse\State::class, $order->getState());
         self::assertEquals("SomeTaxValue", $order->getState()->getTax());

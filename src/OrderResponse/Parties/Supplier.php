@@ -6,7 +6,7 @@ use SnowIO\BrightpearlDataModel\Api\ModelInterface;
 
 class Supplier implements ModelInterface
 {
-    /** @var string|null $contactId */
+    /** @var int|null $contactId */
     private $contactId;
 
     /** @var string|null $addressFullName */
@@ -28,7 +28,7 @@ class Supplier implements ModelInterface
     /** @var string|null $postalCode */
     private $postalCode;
 
-    /** @var string|null $countryId */
+    /** @var int|null $countryId */
     private $countryId;
 
     /** @var string|null $countryIsoCode */
@@ -66,7 +66,7 @@ class Supplier implements ModelInterface
     public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-        $result->contactId = is_string($json['contactId']) ? $json['contactId'] : null;
+        $result->contactId = is_int($json['contactId']) ? $json['contactId'] : null;
         $result->addressFullName = is_string($json['addressFullName']) ? $json['addressFullName'] : null;
         $result->companyName = is_string($json['companyName']) ? $json['companyName'] : null;
         $result->addressLine1 = is_string($json['addressLine1']) ? $json['addressLine1'] : null;
@@ -75,7 +75,7 @@ class Supplier implements ModelInterface
         $result->addressLine4 = is_string($json['addressLine4']) ? $json['addressLine4'] : null;
         $result->postalCode = is_string($json['postalCode']) ? $json['postalCode'] : null;
         $result->country = is_string($json['country']) ? $json['country'] : null;
-        $result->countryId = is_string($json['countryId']) ? $json['countryId'] : null;
+        $result->countryId = is_int($json['countryId']) ? $json['countryId'] : null;
         $result->countryIsoCode = is_string($json['countryIsoCode']) ? $json['countryIsoCode'] : null;
         $result->telephone = is_string($json['telephone']) ? $json['telephone'] : null;
         $result->mobileTelephone = is_string($json['mobileTelephone']) ? $json['mobileTelephone'] : null;
@@ -169,10 +169,10 @@ class Supplier implements ModelInterface
     }
 
     /**
-     * @param string $contactId
+     * @param int $contactId
      * @return Supplier
      */
-    public function withContactId(string $contactId): ModelInterface
+    public function withContactId(int $contactId): ModelInterface
     {
         $clone = clone $this;
         $clone->contactId = $contactId;
@@ -180,9 +180,9 @@ class Supplier implements ModelInterface
     }
 
     /**
-     * @return string|null
+     * @return int|null
      */
-    public function getContactId(): ?string
+    public function getContactId(): ?int
     {
         return $this->contactId;
     }
@@ -359,18 +359,18 @@ class Supplier implements ModelInterface
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getCountryId(): ?string
+    public function getCountryId(): ?int
     {
         return $this->countryId;
     }
 
     /**
-     * @param string $countryId
+     * @param int|null $countryId
      * @return $this
      */
-    public function withCountryId(string $countryId): ModelInterface
+    public function withCountryId(?int $countryId): ModelInterface
     {
         $clone = clone $this;
         $clone->countryId = $countryId;
