@@ -2,7 +2,7 @@
 
 namespace SnowIO\BrightpearlDataModel\Order\Assignment;
 
-use SnowIO\BrightpearlDataModel\Api\ModelInterface;
+use SnowIO\BrightpearlDataModel\ModelInterface;
 
 class Current implements ModelInterface
 {

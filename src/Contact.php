@@ -2,8 +2,6 @@
 
 namespace SnowIO\BrightpearlDataModel;
 
-use SnowIO\BrightpearlDataModel\Api\ModelInterface;
-
 class Contact implements ModelInterface
 {
     /** @var int|null $contactId */

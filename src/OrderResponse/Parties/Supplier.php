@@ -2,7 +2,7 @@
 
 namespace SnowIO\BrightpearlDataModel\OrderResponse\Parties;
 
-use SnowIO\BrightpearlDataModel\Api\ModelInterface;
+use SnowIO\BrightpearlDataModel\ModelInterface;
 
 class Supplier implements ModelInterface
 {

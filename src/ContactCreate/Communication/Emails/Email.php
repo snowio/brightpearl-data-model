@@ -2,7 +2,7 @@
 
 namespace SnowIO\BrightpearlDataModel\ContactCreate\Communication\Emails;
 
-use SnowIO\BrightpearlDataModel\Api\ModelInterface;
+use SnowIO\BrightpearlDataModel\ModelInterface;
 
 class Email implements ModelInterface
 {

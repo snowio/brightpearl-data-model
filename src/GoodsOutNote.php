@@ -2,7 +2,6 @@
 
 namespace SnowIO\BrightpearlDataModel;
 
-use SnowIO\BrightpearlDataModel\Api\ModelInterface;
 use SnowIO\BrightpearlDataModel\GoodsOutNote\EventCollection;
 use SnowIO\BrightpearlDataModel\GoodsOutNote\OrderRowCollection;
 use SnowIO\BrightpearlDataModel\GoodsOutNote\Shipping;

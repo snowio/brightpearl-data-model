@@ -2,8 +2,6 @@
 
 namespace SnowIO\BrightpearlDataModel;
 
-use SnowIO\BrightpearlDataModel\Api\ModelInterface;
-
 class CustomerPayment implements ModelInterface
 {
     /** @var string|null $transactionRef */

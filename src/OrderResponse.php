@@ -2,7 +2,6 @@
 
 namespace SnowIO\BrightpearlDataModel;
 
-use SnowIO\BrightpearlDataModel\Api\ModelInterface;
 use SnowIO\BrightpearlDataModel\OrderResponse\Delivery;
 use SnowIO\BrightpearlDataModel\OrderResponse\InvoiceCollection;
 use SnowIO\BrightpearlDataModel\OrderResponse\OrderStatus;

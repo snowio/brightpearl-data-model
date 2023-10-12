@@ -2,7 +2,6 @@
 
 namespace SnowIO\BrightpearlDataModel;
 
-use SnowIO\BrightpearlDataModel\Api\ModelInterface;
 use SnowIO\BrightpearlDataModel\Product\Composition;
 use SnowIO\BrightpearlDataModel\Product\FinancialDetails;
 use SnowIO\BrightpearlDataModel\Product\Identity;

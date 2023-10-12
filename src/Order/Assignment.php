@@ -2,7 +2,7 @@
 
 namespace SnowIO\BrightpearlDataModel\Order;
 
-use SnowIO\BrightpearlDataModel\Api\ModelInterface;
+use SnowIO\BrightpearlDataModel\ModelInterface;
 use SnowIO\BrightpearlDataModel\Order\Assignment\Current;
 
 class Assignment implements ModelInterface

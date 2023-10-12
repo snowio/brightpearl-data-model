@@ -2,7 +2,6 @@
 
 namespace SnowIO\BrightpearlDataModel;
 
-use SnowIO\BrightpearlDataModel\Api\ModelInterface;
 use SnowIO\BrightpearlDataModel\Order\Assignment;
 use SnowIO\BrightpearlDataModel\Order\Currency;
 use SnowIO\BrightpearlDataModel\Order\Delivery;

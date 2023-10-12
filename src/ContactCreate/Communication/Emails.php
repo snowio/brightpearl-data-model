@@ -2,8 +2,8 @@
 
 namespace SnowIO\BrightpearlDataModel\ContactCreate\Communication;
 
-use SnowIO\BrightpearlDataModel\Api\ModelInterface;
 use SnowIO\BrightpearlDataModel\ContactCreate\Communication\Emails\Email;
+use SnowIO\BrightpearlDataModel\ModelInterface;
 
 class Emails implements ModelInterface
 {
@@ -40,9 +40,9 @@ class Emails implements ModelInterface
     public function equals(ModelInterface $other): bool
     {
         return $other instanceof Emails &&
-            $this->getSEC() === $other->getSEC() &&
-            $this->getPRI() === $other->getPRI() &&
-            $this->getTER() === $other->getTER();
+            $this->getSEC()->equals($other->getSEC()) &&
+            $this->getPRI()->equals($other->getPRI()) &&
+            $this->getTER()->equals($other->getTER());
     }
 
     public function getPRI(): ?Email

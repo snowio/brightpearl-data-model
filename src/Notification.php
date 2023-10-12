@@ -2,8 +2,6 @@
 
 namespace SnowIO\BrightpearlDataModel;
 
-use SnowIO\BrightpearlDataModel\Api\ModelInterface;
-
 class Notification implements ModelInterface
 {
     /** @var string|null $entityId */

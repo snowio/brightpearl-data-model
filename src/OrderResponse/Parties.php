@@ -2,7 +2,7 @@
 
 namespace SnowIO\BrightpearlDataModel\OrderResponse;
 
-use SnowIO\BrightpearlDataModel\Api\ModelInterface;
+use SnowIO\BrightpearlDataModel\ModelInterface;
 use SnowIO\BrightpearlDataModel\OrderResponse\Parties\Billing;
 use SnowIO\BrightpearlDataModel\OrderResponse\Parties\Delivery;
 use SnowIO\BrightpearlDataModel\OrderResponse\Parties\Supplier;

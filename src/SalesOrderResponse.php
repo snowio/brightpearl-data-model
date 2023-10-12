@@ -2,7 +2,6 @@
 
 namespace SnowIO\BrightpearlDataModel;
 
-use SnowIO\BrightpearlDataModel\Api\ModelInterface;
 use SnowIO\BrightpearlDataModel\SalesOrderResponse\Billing;
 use SnowIO\BrightpearlDataModel\SalesOrderResponse\Currency;
 use SnowIO\BrightpearlDataModel\SalesOrderResponse\Customer;

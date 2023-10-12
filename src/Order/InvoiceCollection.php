@@ -4,11 +4,11 @@ namespace SnowIO\BrightpearlDataModel\Order;
 
 use Iterator;
 use IteratorAggregate;
-use SnowIO\BrightpearlDataModel\Api\ModelInterface;
+use SnowIO\BrightpearlDataModel\ModelInterface;
 
 class InvoiceCollection implements IteratorAggregate
 {
-    /** @var \SnowIO\BrightpearlDataModel\Order\Invoice[]|\SnowIO\BrightpearlDataModel\Api\ModelInterface[] */
+    /** @var \SnowIO\BrightpearlDataModel\Order\Invoice[]|\SnowIO\BrightpearlDataModel\ModelInterface[] */
     private $items = [];
 
     /**

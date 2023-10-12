@@ -2,7 +2,6 @@
 
 namespace SnowIO\BrightpearlDataModel;
 
-use SnowIO\BrightpearlDataModel\Api\ModelInterface;
 use SnowIO\BrightpearlDataModel\ContactCreate\Communication;
 
 class ContactCreate implements ModelInterface
@@ -52,7 +51,7 @@ class ContactCreate implements ModelInterface
             $this->firstName === $other->firstName &&
             $this->lastName === $other->lastName &&
             $this->postAddressIds === $other->postAddressIds &&
-            $this->communication === $other->communication;
+            $this->communication->equals($other->communication);
     }
 
     public function getSalutation(): ?string

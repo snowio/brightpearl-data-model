@@ -2,7 +2,7 @@
 
 namespace SnowIO\BrightpearlDataModel\Order;
 
-use SnowIO\BrightpearlDataModel\Api\ModelInterface;
+use SnowIO\BrightpearlDataModel\ModelInterface;
 
 class Status implements ModelInterface
 {
