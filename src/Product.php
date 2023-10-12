@@ -14,12 +14,12 @@ use SnowIO\BrightpearlDataModel\Product\Warehouses;
 
 class Product implements ModelInterface
 {
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
         $result->id = $json['id'] ?? null;

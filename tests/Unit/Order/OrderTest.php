@@ -134,7 +134,7 @@ class OrderTest extends TestCase
             ->withPriceListId(1)
             ->withPriceModeCode("INC")
             ->withPlacedOn("2011-09-29T11:12:24.000+01:00")
-            ->withStatus($status)
+            ->withOrderStatus($status)
             ->withDelivery($delivery)
             ->withInvoices($invoiceCollection)
             ->withCurrency($currency)
@@ -159,8 +159,8 @@ class OrderTest extends TestCase
         self::assertEquals(1, $order->getPriceListId());
         self::assertEquals("INC", $order->getPriceModeCode());
         self::assertEquals("2011-09-29T11:12:24.000+01:00", $order->getPlacedOn());
-        self::assertInstanceOf(Order\Status::class, $order->getStatus());
-        self::assertEquals(6, $order->getStatus()->getId());
+        self::assertInstanceOf(Order\Status::class, $order->getOrderStatus());
+        self::assertEquals(6, $order->getOrderStatus()->getId());
 
         self::assertInstanceOf(Order\Delivery::class, $order->getDelivery());
         self::assertEquals("2011-09-29T11:12:24.000+01:00", $order->getDelivery()->getDate());
