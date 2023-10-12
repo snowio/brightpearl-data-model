@@ -37,6 +37,12 @@ class Weight
         ];
     }
 
+    public function equals($other): bool
+    {
+        return $other instanceof Weight &&
+            $this->magnitude === $other->magnitude;
+    }
+
     /**
      * @return float|null
      */

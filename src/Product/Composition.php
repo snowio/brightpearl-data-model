@@ -6,23 +6,11 @@ use SnowIO\BrightpearlDataModel\Product\Composition\BundleComponent;
 
 class Composition
 {
-    /** @var bool|null $bundle */
-    private $bundle;
-
-    /** @var BundleComponent[] $bundleComponents */
-    private $bundleComponents = [];
-
-    /**
-     * @return Composition
-     */
     public static function create(): Composition
     {
         return new self();
     }
 
-    /**
-     * @param array<mixed> $json
-     */
     public static function fromJson(array $json): self
     {
         $result = new self();
@@ -37,9 +25,6 @@ class Composition
         return $result;
     }
 
-    /**
-     * @return array<mixed>
-     */
     public function toJson(): array
     {
         $bundleComponents = [];
@@ -53,18 +38,21 @@ class Composition
         ];
     }
 
-    /**
-     * @return bool|null
-     */
+    /** @var bool|null $bundle */
+    private $bundle;
+    /** @var BundleComponent[] $bundleComponents */
+    private $bundleComponents = [];
+
+    public function equals($other): bool
+    {
+        return $this->toJson() === $other->toJson();
+    }
+
     public function isBundle(): ?bool
     {
         return $this->bundle;
     }
 
-    /**
-     * @param bool $bundle
-     * @return Composition
-     */
     public function withBundle(bool $bundle): Composition
     {
         $clone = clone $this;
@@ -72,18 +60,11 @@ class Composition
         return $clone;
     }
 
-    /**
-     * @return BundleComponent[]
-     */
     public function getBundleComponents(): array
     {
         return $this->bundleComponents;
     }
 
-    /**
-     * @param BundleComponent[] $bundleComponents
-     * @return Composition
-     */
     public function withBundleComponents(array $bundleComponents): Composition
     {
         $clone = clone $this;

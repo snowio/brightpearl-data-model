@@ -42,6 +42,17 @@ class Identity
         return $result;
     }
 
+    public function equals($other): bool
+    {
+        return $other instanceof Identity &&
+            $this->sku === $other->sku &&
+            $this->isbn === $other->isbn &&
+            $this->ean === $other->ean &&
+            $this->upc === $other->upc &&
+            $this->mpn === $other->mpn &&
+            $this->barcode === $other->barcode;
+    }
+
     /**
      * @return array<string, mixed>
      */
