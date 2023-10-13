@@ -2,34 +2,25 @@
 
 namespace SnowIO\BrightpearlDataModel\OrderResponse\Row;
 
-class Quantity
+use SnowIO\BrightpearlDataModel\ModelInterface;
+
+class Quantity implements ModelInterface
 {
     /** @var string|null $magnitude */
     private $magnitude;
 
-    /**
-     * @return self
-     */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
-    /**
-     * @param array<string, mixed> $json
-     */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-
-        $result->magnitude = is_string($json['magnitude']) ? $json['magnitude'] : null;
-
+        $result->magnitude = $json['magnitude'] ?? null;
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         return [
@@ -37,18 +28,17 @@ class Quantity
         ];
     }
 
-    /**
-     * @return string|null
-     */
+    public function equals(ModelInterface $other): bool
+    {
+        return $other instanceof Quantity &&
+            $this->magnitude === $other->magnitude;
+    }
+
     public function getMagnitude(): ?string
     {
         return $this->magnitude;
     }
 
-    /**
-     * @param string $magnitude
-     * @return Quantity
-     */
     public function withMagnitude(string $magnitude): Quantity
     {
         $clone = clone $this;

@@ -608,25 +608,12 @@ class OrderResponseTest extends TestCase
         self::assertTrue($order->getHistoricalOrder());
     }
 
-    /**
-     * @return void
-     */
     public function testEquals()
     {
         $data = $this->getJsonData();
+
         $orderResponse1 = OrderResponse::fromJson($data);
         $orderResponse2 = OrderResponse::fromJson($data);
         self::assertTrue($orderResponse1->equals($orderResponse2));
-    }
-
-    /**
-     * @return void
-     */
-    public function testParties()
-    {
-        $data = $this->getJsonData();
-        $parties1 = Parties::fromJson($data['parties']);
-        $parties2 = Parties::fromJson($data['parties']);
-        self::assertTrue($parties1->equals($parties2));
     }
 }

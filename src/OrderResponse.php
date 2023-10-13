@@ -73,75 +73,52 @@ class OrderResponse implements ModelInterface
     {
         return new self();
     }
-    /**
-     * @param array<string, mixed> $json
-     */
+
     public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-
-        $orderStatus = is_array($json['orderStatus']) ? $json['orderStatus'] : [];
-        $orderRows = is_array($json['orderRows']) ? $json['orderRows'] : [];
-        $state = is_array($json['state']) ? $json['state'] : [];
-        $totalValue = is_array($json['totalValue']) ? $json['totalValue'] : [];
-        $parties = is_array($json['parties']) ? $json['parties'] : [];
-        $delivery = is_array($json['delivery']) ? $json['delivery'] : [];
-        $invoices = is_array($json['invoices']) ? $json['invoices'] : [];
-
-        $result->id = is_numeric($json['id']) ? (int)$json['id'] : null;
-        $result->parentOrderId = is_numeric($json['parentOrderId']) ? (int)$json['parentOrderId'] : null;
-        $result->orderTypeCode = is_string($json['orderTypeCode']) ? $json['orderTypeCode'] : null;
-        $result->orderStatus = OrderStatus::fromJson($orderStatus);
-        $result->orderRows = RowCollection::fromJson($orderRows);
-        $result->externalRef = is_string($json['externalRef']) ? $json['externalRef'] : null;
-        $result->reference = is_string($json['reference']) ? $json['reference'] : null;
-        $result->state = State::fromJson($state);
-        $result->totalValue = TotalValue::fromJson($totalValue);
-        $result->parties = Parties::fromJson($parties);
-        $result->orderPaymentStatus = is_string($json['orderPaymentStatus']) ? $json['orderPaymentStatus'] : null;
-        $result->stockStatusCode = is_string($json['stockStatusCode']) ? $json['stockStatusCode'] : null;
-        $result->allocationStatusCode = is_string($json['allocationStatusCode']) ? $json['allocationStatusCode'] : null;
-        $result->shippingStatusCode = is_string($json['shippingStatusCode']) ? $json['shippingStatusCode'] : null;
-        $result->placedOn = is_string($json['placedOn']) ? $json['placedOn'] : null;
-        $result->createdOn = is_string($json['createdOn']) ? $json['createdOn'] : null;
-        $result->updatedOn = is_string($json['updatedOn']) ? $json['updatedOn'] : null;
-        $result->createdById = is_string($json['createdById']) ? $json['createdById'] : null;
-        $result->priceListId = is_string($json['priceListId']) ? $json['priceListId'] : null;
-        $result->priceModeCode = is_string($json['priceModeCode']) ? $json['priceModeCode'] : null;
-        $result->delivery = Delivery::fromJson($delivery);
-        $result->invoices = InvoiceCollection::fromJson($invoices);
-        $result->warehouseId = is_numeric($json['warehouseId']) ? (int)$json['warehouseId'] : null;
-        $result->acknowledged = is_numeric($json['acknowledged']) ? (int)$json['acknowledged'] : null;
-        $result->costPriceListId = is_numeric($json['costPriceListId']) ? (int)$json['costPriceListId'] : null;
-        $result->historicalOrder = is_bool($json['historicalOrder']) && $json['historicalOrder'];
-        $result->isDropship = is_bool($json['isDropship']) && $json['isDropship'];
-        $result->orderWeighting = is_numeric($json['orderWeighting']) ? (int)$json['orderWeighting'] : null;
-
+        $result->id = $json['id'] ?? null;
+        $result->parentOrderId = $json['parentOrderId'] ?? null;
+        $result->orderTypeCode = $json['orderTypeCode'] ?? null;
+        $result->orderStatus = OrderStatus::fromJson($json['orderStatus'] ?? []);
+        $result->orderRows = RowCollection::fromJson($json['orderRows'] ?? []);
+        $result->externalRef = $json['externalRef'] ?? null;
+        $result->reference = $json['reference'] ?? null;
+        $result->state = State::fromJson($json['state'] ?? []);
+        $result->totalValue = TotalValue::fromJson($json['totalValue'] ?? []);
+        $result->parties = Parties::fromJson($json['parties'] ?? []);
+        $result->orderPaymentStatus = $json['orderPaymentStatus'] ?? null;
+        $result->stockStatusCode = $json['stockStatusCode'] ?? null;
+        $result->allocationStatusCode = $json['allocationStatusCode'] ?? null;
+        $result->shippingStatusCode = $json['shippingStatusCode'] ?? null;
+        $result->placedOn = $json['placedOn'] ?? null;
+        $result->createdOn = $json['createdOn'] ?? null;
+        $result->updatedOn = $json['updatedOn'] ?? null;
+        $result->createdById = $json['createdById'] ?? null;
+        $result->priceListId = $json['priceListId'] ?? null;
+        $result->priceModeCode = $json['priceModeCode'] ?? null;
+        $result->delivery = Delivery::fromJson($json['delivery'] ?? []);
+        $result->invoices = InvoiceCollection::fromJson($json['invoices'] ?? []);
+        $result->warehouseId = $json['warehouseId'] ?? null;
+        $result->acknowledged = $json['acknowledged'] ?? null;
+        $result->costPriceListId = $json['costPriceListId'] ?? null;
+        $result->historicalOrder = $json['historicalOrder'] ?? null;
+        $result->isDropship = $json['isDropship'] ?? null;
+        $result->orderWeighting = $json['orderWeighting'] ?? null;
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
-        $orderStatus = is_null($this->getOrderStatus()) ? [] : $this->getOrderStatus()->toJson();
-        $orderRows = is_null($this->getOrderRows()) ? [] : $this->getOrderRows()->toJson();
-        $state = is_null($this->getState()) ? [] : $this->getState()->toJson();
-        $totalValue = is_null($this->getTotalValue()) ? [] : $this->getTotalValue()->toJson();
-        $parties = is_null($this->getParties()) ? [] : $this->getParties()->toJson();
-        $delivery = is_null($this->getDelivery()) ? [] : $this->getDelivery()->toJson();
-        $invoices = is_null($this->getInvoices()) ? [] : $this->getInvoices()->toJson();
-
         return [
             'id' => $this->getId(),
             'parentOrderId' => $this->getParentOrderId(),
             'orderTypeCode' => $this->getOrderTypeCode(),
-            'orderStatus' => $orderStatus,
-            'orderRows' => $orderRows,
+            'orderStatus' => $this->getOrderStatus()->toJson(),
+            'orderRows' => $this->getOrderRows()->toJson(),
             'externalRef' => $this->getExternalRef(),
             'reference' => $this->getReference(),
-            'state' => $state,
+            'state' => $this->getState()->toJson(),
             'orderPaymentStatus' => $this->getOrderPaymentStatus(),
             'stockStatusCode' => $this->getStockStatusCode(),
             'allocationStatusCode' => $this->getAllocationStatusCode(),
@@ -152,10 +129,10 @@ class OrderResponse implements ModelInterface
             'createdById' => $this->getCreatedById(),
             'priceListId' => $this->getPriceListId(),
             'priceModeCode' => $this->getPriceModeCode(),
-            'delivery' => $delivery,
-            'invoices' => $invoices,
-            'totalValue' => $totalValue,
-            'parties' => $parties,
+            'delivery' => $this->getDelivery()->toJson(),
+            'invoices' => $this->getInvoices()->toJson(),
+            'totalValue' => $this->getTotalValue()->toJson(),
+            'parties' => $this->getParties()->toJson(),
             'warehouseId' => $this->getWarehouseId(),
             'acknowledged' => $this->getAcknowledged(),
             'costPriceListId' => $this->getCostPriceListId(),
@@ -165,20 +142,38 @@ class OrderResponse implements ModelInterface
         ];
     }
 
-    /**
-     * @param ModelInterface $orderResponseToCompare
-     * @return bool
-     */
-    public function equals(ModelInterface $orderResponseToCompare): bool
+    public function equals(ModelInterface $other): bool
     {
-        if (!is_null($this->getParties())
-            && !is_null($orderResponseToCompare->getParties())
-            && !$this->getParties()->equals($orderResponseToCompare->getParties())) {
-            return false;
-        }
-        return $this->toJson() === $orderResponseToCompare->toJson();
+        return $other instanceof OrderResponse &&
+            $this->id === $other->id &&
+            $this->parentOrderId === $other->parentOrderId &&
+            $this->orderTypeCode === $other->orderTypeCode &&
+            $this->orderStatus->equals($other->orderStatus) &&
+            $this->orderRows->equals($other->orderRows) &&
+            $this->externalRef === $other->externalRef &&
+            $this->reference === $other->reference &&
+            $this->state->equals($other->state) &&
+            $this->orderPaymentStatus === $other->orderPaymentStatus &&
+            $this->stockStatusCode === $other->stockStatusCode &&
+            $this->allocationStatusCode === $other->allocationStatusCode &&
+            $this->shippingStatusCode === $other->shippingStatusCode &&
+            $this->placedOn === $other->placedOn &&
+            $this->createdOn === $other->createdOn &&
+            $this->updatedOn === $other->updatedOn &&
+            $this->createdById === $other->createdById &&
+            $this->priceListId === $other->priceListId &&
+            $this->priceModeCode === $other->priceModeCode &&
+            $this->delivery->equals($other->delivery) &&
+            $this->invoices->equals($other->invoices) &&
+            $this->totalValue->equals($other->totalValue) &&
+            $this->parties->equals($other->parties) &&
+            $this->warehouseId === $other->warehouseId &&
+            $this->acknowledged === $other->acknowledged &&
+            $this->costPriceListId === $other->costPriceListId &&
+            $this->historicalOrder === $other->historicalOrder &&
+            $this->isDropship === $other->isDropship &&
+            $this->orderWeighting === $other->orderWeighting;
     }
-
 
     public function getId(): ?int
     {

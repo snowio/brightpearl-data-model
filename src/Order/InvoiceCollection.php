@@ -52,6 +52,7 @@ class InvoiceCollection implements IteratorAggregate
             yield $item;
         }
     }
+
     public function equals(InvoiceCollection $compare): bool
     {
         if (count($this->items) !== count(iterator_to_array($compare->getIterator()))) {

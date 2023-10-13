@@ -2,51 +2,42 @@
 
 namespace SnowIO\BrightpearlDataModel\OrderResponse;
 
-class State
+use SnowIO\BrightpearlDataModel\ModelInterface;
+
+class State implements ModelInterface
 {
     /** @var string|null $tax */
     private $tax;
 
-    /**
-     * @return self
-     */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
-    /**
-     * @param array<string, mixed> $json
-     */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-        $result->tax = is_string($json['tax']) ? $json['tax'] : null;
+        $result->tax = $json['tax'] ?? null;
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         return [
             'tax' => $this->getTax()
         ];
     }
+    public function equals(ModelInterface $other): bool
+    {
+        return $other instanceof State &&
+            $this->tax === $other->tax;
+    }
 
-    /**
-     * @return string|null
-     */
     public function getTax(): ?string
     {
         return $this->tax;
     }
 
-    /**
-     * @param string|null $tax
-     * @return State
-     */
     public function withTax(?string $tax): State
     {
         $clone = clone $this;

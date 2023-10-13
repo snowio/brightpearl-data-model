@@ -40,7 +40,7 @@ class Invoice implements ModelInterface
         return $clone;
     }
 
-    public function equals($other): bool
+    public function equals(ModelInterface $other): bool
     {
         return $other instanceof Invoice &&
             $this->taxDate === $other->taxDate;

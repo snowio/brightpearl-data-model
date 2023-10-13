@@ -2,7 +2,9 @@
 
 namespace SnowIO\BrightpearlDataModel\OrderResponse;
 
-class Invoice
+use SnowIO\BrightpearlDataModel\ModelInterface;
+
+class Invoice implements ModelInterface
 {
     /** @var string|null $invoiceReference */
     private $invoiceReference;
@@ -11,31 +13,21 @@ class Invoice
     /** @var string|null $dueDate */
     private $dueDate;
 
-    /**
-     * @return self
-     */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
-    /**
-     * @param array<string, mixed> $json
-     */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
 
-        $result->invoiceReference = is_string($json['invoiceReference']) ? $json['invoiceReference'] : null;
-        $result->taxDate = is_string($json['taxDate']) ? $json['taxDate'] : null;
-        $result->dueDate = is_string($json['dueDate']) ? $json['dueDate'] : null;
-
+        $result->invoiceReference = $json['invoiceReference'] ?? null;
+        $result->taxDate = $json['taxDate'] ?? null;
+        $result->dueDate = $json['dueDate'] ?? null;
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         return [
@@ -45,18 +37,19 @@ class Invoice
         ];
     }
 
-    /**
-     * @return string|null
-     */
+    public function equals(ModelInterface $other): bool
+    {
+        return $other instanceof Invoice &&
+            $this->invoiceReference === $other->invoiceReference &&
+            $this->taxDate === $other->taxDate &&
+            $this->dueDate === $other->dueDate;
+    }
+
     public function getInvoiceReference(): ?string
     {
         return $this->invoiceReference;
     }
 
-    /**
-     * @param string|null $invoiceReference
-     * @return Invoice
-     */
     public function withInvoiceReference(?string $invoiceReference): Invoice
     {
         $clone = clone $this;
@@ -64,18 +57,11 @@ class Invoice
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getTaxDate(): ?string
     {
         return $this->taxDate;
     }
 
-    /**
-     * @param string|null $taxDate
-     * @return Invoice
-     */
     public function withTaxDate(?string $taxDate): Invoice
     {
         $clone = clone $this;
@@ -83,18 +69,11 @@ class Invoice
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDueDate(): ?string
     {
         return $this->dueDate;
     }
 
-    /**
-     * @param string|null $dueDate
-     * @return Invoice
-     */
     public function withDueDate(?string $dueDate): Invoice
     {
         $clone = clone $this;
