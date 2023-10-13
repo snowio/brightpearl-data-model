@@ -37,6 +37,9 @@ class Address
         return new self();
     }
 
+    /**
+     * @return self
+     */
     public static function fromJson(array $json): self
     {
         $result = new self();

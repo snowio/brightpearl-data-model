@@ -24,6 +24,9 @@ class Delivery implements ModelInterface
         return $delivery;
     }
 
+    /**
+     * @return self
+     */
     public static function fromJson(array $json): ModelInterface
     {
         $result = new self();

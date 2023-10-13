@@ -12,19 +12,22 @@ class Customer implements ModelInterface
     /** @var Address */
     private $address;
 
-    /**
-     * @return self
-     */
     public function __construct()
     {
         $this->address = Address::create();
     }
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();
     }
 
+    /**
+     * @return self
+     */
     public static function fromJson(array $json): ModelInterface
     {
         $result = new self();

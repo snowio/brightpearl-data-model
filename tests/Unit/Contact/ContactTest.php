@@ -74,7 +74,6 @@ class ContactTest extends TestCase
     {
         $data = $this->getJsonData();
         $contact = Contact::fromJson($data);
-
         self::assertEquals("123456", $contact->getContactId());
         self::assertEquals("test@domain.com", $contact->getPrimaryEmail());
         self::assertEquals("test2@domain.com", $contact->getSecondaryEmail());

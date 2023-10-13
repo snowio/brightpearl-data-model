@@ -25,6 +25,9 @@ class Customer implements ModelInterface
         return new self();
     }
 
+    /**
+     * @return self
+     */
     public static function fromJson(array $json): ModelInterface
     {
         $result = new self();

@@ -32,6 +32,9 @@ class Total implements ModelInterface
         return count(array_filter($this->toJson()));
     }
 
+    /**
+     * @return self
+     */
     public static function fromJson(array $json): ModelInterface
     {
         $result = new self();

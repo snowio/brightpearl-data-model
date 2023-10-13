@@ -28,7 +28,7 @@ class Identity implements ModelInterface
     }
 
     /**
-     * @param array<string, mixed> $json
+     * @return self
      */
     public static function fromJson(array $json): ModelInterface
     {
