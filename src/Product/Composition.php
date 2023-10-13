@@ -2,26 +2,25 @@
 
 namespace SnowIO\BrightpearlDataModel\Product;
 
+use SnowIO\BrightpearlDataModel\ModelInterface;
 use SnowIO\BrightpearlDataModel\Product\Composition\BundleComponent;
 
-class Composition
+class Composition implements ModelInterface
 {
-    public static function create(): Composition
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-        $bundle = is_bool($json['bundle']) && $json['bundle'];
-        $result->bundle = $bundle;
-        $bundleComponents = $bundle && is_array($json['bundleComponents']) ? $json['bundleComponents'] : [];
+        $result->bundle = $json['bundle'] ?? null;
+        $bundleComponents = $json['bundleComponents'] ?? [];
         foreach ($bundleComponents as $bundleComponent) {
-            $bundleComponent = is_array($bundleComponent) ? $bundleComponent : [];
+            $bundleComponent = $bundleComponent ?? [];
             $result->bundleComponents[] = BundleComponent::fromJson($bundleComponent);
         }
-
         return $result;
     }
 
@@ -31,7 +30,6 @@ class Composition
         foreach ($this->getBundleComponents() as $bundleComponent) {
             $bundleComponents[] = $bundleComponent->toJson();
         }
-
         return [
             'bundle' => $this->isBundle(),
             'bundleComponents' => $bundleComponents

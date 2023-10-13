@@ -2,7 +2,9 @@
 
 namespace SnowIO\BrightpearlDataModel\Product;
 
-class Identity
+use SnowIO\BrightpearlDataModel\ModelInterface;
+
+class Identity implements ModelInterface
 {
     /** @var string|null $sku */
     private $sku;
@@ -17,10 +19,7 @@ class Identity
     /** @var string|null $barcode */
     private $barcode;
 
-    /**
-     * @return self
-     */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
@@ -28,17 +27,15 @@ class Identity
     /**
      * @param array<string, mixed> $json
      */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-
-        $result->sku = is_string($json['sku']) ? $json['sku'] : null;
-        $result->isbn = is_string($json['isbn']) ? $json['isbn'] : null;
-        $result->ean = is_string($json['ean']) ? $json['ean'] : null;
-        $result->upc = is_string($json['upc']) ? $json['upc'] : null;
-        $result->mpn = is_string($json['mpn']) ? $json['mpn'] : null;
-        $result->barcode = is_string($json['barcode']) ? $json['barcode'] : null;
-
+        $result->sku = $json['sku'] ?? null;
+        $result->isbn = $json['isbn'] ?? null;
+        $result->ean = $json['ean'] ?? null;
+        $result->upc = $json['upc'] ?? null;
+        $result->mpn =  $json['mpn'] ?? null;
+        $result->barcode =$json['barcode'] ?? null;
         return $result;
     }
 
@@ -53,9 +50,6 @@ class Identity
             $this->barcode === $other->barcode;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         return [
@@ -68,18 +62,11 @@ class Identity
         ];
     }
 
-    /**
-     * @return string|null
-     */
     public function getSku(): ?string
     {
         return $this->sku;
     }
 
-    /**
-     * @param string $sku
-     * @return Identity
-     */
     public function withSku(string $sku): Identity
     {
         $clone = clone $this;
@@ -87,18 +74,11 @@ class Identity
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getIsbn(): ?string
     {
         return $this->isbn;
     }
 
-    /**
-     * @param string $isbn
-     * @return Identity
-     */
     public function withIsbn(string $isbn): Identity
     {
         $clone = clone $this;
@@ -106,18 +86,11 @@ class Identity
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getEan(): ?string
     {
         return $this->ean;
     }
 
-    /**
-     * @param string $ean
-     * @return Identity
-     */
     public function withEan(string $ean): Identity
     {
         $clone = clone $this;
@@ -125,18 +98,11 @@ class Identity
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getUpc(): ?string
     {
         return $this->upc;
     }
 
-    /**
-     * @param string $upc
-     * @return Identity
-     */
     public function withUpc(string $upc): Identity
     {
         $clone = clone $this;
@@ -144,18 +110,11 @@ class Identity
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getMpn(): ?string
     {
         return $this->mpn;
     }
 
-    /**
-     * @param string $mpn
-     * @return Identity
-     */
     public function withMpn(string $mpn): Identity
     {
         $clone = clone $this;
@@ -163,18 +122,11 @@ class Identity
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getBarcode(): ?string
     {
         return $this->barcode;
     }
 
-    /**
-     * @param string $barcode
-     * @return Identity
-     */
     public function withBarcode(string $barcode): Identity
     {
         $clone = clone $this;

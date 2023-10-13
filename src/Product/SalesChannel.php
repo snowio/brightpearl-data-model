@@ -2,10 +2,11 @@
 
 namespace SnowIO\BrightpearlDataModel\Product;
 
+use SnowIO\BrightpearlDataModel\ModelInterface;
 use SnowIO\BrightpearlDataModel\Product\SalesChannel\Category;
 use SnowIO\BrightpearlDataModel\Product\SalesChannel\Description;
 
-class SalesChannel
+class SalesChannel implements ModelInterface
 {
     /** @var string|null $salesChannelName */
     private $salesChannelName;
@@ -20,71 +21,57 @@ class SalesChannel
     /** @var Description|null $shortDescription */
     private $shortDescription;
 
-    /**
-     * @return self
-     */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
-    /**
-     * @param array<string, mixed> $json
-     */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-
-        $categories = is_array($json['categories']) ? $json['categories'] : [];
-        $description = is_array($json['description']) ? $json['description'] : [];
-        $shortDescription = is_array($json['shortDescription']) ? $json['shortDescription'] : [];
-
-        $result->salesChannelName = is_string($json['salesChannelName']) ? $json['salesChannelName'] : null;
-        $result->productName = is_string($json['productName']) ? $json['productName'] : null;
-        $result->productCondition = is_string($json['productCondition']) ? $json['productCondition'] : null;
-        $result->categories = array_map(function (array $json): Category {
+        $result->salesChannelName = $json['salesChannelName'] ?? null;
+        $result->productName = $json['productName'] ?? null;
+        $result->productCondition = $json['productCondition'] ?? null;
+        $result->categories = array_map(function (array $json): ModelInterface {
             return Category::fromJson($json);
-        }, $categories);
-        $result->description = Description::fromJson($description);
-        $result->shortDescription = Description::fromJson($shortDescription);
-
+        }, $json['categories'] ?? []);
+        $result->description = Description::fromJson($json['description'] ?? []);
+        $result->shortDescription = Description::fromJson($json['shortDescription'] ?? []);
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         $categories = array_map(static function (Category $category): array {
             return $category->toJson();
         }, $this->categories);
-
-        $description = is_null($this->getDescription()) ? [] : $this->getDescription()->toJson();
-        $shortDescription = is_null($this->getShortDescription()) ? [] : $this->getShortDescription()->toJson();
-
         return [
             'salesChannelName' => $this->getSalesChannelName(),
             'productName' => $this->getProductName(),
             'productCondition' => $this->getProductCondition(),
             'categories' => $categories,
-            'description' => $description,
-            'shortDescription' => $shortDescription
+            'description' => $this->getDescription()->toJson(),
+            'shortDescription' => $this->getShortDescription()->toJson()
         ];
     }
 
-    /**
-     * @return string|null
-     */
+
+    public function equals(ModelInterface $other): bool
+    {
+        return $other instanceof SalesChannel &&
+            $this->salesChannelName === $other->salesChannelName &&
+            $this->productName === $other->productName &&
+            $this->productCondition === $other->productCondition &&
+            $this->categories === $other->categories &&
+            $this->description->equals($other->description) &&
+            $this->shortDescription->equals($other->shortDescription);
+    }
+
     public function getSalesChannelName(): ?string
     {
         return $this->salesChannelName;
     }
 
-    /**
-     * @param string $salesChannelName
-     * @return SalesChannel
-     */
     public function withSalesChannelName(string $salesChannelName): SalesChannel
     {
         $clone = clone $this;
@@ -92,18 +79,11 @@ class SalesChannel
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getProductName(): ?string
     {
         return $this->productName;
     }
 
-    /**
-     * @param string $productName
-     * @return SalesChannel
-     */
     public function withProductName(string $productName): SalesChannel
     {
         $clone = clone $this;
@@ -111,18 +91,11 @@ class SalesChannel
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getProductCondition(): ?string
     {
         return $this->productCondition;
     }
 
-    /**
-     * @param string $productCondition
-     * @return SalesChannel
-     */
     public function withProductCondition(string $productCondition): SalesChannel
     {
         $clone = clone $this;
@@ -130,18 +103,11 @@ class SalesChannel
         return $clone;
     }
 
-    /**
-     * @return Category[]
-     */
     public function getCategories(): array
     {
         return $this->categories;
     }
 
-    /**
-     * @param Category[] $categories
-     * @return SalesChannel
-     */
     public function withCategories(array $categories): SalesChannel
     {
         $clone = clone $this;
@@ -149,18 +115,11 @@ class SalesChannel
         return $clone;
     }
 
-    /**
-     * @return Description|null
-     */
     public function getDescription(): ?Description
     {
         return $this->description;
     }
 
-    /**
-     * @param Description $description
-     * @return SalesChannel
-     */
     public function withDescription(Description $description): SalesChannel
     {
         $clone = clone $this;
@@ -168,18 +127,11 @@ class SalesChannel
         return $clone;
     }
 
-    /**
-     * @return Description|null
-     */
     public function getShortDescription(): ?Description
     {
         return $this->shortDescription;
     }
 
-    /**
-     * @param Description $shortDescription
-     * @return SalesChannel
-     */
     public function withShortDescription(Description $shortDescription): SalesChannel
     {
         $clone = clone $this;

@@ -2,7 +2,9 @@
 
 namespace SnowIO\BrightpearlDataModel\Product;
 
-class Warehouses
+use SnowIO\BrightpearlDataModel\ModelInterface;
+
+class Warehouses implements ModelInterface
 {
     /** @var int|null $defaultLocationId */
     private $defaultLocationId;
@@ -11,31 +13,20 @@ class Warehouses
     /** @var int|null $reorderQuantity */
     private $reorderQuantity;
 
-    /**
-     * @return self
-     */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
-    /**
-     * @param array<string, mixed> $json
-     */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-
-        $result->defaultLocationId = is_numeric($json['defaultLocationId']) ? (int) $json['defaultLocationId'] : null;
-        $result->reorderLevel = is_numeric($json['reorderLevel']) ? (int) $json['reorderLevel'] : null;
-        $result->reorderQuantity = is_numeric($json['reorderQuantity']) ? (int) $json['reorderQuantity'] : null;
-
+        $result->defaultLocationId = $json['defaultLocationId'] ?? null;
+        $result->reorderLevel = $json['reorderLevel'] ?? null;
+        $result->reorderQuantity = $json['reorderQuantity'] ?? null;
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         return [
@@ -45,18 +36,19 @@ class Warehouses
         ];
     }
 
-    /**
-     * @return int|null
-     */
+    public function equals(ModelInterface $other): bool
+    {
+        return $other instanceof Warehouses &&
+            $this->defaultLocationId === $other->defaultLocationId &&
+            $this->reorderLevel === $other->reorderLevel &&
+            $this->reorderQuantity === $other->reorderQuantity;
+    }
+
     public function getDefaultLocationId(): ?int
     {
         return $this->defaultLocationId;
     }
 
-    /**
-     * @param int|null $defaultLocationId
-     * @return Warehouses
-     */
     public function withDefaultLocationId(?int $defaultLocationId): Warehouses
     {
         $clone = clone $this;
@@ -64,18 +56,11 @@ class Warehouses
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getReorderLevel(): ?int
     {
         return $this->reorderLevel;
     }
 
-    /**
-     * @param int|null $reorderLevel
-     * @return Warehouses
-     */
     public function withReorderLevel(?int $reorderLevel): Warehouses
     {
         $clone = clone $this;
@@ -83,18 +68,11 @@ class Warehouses
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getReorderQuantity(): ?int
     {
         return $this->reorderQuantity;
     }
 
-    /**
-     * @param int|null $reorderQuantity
-     * @return Warehouses
-     */
     public function withReorderQuantity(?int $reorderQuantity): Warehouses
     {
         $clone = clone $this;

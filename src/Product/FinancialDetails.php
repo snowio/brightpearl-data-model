@@ -2,21 +2,22 @@
 
 namespace SnowIO\BrightpearlDataModel\Product;
 
+use SnowIO\BrightpearlDataModel\ModelInterface;
 use SnowIO\BrightpearlDataModel\Product\FinancialDetails\TaxCode;
 
-class FinancialDetails
+class FinancialDetails implements ModelInterface
 {
     public function __construct()
     {
         $this->taxCode = TaxCode::create();
     }
 
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
         $result->taxable = $json['taxable'];

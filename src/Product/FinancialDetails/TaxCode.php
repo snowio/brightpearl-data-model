@@ -2,14 +2,16 @@
 
 namespace SnowIO\BrightpearlDataModel\Product\FinancialDetails;
 
-class TaxCode
+use SnowIO\BrightpearlDataModel\ModelInterface;
+
+class TaxCode implements ModelInterface
 {
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
         $result->id = $json['id'] ?? null;
@@ -25,7 +27,7 @@ class TaxCode
         ];
     }
 
-    public function equals($other)
+    public function equals($other): bool
     {
         return $other instanceof TaxCode &&
             $this->id === $other->id &&

@@ -106,7 +106,7 @@ class Product implements ModelInterface
             ($this->variations == $other->variations) && // not strict for array
             ($this->createdOn === $other->createdOn) &&
             ($this->updatedOn === $other->updatedOn) &&
-            ($this->warehouses == $other->warehouses) && // not strict for array
+            ($this->warehouses->equals($other->warehouses))&& // not strict for array
             ($this->nominalCodeStock === $other->nominalCodeStock) &&
             ($this->nominalCodePurchases === $other->nominalCodePurchases) &&
             ($this->nominalCodeSales === $other->nominalCodeSales) &&

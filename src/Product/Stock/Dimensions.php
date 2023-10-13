@@ -2,7 +2,9 @@
 
 namespace SnowIO\BrightpearlDataModel\Product\Stock;
 
-class Dimensions
+use SnowIO\BrightpearlDataModel\ModelInterface;
+
+class Dimensions implements ModelInterface
 {
     /** @var float|null $length */
     private $length;
@@ -13,32 +15,21 @@ class Dimensions
     /** @var float|null $volume */
     private $volume;
 
-    /**
-     * @return self
-     */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
-    /**
-     * @param array<string, mixed> $json
-     */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-
-        $result->length = is_numeric($json['length']) ? (float) $json['length'] : null;
-        $result->height = is_numeric($json['height']) ? (float) $json['height'] : null;
-        $result->width = is_numeric($json['width']) ? (float) $json['width'] : null;
-        $result->volume = is_numeric($json['volume']) ? (float) $json['volume'] : null;
-
+        $result->length = $json['length']?? null;
+        $result->height =$json['height'] ?? null;
+        $result->width = $json['width'] ?? null;
+        $result->volume = $json['volume'] ?? null;
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         return [
@@ -58,18 +49,11 @@ class Dimensions
             $this->volume === $other->volume;
     }
 
-    /**
-     * @return float|null
-     */
     public function getLength(): ?float
     {
         return $this->length;
     }
 
-    /**
-     * @param float $length
-     * @return Dimensions
-     */
     public function withLength(float $length): Dimensions
     {
         $clone = clone $this;
@@ -77,18 +61,11 @@ class Dimensions
         return $clone;
     }
 
-    /**
-     * @return float|null
-     */
     public function getHeight(): ?float
     {
         return $this->height;
     }
 
-    /**
-     * @param float $height
-     * @return Dimensions
-     */
     public function withHeight(float $height): Dimensions
     {
         $clone = clone $this;
@@ -96,18 +73,11 @@ class Dimensions
         return $clone;
     }
 
-    /**
-     * @return float|null
-     */
     public function getWidth(): ?float
     {
         return $this->width;
     }
 
-    /**
-     * @param float $width
-     * @return Dimensions
-     */
     public function withWidth(float $width): Dimensions
     {
         $clone = clone $this;
@@ -115,18 +85,11 @@ class Dimensions
         return $clone;
     }
 
-    /**
-     * @return float|null
-     */
     public function getVolume(): ?float
     {
         return $this->volume;
     }
 
-    /**
-     * @param float $volume
-     * @return Dimensions
-     */
     public function withVolume(float $volume): Dimensions
     {
         $clone = clone $this;

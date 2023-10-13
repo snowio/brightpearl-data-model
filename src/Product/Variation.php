@@ -2,7 +2,9 @@
 
 namespace SnowIO\BrightpearlDataModel\Product;
 
-class Variation
+use SnowIO\BrightpearlDataModel\ModelInterface;
+
+class Variation implements ModelInterface
 {
     /** @var int|null $optionId */
     private $optionId;
@@ -13,32 +15,21 @@ class Variation
     /** @var string|null $optionValue */
     private $optionValue;
 
-    /**
-     * @return self
-     */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
-    /**
-     * @param array<string, mixed> $json
-     */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-
-        $result->optionId = is_numeric($json['optionId']) ? (int)$json['optionId'] : null;
-        $result->optionName = is_string($json['optionName']) ? $json['optionName'] : null;
-        $result->optionValueId = is_numeric($json['optionValueId']) ? (int)$json['optionValueId'] : null;
-        $result->optionValue = is_string($json['optionValue']) ? $json['optionValue'] : null;
-
+        $result->optionId = $json['optionId'] ?? null;
+        $result->optionName = $json['optionName'] ?? null;
+        $result->optionValueId = $json['optionValueId'] ?? null;
+        $result->optionValue = $json['optionValue'] ?? null;
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         return [
@@ -49,18 +40,20 @@ class Variation
         ];
     }
 
-    /**
-     * @return int|null
-     */
+    public function equals(ModelInterface $other): bool
+    {
+        return $other instanceof Variation &&
+            $this->optionId === $other->optionId &&
+            $this->optionName === $other->optionName &&
+            $this->optionValueId === $other->optionValueId &&
+            $this->optionValue === $other->optionValue;
+    }
+
     public function getOptionId(): ?int
     {
         return $this->optionId;
     }
 
-    /**
-     * @param int $optionId
-     * @return Variation
-     */
     public function withOptionId(int $optionId): Variation
     {
         $clone = clone $this;
@@ -68,18 +61,11 @@ class Variation
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getOptionName(): ?string
     {
         return $this->optionName;
     }
 
-    /**
-     * @param string $optionName
-     * @return Variation
-     */
     public function withOptionName(string $optionName): Variation
     {
         $clone = clone $this;
@@ -87,18 +73,11 @@ class Variation
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getOptionValueId(): ?int
     {
         return $this->optionValueId;
     }
 
-    /**
-     * @param int $optionValueId
-     * @return Variation
-     */
     public function withOptionValueId(int $optionValueId): Variation
     {
         $clone = clone $this;
@@ -106,18 +85,11 @@ class Variation
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getOptionValue(): ?string
     {
         return $this->optionValue;
     }
 
-    /**
-     * @param string $optionValue
-     * @return Variation
-     */
     public function withOptionValue(string $optionValue): Variation
     {
         $clone = clone $this;
