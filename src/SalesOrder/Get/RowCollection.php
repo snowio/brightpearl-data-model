@@ -23,9 +23,23 @@ class RowCollection implements IteratorAggregate
         return $result;
     }
 
-    public function equals(RowCollection $other): bool
+    public function equals(RowCollection $compare): bool
     {
-        return $this->toJson() === $other->toJson();
+        if (count($this->items) !== count(iterator_to_array($compare->getIterator()))) {
+            return false;
+        }
+        $foundItems = [];
+        foreach ($this->items as $item) {
+            foreach ($compare->getIterator() as $compareItem) {
+                if ($item->equals($compareItem)) {
+                    $foundItems[] = $item;
+                }
+            }
+        }
+        if (count($foundItems) !== count($this->items)) {
+            return false;
+        }
+        return true;
     }
 
     public function toJson(): array

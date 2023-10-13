@@ -2,7 +2,9 @@
 
 namespace SnowIO\BrightpearlDataModel\SalesOrder;
 
-class Total
+use SnowIO\BrightpearlDataModel\ModelInterface;
+
+class Total implements ModelInterface
 {
     /** @var string|null $net */
     private $net;
@@ -17,10 +19,7 @@ class Total
     /** @var string|null $baseGross */
     private $baseGross;
 
-    /**
-     * @return self
-     */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
@@ -30,7 +29,7 @@ class Total
         return count(array_filter($this->toJson()));
     }
 
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
         $result->net = $json['net'] ?? null;
@@ -54,9 +53,10 @@ class Total
         ];
     }
 
-    public function equals(Total $other): bool
+    public function equals(ModelInterface $other): bool
     {
-        return ($this->net === $other->net) &&
+        return $other instanceof Total &&
+            ($this->net === $other->net) &&
             ($this->tax === $other->tax) &&
             ($this->gross === $other->gross) &&
             ($this->baseNet === $other->baseNet) &&

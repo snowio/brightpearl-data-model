@@ -27,15 +27,13 @@ class Billing implements ModelInterface
 
     public function toJson(): array
     {
-        $address = is_null($this->getAddress()) ? [] : $this->getAddress()->toJson();
-
         return [
             'contactId' => $this->getContactId(),
-            'address' => $address
+            'address' => $this->getAddress()->toJson()
         ];
     }
 
-    public function equals($other): bool
+    public function equals(ModelInterface $other): bool
     {
         return $other instanceof Billing &&
             $this->contactId === $other->contactId &&

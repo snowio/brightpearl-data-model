@@ -3,53 +3,41 @@
 namespace SnowIO\BrightpearlDataModel\SalesOrder;
 
 use SnowIO\BrightpearlDataModel\Address;
+use SnowIO\BrightpearlDataModel\ModelInterface;
 
-class Billing
+class Billing implements ModelInterface
 {
     /** @var int|null $contactId */
     private $contactId;
     /** @var Address|null $address */
     private $address;
 
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-        $result->contactId = isset($json['contactId']) ? $json['contactId'] : null;
-        $result->address = isset($json['address']) ? Address::fromJson($json['address'] ?? []) : null;
+        $result->contactId = $json['contactId'] ?? null;
+        $result->address = Address::fromJson($json['address'] ?? []);
         return $result;
     }
 
     public function toJson(): array
     {
-        $address = is_null($this->getAddress()) ? [] : $this->getAddress()->toJson();
-
         return [
             'contactId' => $this->getContactId(),
-            'address' => $address
+            'address' => $this->getAddress()->toJson()
         ];
     }
 
-    public function equals(Billing $billingToCompare): bool
+    public function equals(ModelInterface $other): bool
     {
-        if (is_null($this->getAddress()) && is_null($billingToCompare->getAddress())) {
-            return $this->getContactId() === $billingToCompare->getContactId();
-        }
-        if (is_null($this->getAddress())) {
-            return false;
-        }
-        if (is_null($billingToCompare->getAddress())) {
-            return false;
-        }
-        if ($this->getAddress()->equals($billingToCompare->getAddress())) {
-            return $this->getContactId() === $billingToCompare->getContactId();
-        }
-
-        return false;
+        return $other instanceof Billing &&
+            $this->contactId === $other->contactId &&
+            $this->address->equals($other->address);
     }
 
     public function getContactId(): ?int

@@ -38,9 +38,10 @@ class Customer implements ModelInterface
         ];
     }
 
-    public function equals($other): bool
+    public function equals(ModelInterface $other): bool
     {
-        return $this->getId() === $other->getId() &&
+        return $other instanceof Customer &&
+            $this->getId() === $other->getId() &&
             $this->address->equals($other->getAddress());
     }
 

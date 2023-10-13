@@ -26,14 +26,6 @@ class RowCollection implements IteratorAggregate
         return $result;
     }
 
-    public function equals($other): bool
-    {
-        return $this->toJson() === $other->toJson();
-    }
-
-    /**
-     * @return array<mixed>
-     */
     public function toJson(): array
     {
         return array_map(static function (Row $row): array {
@@ -41,10 +33,6 @@ class RowCollection implements IteratorAggregate
         }, $this->items);
     }
 
-    /**
-     * @param array<mixed> $json
-     * @return self
-     */
     public static function fromJson(array $json): self
     {
         $result = new self();
@@ -59,13 +47,29 @@ class RowCollection implements IteratorAggregate
         return $result;
     }
 
-    /**
-     * @return Iterator
-     */
     public function getIterator(): Iterator
     {
         foreach ($this->items as $item) {
             yield $item;
         }
+    }
+
+    public function equals(RowCollection $compare): bool
+    {
+        if (count($this->items) !== count(iterator_to_array($compare->getIterator()))) {
+            return false;
+        }
+        $foundItems = [];
+        foreach ($this->items as $item) {
+            foreach ($compare->getIterator() as $compareItem) {
+                if ($item->equals($compareItem)) {
+                    $foundItems[] = $item;
+                }
+            }
+        }
+        if (count($foundItems) !== count($this->items)) {
+            return false;
+        }
+        return true;
     }
 }

@@ -17,7 +17,7 @@ class Customer implements ModelInterface
     public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-        $result->id = is_numeric($json['id']) ? (int)$json['id'] : null;
+        $result->id = $json['id'] ?? null;
         return $result;
     }
 

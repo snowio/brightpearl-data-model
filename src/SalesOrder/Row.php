@@ -68,9 +68,10 @@ class Row implements ModelInterface
      * @param Row $other
      * @return bool
      */
-    public function equals($other): bool
+    public function equals(ModelInterface $other): bool
     {
-        return $this->productId === $other->productId &&
+        return $other instanceof Row &&
+            $this->productId === $other->productId &&
             $this->name === $other->name  &&
             $this->quantity === $other->quantity  &&
             $this->taxCode === $other->taxCode  &&
