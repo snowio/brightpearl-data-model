@@ -9,28 +9,19 @@ class Notification implements ModelInterface
     /** @var string|null $timestamp */
     private $timestamp;
 
-    /**
-     * @return self
-     */
     public static function create(): ModelInterface
     {
         return new self();
     }
 
-    /**
-     * @param array<string, mixed> $eventJson
-     */
-    public static function fromJson(array $eventJson): ModelInterface
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-        $result->entityId = is_string($eventJson['id']) ? $eventJson['id'] : null;
-        $result->timestamp = is_string($eventJson['raisedOn']) ? $eventJson['raisedOn'] : null;
+        $result->entityId =$json['id'] ?? null;
+        $result->timestamp = $json['raisedOn'] ?? null;
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         return [
@@ -39,30 +30,18 @@ class Notification implements ModelInterface
         ];
     }
 
-    /**
-     * @param Notification $notificationToCompare
-     * @return bool
-     */
-    public function equals(ModelInterface $notificationToCompare): bool
+    public function equals(ModelInterface $other): bool
     {
-        if ($this->getEntityId() !== $notificationToCompare->getEntityId()) {
-            return false;
-        }
-        return $this->getTimestamp() === $notificationToCompare->getTimestamp();
+        return $other instanceof Notification &&
+            $this->entityId === $other->entityId &&
+            $this->timestamp === $other->timestamp;
     }
 
-    /**
-     * @return string|null
-     */
     public function getEntityId(): ?string
     {
         return $this->entityId;
     }
 
-    /**
-     * @param string|null $entityId
-     * @return Notification
-     */
     public function withEntityId(?string $entityId): Notification
     {
         $clone = clone $this;
@@ -70,18 +49,11 @@ class Notification implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getTimestamp(): ?string
     {
         return $this->timestamp;
     }
 
-    /**
-     * @param string|null $timestamp
-     * @return Notification
-     */
     public function withTimestamp(?string $timestamp): Notification
     {
         $clone = clone $this;
