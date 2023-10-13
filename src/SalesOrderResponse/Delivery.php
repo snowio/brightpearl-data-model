@@ -2,82 +2,67 @@
 
 namespace SnowIO\BrightpearlDataModel\SalesOrderResponse;
 
+use SnowIO\BrightpearlDataModel\ModelInterface;
 use SnowIO\BrightpearlDataModel\SalesOrderResponse\Customer\Address;
 
-class Delivery
+class Delivery implements ModelInterface
 {
-    /** @var Address|null $address */
+    /** @var Address */
     private $address;
-    /** @var int|null */
+    /** @var int|null $shippingMethodId */
     private $shippingMethodId;
 
-    /**
-     * @return self
-     */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
-        return new self();
+        $delivery = new self();
+        $delivery->address = Address::create();
+        return $delivery;
     }
 
-    /**
-     * @param array<string, mixed> $json
-     * @return self
-     */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-        $result->shippingMethodId = is_int($json['shippingMethodId']) ? $json['shippingMethodId'] : null;
-        $result->address = Address::fromJson(is_array($json['address']) ? $json['address'] : []);
+        $result->address = Address::fromJson($json['address'] ?? []);
+        $result->shippingMethodId = $json['shippingMethodId'] ?? null;
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
-        $address = is_null($this->getAddress()) ? [] : $this->getAddress()->toJson();
         return [
+            'address' => $this->getAddress()->toJson(),
             'shippingMethodId' => $this->getShippingMethodId(),
-            'address' => $address,
         ];
     }
 
-    /**
-     * @param Address|null $address
-     * @return Delivery
-     */
-    public function withAddress(?Address $address): Delivery
+    public function equals(ModelInterface $other): bool
     {
-        $result = clone $this;
-        $result->address = $address;
-        return $result;
+        return $other instanceof Delivery &&
+            $this->shippingMethodId === $other->shippingMethodId &&
+            $this->getAddress()->equals($other->getAddress());
     }
 
-    /**
-     * @param int|null $shippingMethodId
-     * @return Delivery
-     */
-    public function withShippingMethodId(?int $shippingMethodId): Delivery
-    {
-        $result = clone $this;
-        $result->shippingMethodId = $shippingMethodId;
-        return $result;
-    }
-
-    /**
-     * @return Address|null
-     */
-    public function getAddress(): ?Address
+    public function getAddress(): Address
     {
         return $this->address;
     }
 
-    /**
-     * @return int|null
-     */
+    public function withAddress(Address $address): self
+    {
+        $clone = clone $this;
+        $clone->address = $address;
+        return $clone;
+    }
+
     public function getShippingMethodId(): ?int
     {
         return $this->shippingMethodId;
+    }
+
+    public function withShippingMethodId(?int $shippingMethodId): self
+    {
+        $clone = clone $this;
+        $clone->shippingMethodId = $shippingMethodId;
+        return $clone;
     }
 }

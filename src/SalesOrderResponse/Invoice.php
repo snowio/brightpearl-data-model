@@ -2,7 +2,9 @@
 
 namespace SnowIO\BrightpearlDataModel\SalesOrderResponse;
 
-class Invoice
+use SnowIO\BrightpearlDataModel\ModelInterface;
+
+class Invoice implements ModelInterface
 {
     /** @var string|null $invoiceReference */
     private $invoiceReference;
@@ -11,17 +13,21 @@ class Invoice
     /** @var string|null $dueDate */
     private $dueDate;
 
-    /**
-     * @return self
-     */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
-    /**
-     * @return array<string, mixed>
-     */
+    public static function fromJson(array $json): ModelInterface
+    {
+        $result = new self();
+        $result->invoiceReference = $json['invoiceReference'] ?? null;
+        $result->taxDate = $json['taxDate'] ?? null;
+        $result->dueDate = $json['dueDate'] ?? null;
+
+        return $result;
+    }
+
     public function toJson(): array
     {
         return [
@@ -31,73 +37,52 @@ class Invoice
         ];
     }
 
-    /**
-     * @param array<string, mixed> $json
-     * @return self
-     */
-    public static function fromJson(array $json): self
+    public function hasData()
     {
-        $result = new self();
-        $result->invoiceReference = is_string($json['invoiceReference']) ? $json['invoiceReference'] : null;
-        $result->taxDate = is_string($json['taxDate']) ? $json['taxDate'] : null;
-        $result->dueDate = is_string($json['dueDate']) ? $json['dueDate'] : null;
-        return $result;
+        return count(array_filter($this->toJson()));
     }
 
-    /**
-     * @param string|null $invoiceReference
-     * @return Invoice
-     */
-    public function withInvoiceReference(?string $invoiceReference): Invoice
+    public function equals(ModelInterface $other): bool
     {
-        $result = clone $this;
-        $result->invoiceReference = $invoiceReference;
-        return $result;
+        return $other instanceof Invoice &&
+            $this->invoiceReference === $other->invoiceReference &&
+            $this->taxDate === $other->taxDate &&
+            $this->dueDate === $other->dueDate;
     }
 
-    /**
-     * @param string|null $taxDate
-     * @return Invoice
-     */
-    public function withTaxDate(?string $taxDate): Invoice
-    {
-        $result = clone $this;
-        $result->taxDate = $taxDate;
-        return $result;
-    }
-
-    /**
-     * @param string|null $dueDate
-     * @return Invoice
-     */
-    public function withDueDate(?string $dueDate): Invoice
-    {
-        $result = clone $this;
-        $result->dueDate = $dueDate;
-        return $result;
-    }
-
-    /**
-     * @return string|null
-     */
     public function getInvoiceReference(): ?string
     {
         return $this->invoiceReference;
     }
 
-    /**
-     * @return string|null
-     */
+    public function withInvoiceReference(string $invoiceReference): self
+    {
+        $clone = clone $this;
+        $clone->invoiceReference = $invoiceReference;
+        return $clone;
+    }
+
     public function getTaxDate(): ?string
     {
         return $this->taxDate;
     }
 
-    /**
-     * @return string|null
-     */
+    public function withTaxDate(?string $taxDate): self
+    {
+        $clone = clone $this;
+        $clone->taxDate = $taxDate;
+        return $clone;
+    }
+
     public function getDueDate(): ?string
     {
         return $this->dueDate;
+    }
+
+    public function withDueDate(?string $dueDate): self
+    {
+        $clone = clone $this;
+        $clone->dueDate = $dueDate;
+        return $clone;
     }
 }

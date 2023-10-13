@@ -2,83 +2,65 @@
 
 namespace SnowIO\BrightpearlDataModel\SalesOrderResponse;
 
+use SnowIO\BrightpearlDataModel\ModelInterface;
 use SnowIO\BrightpearlDataModel\SalesOrderResponse\Customer\Address;
 
-class Billing
+class Billing implements ModelInterface
 {
     /** @var int|null $contactId */
     private $contactId;
-
     /** @var Address|null $address */
     private $address;
 
-    /**
-     * @return self
-     */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
-    /**
-     * @param array<string, mixed> $json
-     * @return self
-     */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-        $result->contactId = is_int($json['contactId']) ? $json['contactId'] : null;
-        $result->address = Address::fromJson(is_array($json['address']) ? $json['address'] : []);
+        $result->contactId = $json['contactId'] ?? null;
+        $result->address = Address::fromJson($json['address'] ?? []);
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
-        $address = is_null($this->getAddress()) ? [] : $this->getAddress()->toJson();
         return [
             'contactId' => $this->getContactId(),
-            'address' => $address
+            'address' => $this->getAddress()->toJson()
         ];
     }
 
-    /**
-     * @param int|null $contactId
-     * @return Billing
-     */
-    public function withContactId(?int $contactId): Billing
+    public function equals(ModelInterface $other): bool
     {
-        $result = clone $this;
-        $result->contactId = $contactId;
-        return $result;
+        return $other instanceof Billing &&
+            $this->contactId === $other->contactId &&
+            $this->address->equals($other->address);
     }
 
-    /**
-     * @param Address|null $address
-     * @return Billing
-     */
-    public function withAddress(?Address $address): Billing
-    {
-        $result = clone $this;
-        $result->address = $address;
-        return $result;
-    }
-
-    /**
-     * @return int|null
-     */
     public function getContactId(): ?int
     {
         return $this->contactId;
     }
 
-    /**
-     * @return Address|null
-     */
+    public function withContactId(?int $contactId): Billing
+    {
+        $clone = clone $this;
+        $clone->contactId = $contactId;
+        return $clone;
+    }
+
     public function getAddress(): ?Address
     {
         return $this->address;
+    }
+
+    public function withAddress(?Address $address): Billing
+    {
+        $clone = clone $this;
+        $clone->address = $address;
+        return $clone;
     }
 }

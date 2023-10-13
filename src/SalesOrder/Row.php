@@ -29,10 +29,6 @@ class Row implements ModelInterface
         return new self();
     }
 
-    /**
-     * @param array<string|int> $json
-     * @return ModelInterface
-     */
     public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
@@ -47,9 +43,6 @@ class Row implements ModelInterface
         return $result;
     }
 
-    /**
-     * @return array<string>
-     */
     public function toJson(): array
     {
         return [
@@ -64,10 +57,6 @@ class Row implements ModelInterface
         ];
     }
 
-    /**
-     * @param Row $other
-     * @return bool
-     */
     public function equals(ModelInterface $other): bool
     {
         return $other instanceof Row &&
@@ -76,7 +65,7 @@ class Row implements ModelInterface
             $this->quantity === $other->quantity  &&
             $this->taxCode === $other->taxCode  &&
             $this->net === $other->net &&
-            $this->tax === $other->net &&
+            $this->tax === $other->tax &&
             $this->nominalCode === $other->nominalCode &&
             $this->externalRef === $other->externalRef;
     }
