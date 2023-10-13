@@ -32,7 +32,7 @@ class Delivery implements ModelInterface
         ];
     }
 
-    public function equals($other): bool
+    public function equals(ModelInterface $other): bool
     {
         return $other instanceof Delivery &&
             $this->date === $other->date &&

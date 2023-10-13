@@ -2,7 +2,9 @@
 
 namespace SnowIO\BrightpearlDataModel\SalesCredit;
 
-class Currency
+use SnowIO\BrightpearlDataModel\ModelInterface;
+
+class Currency implements ModelInterface
 {
     /** @var bool|null $fixedExchangeRate */
     private $fixedExchangeRate;
@@ -11,30 +13,20 @@ class Currency
     /** @var string|null $code */
     private $code;
 
-    /**
-     * @return self
-     */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
-    /**
-     * @param array<string, mixed> $json
-     * @return self
-     */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-        $result->fixedExchangeRate = is_bool($json["fixedExchangeRate"]) ? $json["fixedExchangeRate"] : null;
-        $result->exchangeRate = is_string($json["exchangeRate"]) ? $json["exchangeRate"] : null;
-        $result->code = is_string($json["code"]) ? $json["code"] : null;
+        $result->code = $json['code'] ?? null;
+        $result->fixedExchangeRate = $json['fixedExchangeRate'] ?? null;
+        $result->exchangeRate = $json['exchangeRate'] ?? null;
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         return [
@@ -44,10 +36,14 @@ class Currency
         ];
     }
 
-    /**
-     * @param string|null $code
-     * @return Currency
-     */
+    public function equals(ModelInterface $other): bool
+    {
+        return $other instanceof Currency &&
+            $this->code === $other->code &&
+            $this->fixedExchangeRate === $other->fixedExchangeRate &&
+            $this->exchangeRate === $other->exchangeRate;
+    }
+
     public function withCode(?string $code): Currency
     {
         $result = clone $this;
@@ -55,10 +51,6 @@ class Currency
         return $result;
     }
 
-    /**
-     * @param bool|null $fixedExchangeRate
-     * @return Currency
-     */
     public function withFixedExchangeRate(?bool $fixedExchangeRate): Currency
     {
         $result = clone $this;
@@ -66,10 +58,6 @@ class Currency
         return $result;
     }
 
-    /**
-     * @param string|null $exchangeRate
-     * @return Currency
-     */
     public function withExchangeRate(?string $exchangeRate): Currency
     {
         $result = clone $this;
@@ -77,25 +65,16 @@ class Currency
         return $result;
     }
 
-    /**
-     * @return string|null
-     */
     public function getCode(): ?string
     {
         return $this->code;
     }
 
-    /**
-     * @return bool|null
-     */
     public function getFixedExchangeRate(): ?bool
     {
         return $this->fixedExchangeRate;
     }
 
-    /**
-     * @return string|null
-     */
     public function getExchangeRate(): ?string
     {
         return $this->exchangeRate;
