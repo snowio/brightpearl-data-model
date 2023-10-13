@@ -17,6 +17,9 @@ class ContactCreate implements ModelInterface
     /** @var Communication|null $communication */
     private $communication;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

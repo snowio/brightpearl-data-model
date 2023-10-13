@@ -69,6 +69,9 @@ class OrderResponse implements ModelInterface
     /** @var int|null $orderWeighting */
     private $orderWeighting;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

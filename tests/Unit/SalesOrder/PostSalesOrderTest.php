@@ -104,9 +104,6 @@ class PostSalesOrderTest extends TestCase
         self::assertEquals($json, $order->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testGetters()
     {
         $data = $this->getFromTestFileDirectory('SalesOrder/post-sales-order.json');
@@ -185,9 +182,6 @@ class PostSalesOrderTest extends TestCase
         self::assertEquals("FEDCBA2", $rows[1]->getExternalRef());
     }
 
-    /**
-     * @return void
-     */
     public function testEquals()
     {
         $data = $this->getFromTestFileDirectory('SalesOrder/post-sales-order.json');

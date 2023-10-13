@@ -9,6 +9,9 @@ class State implements ModelInterface
     /** @var string|null $tax */
     private $tax;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

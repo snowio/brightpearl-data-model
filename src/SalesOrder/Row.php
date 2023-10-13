@@ -24,6 +24,9 @@ class Row implements ModelInterface
     protected $externalRef;
 
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

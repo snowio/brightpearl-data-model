@@ -30,6 +30,9 @@ class Row extends BaseRow implements ModelInterface
     /** @var string|null $sequence */
     protected $sequence;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

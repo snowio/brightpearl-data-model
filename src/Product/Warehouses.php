@@ -13,6 +13,9 @@ class Warehouses implements ModelInterface
     /** @var int|null $reorderQuantity */
     private $reorderQuantity;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

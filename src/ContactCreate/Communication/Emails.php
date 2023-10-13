@@ -14,6 +14,9 @@ class Emails implements ModelInterface
     /** @var Email|null $TER */
     private $TER;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

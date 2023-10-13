@@ -40,6 +40,9 @@ class GoodsOutNote implements ModelInterface
     /** @var int|null $lastEventVersion */
     private $lastEventVersion;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

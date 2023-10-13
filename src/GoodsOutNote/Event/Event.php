@@ -13,6 +13,9 @@ class Event implements ModelInterface
     /** @var string|null $eventCode */
     private $eventCode;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

@@ -23,6 +23,9 @@ class Row implements ModelInterface
     /** @var string|null $externalRef */
     private $externalRef;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

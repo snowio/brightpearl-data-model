@@ -9,6 +9,9 @@ class Customer implements ModelInterface
     /** @var int|null $id */
     private $id;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

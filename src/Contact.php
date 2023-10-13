@@ -47,6 +47,9 @@ class Contact implements ModelInterface
     /** @var string|null $title */
     private $title;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

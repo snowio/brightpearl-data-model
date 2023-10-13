@@ -13,6 +13,9 @@ class BundleComponent implements ModelInterface
     /** @var string|null $sku */
     private $sku;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

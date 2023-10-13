@@ -16,6 +16,9 @@ class Parties implements ModelInterface
     /** @var Billing|null $billing */
     private $billing;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

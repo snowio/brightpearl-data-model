@@ -31,6 +31,9 @@ class Status implements ModelInterface
     /** @var int|null $printedById */
     private $printedById;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

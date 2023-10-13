@@ -25,6 +25,9 @@ class CustomerPayment implements ModelInterface
     /** @var string|null $journalRef */
     private $journalRef;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

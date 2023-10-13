@@ -15,6 +15,9 @@ class Dimensions implements ModelInterface
     /** @var float|null $volume */
     private $volume;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

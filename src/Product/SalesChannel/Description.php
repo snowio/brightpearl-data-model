@@ -13,6 +13,9 @@ class Description implements ModelInterface
     /** @var string|null $format */
     private $format;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

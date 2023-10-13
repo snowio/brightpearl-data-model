@@ -9,6 +9,9 @@ class ProductAvailability implements ModelInterface
     /** @var Total|null $total */
     private $total;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

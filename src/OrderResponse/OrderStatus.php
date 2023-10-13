@@ -11,6 +11,9 @@ class OrderStatus implements ModelInterface
     /** @var string|null $name */
     private $name;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

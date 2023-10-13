@@ -19,6 +19,9 @@ class Identity implements ModelInterface
     /** @var string|null $barcode */
     private $barcode;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

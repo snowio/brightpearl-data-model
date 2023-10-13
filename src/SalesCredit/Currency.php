@@ -13,6 +13,9 @@ class Currency implements ModelInterface
     /** @var string|null $code */
     private $code;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

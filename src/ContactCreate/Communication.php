@@ -10,6 +10,9 @@ class Communication implements ModelInterface
     /** @var Emails|null $emails */
     private $emails;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

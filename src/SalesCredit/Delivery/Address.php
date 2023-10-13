@@ -29,6 +29,9 @@ class Address implements ModelInterface
     /** @var string|null $email */
     private $email;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

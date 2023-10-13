@@ -8,9 +8,6 @@ use SnowIO\BrightpearlDataModel\OrderResponse\Parties;
 
 class OrderResponseTest extends TestCase
 {
-    /**
-     * @return array
-     */
     private function getJsonData(): array
     {
         return [
@@ -206,9 +203,6 @@ class OrderResponseTest extends TestCase
             ];
     }
 
-    /**
-     * @return void
-     */
     public function testFromJsonToJson()
     {
         $data = $this->getJsonData();
@@ -216,9 +210,6 @@ class OrderResponseTest extends TestCase
         self::assertEquals($data, $order->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testWithers()
     {
         $orderStatus = OrderResponse\OrderStatus::create()
@@ -423,9 +414,6 @@ class OrderResponseTest extends TestCase
         self::assertEquals($this->getJsonData(), $orderResponse->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testGetters()
     {
         $data = $this->getJsonData();
@@ -611,7 +599,6 @@ class OrderResponseTest extends TestCase
     public function testEquals()
     {
         $data = $this->getJsonData();
-
         $orderResponse1 = OrderResponse::fromJson($data);
         $orderResponse2 = OrderResponse::fromJson($data);
         self::assertTrue($orderResponse1->equals($orderResponse2));

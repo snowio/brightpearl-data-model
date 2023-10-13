@@ -17,6 +17,9 @@ class Customer implements ModelInterface
         $this->address = Address::create();
     }
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

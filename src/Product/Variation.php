@@ -15,6 +15,9 @@ class Variation implements ModelInterface
     /** @var string|null $optionValue */
     private $optionValue;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

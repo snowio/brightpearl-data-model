@@ -11,6 +11,9 @@ class Amount implements ModelInterface
     /** @var string|null $value */
     private $value;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

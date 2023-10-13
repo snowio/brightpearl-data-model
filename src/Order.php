@@ -11,6 +11,9 @@ use SnowIO\BrightpearlDataModel\Order\Status;
 
 class Order implements ModelInterface
 {
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

@@ -14,6 +14,9 @@ class Delivery implements ModelInterface
     /** @var int|null */
     private $shippingMethodId;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

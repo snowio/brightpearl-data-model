@@ -8,6 +8,9 @@ use SnowIO\BrightpearlDataModel\Product\Stock\Weight;
 
 class Stock implements ModelInterface
 {
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

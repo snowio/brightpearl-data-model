@@ -12,6 +12,9 @@ class FinancialDetails implements ModelInterface
         $this->taxCode = TaxCode::create();
     }
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

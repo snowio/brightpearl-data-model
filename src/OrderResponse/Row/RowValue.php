@@ -19,6 +19,9 @@ class RowValue implements ModelInterface
     /** @var int|null $taxClassId */
     private $taxClassId;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

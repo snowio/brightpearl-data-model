@@ -47,6 +47,9 @@ class SalesCredit implements ModelInterface
     /** @var RowCollection|null $rows */
     private $rows;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

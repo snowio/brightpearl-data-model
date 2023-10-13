@@ -6,6 +6,9 @@ use SnowIO\BrightpearlDataModel\ModelInterface;
 
 class TaxCode implements ModelInterface
 {
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

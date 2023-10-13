@@ -37,6 +37,9 @@ class Delivery implements ModelInterface
     /** @var string|null $countryIsoCode3 */
     private $countryIsoCode3;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

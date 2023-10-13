@@ -12,9 +12,6 @@ use SnowIO\BrightpearlDataModel\SalesCredit\RowCollection\Row;
 
 class SalesCreditTest extends TestCase
 {
-    /**
-     * @return array<string, mixed>
-     */
     private function getJsonData(): array
     {
         return [
@@ -81,9 +78,6 @@ class SalesCreditTest extends TestCase
         ];
     }
 
-    /**
-     * @return void
-     */
     public function testFromJsonToJson()
     {
         $data = $this->getJsonData();
@@ -91,9 +85,6 @@ class SalesCreditTest extends TestCase
         self::assertEquals($data, $salesCredit->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testWithers()
     {
         $currency = Currency::create()
@@ -232,9 +223,6 @@ class SalesCreditTest extends TestCase
         self::assertEquals("ref-2", $salesCreditRow[1]->getExternalRef());
     }
 
-    /**
-     * @return void
-     */
     public function testEquals()
     {
         $data = $this->getJsonData();

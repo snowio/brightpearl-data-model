@@ -15,6 +15,9 @@ class Shipping implements ModelInterface
     /** @var string|null $weight */
     private $weight;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

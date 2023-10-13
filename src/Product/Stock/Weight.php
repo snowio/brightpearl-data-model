@@ -9,6 +9,9 @@ class Weight implements ModelInterface
     /** @var float|null $magnitude */
     private $magnitude;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

@@ -19,6 +19,9 @@ class TotalValue implements ModelInterface
     /** @var string|null $total */
     private $total;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

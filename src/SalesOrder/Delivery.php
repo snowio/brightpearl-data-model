@@ -14,6 +14,9 @@ class Delivery implements ModelInterface
     /** @var string|null $date */
     private $date;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         $delivery = new self();

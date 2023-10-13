@@ -9,6 +9,9 @@ class Category implements ModelInterface
     /** @var string|null $categoryCode */
     private $categoryCode;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

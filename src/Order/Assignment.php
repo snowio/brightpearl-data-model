@@ -10,6 +10,9 @@ class Assignment implements ModelInterface
     /** @var Current|null $current */
     private $current;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

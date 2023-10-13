@@ -43,6 +43,9 @@ class Row implements ModelInterface
     /** @var int|null $clonedFromId */
     private $clonedFromId;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

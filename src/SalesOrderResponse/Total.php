@@ -19,6 +19,9 @@ class Total implements ModelInterface
     /** @var string|null $baseGross */
     private $baseGross;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

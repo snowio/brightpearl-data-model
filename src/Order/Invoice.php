@@ -9,6 +9,9 @@ class Invoice implements ModelInterface
     /** @var string|null $taxDate */
     private $taxDate;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

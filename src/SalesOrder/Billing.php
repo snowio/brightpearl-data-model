@@ -12,6 +12,9 @@ class Billing implements ModelInterface
     /** @var Address|null $address */
     private $address;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

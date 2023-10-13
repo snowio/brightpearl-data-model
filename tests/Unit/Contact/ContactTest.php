@@ -7,9 +7,7 @@ use SnowIO\BrightpearlDataModel\Contact;
 
 class ContactTest extends TestCase
 {
-    /**
-     * @return array
-     */
+
     private function getJsonData(): array
     {
         return [
@@ -37,9 +35,6 @@ class ContactTest extends TestCase
         ];
     }
 
-    /**
-     * @return void
-     */
     public function testFromJsonToJson()
     {
         $data = $this->getJsonData();
@@ -47,9 +42,6 @@ class ContactTest extends TestCase
         self::assertEquals($data, $contact->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testWithers()
     {
         $contact = Contact::create()
@@ -78,9 +70,6 @@ class ContactTest extends TestCase
         self::assertEquals($this->getJsonData(), $contact->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testGetters()
     {
         $data = $this->getJsonData();
@@ -109,9 +98,6 @@ class ContactTest extends TestCase
         self::assertEquals("Mr", $contact->getTitle());
     }
 
-    /**
-     * @return void
-     */
     public function testEquals()
     {
         $data = $this->getJsonData();

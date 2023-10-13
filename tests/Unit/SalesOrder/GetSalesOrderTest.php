@@ -12,9 +12,6 @@ class GetSalesOrderTest extends TestCase
 {
     use DirectoryAwareTestTrait;
 
-    /**
-     * @return void
-     */
     public function testFromJsonToJson()
     {
         $json = $this->getFromTestFileDirectory('SalesOrder/get-sales-order.json');
@@ -22,9 +19,6 @@ class GetSalesOrderTest extends TestCase
         self::assertEquals($json, $salesOrder->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testWithers()
     {
         $customer = SalesOrder\Customer::create()
@@ -128,9 +122,6 @@ class GetSalesOrderTest extends TestCase
         self::assertEquals($json, $order->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testGetters()
     {
         $data = $this->getFromTestFileDirectory('SalesOrder/get-sales-order.json');
@@ -216,9 +207,6 @@ class GetSalesOrderTest extends TestCase
         self::assertEquals("FEDCBA2", $rows[1]->getExternalRef());
     }
 
-    /**
-     * @return void
-     */
     public function testEquals()
     {
         $data = $this->getFromTestFileDirectory('SalesOrder/get-sales-order.json');

@@ -13,7 +13,6 @@ use SnowIO\BrightpearlDataModel\GoodsOutNote\Status;
 
 class GoodsOutNoteTest extends TestCase
 {
-
     private function getJsonData(): array
     {
         return [

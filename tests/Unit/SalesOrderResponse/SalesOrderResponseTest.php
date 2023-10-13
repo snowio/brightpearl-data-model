@@ -7,9 +7,6 @@ use SnowIO\BrightpearlDataModel\SalesOrderResponse;
 
 class SalesOrderResponseTest extends TestCase
 {
-    /**
-     * @return array
-     */
     private function getJsonData(): array
     {
         return [
@@ -148,9 +145,6 @@ class SalesOrderResponseTest extends TestCase
         ];
     }
 
-    /**
-     * @return void
-     */
     public function testFromJsonToJson()
     {
         $data = $this->getJsonData();
@@ -158,9 +152,6 @@ class SalesOrderResponseTest extends TestCase
         self::assertEquals($data, $order->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testWithers()
     {
         $address = SalesOrderResponse\Customer\Address::create()
@@ -418,9 +409,6 @@ class SalesOrderResponseTest extends TestCase
         self::assertEquals("2023-09-01 04:03:53", $order->getTaxDate());
     }
 
-    /**
-     * @return void
-     */
     public function testEquals()
     {
         $data = $this->getJsonData();

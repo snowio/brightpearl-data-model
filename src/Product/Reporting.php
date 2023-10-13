@@ -13,6 +13,9 @@ class Reporting implements ModelInterface
     /** @var int|null $seasonId */
     private $seasonId;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

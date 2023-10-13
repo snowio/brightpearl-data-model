@@ -86,6 +86,9 @@ class GetSalesOrder implements ModelInterface
         $this->rows = Get\RowCollection::of([]);
     }
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

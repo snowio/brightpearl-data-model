@@ -15,6 +15,9 @@ class Total implements ModelInterface
     /** @var int|null $inTransit */
     private $inTransit;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

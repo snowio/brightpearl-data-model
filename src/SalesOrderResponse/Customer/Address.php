@@ -31,6 +31,9 @@ class Address implements ModelInterface
     /** @var string|null $fax */
     private $fax;
 
+    /**
+     * @return self
+     */
     public static function create():ModelInterface
     {
         return new self();

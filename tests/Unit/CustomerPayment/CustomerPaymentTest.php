@@ -8,9 +8,7 @@ use SnowIO\BrightpearlDataModel\CustomerPayment;
 
 class CustomerPaymentTest extends TestCase
 {
-    /**
-     * @return array
-     */
+
     private function getJsonData(): array
     {
         return [
@@ -27,9 +25,6 @@ class CustomerPaymentTest extends TestCase
         ];
     }
 
-    /**
-     * @return void
-     */
     public function testFromJsonToJson()
     {
         $data = $this->getJsonData();
@@ -37,9 +32,6 @@ class CustomerPaymentTest extends TestCase
         self::assertEquals($data, $customerPayment->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testWithers()
     {
         $customerPayment = CustomerPayment::create()
@@ -56,9 +48,6 @@ class CustomerPaymentTest extends TestCase
         self::assertEquals($this->getJsonData(), $customerPayment->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testGetters()
     {
         $data = $this->getJsonData();
@@ -74,9 +63,6 @@ class CustomerPaymentTest extends TestCase
         self::assertEquals("ref-2032", $customerPayment->getJournalRef());
     }
 
-    /**
-     * @return void
-     */
     public function testEquals()
     {
         $data = $this->getJsonData();

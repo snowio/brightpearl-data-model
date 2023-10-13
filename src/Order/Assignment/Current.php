@@ -17,6 +17,9 @@ class Current implements ModelInterface
     /** @var int|null $teamId */
     private $teamId;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

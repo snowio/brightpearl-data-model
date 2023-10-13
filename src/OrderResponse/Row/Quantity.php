@@ -9,6 +9,9 @@ class Quantity implements ModelInterface
     /** @var string|null $magnitude */
     private $magnitude;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

@@ -7,6 +7,9 @@ use SnowIO\BrightpearlDataModel\Product\Composition\BundleComponent;
 
 class Composition implements ModelInterface
 {
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

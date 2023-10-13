@@ -13,6 +13,9 @@ use SnowIO\BrightpearlDataModel\Product\Warehouses;
 
 class Product implements ModelInterface
 {
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

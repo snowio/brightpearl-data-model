@@ -17,6 +17,9 @@ class PostalAddress implements ModelInterface
     /** @var string|null $countryIsoCode */
     private $countryIsoCode;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

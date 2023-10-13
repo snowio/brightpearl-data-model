@@ -13,6 +13,9 @@ class Invoice implements ModelInterface
     /** @var string|null $dueDate */
     private $dueDate;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

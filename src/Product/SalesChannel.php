@@ -21,6 +21,9 @@ class SalesChannel implements ModelInterface
     /** @var Description|null $shortDescription */
     private $shortDescription;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

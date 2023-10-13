@@ -69,6 +69,9 @@ class SalesOrderResponse implements ModelInterface
     /** @var int|null $customerId */
     private $customerId;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();

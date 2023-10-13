@@ -7,9 +7,6 @@ use SnowIO\BrightpearlDataModel\PostalAddress;
 
 class PostalAddressTest extends TestCase
 {
-    /**
-     * @return array<string, mixed>
-     */
     private function getJsonData(): array
     {
         return [
@@ -22,9 +19,6 @@ class PostalAddressTest extends TestCase
         ];
     }
 
-    /**
-     * @return void
-     */
     public function testFromJsonToJson()
     {
         $data = $this->getJsonData();
@@ -32,9 +26,6 @@ class PostalAddressTest extends TestCase
         self::assertEquals($data, $postalAddress->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testWithers()
     {
         $postalAddress = PostalAddress::create()
@@ -48,9 +39,6 @@ class PostalAddressTest extends TestCase
         self::assertEquals($this->getJsonData(), $postalAddress->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testGetters()
     {
         $data = $this->getJsonData();
@@ -63,9 +51,6 @@ class PostalAddressTest extends TestCase
         self::assertEquals("M4", $postalAddress->getCountryIsoCode());
     }
 
-    /**
-     * @return void
-     */
     public function testEquals()
     {
         $data = $this->getJsonData();

@@ -13,6 +13,9 @@ class Composition implements ModelInterface
     /** @var int|null $parentOrderRowId */
     private $parentOrderRowId;
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();
