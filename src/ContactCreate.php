@@ -25,6 +25,11 @@ class ContactCreate implements ModelInterface
         return new self();
     }
 
+    private function __construct()
+    {
+        $this->communication = Communication::create();
+    }
+
     /**
      * @return self
      */
@@ -46,7 +51,7 @@ class ContactCreate implements ModelInterface
             'firstName' => $this->getFirstName(),
             'lastName' => $this->getLastName(),
             'postAddressIds' => $this->getPostAddressIds(),
-            'communication' => $this->getCommunication()->toJson()
+            'communication' => $this->getCommunication() ? $this->getCommunication()->toJson() : null
         ];
     }
 

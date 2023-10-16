@@ -16,6 +16,12 @@ class Stock implements ModelInterface
         return new self();
     }
 
+    private function __construct()
+    {
+        $this->weight = Weight::create();
+        $this->dimensions = Dimensions::create();
+    }
+
     /**
      * @return self
      */
@@ -32,8 +38,8 @@ class Stock implements ModelInterface
     {
         return [
             'stockTracked' => $this->isStockTracked(),
-            'weight' => $this->getWeight()->toJson(),
-            'dimensions' => $this->getDimensions()->toJson()
+            'weight' => $this->getWeight() ? $this->getWeight()->toJson() : null,
+            'dimensions' => $this->getDimensions() ? $this->getDimensions()->toJson() : null
         ];
     }
 

@@ -30,7 +30,7 @@ class ProductAvailability implements ModelInterface
     public function toJson(): array
     {
         return [
-            'total' => $this->getTotal()->toJson()
+            'total' => $this->getTotal() ? $this->getTotal()->toJson() : null
         ];
     }
 

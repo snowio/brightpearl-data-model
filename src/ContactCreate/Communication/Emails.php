@@ -22,6 +22,13 @@ class Emails implements ModelInterface
         return new self();
     }
 
+    private function __construct()
+    {
+        $this->PRI = Email::create();
+        $this->SEC = Email::create();
+        $this->TER = Email::create();
+    }
+
     /**
      * @return self
      */
@@ -37,9 +44,9 @@ class Emails implements ModelInterface
     public function toJson(): array
     {
         return [
-            'PRI' => $this->PRI->toJson(),
-            'SEC' => $this->SEC->toJson(),
-            'TER' => $this->TER->toJson()
+            'PRI' => $this->PRI ? $this->PRI->toJson() : null,
+            'SEC' => $this->SEC ? $this->SEC->toJson() : null,
+            'TER' => $this->TER ? $this->TER->toJson() : null
         ];
     }
 

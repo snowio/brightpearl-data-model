@@ -24,6 +24,13 @@ class Parties implements ModelInterface
         return new self();
     }
 
+    private function __construct()
+    {
+        $this->supplier = Supplier::create();
+        $this->delivery = Delivery::create();
+        $this->billing = Billing::create();
+    }
+
     /**
      * @return self
      */
@@ -39,9 +46,9 @@ class Parties implements ModelInterface
     public function toJson(): array
     {
         return [
-            'supplier' => $this->supplier ? $this->getSupplier()->toJson() : null,
-            'delivery' => $this->delivery ? $this->getDelivery()->toJson() : null,
-            'billing' => $this->billing ? $this->getBilling()->toJson() : null
+            'supplier' => $this->getSupplier() ? $this->getSupplier()->toJson() : null,
+            'delivery' => $this->getDelivery() ? $this->getDelivery()->toJson() : null,
+            'billing' => $this->getBilling() ? $this->getBilling()->toJson() : null
         ];
     }
 

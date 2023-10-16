@@ -22,6 +22,11 @@ class Delivery implements ModelInterface
         return new self();
     }
 
+    private function __construct()
+    {
+        $this->address = Address::create();
+    }
+
     /**
      * @return self
      */
@@ -39,7 +44,7 @@ class Delivery implements ModelInterface
         return [
             'date' => $this->getDate(),
             'shippingMethodId' => $this->getShippingMethodId(),
-            'address' => $this->getAddress()->toJson()
+            'address' => $this->getAddress() ? $this->getAddress()->toJson() : null
         ];
     }
 

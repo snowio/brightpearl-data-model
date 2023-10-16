@@ -48,6 +48,13 @@ class GoodsOutNote implements ModelInterface
         return new self();
     }
 
+
+    private function __construct()
+    {
+        $this->status = Status::create();
+        $this->shipping = Shipping::create();
+    }
+
     /**
      * @return self
      */
@@ -80,8 +87,8 @@ class GoodsOutNote implements ModelInterface
             'externalRef' => $this->getExternalRef(),
             'transfer' => $this->isTransfer(),
             'priority' => $this->isPriority(),
-            'status' => $this->getStatus()->toJson(),
-            'shipping' => $this->getShipping()->toJson(),
+            'status' => $this->getStatus() ? $this->getStatus()->toJson() : null,
+            'shipping' => $this->getShipping() ? $this->getShipping()->toJson() : null,
             'releaseDate' => $this->getReleaseDate(),
             'createdOn' => $this->getCreatedOn(),
             'createdBy' => $this->getCreatedBy(),

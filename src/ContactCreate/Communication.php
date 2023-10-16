@@ -18,6 +18,11 @@ class Communication implements ModelInterface
         return new self();
     }
 
+    private function __construct()
+    {
+        $this->emails = Emails::create();
+    }
+
     /**
      * @return self
      */
@@ -30,7 +35,7 @@ class Communication implements ModelInterface
 
     public function toJson(): array
     {
-        return ['emails' => $this->getEmails()->toJson()];
+        return ['emails' => $this->getEmails() ? $this->getEmails()->toJson() : null];
     }
 
     public function equals(ModelInterface $other): bool

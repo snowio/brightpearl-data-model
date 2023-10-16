@@ -21,6 +21,16 @@ class Product implements ModelInterface
         return new self();
     }
 
+    private function __construct()
+    {
+        $this->identity = Identity::create();
+        $this->stock = Stock::create();
+        $this->financialDetails = FinancialDetails::create();
+        $this->composition = Composition::create();
+        $this->warehouses = Warehouses::create();
+        $this->reporting = Reporting::create();
+    }
+
     /**
      * @return self
      */
@@ -70,25 +80,25 @@ class Product implements ModelInterface
             'id' => $this->getId(),
             'brandId' => $this->getBrandId(),
             'productTypeId' => $this->getProductTypeId(),
-            'identity' => $this->getIdentity()->toJson(),
+            'identity' => $this->getIdentity() ? $this->getIdentity()->toJson() : [],
             'featured' => $this->isFeatured(),
-            'stock' => $this->getStock()->toJson(),
-            'financialDetails' => $this->getFinancialDetails()->toJson(),
+            'stock' => $this->getStock() ? $this->getStock()->toJson() : [],
+            'financialDetails' => $this->getFinancialDetails() ? $this->getFinancialDetails()->toJson() : null,
             'salesChannels' => array_map(function ($salesChannel) {
                 return $salesChannel->toJson();
             }, $this->getSalesChannels()),
-            'composition' => $this->getComposition()->toJson(),
+            'composition' => $this->getComposition() ? $this->getComposition()->toJson() : null,
             'variations' => array_map(function ($variation) {
                 return $variation->toJson();
             }, $this->getVariations()),
             'createdOn' => $this->getCreatedOn(),
             'updatedOn' => $this->getUpdatedOn(),
-            'warehouses' => $this->getWarehouses()->toJson(),
+            'warehouses' => $this->getWarehouses() ? $this->getWarehouses()->toJson() : null,
             'nominalCodeStock' => $this->getNominalCodeStock(),
             'nominalCodePurchases' => $this->getNominalCodePurchases(),
             'nominalCodeSales' => $this->getNominalCodeSales(),
             'seasonIds' => $this->getSeasonIds(),
-            'reporting' => $this->getReporting()->toJson(),
+            'reporting' => $this->getReporting() ? $this->getReporting()->toJson() : null,
             'status' => $this->getStatus(),
             'salesPopupMessage' => $this->getSalesPopupMessage(),
             'warehousePopupMessage' => $this->getWarehousePopupMessage(),
@@ -97,7 +107,7 @@ class Product implements ModelInterface
         ];
     }
 
-    public function equals($other): bool
+    public function equals(ModelInterface $other): bool
     {
         return ($other instanceof Product) &&
             ($this->id === $other->id) &&

@@ -29,6 +29,12 @@ class SalesChannel implements ModelInterface
         return new self();
     }
 
+    private function __construct()
+    {
+        $this->description = Description::create();
+        $this->shortDescription = Description::create();
+    }
+
     /**
      * @return self
      */
@@ -56,8 +62,8 @@ class SalesChannel implements ModelInterface
             'productName' => $this->getProductName(),
             'productCondition' => $this->getProductCondition(),
             'categories' => $categories,
-            'description' => $this->getDescription()->toJson(),
-            'shortDescription' => $this->getShortDescription()->toJson()
+            'description' => $this->getDescription() ? $this->getDescription()->toJson() : null,
+            'shortDescription' => $this->getShortDescription() ? $this->getShortDescription()->toJson() : null
         ];
     }
 

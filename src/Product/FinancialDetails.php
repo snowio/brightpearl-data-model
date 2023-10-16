@@ -7,17 +7,17 @@ use SnowIO\BrightpearlDataModel\Product\FinancialDetails\TaxCode;
 
 class FinancialDetails implements ModelInterface
 {
-    public function __construct()
-    {
-        $this->taxCode = TaxCode::create();
-    }
-
     /**
      * @return self
      */
     public static function create(): ModelInterface
     {
         return new self();
+    }
+
+    private function __construct()
+    {
+        $this->taxCode = TaxCode::create();
     }
 
     /**
@@ -35,7 +35,7 @@ class FinancialDetails implements ModelInterface
     {
         return [
             'taxable' => $this->isTaxable(),
-            'taxCode' => $this->taxCode->toJson()
+            'taxCode' => $this->taxCode ? $this->taxCode->toJson() : null
         ];
     }
 

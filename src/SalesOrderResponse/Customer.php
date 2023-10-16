@@ -12,17 +12,17 @@ class Customer implements ModelInterface
     /** @var Address */
     private $address;
 
-    public function __construct()
-    {
-        $this->address = Address::create();
-    }
-
     /**
      * @return self
      */
     public static function create(): ModelInterface
     {
         return new self();
+    }
+
+    private function __construct()
+    {
+        $this->address = Address::create();
     }
 
     /**
@@ -40,7 +40,7 @@ class Customer implements ModelInterface
     {
         return [
             'id' => $this->getId(),
-            'address' => $this->address->toJson()
+            'address' => $this->address ? $this->address->toJson() : null
         ];
     }
 

@@ -82,8 +82,41 @@ class PartiesTest extends TestCase
             ->withBilling($billing);
 
         self::assertEquals([
-            "supplier" => null,
-            "delivery" => null,
+            "supplier" => [
+                'contactId' => null,
+                "addressFullName" => null,
+                "companyName" => null,
+                "addressLine1" => null,
+                "addressLine2" => null,
+                "addressLine3" => null,
+                "addressLine4" => null,
+                "postalCode" => null,
+                "countryId" => null,
+                "countryIsoCode" => null,
+                "telephone" => null,
+                "mobileTelephone" => null,
+                "fax" => null,
+                "email" => null,
+                'country' => null,
+                'countryIsoCode3' => null
+            ],
+            "delivery" => [
+                "addressFullName" => null,
+                "companyName" => null,
+                "addressLine1" => null,
+                "addressLine2" => null,
+                "addressLine3" => null,
+                "addressLine4" => null,
+                "postalCode" => null,
+                "countryId" => null,
+                "countryIsoCode" => null,
+                "telephone" => null,
+                "mobileTelephone" => null,
+                "fax" => null,
+                "email" => null,
+                'country' => null,
+                'countryIsoCode3' => null
+            ],
             "billing" => [
                 'contactId' => 1,
                 "addressFullName" => null,
@@ -103,7 +136,6 @@ class PartiesTest extends TestCase
                 'countryIsoCode3' => null
             ],
         ], $parties->toJson());
-
     }
 
     public function testWithers()
@@ -167,7 +199,6 @@ class PartiesTest extends TestCase
         $row = Parties::fromJson($data);
 
         self::assertEquals(1, $row->getBilling()->getContactId());
-
     }
 
     public function testEquals()

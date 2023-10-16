@@ -55,6 +55,12 @@ class SalesCredit implements ModelInterface
         return new self();
     }
 
+    private function __construct()
+    {
+        $this->delivery = Delivery::create();
+        $this->currency = Currency::create();
+    }
+
     /**
      * @return self
      */
@@ -102,8 +108,8 @@ class SalesCredit implements ModelInterface
             'teamId' => $this->getTeamId(),
             'priceListId' => $this->getPriceListId(),
             'priceModeCode' => $this->getPriceModeCode(),
-            'currency' => $this->getCurrency()->toJson(),
-            'delivery' => $this->getDelivery()->toJson(),
+            'currency' => $this->getCurrency() ? $this->getCurrency()->toJson() : null,
+            'delivery' => $this->getDelivery() ? $this->getDelivery()->toJson() : null,
             'rows' => $this->getRows()->toJson()
         ];
     }

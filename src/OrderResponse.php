@@ -77,6 +77,15 @@ class OrderResponse implements ModelInterface
         return new self();
     }
 
+    private function __construct()
+    {
+        $this->orderStatus = OrderStatus::create();
+        $this->state = State::create();
+        $this->totalValue = TotalValue::create();
+        $this->parties = Parties::create();
+        $this->delivery = Delivery::create();
+    }
+
     /**
      * @return self
      */
@@ -120,11 +129,11 @@ class OrderResponse implements ModelInterface
             'id' => $this->getId(),
             'parentOrderId' => $this->getParentOrderId(),
             'orderTypeCode' => $this->getOrderTypeCode(),
-            'orderStatus' => $this->getOrderStatus()->toJson(),
+            'orderStatus' => $this->getOrderStatus() ? $this->getOrderStatus()->toJson() : null,
             'orderRows' => $this->getOrderRows()->toJson(),
             'externalRef' => $this->getExternalRef(),
             'reference' => $this->getReference(),
-            'state' => $this->getState()->toJson(),
+            'state' => $this->getState() ? $this->getState()->toJson() : null,
             'orderPaymentStatus' => $this->getOrderPaymentStatus(),
             'stockStatusCode' => $this->getStockStatusCode(),
             'allocationStatusCode' => $this->getAllocationStatusCode(),
@@ -135,10 +144,10 @@ class OrderResponse implements ModelInterface
             'createdById' => $this->getCreatedById(),
             'priceListId' => $this->getPriceListId(),
             'priceModeCode' => $this->getPriceModeCode(),
-            'delivery' => $this->getDelivery()->toJson(),
+            'delivery' => $this->getDelivery() ? $this->getDelivery()->toJson() : null,
             'invoices' => $this->getInvoices()->toJson(),
-            'totalValue' => $this->getTotalValue()->toJson(),
-            'parties' => $this->getParties()->toJson(),
+            'totalValue' => $this->getTotalValue() ? $this->getTotalValue()->toJson() : null,
+            'parties' => $this->getParties() ? $this->getParties()->toJson() : null,
             'warehouseId' => $this->getWarehouseId(),
             'acknowledged' => $this->getAcknowledged(),
             'costPriceListId' => $this->getCostPriceListId(),

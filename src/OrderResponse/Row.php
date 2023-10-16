@@ -45,6 +45,15 @@ class Row implements ModelInterface
         return new self();
     }
 
+    private function __construct()
+    {
+        $this->quantity = Quantity::create();
+        $this->itemCost = Amount::create();
+        $this->productPrice = Amount::create();
+        $this->rowValue = RowValue::create();
+        $this->composition = Composition::create();
+    }
+
     /**
      * @return self
      */
@@ -74,13 +83,13 @@ class Row implements ModelInterface
             'productId' => $this->getProductId(),
             'productName' => $this->getProductName(),
             'productSku' => $this->getProductSku(),
-            'quantity' => $this->getQuantity()->toJson(),
-            'itemCost' => $this->getItemCost()->toJson(),
-            'productPrice' => $this->getProductPrice()->toJson(),
+            'quantity' => $this->getQuantity() ? $this->getQuantity()->toJson() : null,
+            'itemCost' => $this->getItemCost() ? $this->getItemCost()->toJson() : null,
+            'productPrice' => $this->getProductPrice() ? $this->getProductPrice()->toJson() : null,
             'discountPercentage' => $this->getDiscountPercentage(),
-            'rowValue' => $this->getRowValue()->toJson(),
+            'rowValue' => $this->getRowValue() ? $this->getRowValue()->toJson() : null,
             'nominalCode' => $this->getNominalCode(),
-            'composition' => $this->getComposition()->toJson(),
+            'composition' => $this->getComposition() ? $this->getComposition()->toJson() : null,
             'externalRef' => $this->getExternalRef(),
             'clonedFromId' => $this->getClonedFromId()
         ];

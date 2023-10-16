@@ -77,6 +77,15 @@ class SalesOrderResponse implements ModelInterface
         return new self();
     }
 
+    private function __construct()
+    {
+        $this->customer = Customer::create();
+        $this->billing = Billing::create();
+        $this->delivery = Delivery::create();
+        $this->currency = Currency::create();
+        $this->total = Total::create();
+    }
+
     /**
      * @return self
      */
@@ -118,8 +127,8 @@ class SalesOrderResponse implements ModelInterface
     {
         return [
             'id' => $this->getId(),
-            'customer' => $this->getCustomer()->toJson(),
-            'billing' => $this->getBilling()->toJson(),
+            'customer' => $this->getCustomer() ? $this->getCustomer()->toJson() : null,
+            'billing' => $this->getBilling() ? $this->getBilling()->toJson() : null,
             'ref' => $this->getRef(),
             'placedOn' => $this->getPlacedOn(),
             'parentId' => $this->getParentId(),
@@ -132,15 +141,15 @@ class SalesOrderResponse implements ModelInterface
             'teamId' => $this->getTeamId(),
             'priceListId' => $this->getPriceListId(),
             'priceModeCode' => $this->getPriceModeCode(),
-            'delivery' => $this->delivery->toJson(),
-            'currency' => $this->getCurrency()->toJson(),
+            'delivery' => $this->getDelivery() ? $this->getDelivery()->toJson() : null,
+            'currency' => $this->getCurrency() ? $this->getCurrency()->toJson() : null,
             'rows' => $this->getRows()->toJson(),
-            'total' => $this->getTotal()->toJson(),
+            'total' => $this->getTotal() ? $this->getTotal()->toJson() : null,
             'stockStatusCode' => $this->getStockStatusCode(),
             'createdBy' => $this->getCreatedBy(),
             'createdOn' => $this->getCreatedOn(),
             'updatedOn' => $this->getUpdatedOn(),
-            'invoice' => $this->getInvoice()->toJson(),
+            'invoice' => $this->getInvoice() ? $this->getInvoice()->toJson() : null,
             'orderWeighting' => $this->getOrderWeighting(),
             'costPriceListId' => $this->getCostPriceListId(),
             'customerId' => $this->getCustomerId(),

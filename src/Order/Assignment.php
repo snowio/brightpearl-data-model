@@ -18,6 +18,11 @@ class Assignment implements ModelInterface
         return new self();
     }
 
+    private function __construct()
+    {
+        $this->current = Current::create();
+    }
+
     /**
      * @return self
      */
@@ -31,7 +36,7 @@ class Assignment implements ModelInterface
     public function toJson(): array
     {
         return [
-            'current' => $this->getCurrent()->toJson()
+            'current' => $this->getCurrent() ? $this->getCurrent()->toJson() : null
         ];
     }
 
