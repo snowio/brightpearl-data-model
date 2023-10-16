@@ -30,7 +30,7 @@ class Communication implements ModelInterface
 
     public function toJson(): array
     {
-        return ['emails' => $this->getEmails() ? $this->getEmails()->toJson(): []];
+        return ['emails' => $this->getEmails() ? $this->getEmails()->toJson() : []];
     }
 
     public function equals(ModelInterface $other): bool

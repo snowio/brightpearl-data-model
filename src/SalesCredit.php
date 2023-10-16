@@ -102,8 +102,8 @@ class SalesCredit implements ModelInterface
             'teamId' => $this->getTeamId(),
             'priceListId' => $this->getPriceListId(),
             'priceModeCode' => $this->getPriceModeCode(),
-            'currency' => $this->getCurrency() ? $this->getCurrency()->toJson(): [],
-            'delivery' => $this->getDelivery() ? $this->getDelivery()->toJson(): [],
+            'currency' => $this->getCurrency() ? $this->getCurrency()->toJson() : [],
+            'delivery' => $this->getDelivery() ? $this->getDelivery()->toJson() : [],
             'rows' => $this->getRows() ? $this->getRows()->toJson() : []
         ];
     }

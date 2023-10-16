@@ -118,8 +118,8 @@ class SalesOrderResponse implements ModelInterface
     {
         return [
             'id' => $this->getId(),
-            'customer' => $this->getCustomer() ? $this->getCustomer()->toJson():[],
-            'billing' => $this->getBilling() ? $this->getBilling()->toJson():[],
+            'customer' => $this->getCustomer() ? $this->getCustomer()->toJson() : [],
+            'billing' => $this->getBilling() ? $this->getBilling()->toJson() : [],
             'ref' => $this->getRef(),
             'placedOn' => $this->getPlacedOn(),
             'parentId' => $this->getParentId(),
@@ -132,7 +132,7 @@ class SalesOrderResponse implements ModelInterface
             'teamId' => $this->getTeamId(),
             'priceListId' => $this->getPriceListId(),
             'priceModeCode' => $this->getPriceModeCode(),
-            'delivery' => $this->getDelivery() ? $this->getDelivery()->toJson(): [],
+            'delivery' => $this->getDelivery() ? $this->getDelivery()->toJson() : [],
             'currency' => $this->getCurrency() ? $this->getCurrency()->toJson() : [],
             'rows' => $this->getRows() ? $this->getRows()->toJson() : [],
             'total' => $this->getTotal() ? $this->getTotal()->toJson() : [],

@@ -35,7 +35,7 @@ class FinancialDetails implements ModelInterface
     {
         return [
             'taxable' => $this->isTaxable(),
-            'taxCode' => $this->taxCode ? $this->taxCode->toJson(): []
+            'taxCode' => $this->taxCode ? $this->taxCode->toJson() : []
         ];
     }
 
