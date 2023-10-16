@@ -165,7 +165,8 @@ class OrderTest extends TestCase
             ->withInvoices($invoiceCollection)
             ->withCurrency($currency)
             ->withContactId(9)
-            ->withParties(Order\Parties::create()
+            ->withParties(
+                Order\Parties::create()
                 ->withDelivery($partiesDelivery)
                 ->withSupplier(Order\Parties\Supplier::create())
                 ->withBilling(Order\Parties\Billing::create())

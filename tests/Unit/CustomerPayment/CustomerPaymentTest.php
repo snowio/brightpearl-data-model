@@ -8,7 +8,6 @@ use SnowIO\BrightpearlDataModel\CustomerPayment;
 
 class CustomerPaymentTest extends TestCase
 {
-
     private function getJsonData(): array
     {
         return [

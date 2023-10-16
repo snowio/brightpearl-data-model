@@ -7,7 +7,6 @@ use SnowIO\BrightpearlDataModel\Notification;
 
 class NotificationTest extends TestCase
 {
-
     private function getJsonData(): array
     {
         return [

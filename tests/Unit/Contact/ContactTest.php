@@ -7,7 +7,6 @@ use SnowIO\BrightpearlDataModel\Contact;
 
 class ContactTest extends TestCase
 {
-
     private function getJsonData(): array
     {
         return [

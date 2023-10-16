@@ -550,7 +550,7 @@ class OrderResponseTest extends TestCase
         self::assertEquals('SomeFax', $order->getParties()->getDelivery()->getFax());
         self::assertEquals('some@exmaple.com', $order->getParties()->getDelivery()->getEmail());
         self::assertEquals(234, $order->getParties()->getDelivery()->getCountryId());
-        self::assertEquals('SomeCountryIsoCode',$order->getParties()->getDelivery()->getCountryIsoCode());
+        self::assertEquals('SomeCountryIsoCode', $order->getParties()->getDelivery()->getCountryIsoCode());
         self::assertEquals('SomeCountryIsoCode3', $order->getParties()->getDelivery()->getCountryIsoCode3());
 
         self::assertEquals(345, $order->getParties()->getBilling()->getContactId());
@@ -567,7 +567,7 @@ class OrderResponseTest extends TestCase
         self::assertEquals('SomeFax2', $order->getParties()->getBilling()->getFax());
         self::assertEquals('some2@exmaple.com', $order->getParties()->getBilling()->getEmail());
         self::assertEquals(456, $order->getParties()->getBilling()->getCountryId());
-        self::assertEquals('SomeCountryIsoCode2',$order->getParties()->getBilling()->getCountryIsoCode());
+        self::assertEquals('SomeCountryIsoCode2', $order->getParties()->getBilling()->getCountryIsoCode());
         self::assertEquals('SomeCountryIsoCode32', $order->getParties()->getBilling()->getCountryIsoCode3());
 
         self::assertInstanceOf(OrderResponse\State::class, $order->getState());

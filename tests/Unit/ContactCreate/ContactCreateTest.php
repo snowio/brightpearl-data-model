@@ -10,7 +10,6 @@ use SnowIO\BrightpearlDataModel\ContactCreate\Communication\Emails\Email;
 
 class ContactCreateTest extends TestCase
 {
-
     private function getJsonData(): array
     {
         return [
