@@ -80,14 +80,14 @@ class GoodsOutNote implements ModelInterface
             'externalRef' => $this->getExternalRef(),
             'transfer' => $this->isTransfer(),
             'priority' => $this->isPriority(),
-            'status' => $this->getStatus()->toJson(),
-            'shipping' => $this->getShipping()->toJson(),
+            'status' => $this->getStatus() ? $this->getStatus()->toJson() : [],
+            'shipping' => $this->getShipping() ? $this->getShipping()->toJson() : [],
             'releaseDate' => $this->getReleaseDate(),
             'createdOn' => $this->getCreatedOn(),
             'createdBy' => $this->getCreatedBy(),
-            'orderRows' => $this->getOrderRows()->toJson(),
+            'orderRows' => $this->getOrderRows() ? $this->getOrderRows()->toJson() : [],
             'sequence' => $this->getSequence(),
-            'events' => $this->getEvents()->toJson(),
+            'events' => $this->getEvents() ? $this->getEvents()->toJson() : [],
             'labelUri' => $this->getLabelUri(),
             'lastEventVersion' => $this->getLastEventVersion()
         ];
@@ -101,14 +101,14 @@ class GoodsOutNote implements ModelInterface
             $this->externalRef === $other->externalRef &&
             $this->transfer === $other->transfer &&
             $this->priority === $other->priority &&
-            $this->status->equals($other->status) &&
-            $this->shipping->equals($other->shipping) &&
+            ($this->status && $this->status->equals($other->status)) &&
+            ($this->shipping && $this->shipping->equals($other->shipping)) &&
             $this->releaseDate === $other->releaseDate &&
             $this->createdOn === $other->createdOn &&
             $this->createdBy === $other->createdBy &&
-            $this->orderRows->equals($other->orderRows) &&
+            ($this->orderRows && $this->orderRows->equals($other->orderRows)) &&
             $this->sequence === $other->sequence &&
-            $this->events->equals($other->events) &&
+            ($this->events && $this->events->equals($other->events)) &&
             $this->labelUri === $other->labelUri &&
             $this->lastEventVersion === $other->lastEventVersion;
     }

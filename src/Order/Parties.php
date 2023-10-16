@@ -39,9 +39,9 @@ class Parties implements ModelInterface
     public function toJson(): array
     {
         return [
-            'supplier' => $this->supplier ? $this->getSupplier()->toJson() : null,
-            'delivery' => $this->delivery ? $this->getDelivery()->toJson() : null,
-            'billing' => $this->billing ? $this->getBilling()->toJson() : null
+            'supplier' => $this->getSupplier() ? $this->getSupplier()->toJson() : [],
+            'delivery' => $this->getDelivery() ? $this->getDelivery()->toJson() : [],
+            'billing' => $this->getBilling() ? $this->getBilling()->toJson() : []
         ];
     }
 

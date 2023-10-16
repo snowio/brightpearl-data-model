@@ -102,9 +102,9 @@ class SalesCredit implements ModelInterface
             'teamId' => $this->getTeamId(),
             'priceListId' => $this->getPriceListId(),
             'priceModeCode' => $this->getPriceModeCode(),
-            'currency' => $this->getCurrency()->toJson(),
-            'delivery' => $this->getDelivery()->toJson(),
-            'rows' => $this->getRows()->toJson()
+            'currency' => $this->getCurrency() ? $this->getCurrency()->toJson(): [],
+            'delivery' => $this->getDelivery() ? $this->getDelivery()->toJson(): [],
+            'rows' => $this->getRows() ? $this->getRows()->toJson() : []
         ];
     }
 
@@ -127,9 +127,9 @@ class SalesCredit implements ModelInterface
             $this->teamId === $other->teamId &&
             $this->priceListId === $other->priceListId &&
             $this->priceModeCode === $other->priceModeCode &&
-            $this->currency->equals($other->currency) &&
-            $this->delivery->equals($other->delivery) &&
-            $this->rows->equals($other->rows);
+            ($this->currency && $this->currency->equals($other->currency)) &&
+            ($this->delivery && $this->delivery->equals($other->delivery)) &&
+            ($this->rows && $this->rows->equals($other->rows));
     }
 
     public function getRows(): ?RowCollection

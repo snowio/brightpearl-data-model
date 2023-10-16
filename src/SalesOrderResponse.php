@@ -118,8 +118,8 @@ class SalesOrderResponse implements ModelInterface
     {
         return [
             'id' => $this->getId(),
-            'customer' => $this->getCustomer()->toJson(),
-            'billing' => $this->getBilling()->toJson(),
+            'customer' => $this->getCustomer() ? $this->getCustomer()->toJson():[],
+            'billing' => $this->getBilling() ? $this->getBilling()->toJson():[],
             'ref' => $this->getRef(),
             'placedOn' => $this->getPlacedOn(),
             'parentId' => $this->getParentId(),
@@ -132,15 +132,15 @@ class SalesOrderResponse implements ModelInterface
             'teamId' => $this->getTeamId(),
             'priceListId' => $this->getPriceListId(),
             'priceModeCode' => $this->getPriceModeCode(),
-            'delivery' => $this->delivery->toJson(),
-            'currency' => $this->getCurrency()->toJson(),
-            'rows' => $this->getRows()->toJson(),
-            'total' => $this->getTotal()->toJson(),
+            'delivery' => $this->getDelivery() ? $this->getDelivery()->toJson(): [],
+            'currency' => $this->getCurrency() ? $this->getCurrency()->toJson() : [],
+            'rows' => $this->getRows() ? $this->getRows()->toJson() : [],
+            'total' => $this->getTotal() ? $this->getTotal()->toJson() : [],
             'stockStatusCode' => $this->getStockStatusCode(),
             'createdBy' => $this->getCreatedBy(),
             'createdOn' => $this->getCreatedOn(),
             'updatedOn' => $this->getUpdatedOn(),
-            'invoice' => $this->getInvoice()->toJson(),
+            'invoice' => $this->getInvoice() ? $this->getInvoice()->toJson() : [],
             'orderWeighting' => $this->getOrderWeighting(),
             'costPriceListId' => $this->getCostPriceListId(),
             'customerId' => $this->getCustomerId(),
@@ -152,8 +152,8 @@ class SalesOrderResponse implements ModelInterface
     {
         return $other instanceof SalesOrderResponse &&
             $this->id === $other->id &&
-            $this->customer->equals($other->customer) &&
-            $this->billing->equals($other->billing) &&
+            ($this->customer && $this->customer->equals($other->customer)) &&
+            ($this->billing && $this->billing->equals($other->billing)) &&
             $this->ref === $other->ref &&
             $this->placedOn === $other->placedOn &&
             $this->parentId === $other->parentId &&
@@ -166,15 +166,15 @@ class SalesOrderResponse implements ModelInterface
             $this->teamId === $other->teamId &&
             $this->priceListId === $other->priceListId &&
             $this->priceModeCode === $other->priceModeCode &&
-            $this->delivery->equals($other->delivery) &&
-            $this->currency->equals($other->currency) &&
-            $this->rows->equals($other->rows) &&
-            $this->total->equals($other->total) &&
+            ($this->delivery && $this->delivery->equals($other->delivery)) &&
+            ($this->currency && $this->currency->equals($other->currency)) &&
+            ($this->rows && $this->rows->equals($other->rows)) &&
+            ($this->total && $this->total->equals($other->total)) &&
             $this->stockStatusCode === $other->stockStatusCode &&
             $this->createdBy === $other->createdBy &&
             $this->createdOn === $other->createdOn &&
             $this->updatedOn === $other->updatedOn &&
-            $this->invoice->equals($other->invoice) &&
+            ($this->invoice && $this->invoice->equals($other->invoice)) &&
             $this->orderWeighting === $other->orderWeighting &&
             $this->costPriceListId === $other->costPriceListId &&
             $this->customerId === $other->customerId &&

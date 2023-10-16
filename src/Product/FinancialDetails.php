@@ -35,7 +35,7 @@ class FinancialDetails implements ModelInterface
     {
         return [
             'taxable' => $this->isTaxable(),
-            'taxCode' => $this->taxCode->toJson()
+            'taxCode' => $this->taxCode ? $this->taxCode->toJson(): []
         ];
     }
 
@@ -43,7 +43,7 @@ class FinancialDetails implements ModelInterface
     {
         return $other instanceof FinancialDetails &&
             $this->taxable === $other->taxable &&
-            $this->taxCode->equals($other->taxCode);
+            ($this->taxCode && $this->taxCode->equals($other->taxCode));
     }
 
     /** @var bool|null $taxable */

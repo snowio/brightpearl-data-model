@@ -31,14 +31,14 @@ class Assignment implements ModelInterface
     public function toJson(): array
     {
         return [
-            'current' => $this->getCurrent()->toJson()
+            'current' => $this->getCurrent() ? $this->getCurrent()->toJson() : []
         ];
     }
 
     public function equals(ModelInterface $other): bool
     {
         return $other instanceof Assignment &&
-            $this->getCurrent()->equals($other->getCurrent());
+            ($this->getCurrent() && $this->getCurrent()->equals($other->getCurrent()));
     }
 
     public function getCurrent(): ?Current

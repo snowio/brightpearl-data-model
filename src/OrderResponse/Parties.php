@@ -39,18 +39,18 @@ class Parties implements ModelInterface
     public function toJson(): array
     {
         return [
-            'supplier' => $this->getSupplier()->toJson(),
-            'delivery' => $this->getDelivery()->toJson(),
-            'billing' => $this->getBilling()->toJson()
+            'supplier' => $this->getSupplier() ? $this->getSupplier()->toJson() : [],
+            'delivery' => $this->getDelivery() ? $this->getDelivery()->toJson() : [],
+            'billing' => $this->getBilling() ? $this->getBilling()->toJson() : []
         ];
     }
 
     public function equals(ModelInterface $other): bool
     {
         return $other instanceof Parties &&
-            $this->supplier->equals($other->supplier) &&
-            $this->delivery->equals($other->delivery) &&
-            $this->billing->equals($other->billing);
+            ($this->supplier && $this->supplier->equals($other->supplier)) &&
+            ($this->delivery && $this->delivery->equals($other->delivery)) &&
+            ($this->billing && $this->billing->equals($other->billing));
     }
 
     public function getDelivery(): ?Delivery

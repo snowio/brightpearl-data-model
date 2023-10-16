@@ -39,7 +39,7 @@ class Delivery implements ModelInterface
         return [
             'date' => $this->getDate(),
             'shippingMethodId' => $this->getShippingMethodId(),
-            'address' => $this->getAddress()->toJson()
+            'address' => $this->getAddress() ? $this->getAddress()->toJson() : []
         ];
     }
 
@@ -47,7 +47,7 @@ class Delivery implements ModelInterface
     {
         return $other instanceof Delivery &&
             $this->date === $other->date &&
-            $this->address->equals($other->address) &&
+            ($this->address && $this->address->equals($other->address)) &&
             $this->shippingMethodId === $other->shippingMethodId;
     }
 

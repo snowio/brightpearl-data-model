@@ -57,13 +57,13 @@ class Order implements ModelInterface
             'priceListId' => $this->getPriceListId(),
             'priceModeCode' => $this->getPriceModeCode(),
             'placedOn' => $this->getPlacedOn(),
-            'orderStatus' => $this->orderStatus ? $this->getOrderStatus()->toJson() : null,
-            'delivery' => $this->delivery ? $this->getDelivery()->toJson() : null,
-            'invoices' => $this->getInvoices()->toJson(),
-            'currency' => $this->currency ? $this->getCurrency()->toJson() : null,
+            'orderStatus' => $this->getOrderStatus() ? $this->getOrderStatus()->toJson() : [],
+            'delivery' => $this->getDelivery() ? $this->getDelivery()->toJson() : [],
+            'invoices' => $this->getInvoices() ? $this->getInvoices()->toJson() : [],
+            'currency' => $this->getCurrency() ? $this->getCurrency()->toJson() : [],
             'contactId' => $this->getContactId(),
-            'parties' => $this->getParties()->toJson(),
-            'assignment' => $this->assignment ? $this->getAssignment()->toJson() : null,
+            'parties' => $this->getParties() ? $this->getParties()->toJson() : [],
+            'assignment' => $this->getAssignment() ? $this->getAssignment()->toJson() : [],
             'warehouseId' => $this->getWarehouseId(),
         ];
     }
@@ -77,13 +77,13 @@ class Order implements ModelInterface
             ($this->priceListId === $other->priceListId) &&
             ($this->priceModeCode === $other->priceModeCode) &&
             ($this->placedOn === $other->placedOn) &&
-            ($this->orderStatus->equals($other->orderStatus)) &&
-            ($this->delivery->equals($other->delivery)) &&
-            ($this->invoices->equals($other->invoices)) &&
-            ($this->currency->equals($other->currency)) &&
+            ($this->orderStatus && $this->orderStatus->equals($other->orderStatus)) &&
+            ($this->delivery && $this->delivery->equals($other->delivery)) &&
+            ($this->invoices && $this->invoices->equals($other->invoices)) &&
+            ($this->currency && $this->currency->equals($other->currency)) &&
             ($this->contactId === $other->contactId) &&
-            ($this->parties->equals($other->parties)) &&
-            ($this->assignment->equals($other->assignment)) &&
+            ($this->parties && $this->parties->equals($other->parties)) &&
+            ($this->assignment && $this->assignment->equals($other->assignment)) &&
             ($this->warehouseId === $other->warehouseId);
     }
 

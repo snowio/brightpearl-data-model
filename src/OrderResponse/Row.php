@@ -74,13 +74,13 @@ class Row implements ModelInterface
             'productId' => $this->getProductId(),
             'productName' => $this->getProductName(),
             'productSku' => $this->getProductSku(),
-            'quantity' => $this->getQuantity()->toJson(),
-            'itemCost' => $this->getItemCost()->toJson(),
-            'productPrice' => $this->getProductPrice()->toJson(),
+            'quantity' => $this->getQuantity() ? $this->getQuantity()->toJson() : [],
+            'itemCost' => $this->getItemCost() ? $this->getItemCost()->toJson() : [],
+            'productPrice' => $this->getProductPrice() ? $this->getProductPrice()->toJson() : [],
             'discountPercentage' => $this->getDiscountPercentage(),
-            'rowValue' => $this->getRowValue()->toJson(),
+            'rowValue' => $this->getRowValue() ? $this->getRowValue()->toJson() : [],
             'nominalCode' => $this->getNominalCode(),
-            'composition' => $this->getComposition()->toJson(),
+            'composition' => $this->getComposition() ? $this->getComposition()->toJson() : [],
             'externalRef' => $this->getExternalRef(),
             'clonedFromId' => $this->getClonedFromId()
         ];
@@ -93,13 +93,13 @@ class Row implements ModelInterface
             $this->productId === $other->productId &&
             $this->productName === $other->productName &&
             $this->productSku === $other->productSku &&
-            $this->quantity->equals($other->quantity) &&
-            $this->itemCost->equals($other->itemCost) &&
-            $this->productPrice->equals($other->productPrice) &&
+            ($this->quantity && $this->quantity->equals($other->quantity)) &&
+            ($this->itemCost && $this->itemCost->equals($other->itemCost)) &&
+            ($this->productPrice && $this->productPrice->equals($other->productPrice)) &&
             $this->discountPercentage === $other->discountPercentage &&
-            $this->rowValue->equals($other->rowValue) &&
+            ($this->rowValue && $this->rowValue->equals($other->rowValue)) &&
             $this->nominalCode === $other->nominalCode &&
-            $this->composition->equals($other->composition) &&
+            ($this->composition && $this->composition->equals($other->composition)) &&
             $this->externalRef === $other->externalRef &&
             $this->clonedFromId === $other->clonedFromId;
     }

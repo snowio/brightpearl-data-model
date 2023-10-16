@@ -30,14 +30,14 @@ class ProductAvailability implements ModelInterface
     public function toJson(): array
     {
         return [
-            'total' => $this->getTotal()->toJson()
+            'total' => $this->getTotal() ? $this->getTotal()->toJson() : []
         ];
     }
 
     public function equals(ModelInterface $other): bool
     {
         return $other instanceof ProductAvailability &&
-            $this->total->equals($other->total);
+            ($this->total && $this->total->equals($other->total));
     }
 
     public function getTotal(): ?Total

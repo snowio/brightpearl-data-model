@@ -70,25 +70,25 @@ class Product implements ModelInterface
             'id' => $this->getId(),
             'brandId' => $this->getBrandId(),
             'productTypeId' => $this->getProductTypeId(),
-            'identity' => $this->getIdentity()->toJson(),
+            'identity' => $this->getIdentity() ? $this->getIdentity()->toJson() : [],
             'featured' => $this->isFeatured(),
-            'stock' => $this->getStock()->toJson(),
-            'financialDetails' => $this->getFinancialDetails()->toJson(),
+            'stock' => $this->getStock() ? $this->getStock()->toJson() : [],
+            'financialDetails' => $this->getFinancialDetails() ? $this->getFinancialDetails()->toJson() : [],
             'salesChannels' => array_map(function ($salesChannel) {
                 return $salesChannel->toJson();
             }, $this->getSalesChannels()),
-            'composition' => $this->getComposition()->toJson(),
+            'composition' => $this->getComposition() ? $this->getComposition()->toJson() : [],
             'variations' => array_map(function ($variation) {
                 return $variation->toJson();
             }, $this->getVariations()),
             'createdOn' => $this->getCreatedOn(),
             'updatedOn' => $this->getUpdatedOn(),
-            'warehouses' => $this->getWarehouses()->toJson(),
+            'warehouses' => $this->getWarehouses() ? $this->getWarehouses()->toJson() : [],
             'nominalCodeStock' => $this->getNominalCodeStock(),
             'nominalCodePurchases' => $this->getNominalCodePurchases(),
             'nominalCodeSales' => $this->getNominalCodeSales(),
             'seasonIds' => $this->getSeasonIds(),
-            'reporting' => $this->getReporting()->toJson(),
+            'reporting' => $this->getReporting() ? $this->getReporting()->toJson() : [],
             'status' => $this->getStatus(),
             'salesPopupMessage' => $this->getSalesPopupMessage(),
             'warehousePopupMessage' => $this->getWarehousePopupMessage(),
@@ -97,27 +97,27 @@ class Product implements ModelInterface
         ];
     }
 
-    public function equals($other): bool
+    public function equals(ModelInterface $other): bool
     {
         return ($other instanceof Product) &&
             ($this->id === $other->id) &&
             ($this->brandId === $other->brandId) &&
             ($this->productTypeId === $other->productTypeId) &&
-            ($this->identity->equals($other->identity)) &&
+            ($this->identity && $this->identity->equals($other->identity)) &&
             ($this->featured === $other->featured) &&
-            ($this->stock->equals($other->stock)) &&
-            ($this->financialDetails->equals($other->financialDetails)) &&
+            ($this->stock && $this->stock->equals($other->stock)) &&
+            ($this->financialDetails && $this->financialDetails->equals($other->financialDetails)) &&
             ($this->salesChannels == $other->salesChannels) && // not strict for array
-            ($this->composition->equals($other->composition)) &&
+            ($this->composition && $this->composition->equals($other->composition)) &&
             ($this->variations == $other->variations) && // not strict for array
             ($this->createdOn === $other->createdOn) &&
             ($this->updatedOn === $other->updatedOn) &&
-            ($this->warehouses->equals($other->warehouses))&& // not strict for array
+            ($this->warehouses && $this->warehouses->equals($other->warehouses))&& // not strict for array
             ($this->nominalCodeStock === $other->nominalCodeStock) &&
             ($this->nominalCodePurchases === $other->nominalCodePurchases) &&
             ($this->nominalCodeSales === $other->nominalCodeSales) &&
             ($this->seasonIds === $other->seasonIds) &&
-            ($this->reporting->equals($other->reporting)) &&
+            ($this->reporting && $this->reporting->equals($other->reporting)) &&
             ($this->status === $other->status) &&
             ($this->salesPopupMessage === $other->salesPopupMessage) &&
             ($this->warehousePopupMessage === $other->warehousePopupMessage) &&

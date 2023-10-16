@@ -120,11 +120,11 @@ class OrderResponse implements ModelInterface
             'id' => $this->getId(),
             'parentOrderId' => $this->getParentOrderId(),
             'orderTypeCode' => $this->getOrderTypeCode(),
-            'orderStatus' => $this->getOrderStatus()->toJson(),
-            'orderRows' => $this->getOrderRows()->toJson(),
+            'orderStatus' => $this->getOrderStatus() ? $this->getOrderStatus()->toJson(): [],
+            'orderRows' => $this->getOrderRows() ? $this->getOrderRows()->toJson() : [],
             'externalRef' => $this->getExternalRef(),
             'reference' => $this->getReference(),
-            'state' => $this->getState()->toJson(),
+            'state' => $this->getState() ? $this->getState()->toJson() : [],
             'orderPaymentStatus' => $this->getOrderPaymentStatus(),
             'stockStatusCode' => $this->getStockStatusCode(),
             'allocationStatusCode' => $this->getAllocationStatusCode(),
@@ -135,10 +135,10 @@ class OrderResponse implements ModelInterface
             'createdById' => $this->getCreatedById(),
             'priceListId' => $this->getPriceListId(),
             'priceModeCode' => $this->getPriceModeCode(),
-            'delivery' => $this->getDelivery()->toJson(),
-            'invoices' => $this->getInvoices()->toJson(),
-            'totalValue' => $this->getTotalValue()->toJson(),
-            'parties' => $this->getParties()->toJson(),
+            'delivery' => $this->getDelivery() ? $this->getDelivery()->toJson(): [],
+            'invoices' => $this->getInvoices() ? $this->getInvoices()->toJson(): [],
+            'totalValue' => $this->getTotalValue() ? $this->getTotalValue()->toJson() : [],
+            'parties' => $this->getParties() ? $this->getParties()->toJson() :[],
             'warehouseId' => $this->getWarehouseId(),
             'acknowledged' => $this->getAcknowledged(),
             'costPriceListId' => $this->getCostPriceListId(),
@@ -154,11 +154,11 @@ class OrderResponse implements ModelInterface
             $this->id === $other->id &&
             $this->parentOrderId === $other->parentOrderId &&
             $this->orderTypeCode === $other->orderTypeCode &&
-            $this->orderStatus->equals($other->orderStatus) &&
-            $this->orderRows->equals($other->orderRows) &&
+            ($this->orderStatus && $this->orderStatus->equals($other->orderStatus)) &&
+            ($this->orderRows && $this->orderRows->equals($other->orderRows)) &&
             $this->externalRef === $other->externalRef &&
             $this->reference === $other->reference &&
-            $this->state->equals($other->state) &&
+            ($this->state && $this->state->equals($other->state)) &&
             $this->orderPaymentStatus === $other->orderPaymentStatus &&
             $this->stockStatusCode === $other->stockStatusCode &&
             $this->allocationStatusCode === $other->allocationStatusCode &&
@@ -169,10 +169,10 @@ class OrderResponse implements ModelInterface
             $this->createdById === $other->createdById &&
             $this->priceListId === $other->priceListId &&
             $this->priceModeCode === $other->priceModeCode &&
-            $this->delivery->equals($other->delivery) &&
-            $this->invoices->equals($other->invoices) &&
-            $this->totalValue->equals($other->totalValue) &&
-            $this->parties->equals($other->parties) &&
+            ($this->delivery && $this->delivery->equals($other->delivery)) &&
+            ($this->invoices && $this->invoices->equals($other->invoices)) &&
+            ($this->totalValue && $this->totalValue->equals($other->totalValue)) &&
+            ($this->parties && $this->parties->equals($other->parties)) &&
             $this->warehouseId === $other->warehouseId &&
             $this->acknowledged === $other->acknowledged &&
             $this->costPriceListId === $other->costPriceListId &&

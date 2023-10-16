@@ -40,7 +40,7 @@ class Customer implements ModelInterface
     {
         return [
             'id' => $this->getId(),
-            'address' => $this->address->toJson()
+            'address' => $this->address ? $this->address->toJson() : []
         ];
     }
 
@@ -48,7 +48,7 @@ class Customer implements ModelInterface
     {
         return $other instanceof Customer &&
             $this->getId() === $other->getId() &&
-            $this->address->equals($other->getAddress());
+            ($this->address && $this->address->equals($other->getAddress()));
     }
 
     public function getAddress(): Address

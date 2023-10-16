@@ -56,8 +56,8 @@ class SalesChannel implements ModelInterface
             'productName' => $this->getProductName(),
             'productCondition' => $this->getProductCondition(),
             'categories' => $categories,
-            'description' => $this->getDescription()->toJson(),
-            'shortDescription' => $this->getShortDescription()->toJson()
+            'description' => $this->getDescription() ? $this->getDescription()->toJson(): [],
+            'shortDescription' => $this->getShortDescription() ? $this->getShortDescription()->toJson() : []
         ];
     }
 
@@ -69,8 +69,8 @@ class SalesChannel implements ModelInterface
             $this->productName === $other->productName &&
             $this->productCondition === $other->productCondition &&
             $this->categories === $other->categories &&
-            $this->description->equals($other->description) &&
-            $this->shortDescription->equals($other->shortDescription);
+            ($this->description && $this->description->equals($other->description)) &&
+            ($this->shortDescription && $this->shortDescription->equals($other->shortDescription));
     }
 
     public function getSalesChannelName(): ?string
