@@ -21,7 +21,10 @@ class Order implements ModelInterface
 
     private function __construct()
     {
-        $this->invoices = InvoiceCollection::create();
+        $this->orderStatus = Status::create();
+        $this->delivery = Delivery::create();
+        $this->currency = Currency::create();
+        $this->assignment = Assignment::create();
         $this->parties = Parties::create();
     }
 
@@ -57,13 +60,13 @@ class Order implements ModelInterface
             'priceListId' => $this->getPriceListId(),
             'priceModeCode' => $this->getPriceModeCode(),
             'placedOn' => $this->getPlacedOn(),
-            'orderStatus' => $this->getOrderStatus() ? $this->getOrderStatus()->toJson() : [],
-            'delivery' => $this->getDelivery() ? $this->getDelivery()->toJson() : [],
-            'invoices' => $this->getInvoices() ? $this->getInvoices()->toJson() : [],
-            'currency' => $this->getCurrency() ? $this->getCurrency()->toJson() : [],
+            'orderStatus' => $this->getOrderStatus() ? $this->getOrderStatus()->toJson() : null,
+            'delivery' => $this->getDelivery() ? $this->getDelivery()->toJson() : null,
+            'invoices' => $this->getInvoices()->toJson(),
+            'currency' => $this->getCurrency() ? $this->getCurrency()->toJson() : null,
             'contactId' => $this->getContactId(),
-            'parties' => $this->getParties() ? $this->getParties()->toJson() : [],
-            'assignment' => $this->getAssignment() ? $this->getAssignment()->toJson() : [],
+            'parties' => $this->getParties() ? $this->getParties()->toJson() : null,
+            'assignment' => $this->getAssignment() ? $this->getAssignment()->toJson() : null,
             'warehouseId' => $this->getWarehouseId(),
         ];
     }
@@ -77,13 +80,13 @@ class Order implements ModelInterface
             ($this->priceListId === $other->priceListId) &&
             ($this->priceModeCode === $other->priceModeCode) &&
             ($this->placedOn === $other->placedOn) &&
-            ($this->orderStatus && $this->orderStatus->equals($other->orderStatus)) &&
-            ($this->delivery && $this->delivery->equals($other->delivery)) &&
-            ($this->invoices && $this->invoices->equals($other->invoices)) &&
-            ($this->currency && $this->currency->equals($other->currency)) &&
+            ($this->orderStatus->equals($other->orderStatus)) &&
+            ($this->delivery->equals($other->delivery)) &&
+            ($this->invoices->equals($other->invoices)) &&
+            ($this->currency->equals($other->currency)) &&
             ($this->contactId === $other->contactId) &&
-            ($this->parties && $this->parties->equals($other->parties)) &&
-            ($this->assignment && $this->assignment->equals($other->assignment)) &&
+            ($this->parties->equals($other->parties)) &&
+            ($this->assignment->equals($other->assignment)) &&
             ($this->warehouseId === $other->warehouseId);
     }
 
