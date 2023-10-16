@@ -128,5 +128,10 @@
   "costPriceListId": null,
   "isCanceled": null,
   "installedIntegrationInstanceId": 901,
-  "customerId": null
+  "customerId": null,
+  "customFields": [
+    "custom field 1",
+    "custom field 2",
+    "custom field 3"
+  ]
 }

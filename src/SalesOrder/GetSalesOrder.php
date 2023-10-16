@@ -46,7 +46,6 @@ class GetSalesOrder
     private $rows;
     /** @var Total $total */
     private $total;
-
     /** @var string|null $orderPaymentStatus */
     private $orderPaymentStatus;
     /** @var string|null $allocationStatusCode */
@@ -73,6 +72,8 @@ class GetSalesOrder
     private $installedIntegrationInstanceId;
     /** @var int|null $customerId */
     private $customerId;
+    /** @var array */
+    private $customFields = [];
 
     public function __construct()
     {
@@ -127,6 +128,7 @@ class GetSalesOrder
         $result->isCanceled = $json['isCanceled'] ?? null;
         $result->installedIntegrationInstanceId = $json['installedIntegrationInstanceId'] ?? null;
         $result->customerId = $json['customerId'] ?? null;
+        $result->customFields = $json['customFields'] ?? [];
         return $result;
     }
 
@@ -167,6 +169,7 @@ class GetSalesOrder
             "isCanceled" => $this->getIsCanceled(),
             "installedIntegrationInstanceId" => $this->getInstalledIntegrationInstanceId(),
             "customerId" => $this->getCustomerId(),
+            'customFields' => $this->getCustomFields()
         ];
     }
 
@@ -206,6 +209,7 @@ class GetSalesOrder
             ($this->costPriceListId === $other->costPriceListId) &&
             ($this->isCanceled === $other->isCanceled) &&
             ($this->installedIntegrationInstanceId === $other->installedIntegrationInstanceId) &&
+            ($this->customFields == $other->customFields) &&
             ($this->customerId === $other->customerId);
     }
 
@@ -615,6 +619,18 @@ class GetSalesOrder
     {
         $clone = clone $this;
         $clone->customerId = $customerId;
+        return $clone;
+    }
+
+    public function getCustomFields(): array
+    {
+        return $this->customFields;
+    }
+
+    public function withCustomFields(array $customFields): self
+    {
+        $clone = clone $this;
+        $clone->customFields = $customFields;
         return $clone;
     }
 }

@@ -121,6 +121,11 @@ class GetSalesOrderTest extends TestCase
             ->withPriceModeCode("SOMECODE")
             ->withCurrency($currency)
             ->withDelivery($delivery)
+            ->withCustomFields([
+                "custom field 1",
+                "custom field 2",
+                "custom field 3",
+            ])
             ->withRows(SalesOrder\Get\RowCollection::of([$row1, $row2]));
 
         $json = $this->getFromTestFileDirectory('SalesOrder/get-sales-order.json');
@@ -168,6 +173,7 @@ class GetSalesOrderTest extends TestCase
         self::assertEquals(987, $order->getTeamId());
         self::assertEquals(876, $order->getPriceListId());
         self::assertEquals("SOMECODE", $order->getPriceModeCode());
+        self::assertEquals(["custom field 1", "custom field 2", "custom field 3"], $order->getCustomFields());
 
         self::assertInstanceOf(SalesOrder\Currency::class, $order->getCurrency());
         self::assertEquals("ABC123", $order->getCurrency()->getCode());
