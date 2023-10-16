@@ -19,6 +19,12 @@ class Order implements ModelInterface
         return new self();
     }
 
+    private function __construct()
+    {
+        $this->invoices = InvoiceCollection::create();
+        $this->parties = Parties::create();
+    }
+
     /**
      * @return self
      */
@@ -51,13 +57,13 @@ class Order implements ModelInterface
             'priceListId' => $this->getPriceListId(),
             'priceModeCode' => $this->getPriceModeCode(),
             'placedOn' => $this->getPlacedOn(),
-            'orderStatus' => $this->getOrderStatus()->toJson(),
-            'delivery' => $this->getDelivery()->toJson(),
+            'orderStatus' => $this->orderStatus ? $this->getOrderStatus()->toJson() : null,
+            'delivery' => $this->delivery ? $this->getDelivery()->toJson() : null,
             'invoices' => $this->getInvoices()->toJson(),
-            'currency' => $this->getCurrency()->toJson(),
+            'currency' => $this->currency ? $this->getCurrency()->toJson() : null,
             'contactId' => $this->getContactId(),
             'parties' => $this->getParties()->toJson(),
-            'assignment' => $this->getAssignment()->toJson(),
+            'assignment' => $this->assignment ? $this->getAssignment()->toJson() : null,
             'warehouseId' => $this->getWarehouseId(),
         ];
     }
