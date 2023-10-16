@@ -18,6 +18,11 @@ class Assignment implements ModelInterface
         return new self();
     }
 
+    private function __construct()
+    {
+        $this->current = Current::create();
+    }
+
     /**
      * @return self
      */
@@ -31,14 +36,14 @@ class Assignment implements ModelInterface
     public function toJson(): array
     {
         return [
-            'current' => $this->getCurrent() ? $this->getCurrent()->toJson() : []
+            'current' => $this->getCurrent() ? $this->getCurrent()->toJson() : null
         ];
     }
 
     public function equals(ModelInterface $other): bool
     {
         return $other instanceof Assignment &&
-            ($this->getCurrent() && $this->getCurrent()->equals($other->getCurrent()));
+            $this->getCurrent()->equals($other->getCurrent());
     }
 
     public function getCurrent(): ?Current

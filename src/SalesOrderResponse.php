@@ -77,6 +77,15 @@ class SalesOrderResponse implements ModelInterface
         return new self();
     }
 
+    private function __construct()
+    {
+        $this->customer = Customer::create();
+        $this->billing = Billing::create();
+        $this->delivery = Delivery::create();
+        $this->currency = Currency::create();
+        $this->total = Total::create();
+    }
+
     /**
      * @return self
      */
@@ -118,8 +127,8 @@ class SalesOrderResponse implements ModelInterface
     {
         return [
             'id' => $this->getId(),
-            'customer' => $this->getCustomer() ? $this->getCustomer()->toJson() : [],
-            'billing' => $this->getBilling() ? $this->getBilling()->toJson() : [],
+            'customer' => $this->getCustomer() ? $this->getCustomer()->toJson() : null,
+            'billing' => $this->getBilling() ? $this->getBilling()->toJson() : null,
             'ref' => $this->getRef(),
             'placedOn' => $this->getPlacedOn(),
             'parentId' => $this->getParentId(),
@@ -132,15 +141,15 @@ class SalesOrderResponse implements ModelInterface
             'teamId' => $this->getTeamId(),
             'priceListId' => $this->getPriceListId(),
             'priceModeCode' => $this->getPriceModeCode(),
-            'delivery' => $this->getDelivery() ? $this->getDelivery()->toJson() : [],
-            'currency' => $this->getCurrency() ? $this->getCurrency()->toJson() : [],
-            'rows' => $this->getRows() ? $this->getRows()->toJson() : [],
-            'total' => $this->getTotal() ? $this->getTotal()->toJson() : [],
+            'delivery' => $this->getDelivery() ? $this->getDelivery()->toJson() : null,
+            'currency' => $this->getCurrency() ? $this->getCurrency()->toJson() : null,
+            'rows' => $this->getRows()->toJson(),
+            'total' => $this->getTotal() ? $this->getTotal()->toJson() : null,
             'stockStatusCode' => $this->getStockStatusCode(),
             'createdBy' => $this->getCreatedBy(),
             'createdOn' => $this->getCreatedOn(),
             'updatedOn' => $this->getUpdatedOn(),
-            'invoice' => $this->getInvoice() ? $this->getInvoice()->toJson() : [],
+            'invoice' => $this->getInvoice() ? $this->getInvoice()->toJson() : null,
             'orderWeighting' => $this->getOrderWeighting(),
             'costPriceListId' => $this->getCostPriceListId(),
             'customerId' => $this->getCustomerId(),
@@ -152,8 +161,8 @@ class SalesOrderResponse implements ModelInterface
     {
         return $other instanceof SalesOrderResponse &&
             $this->id === $other->id &&
-            ($this->customer && $this->customer->equals($other->customer)) &&
-            ($this->billing && $this->billing->equals($other->billing)) &&
+            $this->customer->equals($other->customer) &&
+            $this->billing->equals($other->billing) &&
             $this->ref === $other->ref &&
             $this->placedOn === $other->placedOn &&
             $this->parentId === $other->parentId &&
@@ -166,15 +175,15 @@ class SalesOrderResponse implements ModelInterface
             $this->teamId === $other->teamId &&
             $this->priceListId === $other->priceListId &&
             $this->priceModeCode === $other->priceModeCode &&
-            ($this->delivery && $this->delivery->equals($other->delivery)) &&
-            ($this->currency && $this->currency->equals($other->currency)) &&
-            ($this->rows && $this->rows->equals($other->rows)) &&
-            ($this->total && $this->total->equals($other->total)) &&
+            $this->delivery->equals($other->delivery) &&
+            $this->currency->equals($other->currency) &&
+            $this->rows->equals($other->rows) &&
+            $this->total->equals($other->total) &&
             $this->stockStatusCode === $other->stockStatusCode &&
             $this->createdBy === $other->createdBy &&
             $this->createdOn === $other->createdOn &&
             $this->updatedOn === $other->updatedOn &&
-            ($this->invoice && $this->invoice->equals($other->invoice)) &&
+            $this->invoice->equals($other->invoice) &&
             $this->orderWeighting === $other->orderWeighting &&
             $this->costPriceListId === $other->costPriceListId &&
             $this->customerId === $other->customerId &&

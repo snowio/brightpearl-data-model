@@ -55,6 +55,12 @@ class SalesCredit implements ModelInterface
         return new self();
     }
 
+    private function __construct()
+    {
+        $this->delivery = Delivery::create();
+        $this->currency = Currency::create();
+    }
+
     /**
      * @return self
      */
@@ -102,9 +108,9 @@ class SalesCredit implements ModelInterface
             'teamId' => $this->getTeamId(),
             'priceListId' => $this->getPriceListId(),
             'priceModeCode' => $this->getPriceModeCode(),
-            'currency' => $this->getCurrency() ? $this->getCurrency()->toJson() : [],
-            'delivery' => $this->getDelivery() ? $this->getDelivery()->toJson() : [],
-            'rows' => $this->getRows() ? $this->getRows()->toJson() : []
+            'currency' => $this->getCurrency() ? $this->getCurrency()->toJson() : null,
+            'delivery' => $this->getDelivery() ? $this->getDelivery()->toJson() : null,
+            'rows' => $this->getRows()->toJson()
         ];
     }
 
@@ -127,9 +133,9 @@ class SalesCredit implements ModelInterface
             $this->teamId === $other->teamId &&
             $this->priceListId === $other->priceListId &&
             $this->priceModeCode === $other->priceModeCode &&
-            ($this->currency && $this->currency->equals($other->currency)) &&
-            ($this->delivery && $this->delivery->equals($other->delivery)) &&
-            ($this->rows && $this->rows->equals($other->rows));
+            $this->currency->equals($other->currency) &&
+            $this->delivery->equals($other->delivery) &&
+            $this->rows->equals($other->rows);
     }
 
     public function getRows(): ?RowCollection

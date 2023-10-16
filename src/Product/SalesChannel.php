@@ -29,6 +29,12 @@ class SalesChannel implements ModelInterface
         return new self();
     }
 
+    private function __construct()
+    {
+        $this->description = Description::create();
+        $this->shortDescription = Description::create();
+    }
+
     /**
      * @return self
      */
@@ -56,8 +62,8 @@ class SalesChannel implements ModelInterface
             'productName' => $this->getProductName(),
             'productCondition' => $this->getProductCondition(),
             'categories' => $categories,
-            'description' => $this->getDescription() ? $this->getDescription()->toJson() : [],
-            'shortDescription' => $this->getShortDescription() ? $this->getShortDescription()->toJson() : []
+            'description' => $this->getDescription() ? $this->getDescription()->toJson() : null,
+            'shortDescription' => $this->getShortDescription() ? $this->getShortDescription()->toJson() : null
         ];
     }
 
@@ -69,8 +75,8 @@ class SalesChannel implements ModelInterface
             $this->productName === $other->productName &&
             $this->productCondition === $other->productCondition &&
             $this->categories === $other->categories &&
-            ($this->description && $this->description->equals($other->description)) &&
-            ($this->shortDescription && $this->shortDescription->equals($other->shortDescription));
+            $this->description->equals($other->description) &&
+            $this->shortDescription->equals($other->shortDescription);
     }
 
     public function getSalesChannelName(): ?string

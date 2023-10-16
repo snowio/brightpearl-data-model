@@ -45,6 +45,15 @@ class Row implements ModelInterface
         return new self();
     }
 
+    private function __construct()
+    {
+        $this->quantity = Quantity::create();
+        $this->itemCost = Amount::create();
+        $this->productPrice = Amount::create();
+        $this->rowValue = RowValue::create();
+        $this->composition = Composition::create();
+    }
+
     /**
      * @return self
      */
@@ -74,13 +83,13 @@ class Row implements ModelInterface
             'productId' => $this->getProductId(),
             'productName' => $this->getProductName(),
             'productSku' => $this->getProductSku(),
-            'quantity' => $this->getQuantity() ? $this->getQuantity()->toJson() : [],
-            'itemCost' => $this->getItemCost() ? $this->getItemCost()->toJson() : [],
-            'productPrice' => $this->getProductPrice() ? $this->getProductPrice()->toJson() : [],
+            'quantity' => $this->getQuantity() ? $this->getQuantity()->toJson() : null,
+            'itemCost' => $this->getItemCost() ? $this->getItemCost()->toJson() : null,
+            'productPrice' => $this->getProductPrice() ? $this->getProductPrice()->toJson() : null,
             'discountPercentage' => $this->getDiscountPercentage(),
-            'rowValue' => $this->getRowValue() ? $this->getRowValue()->toJson() : [],
+            'rowValue' => $this->getRowValue() ? $this->getRowValue()->toJson() : null,
             'nominalCode' => $this->getNominalCode(),
-            'composition' => $this->getComposition() ? $this->getComposition()->toJson() : [],
+            'composition' => $this->getComposition() ? $this->getComposition()->toJson() : null,
             'externalRef' => $this->getExternalRef(),
             'clonedFromId' => $this->getClonedFromId()
         ];
@@ -93,13 +102,13 @@ class Row implements ModelInterface
             $this->productId === $other->productId &&
             $this->productName === $other->productName &&
             $this->productSku === $other->productSku &&
-            ($this->quantity && $this->quantity->equals($other->quantity)) &&
-            ($this->itemCost && $this->itemCost->equals($other->itemCost)) &&
-            ($this->productPrice && $this->productPrice->equals($other->productPrice)) &&
+            $this->quantity->equals($other->quantity) &&
+            $this->itemCost->equals($other->itemCost) &&
+            $this->productPrice->equals($other->productPrice) &&
             $this->discountPercentage === $other->discountPercentage &&
-            ($this->rowValue && $this->rowValue->equals($other->rowValue)) &&
+            $this->rowValue->equals($other->rowValue) &&
             $this->nominalCode === $other->nominalCode &&
-            ($this->composition && $this->composition->equals($other->composition)) &&
+            $this->composition->equals($other->composition) &&
             $this->externalRef === $other->externalRef &&
             $this->clonedFromId === $other->clonedFromId;
     }
