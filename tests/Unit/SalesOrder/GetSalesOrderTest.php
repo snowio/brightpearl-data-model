@@ -214,4 +214,30 @@ class GetSalesOrderTest extends TestCase
         $order2 = GetSalesOrder::fromJson($data);
         self::assertTrue($order1->equals($order2));
     }
+
+    public function testRowsEquals()
+    {
+        $row1 = SalesOrder\Get\Row::create()
+            ->withProductId(123456)
+            ->withName("Product Example 1")
+            ->withQuantity("123")
+            ->withTaxCode("ABC")
+            ->withNet("100")
+            ->withTax("14")
+            ->withNominalCode("ABCDEF")
+            ->withExternalRef("FEDCBA");
+
+        $row2 = SalesOrder\Get\Row::create()
+            ->withProductId(123456)
+            ->withName("Product Example 1")
+            ->withQuantity("123")
+            ->withTaxCode("ABC")
+            ->withNet("100")
+            ->withTax("14")
+            ->withNominalCode("ABCDEF")
+            ->withExternalRef("FEDCBA");
+
+        self::assertTrue($row1->equals($row2));
+        self::assertEquals($row1, $row2);
+    }
 }
