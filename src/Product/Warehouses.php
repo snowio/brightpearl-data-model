@@ -42,6 +42,11 @@ class Warehouses implements ModelInterface
         ];
     }
 
+    public function hasData()
+    {
+        return count(array_filter($this->toJson()));
+    }
+
     public function equals(ModelInterface $other): bool
     {
         return $other instanceof Warehouses &&

@@ -93,7 +93,7 @@ class Product implements ModelInterface
             }, $this->getVariations()),
             'createdOn' => $this->getCreatedOn(),
             'updatedOn' => $this->getUpdatedOn(),
-            'warehouses' => $this->getWarehouses() ? $this->getWarehouses()->toJson() : null,
+            'warehouses' => $this->warehouses->hasData() ? $this->getWarehouses()->toJson() : null,
             'nominalCodeStock' => $this->getNominalCodeStock(),
             'nominalCodePurchases' => $this->getNominalCodePurchases(),
             'nominalCodeSales' => $this->getNominalCodeSales(),
