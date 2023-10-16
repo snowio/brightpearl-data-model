@@ -8,6 +8,8 @@ class Row implements ModelInterface
 {
     /** @var int|null $productId */
     protected $productId;
+    /** @var string|null $sku */
+    protected $sku;
     /** @var string|null $name */
     protected $name;
     /** @var string|null $quantity */
@@ -39,6 +41,7 @@ class Row implements ModelInterface
     {
         $result = new self();
         $result->productId = $json['productId'] ?? null;
+        $result->sku = $json['sku'] ?? null;
         $result->name = $json['name'] ?? null;
         $result->quantity = $json['quantity'] ?? null;
         $result->taxCode = $json['taxCode'] ?? null;
@@ -52,6 +55,7 @@ class Row implements ModelInterface
     public function toJson(): array
     {
         return [
+            'sku' => $this->getSku(),
             'productId' => $this->getProductId(),
             'name' => $this->getName(),
             'quantity' => $this->getQuantity(),
@@ -66,6 +70,7 @@ class Row implements ModelInterface
     public function equals(ModelInterface $other): bool
     {
         return $other instanceof Row &&
+            $this->sku === $other->sku &&
             $this->productId === $other->productId &&
             $this->name === $other->name  &&
             $this->quantity === $other->quantity  &&
@@ -85,6 +90,18 @@ class Row implements ModelInterface
     {
         $clone = clone $this;
         $clone->productId = $productId;
+        return $clone;
+    }
+
+    public function getSku(): ?string
+    {
+        return $this->sku;
+    }
+
+    public function withSku(?string $sku): Row
+    {
+        $clone = clone $this;
+        $clone->sku = $sku;
         return $clone;
     }
 

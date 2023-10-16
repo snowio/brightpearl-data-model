@@ -60,6 +60,7 @@
   "rows": [
     {
       "productId": 123456,
+      "sku": null,
       "name": "Product Example 1",
       "quantity": "123",
       "taxCode": "ABC",
@@ -70,6 +71,7 @@
     },
     {
       "productId": 456789,
+      "sku": null,
       "name": "Product Example 2",
       "quantity": "456",
       "taxCode": "DEF",

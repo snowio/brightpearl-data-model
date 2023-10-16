@@ -7,8 +7,6 @@ use SnowIO\BrightpearlDataModel\SalesOrder\Row as BaseRow;
 
 class Row extends BaseRow implements ModelInterface
 {
-    /** @var string|null $sku */
-    protected $sku;
     /** @var int|null $id */
     protected $id;
     /** @var string|null $discountPercentage */
@@ -113,18 +111,6 @@ class Row extends BaseRow implements ModelInterface
             $this->taxClassId === $other->taxClassId &&
             $this->taxCalculator === $other->taxCalculator &&
             $this->clonedFromId === $other->clonedFromId;
-    }
-
-    public function getSku(): ?string
-    {
-        return $this->sku;
-    }
-
-    public function withSku(?string $sku): self
-    {
-        $clone = clone $this;
-        $clone->sku = $sku;
-        return $clone;
     }
 
     public function getId(): ?int
