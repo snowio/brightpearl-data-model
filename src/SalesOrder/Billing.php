@@ -35,7 +35,7 @@ class Billing implements ModelInterface
     {
         return [
             'contactId' => $this->getContactId(),
-            'address' => $this->getAddress()->toJson()
+            'address' => $this->address ? $this->getAddress()->toJson() : null
         ];
     }
 
