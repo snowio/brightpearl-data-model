@@ -2,7 +2,9 @@
 
 namespace SnowIO\BrightpearlDataModel\OrderResponse\Row;
 
-class Amount
+use SnowIO\BrightpearlDataModel\ModelInterface;
+
+class Amount implements ModelInterface
 {
     /** @var string|null $currencyCode */
     private $currencyCode;
@@ -12,27 +14,22 @@ class Amount
     /**
      * @return self
      */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
     /**
-     * @param array<string, mixed> $json
+     * @return self
      */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-
-        $result->currencyCode = is_string($json['currencyCode']) ? $json['currencyCode'] : null;
-        $result->value = is_string($json['value']) ? $json['value'] : null;
-
+        $result->currencyCode = $json['currencyCode'] ?? null;
+        $result->value = $json['value'] ?? null;
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         return [
@@ -41,18 +38,18 @@ class Amount
         ];
     }
 
-    /**
-     * @return string|null
-     */
+    public function equals(ModelInterface $other): bool
+    {
+        return $other instanceof Amount &&
+            $this->currencyCode === $other->currencyCode &&
+            $this->value === $other->value;
+    }
+
     public function getCurrencyCode(): ?string
     {
         return $this->currencyCode;
     }
 
-    /**
-     * @param string $currencyCode
-     * @return Amount
-     */
     public function withCurrencyCode(string $currencyCode): Amount
     {
         $clone = clone $this;
@@ -60,18 +57,11 @@ class Amount
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getValue(): ?string
     {
         return $this->value;
     }
 
-    /**
-     * @param string $value
-     * @return Amount
-     */
     public function withValue(string $value): Amount
     {
         $clone = clone $this;

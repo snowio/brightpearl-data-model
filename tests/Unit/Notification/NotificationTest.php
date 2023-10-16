@@ -7,9 +7,6 @@ use SnowIO\BrightpearlDataModel\Notification;
 
 class NotificationTest extends TestCase
 {
-    /**
-     * @return array<string, mixed>
-     */
     private function getJsonData(): array
     {
         return [
@@ -18,9 +15,6 @@ class NotificationTest extends TestCase
         ];
     }
 
-    /**
-     * @return void
-     */
     public function testFromJsonToJson()
     {
         $data = $this->getJsonData();
@@ -28,9 +22,6 @@ class NotificationTest extends TestCase
         self::assertEquals($data, $notification->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testWithers()
     {
         $notification = Notification::create()
@@ -39,9 +30,6 @@ class NotificationTest extends TestCase
         self::assertEquals($this->getJsonData(), $notification->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testGetters()
     {
         $data = $this->getJsonData();
@@ -50,9 +38,6 @@ class NotificationTest extends TestCase
         self::assertEquals("573754837", $notification->getTimestamp());
     }
 
-    /**
-     * @return void
-     */
     public function testEquals()
     {
         $data = $this->getJsonData();

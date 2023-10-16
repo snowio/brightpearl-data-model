@@ -76,11 +76,17 @@ class PostSalesOrder implements ModelInterface
         $this->total = Total::create();
     }
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();
     }
 
+    /**
+     * @return self
+     */
     public static function fromJson(array $json): ModelInterface
     {
         $result = new self();

@@ -2,7 +2,6 @@
 
 namespace SnowIO\BrightpearlDataModel;
 
-use SnowIO\BrightpearlDataModel\Api\ModelInterface;
 use SnowIO\BrightpearlDataModel\Product\Composition;
 use SnowIO\BrightpearlDataModel\Product\FinancialDetails;
 use SnowIO\BrightpearlDataModel\Product\Identity;
@@ -14,11 +13,17 @@ use SnowIO\BrightpearlDataModel\Product\Warehouses;
 
 class Product implements ModelInterface
 {
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();
     }
 
+    /**
+     * @return self
+     */
     public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
@@ -107,7 +112,7 @@ class Product implements ModelInterface
             ($this->variations == $other->variations) && // not strict for array
             ($this->createdOn === $other->createdOn) &&
             ($this->updatedOn === $other->updatedOn) &&
-            ($this->warehouses == $other->warehouses) && // not strict for array
+            ($this->warehouses->equals($other->warehouses))&& // not strict for array
             ($this->nominalCodeStock === $other->nominalCodeStock) &&
             ($this->nominalCodePurchases === $other->nominalCodePurchases) &&
             ($this->nominalCodeSales === $other->nominalCodeSales) &&

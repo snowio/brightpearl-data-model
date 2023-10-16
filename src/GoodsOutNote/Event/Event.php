@@ -2,28 +2,25 @@
 
 namespace SnowIO\BrightpearlDataModel\GoodsOutNote\Event;
 
-class Event
+use SnowIO\BrightpearlDataModel\ModelInterface;
+
+class Event implements ModelInterface
 {
     /** @var string|null $occurred */
     private $occurred;
-
     /** @var int|null $eventOwnerId */
     private $eventOwnerId;
-
     /** @var string|null $eventCode */
     private $eventCode;
 
     /**
      * @return self
      */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         return [
@@ -34,21 +31,25 @@ class Event
     }
 
     /**
-     * @param array<string, mixed> $json
+     * @return self
      */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-        $result->occurred = is_string($json['occurred']) ? $json['occurred'] : null;
-        $result->eventOwnerId = is_int($json['eventOwnerId']) ? $json['eventOwnerId'] : null;
-        $result->eventCode = is_string($json['eventCode']) ? $json['eventCode'] : null;
+        $result->occurred = $json['occurred'] ?? null;
+        $result->eventOwnerId = $json['eventOwnerId'] ?? null;
+        $result->eventCode = $json['eventCode'] ?? null;
         return $result;
     }
 
-    /**
-     * @param string|null $occurred
-     * @return Event
-     */
+    public function equals(ModelInterface $other): bool
+    {
+        return $other instanceof Event &&
+            $this->occurred === $other->occurred &&
+            $this->eventOwnerId === $other->eventOwnerId &&
+            $this->eventCode === $other->eventCode;
+    }
+
     public function withOccurred(?string $occurred): Event
     {
         $clone = clone $this;
@@ -56,10 +57,6 @@ class Event
         return $clone;
     }
 
-    /**
-     * @param int|null $eventOwnerId
-     * @return Event
-     */
     public function withEventOwnerId(?int $eventOwnerId): Event
     {
         $clone = clone $this;
@@ -67,10 +64,6 @@ class Event
         return $clone;
     }
 
-    /**
-     * @param string|null $eventCode
-     * @return Event
-     */
     public function withEventCode(?string $eventCode): Event
     {
         $clone = clone $this;
@@ -78,25 +71,16 @@ class Event
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getOccurred(): ?string
     {
         return $this->occurred;
     }
 
-    /**
-     * @return int|null
-     */
     public function getEventOwnerId(): ?int
     {
         return $this->eventOwnerId;
     }
 
-    /**
-     * @return string|null
-     */
     public function getEventCode(): ?string
     {
         return $this->eventCode;

@@ -2,7 +2,9 @@
 
 namespace SnowIO\BrightpearlDataModel\OrderResponse\Row;
 
-class Composition
+use SnowIO\BrightpearlDataModel\ModelInterface;
+
+class Composition implements ModelInterface
 {
     /** @var bool|null $bundleParent */
     private $bundleParent;
@@ -14,28 +16,23 @@ class Composition
     /**
      * @return self
      */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
     /**
-     * @param array<string, mixed> $json
+     * @return self
      */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-
-        $result->bundleParent = is_bool($json['bundleParent']) && $json['bundleParent'];
-        $result->bundleChild = is_bool($json['bundleChild']) && $json['bundleChild'];
-        $result->parentOrderRowId = is_numeric($json['parentOrderRowId']) ? (int)$json['parentOrderRowId'] : null;
-
+        $result->bundleParent = $json['bundleParent'] ?? null;
+        $result->bundleChild = $json['bundleChild'] ?? null;
+        $result->parentOrderRowId = $json['parentOrderRowId'] ?? null;
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         return [
@@ -45,18 +42,19 @@ class Composition
         ];
     }
 
-    /**
-     * @return bool|null
-     */
+    public function equals(ModelInterface $other): bool
+    {
+        return $other instanceof Composition &&
+            $this->bundleParent === $other->bundleParent &&
+            $this->bundleChild === $other->bundleChild &&
+            $this->parentOrderRowId === $other->parentOrderRowId;
+    }
+
     public function isBundleParent(): ?bool
     {
         return $this->bundleParent;
     }
 
-    /**
-     * @param bool $bundleParent
-     * @return Composition
-     */
     public function withBundleParent(bool $bundleParent): Composition
     {
         $clone = clone $this;
@@ -64,18 +62,11 @@ class Composition
         return $clone;
     }
 
-    /**
-     * @return bool|null
-     */
     public function isBundleChild(): ?bool
     {
         return $this->bundleChild;
     }
 
-    /**
-     * @param bool $bundleChild
-     * @return Composition
-     */
     public function withBundleChild(bool $bundleChild): Composition
     {
         $clone = clone $this;
@@ -83,18 +74,11 @@ class Composition
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getParentOrderRowId(): ?int
     {
         return $this->parentOrderRowId;
     }
 
-    /**
-     * @param int $parentOrderRowId
-     * @return Composition
-     */
     public function withParentOrderRowId(int $parentOrderRowId): Composition
     {
         $clone = clone $this;

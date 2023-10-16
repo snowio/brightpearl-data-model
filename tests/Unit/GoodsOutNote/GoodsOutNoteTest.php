@@ -13,9 +13,6 @@ use SnowIO\BrightpearlDataModel\GoodsOutNote\Status;
 
 class GoodsOutNoteTest extends TestCase
 {
-    /**
-     * @return array<string, mixed>
-     */
     private function getJsonData(): array
     {
         return [
@@ -79,9 +76,6 @@ class GoodsOutNoteTest extends TestCase
         ];
     }
 
-    /**
-     * @return void
-     */
     public function testFromJsonToJson()
     {
         $data = $this->getJsonData();
@@ -89,9 +83,6 @@ class GoodsOutNoteTest extends TestCase
         self::assertEquals($data, $goodsOutNote->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testWithers()
     {
         $status = Status::create()
@@ -160,9 +151,6 @@ class GoodsOutNoteTest extends TestCase
         self::assertEquals($this->getJsonData(), $goodOutNote->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testGetters()
     {
         $data = $this->getJsonData();
@@ -225,9 +213,6 @@ class GoodsOutNoteTest extends TestCase
         self::assertEquals(22, $goodsOutNote->getLastEventVersion());
     }
 
-    /**
-     * @return void
-     */
     public function testEquals()
     {
         $data = $this->getJsonData();

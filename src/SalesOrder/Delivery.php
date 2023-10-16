@@ -2,7 +2,10 @@
 
 namespace SnowIO\BrightpearlDataModel\SalesOrder;
 
-class Delivery
+use SnowIO\BrightpearlDataModel\Address;
+use SnowIO\BrightpearlDataModel\ModelInterface;
+
+class Delivery implements ModelInterface
 {
     /** @var Address */
     private $address;
@@ -11,14 +14,20 @@ class Delivery
     /** @var string|null $date */
     private $date;
 
-    public static function create(): self
+    /**
+     * @return self
+     */
+    public static function create(): ModelInterface
     {
         $delivery = new self();
         $delivery->address = Address::create();
         return $delivery;
     }
 
-    public static function fromJson(array $json): self
+    /**
+     * @return self
+     */
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
         $result->address = Address::fromJson($json['address'] ?? []);
@@ -36,9 +45,10 @@ class Delivery
         ];
     }
 
-    public function equals($other): bool
+    public function equals(ModelInterface $other): bool
     {
-        return $this->shippingMethodId === $other->shippingMethodId &&
+        return $other instanceof Delivery &&
+            $this->shippingMethodId === $other->shippingMethodId &&
             $this->getAddress()->equals($other->getAddress());
     }
 

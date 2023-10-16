@@ -2,7 +2,6 @@
 
 namespace SnowIO\BrightpearlDataModel;
 
-use SnowIO\BrightpearlDataModel\Api\ModelInterface;
 use SnowIO\BrightpearlDataModel\Order\Assignment;
 use SnowIO\BrightpearlDataModel\Order\Currency;
 use SnowIO\BrightpearlDataModel\Order\Delivery;
@@ -12,34 +11,34 @@ use SnowIO\BrightpearlDataModel\Order\Status;
 
 class Order implements ModelInterface
 {
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();
     }
 
+    /**
+     * @return self
+     */
     public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-        $orderStatus = is_array($json['orderStatus']) ? $json['orderStatus'] : [];
-        $delivery = is_array($json['delivery']) ? $json['delivery'] : [];
-        $invoices = is_array($json['invoices']) ? $json['invoices'] : [];
-        $currency = is_array($json['currency']) ? $json['currency'] : [];
-        $parties = is_array($json['parties']) ? $json['parties'] : [];
-        $assignment = is_array($json['assignment']) ? $json['assignment'] : [];
-        $result->orderTypeCode = is_string($json['orderTypeCode']) ? $json['orderTypeCode'] : null;
-        $result->reference = is_string($json['reference']) ? $json['reference'] : null;
-        $result->parentOrderId = is_string($json['parentOrderId']) ? $json['parentOrderId'] : null;
-        $result->priceListId = is_numeric($json['priceListId']) ? (int)$json['priceListId'] : null;
-        $result->priceModeCode = is_string($json['priceModeCode']) ? $json['priceModeCode'] : null;
-        $result->placedOn = is_string($json['placedOn']) ? $json['placedOn'] : null;
-        $result->orderStatus = Status::fromJson($orderStatus);
-        $result->delivery = Delivery::fromJson($delivery);
-        $result->invoices = InvoiceCollection::fromJson($invoices);
-        $result->currency = Currency::fromJson($currency);
-        $result->contactId = is_numeric($json['contactId']) ? (int)$json['contactId'] : null;
-        $result->parties = Parties::fromJson($parties);
-        $result->assignment = Assignment::fromJson($assignment);
-        $result->warehouseId = is_numeric($json['warehouseId']) ? (int)$json['warehouseId'] : null;
+        $result->orderTypeCode = $json['orderTypeCode'] ?? null;
+        $result->reference = $json['reference'] ?? null;
+        $result->parentOrderId = $json['parentOrderId'] ?? null;
+        $result->priceListId = $json['priceListId'] ?? null;
+        $result->priceModeCode = $json['priceModeCode'] ?? null;
+        $result->placedOn = $json['placedOn'] ?? null;
+        $result->orderStatus = Status::fromJson($json['orderStatus'] ?? []);
+        $result->delivery = Delivery::fromJson($json['delivery'] ?? []);
+        $result->invoices = InvoiceCollection::fromJson($json['invoices'] ?? []);
+        $result->currency = Currency::fromJson($json['currency'] ?? []);
+        $result->contactId = $json['contactId'] ?? null;
+        $result->parties = Parties::fromJson($json['parties'] ?? []);
+        $result->assignment = Assignment::fromJson($json['assignment'] ?? []);
+        $result->warehouseId = $json['warehouseId'] ?? null;
         return $result;
     }
 
@@ -74,7 +73,7 @@ class Order implements ModelInterface
             ($this->placedOn === $other->placedOn) &&
             ($this->orderStatus->equals($other->orderStatus)) &&
             ($this->delivery->equals($other->delivery)) &&
-            ($this->invoices->toJson() == $other->invoices->toJson()) &&
+            ($this->invoices->equals($other->invoices)) &&
             ($this->currency->equals($other->currency)) &&
             ($this->contactId === $other->contactId) &&
             ($this->parties->equals($other->parties)) &&

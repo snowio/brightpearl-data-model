@@ -2,7 +2,6 @@
 
 namespace SnowIO\BrightpearlDataModel;
 
-use SnowIO\BrightpearlDataModel\Api\ModelInterface;
 use SnowIO\BrightpearlDataModel\ContactCreate\Communication;
 
 class ContactCreate implements ModelInterface
@@ -27,71 +26,45 @@ class ContactCreate implements ModelInterface
     }
 
     /**
-     * @param array<string, mixed> $json
+     * @return self
      */
     public static function fromJson(array $json): ModelInterface
     {
-        $communication = Communication::create();
         $result = new self();
-        $result->salutation = is_string($json['salutation']) ? $json['salutation'] : null;
-        $result->firstName = is_string($json['firstName']) ? $json['firstName'] : null;
-        $result->lastName = is_string($json['lastName']) ? $json['lastName'] : null;
-        $result->postAddressIds = is_array($json['postAddressIds']) ? $json['postAddressIds'] : [];
-        $result->communication = $communication->fromJson(is_array($json['communication']) ? $json['communication'] : []);
+        $result->salutation = $json['salutation'] ?? null;
+        $result->firstName = $json['firstName'] ?? null;
+        $result->lastName = $json['lastName'] ?? null;
+        $result->postAddressIds = $json['postAddressIds'] ?? [];
+        $result->communication = Communication::fromJson($json['communication'] ?? []);
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
-        $communication = is_null($this->getCommunication()) ? [] : $this->getCommunication()->toJson();
         return [
             'salutation' => $this->getSalutation(),
             'firstName' => $this->getFirstName(),
             'lastName' => $this->getLastName(),
             'postAddressIds' => $this->getPostAddressIds(),
-            'communication' => $communication
+            'communication' => $this->getCommunication()->toJson()
         ];
     }
 
-    /**
-     * @param ModelInterface $contactCreateToCompare
-     * @return bool
-     */
-    public function equals(ModelInterface $contactCreateToCompare): bool
+    public function equals(ModelInterface $other): bool
     {
-        if (!$contactCreateToCompare instanceof ContactCreate) {
-            return false;
-        }
-        if ($this->getFirstName() !== $contactCreateToCompare->getFirstName()) {
-            return false;
-        }
-        if ($this->getLastName() !== $contactCreateToCompare->getLastName()) {
-            return false;
-        }
-        if ($this->getPostAddressIds() !== $contactCreateToCompare->getPostAddressIds()) {
-            return false;
-        }
-        if ($this->getSalutation() !== $contactCreateToCompare->getSalutation()) {
-            return false;
-        }
-        return !(!is_null($this->getCommunication()) && !is_null($contactCreateToCompare->getCommunication()) && !$this->getCommunication()->equals($contactCreateToCompare->getCommunication()));
+        return $other instanceof ContactCreate &&
+            $this->salutation === $other->salutation &&
+            $this->firstName === $other->firstName &&
+            $this->lastName === $other->lastName &&
+            $this->postAddressIds === $other->postAddressIds &&
+            $this->communication->equals($other->communication);
     }
 
-    /**
-     * @return string|null
-     */
     public function getSalutation(): ?string
     {
         return $this->salutation;
     }
 
-    /**
-     * @param string $salutation
-     * @return ContactCreate
-     */
     public function withSalutation(string $salutation): ContactCreate
     {
         $clone = clone $this;
@@ -99,18 +72,11 @@ class ContactCreate implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getFirstName(): ?string
     {
         return $this->firstName;
     }
 
-    /**
-     * @param string $firstName
-     * @return ContactCreate
-     */
     public function withFirstName(string $firstName): ContactCreate
     {
         $clone = clone $this;
@@ -118,18 +84,11 @@ class ContactCreate implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getLastName(): ?string
     {
         return $this->lastName;
     }
 
-    /**
-     * @param string $lastName
-     * @return ContactCreate
-     */
     public function withLastName(string $lastName): ContactCreate
     {
         $clone = clone $this;
@@ -137,17 +96,11 @@ class ContactCreate implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return array<mixed>|null
-     */
     public function getPostAddressIds(): ?array
     {
         return $this->postAddressIds;
     }
 
-    /**
-     * @param array<mixed>|null $postAddressIds
-     */
     public function withPostAddressIds(?array $postAddressIds): ContactCreate
     {
         $clone = clone $this;
@@ -155,18 +108,11 @@ class ContactCreate implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return Communication|null
-     */
     public function getCommunication(): ?Communication
     {
         return $this->communication;
     }
 
-    /**
-     * @param Communication $communication
-     * @return ContactCreate
-     */
     public function withCommunication(Communication $communication): ContactCreate
     {
         $clone = clone $this;

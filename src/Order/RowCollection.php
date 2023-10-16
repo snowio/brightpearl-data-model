@@ -10,9 +10,6 @@ class RowCollection implements IteratorAggregate
     /** @var Row[] $items */
     private $items = [];
 
-    /**
-     * @param Row[] $items
-     */
     public static function of(array $items): self
     {
         $result = new self();
@@ -22,13 +19,9 @@ class RowCollection implements IteratorAggregate
                 $result->items[] = $order;
             }
         }
-
         return $result;
     }
 
-    /**
-     * @return array<mixed>
-     */
     public function toJson(): array
     {
         return array_map(static function (Row $row): array {
@@ -36,10 +29,6 @@ class RowCollection implements IteratorAggregate
         }, $this->items);
     }
 
-    /**
-     * @param array<mixed> $json
-     * @return self
-     */
     public static function fromJson(array $json): self
     {
         $result = new self();
@@ -50,13 +39,9 @@ class RowCollection implements IteratorAggregate
             }
             $result->items[] = Row::create()->fromJson($item);
         }
-
         return $result;
     }
 
-    /**
-     * @return Iterator
-     */
     public function getIterator(): Iterator
     {
         foreach ($this->items as $item) {

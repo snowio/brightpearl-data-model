@@ -2,14 +2,19 @@
 
 namespace SnowIO\BrightpearlDataModel\Order;
 
-use SnowIO\BrightpearlDataModel\Api\ModelInterface;
+use SnowIO\BrightpearlDataModel\ModelInterface;
+use SnowIO\BrightpearlDataModel\Order\Parties\Billing;
 use SnowIO\BrightpearlDataModel\Order\Parties\Delivery;
+use SnowIO\BrightpearlDataModel\Order\Parties\Supplier;
 
 class Parties implements ModelInterface
 {
-    /** @var \SnowIO\BrightpearlDataModel\Order\Parties\Delivery|null $delivery
-     */
+    /** @var Delivery|null $delivery */
     private $delivery;
+    /** @var Supplier|null $supplier */
+    private $supplier;
+    /** @var Billing|null $billing */
+    private $billing;
 
     /**
      * @return self
@@ -20,68 +25,67 @@ class Parties implements ModelInterface
     }
 
     /**
-     * @param array<string, mixed> $json
      * @return self
      */
     public static function fromJson(array $json): ModelInterface
     {
-        $delivery = is_array($json['delivery']) ? $json['delivery'] : [];
         $result = new self();
-        $result->delivery = Delivery::fromJson($delivery);
+        $result->supplier = Supplier::fromJson($json['supplier'] ?? []);
+        $result->delivery = Delivery::fromJson($json['delivery'] ?? []);
+        $result->billing = Billing::fromJson($json['billing'] ?? []);
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
-        $delivery = is_null($this->getDelivery()) ? [] : $this->getDelivery()->toJson();
         return [
-            'delivery' => $delivery
+            'supplier' => $this->getSupplier()->toJson(),
+            'delivery' => $this->getDelivery()->toJson(),
+            'billing' => $this->getBilling()->toJson()
         ];
     }
 
-    /**
-     * @param ModelInterface $partiesToCompare
-     * @return bool
-     */
-    public function equals(ModelInterface $partiesToCompare): bool
+    public function equals(ModelInterface $other): bool
     {
-        if (!$partiesToCompare instanceof Parties) {
-            return false;
-        }
-        if (!is_null($this->getDelivery())
-            && !is_null($partiesToCompare->getDelivery())
-            && !$this->getDelivery()->equals($partiesToCompare->getDelivery())) {
-            return false;
-        }
-        if ($this->getDelivery() === null) {
-            return false;
-        }
-        if (!$partiesToCompare->getDelivery() instanceof Delivery) {
-            return false;
-        }
-
-        return $this->getDelivery()->equals($partiesToCompare->getDelivery());
+        return $other instanceof Parties &&
+          $this->supplier->equals($other->supplier) &&
+          $this->delivery->equals($other->delivery) &&
+          $this->billing->equals($other->billing);
     }
 
-    /**
-     * @return Delivery|null
-     */
     public function getDelivery(): ?Delivery
     {
         return $this->delivery;
     }
 
-    /**
-     * @param Delivery|null $delivery
-     * @return self
-     */
     public function withDelivery(?Delivery $delivery): self
     {
         $clone = clone $this;
         $clone->delivery = $delivery;
+        return $clone;
+    }
+
+    public function getSupplier(): ?Supplier
+    {
+        return $this->supplier;
+    }
+
+    public function withSupplier(?Supplier $supplier): self
+    {
+        $clone = clone $this;
+        $clone->supplier = $supplier;
+        return $clone;
+    }
+
+    public function getBilling(): ?Billing
+    {
+        return $this->billing;
+    }
+
+    public function withBilling(?Billing $billing): self
+    {
+        $clone = clone $this;
+        $clone->billing = $billing;
         return $clone;
     }
 }

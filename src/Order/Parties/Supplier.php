@@ -1,11 +1,13 @@
 <?php
 
-namespace SnowIO\BrightpearlDataModel\OrderResponse\Parties;
+namespace SnowIO\BrightpearlDataModel\Order\Parties;
 
 use SnowIO\BrightpearlDataModel\ModelInterface;
 
-class Delivery implements ModelInterface
+class Supplier implements ModelInterface
 {
+    /** @var string|null $contactId */
+    private $contactId;
     /** @var string|null $addressFullName */
     private $addressFullName;
     /** @var string|null $companyName */
@@ -20,7 +22,7 @@ class Delivery implements ModelInterface
     private $addressLine4;
     /** @var string|null $postalCode */
     private $postalCode;
-    /** @var int|null $countryId */
+    /** @var string|null $countryId */
     private $countryId;
     /** @var string|null $countryIsoCode */
     private $countryIsoCode;
@@ -51,6 +53,7 @@ class Delivery implements ModelInterface
     public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
+        $result->contactId = $json['contactId'] ?? null;
         $result->addressFullName = $json['addressFullName'] ?? null;
         $result->companyName = $json['companyName'] ?? null;
         $result->addressLine1 = $json['addressLine1'] ?? null;
@@ -72,6 +75,7 @@ class Delivery implements ModelInterface
     public function toJson(): array
     {
         return [
+            'contactId' => $this->getContactId(),
             'addressFullName' => $this->getAddressFullName(),
             'companyName' => $this->getCompanyName(),
             'addressLine1' => $this->getAddressLine1(),
@@ -92,25 +96,38 @@ class Delivery implements ModelInterface
 
     public function equals(ModelInterface $other): bool
     {
-        return ($other instanceof Delivery) &&
-            ($this->addressFullName === $other->addressFullName) &&
-            ($this->companyName === $other->companyName) &&
-            ($this->addressLine1 === $other->addressLine1) &&
-            ($this->addressLine2 === $other->addressLine2) &&
-            ($this->addressLine3 === $other->addressLine3) &&
-            ($this->addressLine4 === $other->addressLine4) &&
-            ($this->postalCode === $other->postalCode) &&
-            ($this->country === $other->country) &&
-            ($this->telephone === $other->telephone) &&
-            ($this->mobileTelephone === $other->mobileTelephone) &&
-            ($this->fax === $other->fax) &&
-            ($this->email === $other->email) &&
-            ($this->countryId === $other->countryId) &&
-            ($this->countryIsoCode === $other->countryIsoCode) &&
-            ($this->countryIsoCode3 === $other->countryIsoCode3);
+        return $other instanceof Supplier &&
+            $this->contactId === $other->contactId &&
+            $this->addressFullName === $other->addressFullName &&
+            $this->companyName === $other->companyName &&
+            $this->addressLine1 === $other->addressLine1 &&
+            $this->addressLine2 === $other->addressLine2 &&
+            $this->addressLine3 === $other->addressLine3 &&
+            $this->addressLine4 === $other->addressLine4 &&
+            $this->postalCode === $other->postalCode &&
+            $this->country === $other->country &&
+            $this->telephone === $other->telephone &&
+            $this->mobileTelephone === $other->mobileTelephone &&
+            $this->fax === $other->fax &&
+            $this->email === $other->email &&
+            $this->countryId === $other->countryId &&
+            $this->countryIsoCode === $other->countryIsoCode &&
+            $this->countryIsoCode3 === $other->countryIsoCode3;
     }
 
-    public function withCountryIsoCode3(string $countryIsoCode3): Delivery
+    public function withContactId(string $contactId): ModelInterface
+    {
+        $clone = clone $this;
+        $clone->contactId = $contactId;
+        return $clone;
+    }
+
+    public function getContactId(): ?string
+    {
+        return $this->contactId;
+    }
+
+    public function withCountryIsoCode3(string $countryIsoCode3): ModelInterface
     {
         $clone = clone $this;
         $clone->countryIsoCode3 = $countryIsoCode3;
@@ -122,7 +139,7 @@ class Delivery implements ModelInterface
         return $this->countryIsoCode3;
     }
 
-    public function withCountry(string $country): Delivery
+    public function withCountry(string $country):ModelInterface
     {
         $clone = clone $this;
         $clone->country = $country;
@@ -218,12 +235,12 @@ class Delivery implements ModelInterface
         return $clone;
     }
 
-    public function getCountryId(): ?int
+    public function getCountryId(): ?string
     {
         return $this->countryId;
     }
 
-    public function withCountryId(?int $countryId): ModelInterface
+    public function withCountryId(string $countryId): ModelInterface
     {
         $clone = clone $this;
         $clone->countryId = $countryId;

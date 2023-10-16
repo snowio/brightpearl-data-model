@@ -9,9 +9,6 @@ use SnowIO\BrightpearlDataModel\ProductAvailability\Total;
 
 class ProductAvailabilityTest extends TestCase
 {
-    /**
-     * @return array<string, mixed>
-     */
     private function getJsonData(): array
     {
         return [
@@ -34,9 +31,6 @@ class ProductAvailabilityTest extends TestCase
         self::assertEquals($data, $productAvailability->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testWithers()
     {
         $total = Total::create()
@@ -51,9 +45,6 @@ class ProductAvailabilityTest extends TestCase
         self::assertEquals($this->getJsonData(), $productAvailability->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testGetters()
     {
         $data = $this->getJsonData();
@@ -65,9 +56,6 @@ class ProductAvailabilityTest extends TestCase
         self::assertEquals(444, $productAvailability->getTotal()->getInTransit());
     }
 
-    /**
-     * @return void
-     */
     public function testEquals()
     {
         $data = $this->getJsonData();

@@ -7,9 +7,6 @@ use SnowIO\BrightpearlDataModel\Order;
 
 class OrderTest extends TestCase
 {
-    /**
-     * @return array
-     */
     private function getJsonData(): array
     {
         return [
@@ -52,7 +49,45 @@ class OrderTest extends TestCase
                     "mobileTelephone" => "1234567890",
                     "fax" => "1234567890",
                     "email" => "test@domain.com",
-                ]
+                    'country' => null,
+                    'countryIsoCode3' => null,
+                ],
+                "supplier" => [
+                    "addressFullName" => 'test',
+                    "companyName" => 'test',
+                    "addressLine1" => 'test',
+                    "addressLine2" => 'test',
+                    "addressLine3" => 'test',
+                    "addressLine4" => 'test',
+                    "postalCode" => 'test',
+                    "countryId" => 1,
+                    "countryIsoCode" => 'test',
+                    "telephone" => '999999999',
+                    "mobileTelephone" => '888888888',
+                    "fax" => '555555555555',
+                    "email" => 'test@domain.com',
+                    'contactId' => 1,
+                    'country' => 'test',
+                    'countryIsoCode3' => 'XY'
+                ],
+                "billing" => [
+                    "addressFullName" => 'test',
+                    "companyName" => 'test',
+                    "addressLine1" => 'test',
+                    "addressLine2" => 'test',
+                    "addressLine3" => 'test',
+                    "addressLine4" => 'test',
+                    "postalCode" => 'test',
+                    "countryId" => 1,
+                    "countryIsoCode" => 'test',
+                    "telephone" => '999999999',
+                    "mobileTelephone" => '888888888',
+                    "fax" => '555555555555',
+                    "email" => 'test@domain.com',
+                    'contactId' => 1,
+                    'country' => 'test',
+                    'countryIsoCode3' => 'XY'
+                ],
             ],
             "warehouseId" => 2,
             "assignment" => [
@@ -67,9 +102,6 @@ class OrderTest extends TestCase
         ];
     }
 
-    /**
-     * @return void
-     */
     public function testFromJsonToJson()
     {
         $data = $this->getJsonData();
@@ -77,9 +109,6 @@ class OrderTest extends TestCase
         self::assertEquals($data, $order->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testWithers()
     {
         $partiesDelivery = Order\Parties\Delivery::create()
@@ -97,8 +126,41 @@ class OrderTest extends TestCase
             ->withFax("1234567890")
             ->withEmail("test@domain.com");
 
-        $parties = Order\Parties::create()
-            ->withDelivery($partiesDelivery);
+        $partiesSupplier = Order\Parties\Supplier::create()
+            ->withContactId(1)
+            ->withAddressFullName('test')
+            ->withCompanyName('test')
+            ->withEmail('test@domain.com')
+            ->withAddressLine1('test')
+            ->withAddressLine2('test')
+            ->withAddressLine3('test')
+            ->withAddressLine4('test')
+            ->withPostalCode('test')
+            ->withCountry('test')
+            ->withCountryId(1)
+            ->withCountryIsoCode('test')
+            ->withTelephone('999999999')
+            ->withMobileTelephone('888888888')
+            ->withFax('555555555555')
+            ->withCountryIsoCode3('XY');
+
+        $partiesBilling = Order\Parties\Billing::create()
+            ->withContactId(1)
+            ->withAddressFullName('test')
+            ->withCompanyName('test')
+            ->withEmail('test@domain.com')
+            ->withAddressLine1('test')
+            ->withAddressLine2('test')
+            ->withAddressLine3('test')
+            ->withAddressLine4('test')
+            ->withPostalCode('test')
+            ->withCountry('test')
+            ->withCountryId(1)
+            ->withCountryIsoCode('test')
+            ->withTelephone('999999999')
+            ->withMobileTelephone('888888888')
+            ->withFax('555555555555')
+            ->withCountryIsoCode3('XY');
 
         $currency = Order\Currency::create()
             ->withCode("GBP")
@@ -139,15 +201,17 @@ class OrderTest extends TestCase
             ->withInvoices($invoiceCollection)
             ->withCurrency($currency)
             ->withContactId(9)
-            ->withParties($parties)
+            ->withParties(
+                Order\Parties::create()
+                ->withDelivery($partiesDelivery)
+                ->withSupplier($partiesSupplier)
+                ->withBilling($partiesBilling)
+            )
             ->withWareHouseId(2)
             ->withAssignment($assignment);
         self::assertEquals($this->getJsonData(), $order->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testGetters()
     {
         $data = $this->getJsonData();
@@ -180,6 +244,8 @@ class OrderTest extends TestCase
 
         self::assertInstanceOf(Order\Parties::class, $order->getParties());
         self::assertInstanceOf(Order\Parties\Delivery::class, $order->getParties()->getDelivery());
+        self::assertInstanceOf(Order\Parties\Billing::class, $order->getParties()->getBilling());
+        self::assertInstanceOf(Order\Parties\Supplier::class, $order->getParties()->getSupplier());
 
         self::assertEquals("Snow avenue", $order->getParties()->getDelivery()->getAddressFullName());
         self::assertEquals("snow", $order->getParties()->getDelivery()->getCompanyName());
@@ -195,6 +261,39 @@ class OrderTest extends TestCase
         self::assertEquals("1234567890", $order->getParties()->getDelivery()->getFax());
         self::assertEquals("test@domain.com", $order->getParties()->getDelivery()->getEmail());
 
+        self::assertEquals("test", $order->getParties()->getSupplier()->getCompanyName());
+        self::assertEquals("test", $order->getParties()->getSupplier()->getAddressFullName());
+        self::assertEquals("test@domain.com", $order->getParties()->getSupplier()->getEmail());
+        self::assertEquals("test", $order->getParties()->getSupplier()->getAddressLine1());
+        self::assertEquals("test", $order->getParties()->getSupplier()->getAddressLine2());
+        self::assertEquals("test", $order->getParties()->getSupplier()->getAddressLine3());
+        self::assertEquals("test", $order->getParties()->getSupplier()->getAddressLine4());
+        self::assertEquals("test", $order->getParties()->getSupplier()->getPostalCode());
+        self::assertEquals("test", $order->getParties()->getSupplier()->getCountry());
+        self::assertEquals(1, $order->getParties()->getSupplier()->getCountryId());
+        self::assertEquals('test', $order->getParties()->getSupplier()->getCountryIsoCode());
+        self::assertEquals('999999999', $order->getParties()->getSupplier()->getTelephone());
+        self::assertEquals('888888888', $order->getParties()->getSupplier()->getMobileTelephone());
+        self::assertEquals('555555555555', $order->getParties()->getSupplier()->getFax());
+        self::assertEquals('XY', $order->getParties()->getSupplier()->getCountryIsoCode3());
+
+
+        self::assertEquals("test", $order->getParties()->getBilling()->getCompanyName());
+        self::assertEquals("test", $order->getParties()->getBilling()->getAddressFullName());
+        self::assertEquals("test@domain.com", $order->getParties()->getBilling()->getEmail());
+        self::assertEquals("test", $order->getParties()->getBilling()->getAddressLine1());
+        self::assertEquals("test", $order->getParties()->getBilling()->getAddressLine2());
+        self::assertEquals("test", $order->getParties()->getBilling()->getAddressLine3());
+        self::assertEquals("test", $order->getParties()->getBilling()->getPostalCode());
+        self::assertEquals("test", $order->getParties()->getBilling()->getCountry());
+        self::assertEquals(1, $order->getParties()->getBilling()->getCountryId());
+        self::assertEquals('test', $order->getParties()->getBilling()->getCountryIsoCode());
+        self::assertEquals('999999999', $order->getParties()->getBilling()->getTelephone());
+        self::assertEquals('888888888', $order->getParties()->getBilling()->getMobileTelephone());
+        self::assertEquals('555555555555', $order->getParties()->getBilling()->getFax());
+        self::assertEquals('XY', $order->getParties()->getBilling()->getCountryIsoCode3());
+
+
         self::assertEquals(2, $order->getWarehouseId());
 
         self::assertInstanceOf(Order\Assignment::class, $order->getAssignment());
@@ -207,9 +306,6 @@ class OrderTest extends TestCase
         self::assertEquals(131415, $order->getAssignment()->getCurrent()->getTeamId());
     }
 
-    /**
-     * @return void
-     */
     public function testEquals()
     {
         $data = $this->getJsonData();

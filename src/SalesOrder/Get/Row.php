@@ -30,14 +30,16 @@ class Row extends BaseRow implements ModelInterface
     /** @var string|null $sequence */
     protected $sequence;
 
-
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();
     }
 
     /**
-     * @param array<string|int|null|bool> $json
+     * @return self
      */
     public static function fromJson(array $json): ModelInterface
     {
@@ -89,13 +91,10 @@ class Row extends BaseRow implements ModelInterface
         ];
     }
 
-    /**
-     * @param Row $other
-     * @return bool
-     */
-    public function equals($other): bool
+    public function equals(ModelInterface $other): bool
     {
-        return $this->id === $other->id &&
+        return $other instanceof Row &&
+            $this->id === $other->id &&
             $this->externalRef === $other->externalRef &&
             $this->sku === $other->sku &&
             $this->productId === $other->productId &&

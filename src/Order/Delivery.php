@@ -2,7 +2,9 @@
 
 namespace SnowIO\BrightpearlDataModel\Order;
 
-class Delivery
+use SnowIO\BrightpearlDataModel\ModelInterface;
+
+class Delivery implements ModelInterface
 {
     /** @var string|null $date */
     private $date;
@@ -12,26 +14,22 @@ class Delivery
     /**
      * @return self
      */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
     /**
-     * @param array<string, mixed> $json
      * @return self
      */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-        $result->date = is_string($json['deliveryDate']) ? $json['deliveryDate'] : null;
-        $result->shippingMethodId = is_numeric($json['shippingMethodId']) ? (int)$json['shippingMethodId'] : null;
+        $result->date = $json['deliveryDate'] ?? null;
+        $result->shippingMethodId = $json['shippingMethodId'] ?? null;
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         return [
@@ -40,30 +38,18 @@ class Delivery
         ];
     }
 
-    /**
-     * @param Delivery $deliveryToCompare
-     * @return bool
-     */
-    public function equals(Delivery $deliveryToCompare): bool
+    public function equals(ModelInterface $other): bool
     {
-        if ($this->getDate() !== $deliveryToCompare->getDate()) {
-            return false;
-        }
-        return $this->getShippingMethodId() === $deliveryToCompare->getShippingMethodId();
+        return $other instanceof Delivery &&
+            $this->date === $other->date &&
+            $this->shippingMethodId === $other->shippingMethodId;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDate(): ?string
     {
         return $this->date;
     }
 
-    /**
-     * @param string|null $date
-     * @return Delivery
-     */
     public function withDate(?string $date): Delivery
     {
         $clone = clone $this;
@@ -71,18 +57,11 @@ class Delivery
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getShippingMethodId(): ?int
     {
         return $this->shippingMethodId;
     }
 
-    /**
-     * @param int|null $shippingMethodId
-     * @return Delivery
-     */
     public function withShippingMethodId(?int $shippingMethodId): Delivery
     {
         $clone = clone $this;

@@ -2,7 +2,9 @@
 
 namespace SnowIO\BrightpearlDataModel\Product\SalesChannel;
 
-class Description
+use SnowIO\BrightpearlDataModel\ModelInterface;
+
+class Description implements ModelInterface
 {
     /** @var string|null $languageCode */
     private $languageCode;
@@ -14,28 +16,23 @@ class Description
     /**
      * @return self
      */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
     /**
-     * @param array<string, mixed> $json
+     * @return self
      */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-
-        $result->languageCode = is_string($json['languageCode']) ? $json['languageCode'] : null;
-        $result->text = is_string($json['text']) ? $json['text'] : null;
-        $result->format = is_string($json['format']) ? $json['format'] : null;
-
+        $result->languageCode = $json['languageCode'] ?? null;
+        $result->text = $json['text'] ?? null;
+        $result->format = $json['format'] ?? null;
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         return [
@@ -45,18 +42,19 @@ class Description
         ];
     }
 
-    /**
-     * @return string|null
-     */
+    public function equals($other): bool
+    {
+        return $other instanceof Description &&
+            $this->languageCode === $other->languageCode &&
+            $this->text === $other->text &&
+            $this->format === $other->format;
+    }
+
     public function getLanguageCode(): ?string
     {
         return $this->languageCode;
     }
 
-    /**
-     * @param string $languageCode
-     * @return Description
-     */
     public function withLanguageCode(string $languageCode): Description
     {
         $clone = clone $this;
@@ -64,18 +62,11 @@ class Description
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getText(): ?string
     {
         return $this->text;
     }
 
-    /**
-     * @param string $text
-     * @return Description
-     */
     public function withText(string $text): Description
     {
         $clone = clone $this;
@@ -83,18 +74,11 @@ class Description
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getFormat(): ?string
     {
         return $this->format;
     }
 
-    /**
-     * @param string $format
-     * @return Description
-     */
     public function withFormat(string $format): Description
     {
         $clone = clone $this;

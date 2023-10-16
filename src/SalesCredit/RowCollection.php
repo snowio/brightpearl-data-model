@@ -7,7 +7,6 @@ use SnowIO\BrightpearlDataModel\SalesCredit\RowCollection\Row;
 
 class RowCollection
 {
-
     /** @var Row[] */
     private $items = [];
 
@@ -19,9 +18,6 @@ class RowCollection
         return new self();
     }
 
-    /**
-     * @param Row[] $items
-     */
     public static function of(array $items): self
     {
         $result = new self();
@@ -35,9 +31,6 @@ class RowCollection
         return $result;
     }
 
-    /**
-     * @return array<mixed>
-     */
     public function toJson(): array
     {
         $json = [];
@@ -48,9 +41,6 @@ class RowCollection
         return $json;
     }
 
-    /**
-     * @param array<mixed> $json
-     */
     public static function fromJson(array $json): self
     {
         $result = new self();
@@ -63,13 +53,29 @@ class RowCollection
         return $result;
     }
 
-    /**
-     * @return Iterator
-     */
     public function getIterator(): Iterator
     {
         foreach ($this->items as $item) {
             yield $item;
         }
+    }
+
+    public function equals(RowCollection $compare): bool
+    {
+        if (count($this->items) !== count(iterator_to_array($compare->getIterator()))) {
+            return false;
+        }
+        $foundItems = [];
+        foreach ($this->items as $item) {
+            foreach ($compare->getIterator() as $compareItem) {
+                if ($item->equals($compareItem)) {
+                    $foundItems[] = $item;
+                }
+            }
+        }
+        if (count($foundItems) !== count($this->items)) {
+            return false;
+        }
+        return true;
     }
 }

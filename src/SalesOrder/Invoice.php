@@ -2,7 +2,9 @@
 
 namespace SnowIO\BrightpearlDataModel\SalesOrder;
 
-class Invoice
+use SnowIO\BrightpearlDataModel\ModelInterface;
+
+class Invoice implements ModelInterface
 {
     /** @var string|null $invoiceReference */
     private $invoiceReference;
@@ -14,12 +16,15 @@ class Invoice
     /**
      * @return self
      */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
-    public static function fromJson(array $json): self
+    /**
+     * @return self
+     */
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
         $result->invoiceReference = $json['invoiceReference'] ?? null;
@@ -43,11 +48,12 @@ class Invoice
         return count(array_filter($this->toJson()));
     }
 
-    public function equals(Invoice $other): bool
+    public function equals(ModelInterface $other): bool
     {
-        return $this->invoiceReference === $other->invoiceReference &&
+        return $other instanceof Invoice &&
+            $this->invoiceReference === $other->invoiceReference &&
             $this->taxDate === $other->taxDate &&
-            $this->dueDate === $this->dueDate;
+            $this->dueDate === $other->dueDate;
     }
 
     public function getInvoiceReference(): ?string

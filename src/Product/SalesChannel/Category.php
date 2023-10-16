@@ -2,7 +2,9 @@
 
 namespace SnowIO\BrightpearlDataModel\Product\SalesChannel;
 
-class Category
+use SnowIO\BrightpearlDataModel\ModelInterface;
+
+class Category implements ModelInterface
 {
     /** @var string|null $categoryCode */
     private $categoryCode;
@@ -10,26 +12,21 @@ class Category
     /**
      * @return self
      */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
     /**
-     * @param array<string, mixed> $json
+     * @return self
      */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-
-        $result->categoryCode = is_string($json['categoryCode']) ? $json['categoryCode'] : null;
-
+        $result->categoryCode = $json['categoryCode'] ?? null;
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         return [
@@ -37,18 +34,17 @@ class Category
         ];
     }
 
-    /**
-     * @return string|null
-     */
+    public function equals($other): bool
+    {
+        return $other instanceof Category &&
+            $this->categoryCode === $other->categoryCode;
+    }
+
     public function getCategoryCode(): ?string
     {
         return $this->categoryCode;
     }
 
-    /**
-     * @param string $categoryCode
-     * @return Category
-     */
     public function withCategoryCode(string $categoryCode): Category
     {
         $clone = clone $this;

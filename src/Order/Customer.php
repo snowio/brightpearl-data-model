@@ -2,7 +2,9 @@
 
 namespace SnowIO\BrightpearlDataModel\Order;
 
-class Customer
+use SnowIO\BrightpearlDataModel\ModelInterface;
+
+class Customer implements ModelInterface
 {
     /** @var int|null $id */
     private $id;
@@ -10,25 +12,21 @@ class Customer
     /**
      * @return self
      */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
     /**
-     * @param array<string, mixed> $json
      * @return self
      */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-        $result->id = is_numeric($json['id']) ? (int)$json['id'] : null;
+        $result->id = $json['id'] ?? null;
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         return [
@@ -36,27 +34,17 @@ class Customer
         ];
     }
 
-    /**
-     * @param Customer $customerToCompare
-     * @return bool
-     */
-    public function equals(Customer $customerToCompare): bool
+    public function equals(ModelInterface $other): bool
     {
-        return $this->getId() === $customerToCompare->getId();
+        return $other instanceof Customer &&
+            $this->id === $other->id;
     }
 
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     * @return Customer
-     */
     public function withId(int $id): Customer
     {
         $clone = clone $this;

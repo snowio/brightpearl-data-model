@@ -2,57 +2,45 @@
 
 namespace SnowIO\BrightpearlDataModel\OrderResponse\Parties;
 
-use SnowIO\BrightpearlDataModel\Api\ModelInterface;
+use SnowIO\BrightpearlDataModel\ModelInterface;
 
 class Billing implements ModelInterface
 {
     /** @var int|null $contactId */
     private $contactId;
-
     /** @var string|null $addressFullName */
     private $addressFullName;
     /** @var string|null $companyName */
     private $companyName;
-
     /** @var string|null $addressLine1 */
     private $addressLine1;
-
     /** @var string|null $addressLine2 */
     private $addressLine2;
-
     /** @var string|null $addressLine3 */
     private $addressLine3;
     /** @var string|null $addressLine4 */
     private $addressLine4;
-
     /** @var string|null $postalCode */
     private $postalCode;
-
     /** @var int|null $countryId */
     private $countryId;
-
     /** @var string|null $countryIsoCode */
     private $countryIsoCode;
-
     /** @var string|null $telephone */
     private $telephone;
     /** @var string|null $mobileTelephone */
     private $mobileTelephone;
-
     /** @var string|null $fax */
     private $fax;
-
     /** @var string|null $email */
     private $email;
-
     /** @var string|null $country */
     private $country;
-
     /** @var string|null $countryIsoCode3 */
     private $countryIsoCode3;
 
     /**
-     * @return ModelInterface
+     * @return self
      */
     public static function create(): ModelInterface
     {
@@ -60,34 +48,30 @@ class Billing implements ModelInterface
     }
 
     /**
-     * @param array<string, mixed> $json
      * @return self
      */
     public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-        $result->contactId = is_int($json['contactId']) ? $json['contactId'] : null;
-        $result->addressFullName = is_string($json['addressFullName']) ? $json['addressFullName'] : null;
-        $result->companyName = is_string($json['companyName']) ? $json['companyName'] : null;
-        $result->addressLine1 = is_string($json['addressLine1']) ? $json['addressLine1'] : null;
-        $result->addressLine2 = is_string($json['addressLine2']) ? $json['addressLine2'] : null;
-        $result->addressLine3 = is_string($json['addressLine3']) ? $json['addressLine3'] : null;
-        $result->addressLine4 = is_string($json['addressLine4']) ? $json['addressLine4'] : null;
-        $result->postalCode = is_string($json['postalCode']) ? $json['postalCode'] : null;
-        $result->country = is_string($json['country']) ? $json['country'] : null;
-        $result->countryId = is_int($json['countryId']) ? $json['countryId'] : null;
-        $result->countryIsoCode = is_string($json['countryIsoCode']) ? $json['countryIsoCode'] : null;
-        $result->telephone = is_string($json['telephone']) ? $json['telephone'] : null;
-        $result->mobileTelephone = is_string($json['mobileTelephone']) ? $json['mobileTelephone'] : null;
-        $result->fax = is_string($json['fax']) ? $json['fax'] : null;
-        $result->email = is_string($json['email']) ? $json['email'] : null;
-        $result->countryIsoCode3 = is_string($json['countryIsoCode3']) ? $json['countryIsoCode3'] : null;
+        $result->contactId = $json['contactId'] ?? null;
+        $result->addressFullName = $json['addressFullName'] ?? null;
+        $result->companyName = $json['companyName'] ?? null;
+        $result->addressLine1 = $json['addressLine1'] ?? null;
+        $result->addressLine2 = $json['addressLine2'] ?? null;
+        $result->addressLine3 = $json['addressLine3'] ?? null;
+        $result->addressLine4 = $json['addressLine4'] ?? null;
+        $result->postalCode = $json['postalCode'] ?? null;
+        $result->country = $json['country'] ?? null;
+        $result->countryId = $json['countryId'] ?? null;
+        $result->countryIsoCode = $json['countryIsoCode'] ?? null;
+        $result->telephone = $json['telephone'] ?? null;
+        $result->mobileTelephone = $json['mobileTelephone'] ?? null;
+        $result->fax = $json['fax'] ?? null;
+        $result->email = $json['email'] ?? null;
+        $result->countryIsoCode3 = $json['countryIsoCode3'] ?? null;
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         return [
@@ -110,68 +94,27 @@ class Billing implements ModelInterface
         ];
     }
 
-    /**
-     * @param ModelInterface $deliveryToCompare
-     * @return bool
-     */
-    public function equals(ModelInterface $deliveryToCompare): bool
+    public function equals(ModelInterface $other): bool
     {
-        if (!$deliveryToCompare instanceof Delivery) {
-            return false;
-        }
-        if ($this->getContactId() !== $deliveryToCompare->getCountryId()) {
-            return false;
-        }
-
-        if ($this->getAddressFullName() !== $deliveryToCompare->getAddressFullName()) {
-            return false;
-        }
-        if ($this->getCompanyName() !== $deliveryToCompare->getCompanyName()) {
-            return false;
-        }
-        if ($this->getAddressLine1() !== $deliveryToCompare->getAddressLine1()) {
-            return false;
-        }
-        if ($this->getAddressLine2() !== $deliveryToCompare->getAddressLine2()) {
-            return false;
-        }
-        if ($this->getAddressLine3() !== $deliveryToCompare->getAddressLine3()) {
-            return false;
-        }
-        if ($this->getAddressLine4() !== $deliveryToCompare->getAddressLine4()) {
-            return false;
-        }
-        if ($this->getPostalCode() !== $deliveryToCompare->getPostalCode()) {
-            return false;
-        }
-        if ($this->getCountry() !== $deliveryToCompare->getCountry()) {
-            return false;
-        }
-        if ($this->getCountryId() !== $deliveryToCompare->getCountryId()) {
-            return false;
-        }
-        if ($this->getCountryIsoCode() !== $deliveryToCompare->getCountryIsoCode()) {
-            return false;
-        }
-        if ($this->getCountryIsoCode3() !== $deliveryToCompare->getCountryIsoCode3()) {
-            return false;
-        }
-        if ($this->getTelephone() !== $deliveryToCompare->getTelephone()) {
-            return false;
-        }
-        if ($this->getMobileTelephone() !== $deliveryToCompare->getMobileTelephone()) {
-            return false;
-        }
-        if ($this->getFax() !== $deliveryToCompare->getFax()) {
-            return false;
-        }
-        return $this->getEmail() === $deliveryToCompare->getEmail();
+        return $other instanceof Billing &&
+            $this->contactId === $other->contactId &&
+            $this->addressFullName === $other->addressFullName &&
+            $this->companyName === $other->companyName &&
+            $this->addressLine1 === $other->addressLine1 &&
+            $this->addressLine2 === $other->addressLine2 &&
+            $this->addressLine3 === $other->addressLine3 &&
+            $this->addressLine4 === $other->addressLine4 &&
+            $this->postalCode === $other->postalCode &&
+            $this->country === $other->country &&
+            $this->telephone === $other->telephone &&
+            $this->mobileTelephone === $other->mobileTelephone &&
+            $this->fax === $other->fax &&
+            $this->email === $other->email &&
+            $this->countryId === $other->countryId &&
+            $this->countryIsoCode === $other->countryIsoCode &&
+            $this->countryIsoCode3 === $other->countryIsoCode3;
     }
 
-    /**
-     * @param int $contactId
-     * @return Supplier
-     */
     public function withContactId(int $contactId): ModelInterface
     {
         $clone = clone $this;
@@ -179,18 +122,11 @@ class Billing implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getContactId(): ?int
     {
         return $this->contactId;
     }
 
-    /**
-     * @param string $countryIsoCode3
-     * @return $this
-     */
     public function withCountryIsoCode3(string $countryIsoCode3): ModelInterface
     {
         $clone = clone $this;
@@ -198,18 +134,11 @@ class Billing implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getCountryIsoCode3(): ?string
     {
         return $this->countryIsoCode3;
     }
 
-    /**
-     * @param string $country
-     * @return $this
-     */
     public function withCountry(string $country):ModelInterface
     {
         $clone = clone $this;
@@ -217,26 +146,16 @@ class Billing implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getCountry(): ?string
     {
         return $this->country;
     }
 
-    /**
-     * @return string
-     */
     public function getAddressFullName(): ?string
     {
         return $this->addressFullName;
     }
 
-    /**
-     * @param string $addressFullName
-     * @return $this
-     */
     public function withAddressFullName(string $addressFullName): ModelInterface
     {
         $clone = clone $this;
@@ -244,18 +163,11 @@ class Billing implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string
-     */
     public function getCompanyName(): ?string
     {
         return $this->companyName;
     }
 
-    /**
-     * @param string $companyName
-     * @return $this
-     */
     public function withCompanyName(string $companyName): ModelInterface
     {
         $clone = clone $this;
@@ -263,18 +175,11 @@ class Billing implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string
-     */
     public function getAddressLine1(): ?string
     {
         return $this->addressLine1;
     }
 
-    /**
-     * @param string $addressLine1
-     * @return $this
-     */
     public function withAddressLine1(string $addressLine1): ModelInterface
     {
         $clone = clone $this;
@@ -282,18 +187,11 @@ class Billing implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string
-     */
     public function getAddressLine2(): ?string
     {
         return $this->addressLine2;
     }
 
-    /**
-     * @param string $addressLine2
-     * @return $this
-     */
     public function withAddressLine2(string $addressLine2): ModelInterface
     {
         $clone = clone $this;
@@ -301,18 +199,11 @@ class Billing implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string
-     */
     public function getAddressLine3(): ?string
     {
         return $this->addressLine3;
     }
 
-    /**
-     * @param string $addressLine3
-     * @return $this
-     */
     public function withAddressLine3(string $addressLine3): ModelInterface
     {
         $clone = clone $this;
@@ -320,18 +211,11 @@ class Billing implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string
-     */
     public function getAddressLine4(): ?string
     {
         return $this->addressLine4;
     }
 
-    /**
-     * @param string $addressLine4
-     * @return $this
-     */
     public function withAddressLine4(string $addressLine4): ModelInterface
     {
         $clone = clone $this;
@@ -339,18 +223,11 @@ class Billing implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string
-     */
     public function getPostalCode(): ?string
     {
         return $this->postalCode;
     }
 
-    /**
-     * @param string $postalCode
-     * @return $this
-     */
     public function withPostalCode(string $postalCode): ModelInterface
     {
         $clone = clone $this;
@@ -358,18 +235,11 @@ class Billing implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return int
-     */
     public function getCountryId(): ?int
     {
         return $this->countryId;
     }
 
-    /**
-     * @param int|null $countryId
-     * @return $this
-     */
     public function withCountryId(?int $countryId): ModelInterface
     {
         $clone = clone $this;
@@ -377,18 +247,11 @@ class Billing implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string
-     */
     public function getCountryIsoCode(): ?string
     {
         return $this->countryIsoCode;
     }
 
-    /**
-     * @param string $countryIsoCode
-     * @return $this
-     */
     public function withCountryIsoCode(string $countryIsoCode): ModelInterface
     {
         $clone = clone $this;
@@ -396,18 +259,11 @@ class Billing implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string
-     */
     public function getTelephone(): ?string
     {
         return $this->telephone;
     }
 
-    /**
-     * @param string $telephone
-     * @return $this
-     */
     public function withTelephone(string $telephone): ModelInterface
     {
         $clone = clone $this;
@@ -415,18 +271,11 @@ class Billing implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string
-     */
     public function getMobileTelephone(): ?string
     {
         return $this->mobileTelephone;
     }
 
-    /**
-     * @param string $mobileTelephone
-     * @return $this
-     */
     public function withMobileTelephone(string $mobileTelephone): ModelInterface
     {
         $clone = clone $this;
@@ -434,18 +283,11 @@ class Billing implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string
-     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    /**
-     * @param string $email
-     * @return $this
-     */
     public function withEmail(string $email): ModelInterface
     {
         $clone = clone $this;
@@ -453,18 +295,11 @@ class Billing implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return string
-     */
     public function getFax(): ?string
     {
         return $this->fax;
     }
 
-    /**
-     * @param string $fax
-     * @return $this
-     */
     public function withFax(string $fax): ModelInterface
     {
         $clone = clone $this;

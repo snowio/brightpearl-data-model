@@ -3,6 +3,7 @@
 namespace SnowIO\BrightpearlDataModel\Test\Unit\SalesOrder;
 
 use PHPUnit\Framework\TestCase;
+use SnowIO\BrightpearlDataModel\Address;
 use SnowIO\BrightpearlDataModel\SalesOrder;
 use SnowIO\BrightpearlDataModel\SalesOrder\GetSalesOrder;
 use SnowIO\BrightpearlDataModel\Test\Unit\DirectoryAwareTestTrait;
@@ -11,9 +12,6 @@ class GetSalesOrderTest extends TestCase
 {
     use DirectoryAwareTestTrait;
 
-    /**
-     * @return void
-     */
     public function testFromJsonToJson()
     {
         $json = $this->getFromTestFileDirectory('SalesOrder/get-sales-order.json');
@@ -21,14 +19,11 @@ class GetSalesOrderTest extends TestCase
         self::assertEquals($json, $salesOrder->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testWithers()
     {
         $customer = SalesOrder\Customer::create()
             ->withId(10)
-            ->withAddress(SalesOrder\Address::create()
+            ->withAddress(Address::create()
                 ->withAddressFullName("Snow avenue")
                 ->withCompanyName("Snow")
                 ->withAddressLine1("some street")
@@ -42,7 +37,7 @@ class GetSalesOrderTest extends TestCase
                 ->withFax("1234567890")
                 ->withEmail("test@domain.com"));
 
-        $address1 = SalesOrder\Address::create()
+        $address1 = Address::create()
             ->withAddressFullName("Test Test")
             ->withCompanyName("Test")
             ->withAddressLine1("street")
@@ -56,7 +51,7 @@ class GetSalesOrderTest extends TestCase
             ->withFax("999999")
             ->withEmail("test@domain.com");
 
-        $address2 = SalesOrder\Address::create()
+        $address2 = Address::create()
             ->withAddressFullName("Snow avenue 2")
             ->withCompanyName("Snow 2")
             ->withAddressLine1("some street 2")
@@ -132,9 +127,6 @@ class GetSalesOrderTest extends TestCase
         self::assertEquals($json, $order->toJson());
     }
 
-    /**
-     * @return void
-     */
     public function testGetters()
     {
         $data = $this->getFromTestFileDirectory('SalesOrder/get-sales-order.json');
@@ -145,7 +137,7 @@ class GetSalesOrderTest extends TestCase
 
         self::assertInstanceOf(SalesOrder\Billing::class, $order->getBilling());
         self::assertEquals(10, $order->getBilling()->getContactId());
-        self::assertInstanceOf(SalesOrder\Address::class, $order->getBilling()->getAddress());
+        self::assertInstanceOf(Address::class, $order->getBilling()->getAddress());
         self::assertEquals("Test Test", $order->getBilling()->getAddress()->getAddressFullName());
         self::assertEquals("Test", $order->getBilling()->getAddress()->getCompanyName());
         self::assertEquals("street", $order->getBilling()->getAddress()->getAddressLine1());
@@ -183,7 +175,7 @@ class GetSalesOrderTest extends TestCase
         self::assertInstanceOf(SalesOrder\Delivery::class, $order->getDelivery());
         self::assertEquals("2023-09-01 16:03:53", $order->getDelivery()->getDate());
         self::assertEquals(765, $order->getDelivery()->getShippingMethodId());
-        self::assertInstanceOf(SalesOrder\Address::class, $order->getDelivery()->getAddress());
+        self::assertInstanceOf(Address::class, $order->getDelivery()->getAddress());
         self::assertEquals("Snow avenue 2", $order->getDelivery()->getAddress()->getAddressFullName());
         self::assertEquals("Snow 2", $order->getDelivery()->getAddress()->getCompanyName());
         self::assertEquals("some street 2", $order->getDelivery()->getAddress()->getAddressLine1());
@@ -221,14 +213,37 @@ class GetSalesOrderTest extends TestCase
         self::assertEquals("FEDCBA2", $rows[1]->getExternalRef());
     }
 
-    /**
-     * @return void
-     */
     public function testEquals()
     {
         $data = $this->getFromTestFileDirectory('SalesOrder/get-sales-order.json');
         $order1 = GetSalesOrder::fromJson($data);
         $order2 = GetSalesOrder::fromJson($data);
         self::assertTrue($order1->equals($order2));
+    }
+
+    public function testRowsEquals()
+    {
+        $row1 = SalesOrder\Get\Row::create()
+            ->withProductId(123456)
+            ->withName("Product Example 1")
+            ->withQuantity("123")
+            ->withTaxCode("ABC")
+            ->withNet("100")
+            ->withTax("14")
+            ->withNominalCode("ABCDEF")
+            ->withExternalRef("FEDCBA");
+
+        $row2 = SalesOrder\Get\Row::create()
+            ->withProductId(123456)
+            ->withName("Product Example 1")
+            ->withQuantity("123")
+            ->withTaxCode("ABC")
+            ->withNet("100")
+            ->withTax("14")
+            ->withNominalCode("ABCDEF")
+            ->withExternalRef("FEDCBA");
+
+        self::assertTrue($row1->equals($row2));
+        self::assertEquals($row1, $row2);
     }
 }

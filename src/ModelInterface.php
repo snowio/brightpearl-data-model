@@ -10,5 +10,5 @@ interface ModelInterface
 
     public function toJson(): array;
 
-    public function equals($other): bool;
+    public function equals(self $other): bool;
 }

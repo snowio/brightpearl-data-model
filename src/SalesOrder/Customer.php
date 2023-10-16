@@ -2,6 +2,7 @@
 
 namespace SnowIO\BrightpearlDataModel\SalesOrder;
 
+use SnowIO\BrightpearlDataModel\Address;
 use SnowIO\BrightpearlDataModel\ModelInterface;
 
 class Customer implements ModelInterface
@@ -16,11 +17,17 @@ class Customer implements ModelInterface
         $this->address = Address::create();
     }
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();
     }
 
+    /**
+     * @return self
+     */
     public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
@@ -37,9 +44,10 @@ class Customer implements ModelInterface
         ];
     }
 
-    public function equals($other): bool
+    public function equals(ModelInterface $other): bool
     {
-        return $this->getId() === $other->getId() &&
+        return $other instanceof Customer &&
+            $this->getId() === $other->getId() &&
             $this->address->equals($other->getAddress());
     }
 

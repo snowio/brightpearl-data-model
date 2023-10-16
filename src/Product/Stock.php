@@ -2,17 +2,24 @@
 
 namespace SnowIO\BrightpearlDataModel\Product;
 
+use SnowIO\BrightpearlDataModel\ModelInterface;
 use SnowIO\BrightpearlDataModel\Product\Stock\Dimensions;
 use SnowIO\BrightpearlDataModel\Product\Stock\Weight;
 
-class Stock
+class Stock implements ModelInterface
 {
-    public static function create(): self
+    /**
+     * @return self
+     */
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
-    public static function fromJson(array $json): self
+    /**
+     * @return self
+     */
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
         $result->stockTracked = $json['stockTracked'];
@@ -30,9 +37,10 @@ class Stock
         ];
     }
 
-    public function equals($other): bool
+    public function equals(ModelInterface $other): bool
     {
-        return $this->stockTracked === $other->stockTracked &&
+        return $other instanceof Stock &&
+            $this->stockTracked === $other->stockTracked &&
             $this->weight->equals($other->weight) &&
             $this->dimensions->equals($other->dimensions);
     }

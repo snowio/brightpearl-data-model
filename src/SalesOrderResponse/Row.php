@@ -2,7 +2,9 @@
 
 namespace SnowIO\BrightpearlDataModel\SalesOrderResponse;
 
-class Row
+use SnowIO\BrightpearlDataModel\ModelInterface;
+
+class Row implements ModelInterface
 {
     /** @var int|null $id */
     private $id;
@@ -44,44 +46,38 @@ class Row
     /**
      * @return self
      */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
     /**
-     * @param array<string, mixed> $json
      * @return self
      */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-
-        $result->id = is_numeric($json['id']) ? (int)$json['id'] : null;
-        $result->productId = is_numeric($json['productId']) ? (int)$json['productId'] : null;
-        $result->name = is_string($json['name']) ? $json['name'] : null;
-        $result->sku = is_string($json['sku']) ? $json['sku'] : null;
-        $result->quantity = is_string($json['quantity']) ? $json['quantity'] : null;
-        $result->taxCode = is_string($json['taxCode']) ? $json['taxCode'] : null;
-        $result->tax = is_string($json['tax']) ? $json['tax'] : null;
-        $result->net = is_string($json['net']) ? $json['net'] : null;
-        $result->nominalCode = is_string($json['nominalCode']) ? $json['nominalCode'] : null;
-        $result->productPrice = is_string($json['productPrice']) ? $json['productPrice'] : null;
-        $result->discountPercentage = is_string($json['discountPercentage']) ? $json['discountPercentage'] : null;
-        $result->sequence = is_numeric($json['sequence']) ? (int)$json['sequence'] : null;
-        $result->bundleChild = is_bool($json['bundleChild']) && $json['bundleChild'];
-        $result->bundleParent = is_bool($json['bundleParent']) && $json['bundleParent'];
-        $result->parentRowId = is_numeric($json['parentRowId']) ? (int)$json['parentRowId'] : null;
-        $result->taxClassId = is_numeric($json['taxClassId']) ? (int)$json['taxClassId'] : null;
-        $result->taxCalculator = is_string($json['taxCalculator']) ? $json['taxCalculator'] : null;
-        $result->clonedFromId = is_numeric($json['clonedFromId']) ? (int)$json['clonedFromId'] : null;
-
+        $result->id = $json['id'] ?? null;
+        $result->productId = $json['productId'] ?? null;
+        $result->name = $json['name'] ?? null;
+        $result->sku = $json['sku'] ?? null;
+        $result->quantity = $json['quantity'] ?? null;
+        $result->taxCode = $json['taxCode'] ?? null;
+        $result->tax = $json['tax'] ?? null;
+        $result->net = $json['net'] ?? null;
+        $result->nominalCode = $json['nominalCode'] ?? null;
+        $result->productPrice = $json['productPrice'] ?? null;
+        $result->discountPercentage = $json['discountPercentage'] ?? null;
+        $result->sequence = $json['sequence'] ?? null;
+        $result->bundleChild = $json['bundleChild'] ?? null;
+        $result->bundleParent = $json['bundleParent'] ?? null;
+        $result->parentRowId = $json['parentRowId'] ?? null;
+        $result->taxClassId = $json['taxClassId'] ?? null;
+        $result->taxCalculator = $json['taxCalculator'] ?? null;
+        $result->clonedFromId = $json['clonedFromId'] ?? null;
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         return [
@@ -106,18 +102,32 @@ class Row
         ];
     }
 
-    /**
-     * @return int|null
-     */
+    public function equals(ModelInterface $other): bool
+    {
+        return $other instanceof Row &&
+            $this->productId === $other->productId &&
+            $this->name === $other->name &&
+            $this->quantity === $other->quantity &&
+            $this->taxCode === $other->taxCode &&
+            $this->net === $other->net &&
+            $this->tax === $other->tax &&
+            $this->nominalCode === $other->nominalCode &&
+            $this->productPrice === $other->productPrice &&
+            $this->discountPercentage === $other->discountPercentage &&
+            $this->sequence === $other->sequence &&
+            $this->bundleChild === $other->bundleChild &&
+            $this->bundleParent === $other->bundleParent &&
+            $this->parentRowId === $other->parentRowId &&
+            $this->taxClassId === $other->taxClassId &&
+            $this->taxCalculator === $other->taxCalculator &&
+            $this->clonedFromId === $other->clonedFromId;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     * @return $this
-     */
     public function withId(int $id): self
     {
         $result = clone $this;
@@ -125,18 +135,11 @@ class Row
         return $result;
     }
 
-    /**
-     * @return int|null
-     */
     public function getProductId(): ?int
     {
         return $this->productId;
     }
 
-    /**
-     * @param int $productId
-     * @return $this
-     */
     public function withProductId(int $productId): self
     {
         $result = clone $this;
@@ -144,18 +147,11 @@ class Row
         return $result;
     }
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     * @return $this
-     */
     public function withName(string $name): self
     {
         $result = clone $this;
@@ -163,18 +159,11 @@ class Row
         return $result;
     }
 
-    /**
-     * @return string|null
-     */
     public function getSku(): ?string
     {
         return $this->sku;
     }
 
-    /**
-     * @param string $sku
-     * @return $this
-     */
     public function withSku(string $sku): self
     {
         $result = clone $this;
@@ -182,18 +171,11 @@ class Row
         return $result;
     }
 
-    /**
-     * @return string|null
-     */
     public function getQuantity(): ?string
     {
         return $this->quantity;
     }
 
-    /**
-     * @param string $quantity
-     * @return $this
-     */
     public function withQuantity(string $quantity): self
     {
         $result = clone $this;
@@ -201,18 +183,11 @@ class Row
         return $result;
     }
 
-    /**
-     * @return string|null
-     */
     public function getTaxCode(): ?string
     {
         return $this->taxCode;
     }
 
-    /**
-     * @param string $taxCode
-     * @return $this
-     */
     public function withTaxCode(string $taxCode): self
     {
         $result = clone $this;
@@ -220,18 +195,11 @@ class Row
         return $result;
     }
 
-    /**
-     * @return string|null
-     */
     public function getTax(): ?string
     {
         return $this->tax;
     }
 
-    /**
-     * @param string $tax
-     * @return $this
-     */
     public function withTax(string $tax): self
     {
         $result = clone $this;
@@ -239,18 +207,11 @@ class Row
         return $result;
     }
 
-    /**
-     * @return string|null
-     */
     public function getNet(): ?string
     {
         return $this->net;
     }
 
-    /**
-     * @param string $net
-     * @return $this
-     */
     public function withNet(string $net): self
     {
         $result = clone $this;
@@ -258,18 +219,11 @@ class Row
         return $result;
     }
 
-    /**
-     * @return string|null
-     */
     public function getNominalCode(): ?string
     {
         return $this->nominalCode;
     }
 
-    /**
-     * @param string $nominalCode
-     * @return $this
-     */
     public function withNominalCode(string $nominalCode): self
     {
         $result = clone $this;
@@ -277,18 +231,11 @@ class Row
         return $result;
     }
 
-    /**
-     * @return string|null
-     */
     public function getProductPrice(): ?string
     {
         return $this->productPrice;
     }
 
-    /**
-     * @param string $productPrice
-     * @return $this
-     */
     public function withProductPrice(string $productPrice): self
     {
         $result = clone $this;
@@ -296,18 +243,11 @@ class Row
         return $result;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDiscountPercentage(): ?string
     {
         return $this->discountPercentage;
     }
 
-    /**
-     * @param string $discountPercentage
-     * @return $this
-     */
     public function withDiscountPercentage(string $discountPercentage): self
     {
         $result = clone $this;
@@ -315,18 +255,11 @@ class Row
         return $result;
     }
 
-    /**
-     * @return int|null
-     */
     public function getSequence(): ?int
     {
         return $this->sequence;
     }
 
-    /**
-     * @param int $sequence
-     * @return $this
-     */
     public function withSequence(int $sequence): self
     {
         $result = clone $this;
@@ -334,18 +267,11 @@ class Row
         return $result;
     }
 
-    /**
-     * @return bool|null
-     */
     public function getBundleChild(): ?bool
     {
         return $this->bundleChild;
     }
 
-    /**
-     * @param bool $bundleChild
-     * @return $this
-     */
     public function withBundleChild(bool $bundleChild): self
     {
         $result = clone $this;
@@ -353,18 +279,11 @@ class Row
         return $result;
     }
 
-    /**
-     * @return bool|null
-     */
     public function getBundleParent(): ?bool
     {
         return $this->bundleParent;
     }
 
-    /**
-     * @param bool $bundleParent
-     * @return $this
-     */
     public function withBundleParent(bool $bundleParent): self
     {
         $result = clone $this;
@@ -372,18 +291,11 @@ class Row
         return $result;
     }
 
-    /**
-     * @return int|null
-     */
     public function getParentRowId(): ?int
     {
         return $this->parentRowId;
     }
 
-    /**
-     * @param int $parentRowId
-     * @return $this
-     */
     public function withParentRowId(int $parentRowId): self
     {
         $result = clone $this;
@@ -391,18 +303,11 @@ class Row
         return $result;
     }
 
-    /**
-     * @return int|null
-     */
     public function getTaxClassId(): ?int
     {
         return $this->taxClassId;
     }
 
-    /**
-     * @param int $taxClassId
-     * @return $this
-     */
     public function withTaxClassId(int $taxClassId): self
     {
         $result = clone $this;
@@ -410,18 +315,11 @@ class Row
         return $result;
     }
 
-    /**
-     * @return string|null
-     */
     public function getTaxCalculator(): ?string
     {
         return $this->taxCalculator;
     }
 
-    /**
-     * @param string $taxCalculator
-     * @return $this
-     */
     public function withTaxCalculator(string $taxCalculator): self
     {
         $result = clone $this;
@@ -429,18 +327,11 @@ class Row
         return $result;
     }
 
-    /**
-     * @return int|null
-     */
     public function getClonedFromId(): ?int
     {
         return $this->clonedFromId;
     }
 
-    /**
-     * @param int $clonedFromId
-     * @return $this
-     */
     public function withClonedFromId(int $clonedFromId): self
     {
         $result = clone $this;

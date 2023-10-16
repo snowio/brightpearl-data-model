@@ -24,14 +24,16 @@ class Row implements ModelInterface
     protected $externalRef;
 
 
+    /**
+     * @return self
+     */
     public static function create(): ModelInterface
     {
         return new self();
     }
 
     /**
-     * @param array<string|int> $json
-     * @return ModelInterface
+     * @return self
      */
     public static function fromJson(array $json): ModelInterface
     {
@@ -47,9 +49,6 @@ class Row implements ModelInterface
         return $result;
     }
 
-    /**
-     * @return array<string>
-     */
     public function toJson(): array
     {
         return [
@@ -64,18 +63,15 @@ class Row implements ModelInterface
         ];
     }
 
-    /**
-     * @param Row $other
-     * @return bool
-     */
-    public function equals($other): bool
+    public function equals(ModelInterface $other): bool
     {
-        return $this->productId === $other->productId &&
+        return $other instanceof Row &&
+            $this->productId === $other->productId &&
             $this->name === $other->name  &&
             $this->quantity === $other->quantity  &&
             $this->taxCode === $other->taxCode  &&
             $this->net === $other->net &&
-            $this->tax === $other->net &&
+            $this->tax === $other->tax &&
             $this->nominalCode === $other->nominalCode &&
             $this->externalRef === $other->externalRef;
     }

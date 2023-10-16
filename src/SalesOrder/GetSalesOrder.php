@@ -2,7 +2,9 @@
 
 namespace SnowIO\BrightpearlDataModel\SalesOrder;
 
-class GetSalesOrder
+use SnowIO\BrightpearlDataModel\ModelInterface;
+
+class GetSalesOrder implements ModelInterface
 {
     /** @var int|null $id */
     private $id;
@@ -86,12 +88,18 @@ class GetSalesOrder
         $this->rows = Get\RowCollection::of([]);
     }
 
-    public static function create(): self
+    /**
+     * @return self
+     */
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
-    public static function fromJson(array $json): self
+    /**
+     * @return self
+     */
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
         $result->id = $json['id'] ?? null;
@@ -173,7 +181,7 @@ class GetSalesOrder
         ];
     }
 
-    public function equals($other): bool
+    public function equals(ModelInterface $other): bool
     {
         return ($other instanceof GetSalesOrder) &&
             ($this->id === $other->id) &&

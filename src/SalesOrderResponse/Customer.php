@@ -2,83 +2,76 @@
 
 namespace SnowIO\BrightpearlDataModel\SalesOrderResponse;
 
+use SnowIO\BrightpearlDataModel\ModelInterface;
 use SnowIO\BrightpearlDataModel\SalesOrderResponse\Customer\Address;
 
-class Customer
+class Customer implements ModelInterface
 {
     /** @var int|null $id */
     private $id;
-
-    /** @var Address|null $address */
+    /** @var Address */
     private $address;
+
+    public function __construct()
+    {
+        $this->address = Address::create();
+    }
 
     /**
      * @return self
      */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
     /**
-     * @param array<string, mixed> $json
      * @return self
      */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-        $result->id = is_int($json['id']) ? $json['id'] : null;
-        $result->address = Address::fromJson(is_array($json['address']) ? $json['address'] : []);
+        $result->id = $json['id'] ?? null;
+        $result->address = Address::fromJson($json['address'] ?? []);
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
-        $address = is_null($this->getAddress()) ? [] : $this->getAddress()->toJson();
         return [
             'id' => $this->getId(),
-            'address' => $address
+            'address' => $this->address->toJson()
         ];
     }
 
-    /**
-     * @param int|null $id
-     * @return $this
-     */
-    public function withId(?int $id): Customer
+    public function equals(ModelInterface $other): bool
     {
-        $result = clone $this;
-        $result->id = $id;
-        return $result;
+        return $other instanceof Customer &&
+            $this->getId() === $other->getId() &&
+            $this->address->equals($other->getAddress());
     }
 
-    /**
-     * @param Address|null $address
-     * @return $this
-     */
-    public function withAddress(?Address $address): Customer
+    public function getAddress(): Address
     {
-        $result = clone $this;
-        $result->address = $address;
-        return $result;
+        return $this->address;
     }
 
-    /**
-     * @return int|null
-     */
+    public function withAddress(Address $address): self
+    {
+        $clone = clone $this;
+        $clone->address = $address;
+        return $clone;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return Address|null
-     */
-    public function getAddress(): ?Address
+    public function withId(int $id): Customer
     {
-        return $this->address;
+        $clone = clone $this;
+        $clone->id = $id;
+        return $clone;
     }
 }

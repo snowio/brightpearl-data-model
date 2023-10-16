@@ -2,7 +2,9 @@
 
 namespace SnowIO\BrightpearlDataModel\SalesOrderResponse;
 
-class Total
+use SnowIO\BrightpearlDataModel\ModelInterface;
+
+class Total implements ModelInterface
 {
     /** @var string|null $net */
     private $net;
@@ -20,31 +22,26 @@ class Total
     /**
      * @return self
      */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
     /**
-     * @param array<string, mixed> $json
+     * @return self
      */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-
-        $result->net = is_string($json['net']) ? $json['net'] : null;
-        $result->tax = is_string($json['tax']) ? $json['tax'] : null;
-        $result->gross = is_string($json['gross']) ? $json['gross'] : null;
-        $result->baseNet = is_string($json['baseNet']) ? $json['baseNet'] : null;
-        $result->baseTax = is_string($json['baseTax']) ? $json['baseTax'] : null;
-        $result->baseGross = is_string($json['baseGross']) ? $json['baseGross'] : null;
-
+        $result->net = $json['net'] ?? null;
+        $result->tax = $json['tax'] ?? null;
+        $result->gross = $json['gross'] ?? null;
+        $result->baseNet = $json['baseNet'] ?? null;
+        $result->baseTax = $json['baseTax'] ?? null;
+        $result->baseGross = $json['baseGross'] ?? null;
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         return [
@@ -57,10 +54,17 @@ class Total
         ];
     }
 
-    /**
-     * @param string $net
-     * @return $this
-     */
+    public function equals(ModelInterface $other): bool
+    {
+        return $other instanceof Total &&
+            ($this->net === $other->net) &&
+            ($this->tax === $other->tax) &&
+            ($this->gross === $other->gross) &&
+            ($this->baseNet === $other->baseNet) &&
+            ($this->baseTax === $other->baseTax) &&
+            ($this->baseGross === $other->baseGross);
+    }
+
     public function withNet(string $net): self
     {
         $result = clone $this;
@@ -68,10 +72,6 @@ class Total
         return $result;
     }
 
-    /**
-     * @param string $tax
-     * @return $this
-     */
     public function withTax(string $tax): self
     {
         $result = clone $this;
@@ -79,10 +79,6 @@ class Total
         return $result;
     }
 
-    /**
-     * @param string $gross
-     * @return $this
-     */
     public function withGross(string $gross): self
     {
         $result = clone $this;
@@ -90,10 +86,6 @@ class Total
         return $result;
     }
 
-    /**
-     * @param string $baseNet
-     * @return $this
-     */
     public function withBaseNet(string $baseNet): self
     {
         $result = clone $this;
@@ -101,10 +93,6 @@ class Total
         return $result;
     }
 
-    /**
-     * @param string $baseTax
-     * @return $this
-     */
     public function withBaseTax(string $baseTax): self
     {
         $result = clone $this;
@@ -112,10 +100,6 @@ class Total
         return $result;
     }
 
-    /**
-     * @param string $baseGross
-     * @return $this
-     */
     public function withBaseGross(string $baseGross): self
     {
         $result = clone $this;
@@ -123,49 +107,31 @@ class Total
         return $result;
     }
 
-    /**
-     * @return string|null
-     */
     public function getNet(): ?string
     {
         return $this->net;
     }
 
-    /**
-     * @return string|null
-     */
     public function getTax(): ?string
     {
         return $this->tax;
     }
 
-    /**
-     * @return string|null
-     */
     public function getGross(): ?string
     {
         return $this->gross;
     }
 
-    /**
-     * @return string|null
-     */
     public function getBaseNet(): ?string
     {
         return $this->baseNet;
     }
 
-    /**
-     * @return string|null
-     */
     public function getBaseTax(): ?string
     {
         return $this->baseTax;
     }
 
-    /**
-     * @return string|null
-     */
     public function getBaseGross(): ?string
     {
         return $this->baseGross;

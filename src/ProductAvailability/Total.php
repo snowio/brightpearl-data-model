@@ -2,7 +2,9 @@
 
 namespace SnowIO\BrightpearlDataModel\ProductAvailability;
 
-class Total
+use SnowIO\BrightpearlDataModel\ModelInterface;
+
+class Total implements ModelInterface
 {
     /** @var int|null $inStock */
     private $inStock;
@@ -16,27 +18,24 @@ class Total
     /**
      * @return self
      */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
     /**
-     * @param array<string, mixed> $json
+     * @return self
      */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-        $result->inStock = is_int($json['inStock']) ? $json['inStock'] : null;
-        $result->onHand = is_int($json['onHand']) ? $json['onHand'] : null;
-        $result->allocated = is_int($json['allocated']) ? $json['allocated'] : null;
-        $result->inTransit = is_int($json['inTransit']) ? $json['inTransit'] : null;
+        $result->inStock = $json['inStock'] ?? null;
+        $result->onHand = $json['onHand'] ?? null;
+        $result->allocated = $json['allocated'] ?? null;
+        $result->inTransit = $json['inTransit'] ?? null;
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         return [
@@ -47,18 +46,20 @@ class Total
         ];
     }
 
-    /**
-     * @return int|null
-     */
+    public function equals(ModelInterface $other): bool
+    {
+        return $other instanceof Total &&
+            $this->inStock === $other->inStock &&
+            $this->onHand === $other->onHand &&
+            $this->allocated === $other->allocated &&
+            $this->inTransit === $other->inTransit;
+    }
+
     public function getInStock(): ?int
     {
         return $this->inStock;
     }
 
-    /**
-     * @param int|null $inStock
-     * @return Total
-     */
     public function withInStock(?int $inStock): Total
     {
         $clone = clone $this;
@@ -66,18 +67,11 @@ class Total
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getOnHand(): ?int
     {
         return $this->onHand;
     }
 
-    /**
-     * @param int|null $onHand
-     * @return Total
-     */
     public function withOnHand(?int $onHand): Total
     {
         $clone = clone $this;
@@ -85,18 +79,11 @@ class Total
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getAllocated(): ?int
     {
         return $this->allocated;
     }
 
-    /**
-     * @param int|null $allocated
-     * @return Total
-     */
     public function withAllocated(?int $allocated): Total
     {
         $clone = clone $this;
@@ -104,18 +91,11 @@ class Total
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getInTransit(): ?int
     {
         return $this->inTransit;
     }
 
-    /**
-     * @param int|null $inTransit
-     * @return Total
-     */
     public function withInTransit(?int $inTransit): Total
     {
         $clone = clone $this;

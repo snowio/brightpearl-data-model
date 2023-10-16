@@ -2,12 +2,13 @@
 
 namespace SnowIO\BrightpearlDataModel\OrderResponse;
 
+use SnowIO\BrightpearlDataModel\ModelInterface;
 use SnowIO\BrightpearlDataModel\OrderResponse\Row\Amount;
 use SnowIO\BrightpearlDataModel\OrderResponse\Row\Composition;
 use SnowIO\BrightpearlDataModel\OrderResponse\Row\Quantity;
 use SnowIO\BrightpearlDataModel\OrderResponse\Row\RowValue;
 
-class Row
+class Row implements ModelInterface
 {
     /** @var string|null $orderRowSequence */
     private $orderRowSequence;
@@ -39,82 +40,75 @@ class Row
     /**
      * @return self
      */
-    public static function create(): self
+    public static function create(): ModelInterface
     {
         return new self();
     }
 
     /**
-     * @param array<string, mixed> $json
      * @return self
      */
-    public static function fromJson(array $json): self
+    public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-
-        $quantity = is_array($json['quantity']) ? $json['quantity'] : [];
-        $itemCost = is_array($json['itemCost']) ? $json['itemCost'] : [];
-        $productPrice = is_array($json['productPrice']) ? $json['productPrice'] : [];
-        $rowValue = is_array($json['rowValue']) ? $json['rowValue'] : [];
-        $composition = is_array($json['composition']) ? $json['composition'] : [];
-
-        $result->orderRowSequence = is_string($json['orderRowSequence']) ? $json['orderRowSequence'] : null;
-        $result->productId = is_numeric($json['productId']) ? (int) $json['productId'] : null;
-        $result->productName = is_string($json['productName']) ? $json['productName'] : null;
-        $result->productSku = is_string($json['productSku']) ? $json['productSku'] : null;
-        $result->quantity = Quantity::fromJson($quantity);
-        $result->itemCost = Amount::fromJson($itemCost);
-        $result->productPrice = Amount::fromJson($productPrice);
-        $result->discountPercentage = is_string($json['discountPercentage']) ? $json['discountPercentage'] : null;
-        $result->rowValue = RowValue::fromJson($rowValue);
-        $result->nominalCode = is_string($json['nominalCode']) ? $json['nominalCode'] : null;
-        $result->composition = Composition::fromJson($composition);
-        $result->externalRef = is_string($json['externalRef']) ? $json['externalRef'] : null;
-        $result->clonedFromId = is_numeric($json['clonedFromId']) ? (int) $json['clonedFromId'] : null;
-
+        $result->orderRowSequence = $json['orderRowSequence'] ?? null;
+        $result->productId = $json['productId'] ?? null;
+        $result->productName = $json['productName'] ?? null;
+        $result->productSku = $json['productSku'] ?? null;
+        $result->quantity = Quantity::fromJson($json['quantity'] ?? []);
+        $result->itemCost = Amount::fromJson($json['itemCost'] ?? []);
+        $result->productPrice = Amount::fromJson($json['productPrice'] ?? []);
+        $result->discountPercentage = $json['discountPercentage'] ?? null;
+        $result->rowValue = RowValue::fromJson($json['rowValue'] ?? []);
+        $result->nominalCode = $json['nominalCode'] ?? null;
+        $result->composition = Composition::fromJson($json['composition'] ?? []);
+        $result->externalRef = $json['externalRef'] ?? null;
+        $result->clonedFromId = $json['clonedFromId'] ?? null;
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
-        $quantity = is_null($this->getQuantity()) ? [] : $this->getQuantity()->toJson();
-        $itemCost = is_null($this->getItemCost()) ? [] : $this->getItemCost()->toJson();
-        $productPrice = is_null($this->getProductPrice()) ? [] : $this->getProductPrice()->toJson();
-        $rowValue = is_null($this->getRowValue()) ? [] : $this->getRowValue()->toJson();
-        $composition = is_null($this->getComposition()) ? [] : $this->getComposition()->toJson();
-
         return [
             'orderRowSequence' => $this->getOrderRowSequence(),
             'productId' => $this->getProductId(),
             'productName' => $this->getProductName(),
             'productSku' => $this->getProductSku(),
-            'quantity' => $quantity,
-            'itemCost' => $itemCost,
-            'productPrice' => $productPrice,
+            'quantity' => $this->getQuantity()->toJson(),
+            'itemCost' => $this->getItemCost()->toJson(),
+            'productPrice' => $this->getProductPrice()->toJson(),
             'discountPercentage' => $this->getDiscountPercentage(),
-            'rowValue' => $rowValue,
+            'rowValue' => $this->getRowValue()->toJson(),
             'nominalCode' => $this->getNominalCode(),
-            'composition' => $composition,
+            'composition' => $this->getComposition()->toJson(),
             'externalRef' => $this->getExternalRef(),
             'clonedFromId' => $this->getClonedFromId()
         ];
     }
 
-    /**
-     * @return string|null
-     */
+    public function equals(ModelInterface $other): bool
+    {
+        return $other instanceof Row &&
+            $this->orderRowSequence === $other->orderRowSequence &&
+            $this->productId === $other->productId &&
+            $this->productName === $other->productName &&
+            $this->productSku === $other->productSku &&
+            $this->quantity->equals($other->quantity) &&
+            $this->itemCost->equals($other->itemCost) &&
+            $this->productPrice->equals($other->productPrice) &&
+            $this->discountPercentage === $other->discountPercentage &&
+            $this->rowValue->equals($other->rowValue) &&
+            $this->nominalCode === $other->nominalCode &&
+            $this->composition->equals($other->composition) &&
+            $this->externalRef === $other->externalRef &&
+            $this->clonedFromId === $other->clonedFromId;
+    }
+
     public function getOrderRowSequence(): ?string
     {
         return $this->orderRowSequence;
     }
 
-    /**
-     * @param string $orderRowSequence
-     * @return Row
-     */
     public function withOrderRowSequence(string $orderRowSequence): Row
     {
         $clone = clone $this;
@@ -122,18 +116,11 @@ class Row
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getProductId(): ?int
     {
         return $this->productId;
     }
 
-    /**
-     * @param int $productId
-     * @return Row
-     */
     public function withProductId(int $productId): Row
     {
         $clone = clone $this;
@@ -141,18 +128,11 @@ class Row
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getProductName(): ?string
     {
         return $this->productName;
     }
 
-    /**
-     * @param string $productName
-     * @return Row
-     */
     public function withProductName(string $productName): Row
     {
         $clone = clone $this;
@@ -160,18 +140,11 @@ class Row
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getProductSku(): ?string
     {
         return $this->productSku;
     }
 
-    /**
-     * @param string $productSku
-     * @return Row
-     */
     public function withProductSku(string $productSku): Row
     {
         $clone = clone $this;
@@ -179,18 +152,11 @@ class Row
         return $clone;
     }
 
-    /**
-     * @return Quantity|null
-     */
     public function getQuantity(): ?Quantity
     {
         return $this->quantity;
     }
 
-    /**
-     * @param Quantity $quantity
-     * @return Row
-     */
     public function withQuantity(Quantity $quantity): Row
     {
         $clone = clone $this;
@@ -198,18 +164,11 @@ class Row
         return $clone;
     }
 
-    /**
-     * @return Amount|null
-     */
     public function getItemCost(): ?Amount
     {
         return $this->itemCost;
     }
 
-    /**
-     * @param Amount $itemCost
-     * @return Row
-     */
     public function withItemCost(Amount $itemCost): Row
     {
         $clone = clone $this;
@@ -217,18 +176,11 @@ class Row
         return $clone;
     }
 
-    /**
-     * @return Amount|null
-     */
     public function getProductPrice(): ?Amount
     {
         return $this->productPrice;
     }
 
-    /**
-     * @param Amount $productPrice
-     * @return Row
-     */
     public function withProductPrice(Amount $productPrice): Row
     {
         $clone = clone $this;
@@ -236,18 +188,11 @@ class Row
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDiscountPercentage(): ?string
     {
         return $this->discountPercentage;
     }
 
-    /**
-     * @param string $discountPercentage
-     * @return Row
-     */
     public function withDiscountPercentage(string $discountPercentage): Row
     {
         $clone = clone $this;
@@ -255,18 +200,11 @@ class Row
         return $clone;
     }
 
-    /**
-     * @return RowValue|null
-     */
     public function getRowValue(): ?RowValue
     {
         return $this->rowValue;
     }
 
-    /**
-     * @param RowValue $rowValue
-     * @return Row
-     */
     public function withRowValue(RowValue $rowValue): Row
     {
         $clone = clone $this;
@@ -274,18 +212,11 @@ class Row
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getNominalCode(): ?string
     {
         return $this->nominalCode;
     }
 
-    /**
-     * @param string $nominalCode
-     * @return Row
-     */
     public function withNominalCode(string $nominalCode): Row
     {
         $clone = clone $this;
@@ -293,18 +224,11 @@ class Row
         return $clone;
     }
 
-    /**
-     * @return Composition|null
-     */
     public function getComposition(): ?Composition
     {
         return $this->composition;
     }
 
-    /**
-     * @param Composition $composition
-     * @return Row
-     */
     public function withComposition(Composition $composition): Row
     {
         $clone = clone $this;
@@ -312,18 +236,11 @@ class Row
         return $clone;
     }
 
-    /**
-     * @return string|null
-     */
     public function getExternalRef(): ?string
     {
         return $this->externalRef;
     }
 
-    /**
-     * @param string|null $externalRef
-     * @return Row
-     */
     public function withExternalRef(?string $externalRef): Row
     {
         $clone = clone $this;
@@ -331,18 +248,11 @@ class Row
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getClonedFromId(): ?int
     {
         return $this->clonedFromId;
     }
 
-    /**
-     * @param int|null $clonedFromId
-     * @return Row
-     */
     public function withClonedFromId(?int $clonedFromId): Row
     {
         $clone = clone $this;

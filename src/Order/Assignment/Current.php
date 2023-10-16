@@ -2,27 +2,23 @@
 
 namespace SnowIO\BrightpearlDataModel\Order\Assignment;
 
-use SnowIO\BrightpearlDataModel\Api\ModelInterface;
+use SnowIO\BrightpearlDataModel\ModelInterface;
 
 class Current implements ModelInterface
 {
     /** @var int|null $channelId */
     private $channelId;
-
     /** @var int|null $leadSourceId */
     private $leadSourceId;
-
     /** @var int|null $projectId */
     private $projectId;
-
     /** @var int|null $staffOwnerContactId */
     private $staffOwnerContactId;
-
     /** @var int|null $teamId */
     private $teamId;
 
     /**
-     * @return ModelInterface
+     * @return self
      */
     public static function create(): ModelInterface
     {
@@ -30,23 +26,19 @@ class Current implements ModelInterface
     }
 
     /**
-     * @param array<string, mixed> $json
      * @return self
      */
     public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
-        $result->channelId = is_int($json['channelId']) ? $json['channelId'] : null;
-        $result->leadSourceId = is_int($json['leadSourceId']) ? $json['leadSourceId'] : null;
-        $result->projectId = is_int($json['projectId']) ? $json['projectId'] : null;
-        $result->staffOwnerContactId = is_int($json['staffOwnerContactId']) ? $json['staffOwnerContactId'] : null;
-        $result->teamId = is_int($json['teamId']) ? $json['teamId'] : null;
+        $result->channelId = $json['channelId'] ?? null;
+        $result->leadSourceId =  $json['leadSourceId'] ?? null;
+        $result->projectId =  $json['projectId'] ?? null;
+        $result->staffOwnerContactId =  $json['staffOwnerContactId'] ?? null;
+        $result->teamId =  $json['teamId'] ?? null;
         return $result;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     public function toJson(): array
     {
         return [
@@ -58,42 +50,21 @@ class Current implements ModelInterface
         ];
     }
 
-    /**
-     * @param ModelInterface $currentToCompare
-     * @return bool
-     */
-    public function equals(ModelInterface $currentToCompare): bool
+    public function equals(ModelInterface $other): bool
     {
-        if (!$currentToCompare instanceof Current) {
-            return false;
-        }
-        if ($this->getChannelId() !== $currentToCompare->getChannelId()) {
-            return false;
-        }
-        if ($this->getLeadSourceId() !== $currentToCompare->getLeadSourceId()) {
-            return false;
-        }
-        if ($this->getProjectId() !== $currentToCompare->getProjectId()) {
-            return false;
-        }
-        if ($this->getStaffOwnerContactId() !== $currentToCompare->getStaffOwnerContactId()) {
-            return false;
-        }
-        return $this->getTeamId() === $currentToCompare->getTeamId();
+        return $other instanceof Current&&
+            $this->channelId === $other->channelId &&
+            $this->leadSourceId === $other->leadSourceId &&
+            $this->projectId === $other->projectId &&
+            $this->staffOwnerContactId === $other->staffOwnerContactId &&
+            $this->teamId === $other->teamId;
     }
 
-    /**
-     * @return int|null
-     */
     public function getChannelId(): ?int
     {
         return $this->channelId;
     }
 
-    /**
-     * @param int|null $channelId
-     * @return $this
-     */
     public function withChannelId(?int $channelId): ModelInterface
     {
         $clone = clone $this;
@@ -101,18 +72,11 @@ class Current implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getLeadSourceId(): ?int
     {
         return $this->leadSourceId;
     }
 
-    /**
-     * @param int|null $leadSourceId
-     * @return $this
-     */
     public function withLeadSourceId(?int $leadSourceId): ModelInterface
     {
         $clone = clone $this;
@@ -120,18 +84,11 @@ class Current implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getProjectId(): ?int
     {
         return $this->projectId;
     }
 
-    /**
-     * @param int|null $projectId
-     * @return $this
-     */
     public function withProjectId(?int $projectId): ModelInterface
     {
         $clone = clone $this;
@@ -139,18 +96,11 @@ class Current implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getStaffOwnerContactId(): ?int
     {
         return $this->staffOwnerContactId;
     }
 
-    /**
-     * @param int|null $staffOwnerContactId
-     * @return $this
-     */
     public function withStaffOwnerContactId(?int $staffOwnerContactId): ModelInterface
     {
         $clone = clone $this;
@@ -158,18 +108,11 @@ class Current implements ModelInterface
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getTeamId(): ?int
     {
         return $this->teamId;
     }
 
-    /**
-     * @param int|null $teamId
-     * @return $this
-     */
     public function withTeamId(?int $teamId): ModelInterface
     {
         $clone = clone $this;
