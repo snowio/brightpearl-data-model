@@ -163,11 +163,11 @@ class OrderResponse implements ModelInterface
             $this->id === $other->id &&
             $this->parentOrderId === $other->parentOrderId &&
             $this->orderTypeCode === $other->orderTypeCode &&
-            ($this->orderStatus->equals($other->orderStatus)) &&
-            ($this->orderRows->equals($other->orderRows)) &&
+            $this->orderStatus->equals($other->orderStatus) &&
+            $this->orderRows->equals($other->orderRows) &&
             $this->externalRef === $other->externalRef &&
             $this->reference === $other->reference &&
-            ($this->state->equals($other->state)) &&
+            $this->state->equals($other->state) &&
             $this->orderPaymentStatus === $other->orderPaymentStatus &&
             $this->stockStatusCode === $other->stockStatusCode &&
             $this->allocationStatusCode === $other->allocationStatusCode &&
@@ -178,10 +178,10 @@ class OrderResponse implements ModelInterface
             $this->createdById === $other->createdById &&
             $this->priceListId === $other->priceListId &&
             $this->priceModeCode === $other->priceModeCode &&
-            ($this->delivery->equals($other->delivery)) &&
-            ($this->invoices->equals($other->invoices)) &&
-            ($this->totalValue->equals($other->totalValue)) &&
-            ($this->parties->equals($other->parties)) &&
+            $this->delivery->equals($other->delivery) &&
+            $this->invoices->equals($other->invoices) &&
+            $this->totalValue->equals($other->totalValue) &&
+            $this->parties->equals($other->parties) &&
             $this->warehouseId === $other->warehouseId &&
             $this->acknowledged === $other->acknowledged &&
             $this->costPriceListId === $other->costPriceListId &&
