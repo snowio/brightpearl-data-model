@@ -82,41 +82,8 @@ class PartiesTest extends TestCase
             ->withBilling($billing);
 
         self::assertEquals([
-            "supplier" => [
-                'contactId' => null,
-                "addressFullName" => null,
-                "companyName" => null,
-                "addressLine1" => null,
-                "addressLine2" => null,
-                "addressLine3" => null,
-                "addressLine4" => null,
-                "postalCode" => null,
-                "countryId" => null,
-                "countryIsoCode" => null,
-                "telephone" => null,
-                "mobileTelephone" => null,
-                "fax" => null,
-                "email" => null,
-                'country' => null,
-                'countryIsoCode3' => null
-            ],
-            "delivery" => [
-                "addressFullName" => null,
-                "companyName" => null,
-                "addressLine1" => null,
-                "addressLine2" => null,
-                "addressLine3" => null,
-                "addressLine4" => null,
-                "postalCode" => null,
-                "countryId" => null,
-                "countryIsoCode" => null,
-                "telephone" => null,
-                "mobileTelephone" => null,
-                "fax" => null,
-                "email" => null,
-                'country' => null,
-                'countryIsoCode3' => null
-            ],
+            "supplier" => null,
+            "delivery" => null,
             "billing" => [
                 'contactId' => 1,
                 "addressFullName" => null,

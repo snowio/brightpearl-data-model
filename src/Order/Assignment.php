@@ -33,6 +33,11 @@ class Assignment implements ModelInterface
         return $result;
     }
 
+    public function hasData()
+    {
+        return $this->current->hasData();
+    }
+
     public function toJson(): array
     {
         return [

@@ -115,6 +115,10 @@ class Billing implements ModelInterface
             $this->countryIsoCode3 === $other->countryIsoCode3;
     }
 
+    public function hasData()
+    {
+        return count(array_filter($this->toJson()));
+    }
 
     public function withContactId(string $contactId): ModelInterface
     {

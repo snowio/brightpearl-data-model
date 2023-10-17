@@ -62,11 +62,11 @@ class Order implements ModelInterface
             'placedOn' => $this->getPlacedOn(),
             'orderStatus' => $this->getOrderStatus() ? $this->getOrderStatus()->toJson() : null,
             'delivery' => $this->getDelivery() ? $this->getDelivery()->toJson() : null,
-            'invoices' => $this->getInvoices()->toJson(),
+            'invoices' => $this->invoices ? $this->getInvoices()->toJson() : null,
             'currency' => $this->getCurrency() ? $this->getCurrency()->toJson() : null,
             'contactId' => $this->getContactId(),
             'parties' => $this->getParties() ? $this->getParties()->toJson() : null,
-            'assignment' => $this->getAssignment() ? $this->getAssignment()->toJson() : null,
+            'assignment' => $this->assignment->hasData() ? $this->getAssignment()->toJson() : null,
             'warehouseId' => $this->getWarehouseId(),
         ];
     }

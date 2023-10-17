@@ -110,6 +110,11 @@ class Delivery implements ModelInterface
             ($this->countryIsoCode3 === $other->countryIsoCode3);
     }
 
+    public function hasData()
+    {
+        return count(array_filter($this->toJson()));
+    }
+
     /**
      * @param string $countryIsoCode3
      * @return $this
