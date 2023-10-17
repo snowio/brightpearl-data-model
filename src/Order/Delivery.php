@@ -45,6 +45,11 @@ class Delivery implements ModelInterface
             $this->shippingMethodId === $other->shippingMethodId;
     }
 
+    public function hasData()
+    {
+        return count(array_filter($this->toJson()));
+    }
+
     public function getDate(): ?string
     {
         return $this->date;

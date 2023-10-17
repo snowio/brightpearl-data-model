@@ -50,6 +50,11 @@ class Currency implements ModelInterface
             $this->exchangeRate === $other->exchangeRate;
     }
 
+    public function hasData()
+    {
+        return count(array_filter($this->toJson()));
+    }
+
     public function getCode(): ?string
     {
         return $this->code;
