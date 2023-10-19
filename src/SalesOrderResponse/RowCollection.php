@@ -2,6 +2,7 @@
 
 namespace SnowIO\BrightpearlDataModel\SalesOrderResponse;
 
+use Exception;
 use Iterator;
 use IteratorAggregate;
 
@@ -9,6 +10,11 @@ class RowCollection implements IteratorAggregate
 {
     /** @var Row[] $items */
     private $items = [];
+
+    public static function create(): RowCollection
+    {
+        return new self();
+    }
 
     public static function of(array $items): self
     {
@@ -53,6 +59,10 @@ class RowCollection implements IteratorAggregate
             yield $item;
         }
     }
+
+    /**
+     * @throws Exception
+     */
     public function equals(RowCollection $compare): bool
     {
         if (count($this->items) !== count(iterator_to_array($compare->getIterator()))) {

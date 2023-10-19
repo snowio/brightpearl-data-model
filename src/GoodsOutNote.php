@@ -48,11 +48,12 @@ class GoodsOutNote implements ModelInterface
         return new self();
     }
 
-
     private function __construct()
     {
         $this->status = Status::create();
         $this->shipping = Shipping::create();
+        $this->orderRows = OrderRowCollection::create();
+        $this->events = EventCollection::create();
     }
 
     /**

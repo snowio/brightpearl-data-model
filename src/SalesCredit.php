@@ -59,6 +59,7 @@ class SalesCredit implements ModelInterface
     {
         $this->delivery = Delivery::create();
         $this->currency = Currency::create();
+        $this->rows = RowCollection::create();
     }
 
     /**

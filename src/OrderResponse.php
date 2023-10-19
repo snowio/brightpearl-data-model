@@ -80,6 +80,7 @@ class OrderResponse implements ModelInterface
     private function __construct()
     {
         $this->orderStatus = OrderStatus::create();
+        $this->orderRows = RowCollection::create();
         $this->state = State::create();
         $this->totalValue = TotalValue::create();
         $this->parties = Parties::create();

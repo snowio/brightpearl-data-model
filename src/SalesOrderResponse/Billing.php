@@ -12,6 +12,11 @@ class Billing implements ModelInterface
     /** @var Address|null $address */
     private $address;
 
+    private function __construct()
+    {
+        $this->address = Address::create();
+    }
+
     /**
      * @return self
      */

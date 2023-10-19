@@ -19,9 +19,12 @@ class Delivery implements ModelInterface
      */
     public static function create(): ModelInterface
     {
-        $delivery = new self();
-        $delivery->address = Address::create();
-        return $delivery;
+        return new self();
+    }
+
+    private function __construct()
+    {
+        $this->address = Address::create();
     }
 
     /**
