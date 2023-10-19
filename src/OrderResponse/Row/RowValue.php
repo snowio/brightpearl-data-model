@@ -27,6 +27,12 @@ class RowValue implements ModelInterface
         return new self();
     }
 
+    private function __construct()
+    {
+        $this->rowNet = Amount::create();
+        $this->rowTax = Amount::create();
+    }
+
     /**
      * @return self
      */

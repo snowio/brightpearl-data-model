@@ -14,7 +14,6 @@ class OrderRow implements ModelInterface
     protected $quantity;
     /** @var string|null $nominalCode */
     protected $nominalCode;
-
     /** @var RowValue|null $rowValue */
     protected $rowValue;
 
@@ -24,6 +23,11 @@ class OrderRow implements ModelInterface
     public static function create(): ModelInterface
     {
         return new self();
+    }
+
+    private function __construct()
+    {
+        $this->rowValue = RowValue::create();
     }
 
     /**
@@ -55,8 +59,8 @@ class OrderRow implements ModelInterface
     {
         return $other instanceof OrderRow &&
             $this->productId === $other->productId &&
-            $this->productName === $other->productName  &&
-            $this->quantity === $other->quantity  &&
+            $this->productName === $other->productName &&
+            $this->quantity === $other->quantity &&
             $this->rowValue->equals($other->rowValue) &&
             $this->nominalCode === $other->nominalCode;
     }

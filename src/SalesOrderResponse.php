@@ -83,7 +83,9 @@ class SalesOrderResponse implements ModelInterface
         $this->billing = Billing::create();
         $this->delivery = Delivery::create();
         $this->currency = Currency::create();
+        $this->rows = RowCollection::create();
         $this->total = Total::create();
+        $this->invoice = Invoice::create();
     }
 
     /**

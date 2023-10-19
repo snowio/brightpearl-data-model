@@ -17,6 +17,11 @@ class ProductAvailability implements ModelInterface
         return new self();
     }
 
+    private function __construct()
+    {
+        $this->total = Total::create();
+    }
+
     /**
      * @return self
      */

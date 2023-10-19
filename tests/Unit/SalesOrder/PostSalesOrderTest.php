@@ -86,6 +86,7 @@ class PostSalesOrderTest extends TestCase
             ->withInstalledIntegrationInstanceId(3)
             ->withLeadSourceId(4)
             ->withTeamId(987)
+            ->withParentId(345)
             ->withPriceListId(2)
             ->withPriceModeCode("SOMECODE")
             ->withCurrency(SalesOrder\Currency::create()
@@ -136,6 +137,7 @@ class PostSalesOrderTest extends TestCase
         self::assertEquals(3, $order->getInstalledIntegrationInstanceId());
         self::assertEquals(4, $order->getLeadSourceId());
         self::assertEquals(987, $order->getTeamId());
+        self::assertEquals(345, $order->getParentId());
         self::assertEquals(2, $order->getPriceListId());
         self::assertEquals("SOMECODE", $order->getPriceModeCode());
 

@@ -23,6 +23,7 @@ class Order implements ModelInterface
     {
         $this->orderStatus = Status::create();
         $this->delivery = Delivery::create();
+        $this->invoices = InvoiceCollection::create();
         $this->currency = Currency::create();
         $this->assignment = Assignment::create();
         $this->parties = Parties::create();

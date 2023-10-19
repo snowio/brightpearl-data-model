@@ -46,7 +46,6 @@ class PostSalesOrder implements ModelInterface
     private $rows;
     /** @var Total|null $total */
     private $total;
-
     /** @var string|null $orderPaymentStatus */
     private $orderPaymentStatus;
     /** @var string|null $allocationStatusCode */
@@ -74,6 +73,7 @@ class PostSalesOrder implements ModelInterface
         $this->delivery = Delivery::create();
         $this->rows = RowCollection::of([]);
         $this->total = Total::create();
+        $this->invoice = Invoice::create();
     }
 
     /**
@@ -102,8 +102,10 @@ class PostSalesOrder implements ModelInterface
         $result->channelId = $json['channelId'] ?? null;
         $result->leadSourceId = $json['leadSourceId'] ?? null;
         $result->teamId = $json['teamId'] ?? null;
+        $result->parentId = $json['parentId'] ?? null;
         $result->priceListId = $json['priceListId'] ?? null;
         $result->priceModeCode = $json['priceModeCode'] ?? null;
+        $result->installedIntegrationInstanceId = $json['installedIntegrationInstanceId'] ?? null;
 
         $result->customer = Customer::fromJson($json['customer'] ?? []);
         $result->billing = Billing::fromJson($json['billing'] ?? []);
@@ -111,8 +113,7 @@ class PostSalesOrder implements ModelInterface
         $result->delivery = Delivery::fromJson($json['delivery'] ?? []);
         $result->rows = RowCollection::fromJson($json['rows'] ?? []);
         $result->total = Total::fromJson($json['total'] ?? []);
-
-        $result->installedIntegrationInstanceId = $json['installedIntegrationInstanceId'] ?? null;
+        $result->invoice = Invoice::fromJson($json['invoice'] ?? []);
 
         return $result;
     }
@@ -133,6 +134,7 @@ class PostSalesOrder implements ModelInterface
             'leadSourceId' => $this->getLeadSourceId(),
             'staffOwnerId' => $this->getStaffOwnerId(),
             'teamId' => $this->getTeamId(),
+            'parentId' => $this->getParentId(),
             'priceListId' => $this->getPriceListId(),
             'priceModeCode' => $this->getPriceModeCode(),
             'currency' => $this->getCurrency()->toJson(),
@@ -146,26 +148,27 @@ class PostSalesOrder implements ModelInterface
     {
         return ($other instanceof PostSalesOrder) &&
             ($this->ref === $other->ref) &&
-            ($this->customer->equals($other->customer));
-//            ($this->delivery->equals($other->delivery)) &&
-//            ($this->billing->equals($other->billing)) &&
-//            ($this->invoice->equals($other->invoice)) &&
-//            ($this->currency->equals($other->currency)) &&
-//            ($this->rows->equals($other->rows)) &&
-//            ($this->customer === $other->customer) &&
-//            ($this->externalRef === $other->externalRef);
-//            ($this->placedOn === $other->placedOn) &&
-//            ($this->taxDate === $other->taxDate) &&
-//            ($this->installedIntegrationInstanceId === $other->installedIntegrationInstanceId) &&
-//            ($this->warehouseId === $other->warehouseId) &&
-//            ($this->projectId === $other->projectId) &&
-//            ($this->statusId === $other->statusId) &&
-//            ($this->channelId === $other->channelId) &&
-//            ($this->leadSourceId === $other->leadSourceId) &&
-//            ($this->staffOwnerId === $other->staffOwnerId) &&
-//            ($this->teamId === $other->teamId) &&
-//            ($this->priceListId === $other->priceListId) &&
-//            ($this->priceModeCode === $other->priceModeCode);
+            ($this->customer->equals($other->customer)) &&
+            ($this->delivery->equals($other->delivery)) &&
+            ($this->billing->equals($other->billing)) &&
+            ($this->invoice->equals($other->invoice)) &&
+            ($this->currency->equals($other->currency)) &&
+            ($this->rows->equals($other->rows)) &&
+            ($this->total->equals($other->total)) &&
+            ($this->externalRef === $other->externalRef) &&
+            ($this->placedOn === $other->placedOn) &&
+            ($this->taxDate === $other->taxDate) &&
+            ($this->installedIntegrationInstanceId === $other->installedIntegrationInstanceId) &&
+            ($this->warehouseId === $other->warehouseId) &&
+            ($this->projectId === $other->projectId) &&
+            ($this->statusId === $other->statusId) &&
+            ($this->channelId === $other->channelId) &&
+            ($this->leadSourceId === $other->leadSourceId) &&
+            ($this->staffOwnerId === $other->staffOwnerId) &&
+            ($this->teamId === $other->teamId) &&
+            ($this->parentId === $other->parentId) &&
+            ($this->priceListId === $other->priceListId) &&
+            ($this->priceModeCode === $other->priceModeCode);
     }
 
     public function getCustomer(): ?Customer
@@ -345,6 +348,18 @@ class PostSalesOrder implements ModelInterface
     {
         $clone = clone $this;
         $clone->teamId = $teamId;
+        return $clone;
+    }
+
+    public function getParentId(): ?int
+    {
+        return $this->parentId;
+    }
+
+    public function withParentId(?int $parentId): self
+    {
+        $clone = clone $this;
+        $clone->parentId = $parentId;
         return $clone;
     }
 
