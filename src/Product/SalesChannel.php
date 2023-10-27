@@ -62,8 +62,8 @@ class SalesChannel implements ModelInterface
             'productName' => $this->getProductName(),
             'productCondition' => $this->getProductCondition(),
             'categories' => $categories,
-            'description' => $this->getDescription() ? $this->getDescription()->toJson() : null,
-            'shortDescription' => $this->getShortDescription() ? $this->getShortDescription()->toJson() : null
+            'description' => $this->hasDescription() ? $this->getDescription()->toJson() : null,
+            'shortDescription' => $this->hasShortDescription() ? $this->getShortDescription()->toJson() : null
         ];
     }
 
@@ -137,6 +137,16 @@ class SalesChannel implements ModelInterface
         $clone = clone $this;
         $clone->description = $description;
         return $clone;
+    }
+
+    private function hasShortDescription(): bool
+    {
+        return count(array_filter($this->getShortDescription()->toJson()));
+    }
+
+    private function hasDescription(): bool
+    {
+        return $this->getDescription()->getText() !== null;
     }
 
     public function getShortDescription(): ?Description

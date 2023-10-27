@@ -4,6 +4,7 @@ namespace SnowIO\BrightpearlDataModel\Test\Unit\Product;
 
 use PHPUnit\Framework\TestCase;
 use SnowIO\BrightpearlDataModel\Product;
+use SnowIO\BrightpearlDataModel\Product\SalesChannel;
 
 class ProductTest extends TestCase
 {
@@ -213,7 +214,7 @@ class ProductTest extends TestCase
             ->withText("This is a short description 2")
             ->withFormat("utf-16");
 
-        $salesChannel1 = Product\SalesChannel::create()
+        $salesChannel1 = SalesChannel::create()
             ->withSalesChannelName("Sales channel 1")
             ->withProductName("Some product 1")
             ->withProductCondition("new")
@@ -221,7 +222,7 @@ class ProductTest extends TestCase
             ->withDescription($desc1)
             ->withShortDescription($shortDesc1);
 
-        $salesChannel2 = Product\SalesChannel::create()
+        $salesChannel2 = SalesChannel::create()
             ->withSalesChannelName("Sales channel 2")
             ->withProductName("Some product 2")
             ->withProductCondition("old")
@@ -327,7 +328,7 @@ class ProductTest extends TestCase
         self::assertEquals("ABC123", $product->getFinancialDetails()->getTaxCode()->getCode());
 
         self::assertIsArray($product->getSalesChannels());
-        self::assertInstanceOf(Product\SalesChannel::class, $product->getSalesChannels()[0]);
+        self::assertInstanceOf(SalesChannel::class, $product->getSalesChannels()[0]);
         self::assertEquals("Sales channel 1", $product->getSalesChannels()[0]->getSalesChannelName());
         self::assertEquals("Some product 1", $product->getSalesChannels()[0]->getProductName());
         self::assertEquals("new", $product->getSalesChannels()[0]->getProductCondition());
@@ -345,7 +346,7 @@ class ProductTest extends TestCase
         self::assertEquals("This is a short description", $product->getSalesChannels()[0]->getShortDescription()->getText());
         self::assertEquals("utf-16", $product->getSalesChannels()[0]->getShortDescription()->getFormat());
 
-        self::assertInstanceOf(Product\SalesChannel::class, $product->getSalesChannels()[1]);
+        self::assertInstanceOf(SalesChannel::class, $product->getSalesChannels()[1]);
         self::assertEquals("Sales channel 2", $product->getSalesChannels()[1]->getSalesChannelName());
         self::assertEquals("Some product 2", $product->getSalesChannels()[1]->getProductName());
         self::assertEquals("old", $product->getSalesChannels()[1]->getProductCondition());
@@ -422,5 +423,19 @@ class ProductTest extends TestCase
         $product1 = Product::fromJson($data);
         $product2 = Product::fromJson($data)->withId(1);
         self::assertFalse($product1->equals($product2));
+    }
+
+    public function testDescriptionDataToJson()
+    {
+        $product = Product::create()->withSalesChannels([
+            SalesChannel::create()
+        ]);
+
+        $salesChannel = array_map(function ($salesChannel) {
+            return $salesChannel->toJson();
+        }, $product->getSalesChannels());
+
+        self::assertNull($salesChannel[0]['shortDescription']);
+        self::assertNull($salesChannel[0]['description']);
     }
 }
