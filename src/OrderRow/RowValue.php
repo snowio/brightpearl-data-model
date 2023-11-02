@@ -37,8 +37,8 @@ class RowValue implements ModelInterface
     {
         return [
             'taxCode' => $this->getTaxCode(),
-            'rowNet' => $this->rowNet ? ['value' => $this->rowNet] : null,
-            'rowTax' => $this->rowTax ? ['value' => $this->rowTax] : null,
+            'rowNet' => ['value' => $this->rowNet ?? 0],
+            'rowTax' => ['value' => $this->rowTax ?? 0],
         ];
     }
 
