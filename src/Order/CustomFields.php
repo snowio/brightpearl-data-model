@@ -48,4 +48,14 @@ class CustomFields implements IteratorAggregate
             yield $item;
         }
     }
+
+    public function removeItemByIndex(int $index)
+    {
+        unset($this->items[$index]);
+    }
+
+    public function sortArrayValues()
+    {
+        $this->items = array_values($this->items);
+    }
 }
