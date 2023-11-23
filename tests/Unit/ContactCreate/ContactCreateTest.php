@@ -7,19 +7,19 @@ use SnowIO\BrightpearlDataModel\ContactCreate;
 use SnowIO\BrightpearlDataModel\ContactCreate\Communication;
 use SnowIO\BrightpearlDataModel\ContactCreate\Communication\Emails;
 use SnowIO\BrightpearlDataModel\ContactCreate\Communication\Emails\Email;
+use SnowIO\BrightpearlDataModel\ContactCreate\PostAddressIds;
 
 class ContactCreateTest extends TestCase
 {
     private function getJsonData(): array
     {
         return [
-            "salutation" => "greeting",
             "firstName" => "Ben",
             "lastName" => "Ten",
             "postAddressIds" => [
-                "111",
-                "222",
-                "333"
+                "DEF" => 111,
+                "BIL" => 222,
+                "DEL" => 333
             ],
             "communication" => [
                 'emails' => [
@@ -46,11 +46,16 @@ class ContactCreateTest extends TestCase
 
         $email = $email->withEmail("email@test.com");
         $emails = $emails->withPRI($email)->withSEC($email)->withTER($email);
+
+        $postAddressIds = PostAddressIds::create()
+            ->withDEF(111)
+            ->withBIL(222)
+            ->withDEL(333);
+
         $contactCreate = ContactCreate::create()
-            ->withSalutation('greeting')
             ->withFirstName("Ben")
             ->withLastName("Ten")
-            ->withPostAddressIds(["111", "222", "333"])
+            ->withPostAddressIds($postAddressIds)
             ->withCommunication($communication->withEmails($emails));
         self::assertEquals($this->getJsonData(), $contactCreate->toJson());
     }
@@ -60,16 +65,21 @@ class ContactCreateTest extends TestCase
         $data = $this->getJsonData();
         $contactCreate = ContactCreate::fromJson($data);
 
-        self::assertEquals("greeting", $contactCreate->getSalutation());
         self::assertEquals("Ben", $contactCreate->getFirstName());
         self::assertEquals("Ten", $contactCreate->getLastName());
-        self::assertEquals(["111", "222", "333"], $contactCreate->getPostAddressIds());
-        self::assertEquals(['emails' => [
-            'PRI' => ['email' => 'email@test.com'],
-            'SEC' => ['email' => 'email@test.com'],
-            'TER' => ['email' => 'email@test.com'],
-        ]
-    ], $contactCreate->getCommunication()->toJson());
+        self::assertEquals([
+            "DEF" => 111,
+            "BIL" => 222,
+            "DEL" => 333
+        ], $contactCreate->getPostAddressIds()->toJson());
+        self::assertEquals(
+            ['emails' => [
+                'PRI' => ['email' => 'email@test.com'],
+                'SEC' => ['email' => 'email@test.com'],
+                'TER' => ['email' => 'email@test.com'],
+            ]],
+            $contactCreate->getCommunication()->toJson()
+        );
     }
 
     public function testEquals()
