@@ -59,10 +59,10 @@ class GetOrderTest extends TestCase
                 "supplier" => [
                     "addressFullName" => 'test',
                     "companyName" => 'test',
-                    "addressLine1" => 'test',
-                    "addressLine2" => 'test',
-                    "addressLine3" => 'test',
-                    "addressLine4" => 'test',
+                    "addressLine1" => 'Line1',
+                    "addressLine2" => 'Line2',
+                    "addressLine3" => 'Line3',
+                    "addressLine4" => 'Line4',
                     "postalCode" => 'test',
                     "countryId" => 1,
                     "countryIsoCode" => 'test',
@@ -77,10 +77,10 @@ class GetOrderTest extends TestCase
                 "billing" => [
                     "addressFullName" => 'test',
                     "companyName" => 'test',
-                    "addressLine1" => 'test',
-                    "addressLine2" => 'test',
-                    "addressLine3" => 'test',
-                    "addressLine4" => 'test',
+                    "addressLine1" => 'Line1',
+                    "addressLine2" => 'Line2',
+                    "addressLine3" => 'Line3',
+                    "addressLine4" => 'Line4',
                     "postalCode" => 'test',
                     "countryId" => 1,
                     "countryIsoCode" => 'test',
@@ -107,12 +107,12 @@ class GetOrderTest extends TestCase
                 "10" => [
                     "orderRowSequence" => "10",
                     "productId" => "1000",
-                    "productName" => "test",
-                    "productSku" => "test",
+                    "productName" => "tshirt",
+                    "productSku" => "001b",
                     "quantity" => [
                         "magnitude" => 1
                     ],
-                    "externalRef" => "test",
+                    "externalRef" => "ref123",
                     "taxCode" => null,
                     "net" => null,
                     "tax" => null,
@@ -154,10 +154,10 @@ class GetOrderTest extends TestCase
             ->withAddressFullName('test')
             ->withCompanyName('test')
             ->withEmail('test@domain.com')
-            ->withAddressLine1('test')
-            ->withAddressLine2('test')
-            ->withAddressLine3('test')
-            ->withAddressLine4('test')
+            ->withAddressLine1('Line1')
+            ->withAddressLine2('Line2')
+            ->withAddressLine3('Line3')
+            ->withAddressLine4('Line4')
             ->withPostalCode('test')
             ->withCountry('test')
             ->withCountryId(1)
@@ -172,10 +172,10 @@ class GetOrderTest extends TestCase
             ->withAddressFullName('test')
             ->withCompanyName('test')
             ->withEmail('test@domain.com')
-            ->withAddressLine1('test')
-            ->withAddressLine2('test')
-            ->withAddressLine3('test')
-            ->withAddressLine4('test')
+            ->withAddressLine1('Line1')
+            ->withAddressLine2('Line2')
+            ->withAddressLine3('Line3')
+            ->withAddressLine4('Line4')
             ->withPostalCode('test')
             ->withCountry('test')
             ->withCountryId(1)
@@ -229,9 +229,9 @@ class GetOrderTest extends TestCase
                 10 => Order\Row::create()
                     ->withOrderRowSequence(10)
                     ->withProductId(1000)
-                    ->withProductName('test')
-                    ->withProductSku('test')
-                    ->withExternalRef('test')
+                    ->withProductName('tshirt')
+                    ->withProductSku('001b')
+                    ->withExternalRef('ref123')
                     ->withQuantity(1),
             ]))
             ->withParties(
@@ -244,16 +244,7 @@ class GetOrderTest extends TestCase
             ->withAssignment($assignment)
             ->withCustomFields([
                 'PCF_O_ODEL' => '2024-01-24T00:00:00.000Z'
-            ])
-            ->withOrderRows(RowCollection::of([
-                10 => Row::create()
-                    ->withOrderRowSequence('10')
-                    ->withProductId(1000)
-                    ->withProductName('test')
-                    ->withProductSku('test')
-                    ->withQuantity(1)
-                    ->withExternalRef('test')
-            ]));
+            ]);
         self::assertEquals($this->getJsonData(), $order->toJson());
     }
 
@@ -309,10 +300,10 @@ class GetOrderTest extends TestCase
         self::assertEquals("test", $order->getParties()->getSupplier()->getCompanyName());
         self::assertEquals("test", $order->getParties()->getSupplier()->getAddressFullName());
         self::assertEquals("test@domain.com", $order->getParties()->getSupplier()->getEmail());
-        self::assertEquals("test", $order->getParties()->getSupplier()->getAddressLine1());
-        self::assertEquals("test", $order->getParties()->getSupplier()->getAddressLine2());
-        self::assertEquals("test", $order->getParties()->getSupplier()->getAddressLine3());
-        self::assertEquals("test", $order->getParties()->getSupplier()->getAddressLine4());
+        self::assertEquals("Line1", $order->getParties()->getSupplier()->getAddressLine1());
+        self::assertEquals("Line2", $order->getParties()->getSupplier()->getAddressLine2());
+        self::assertEquals("Line3", $order->getParties()->getSupplier()->getAddressLine3());
+        self::assertEquals("Line4", $order->getParties()->getSupplier()->getAddressLine4());
         self::assertEquals("test", $order->getParties()->getSupplier()->getPostalCode());
         self::assertEquals("test", $order->getParties()->getSupplier()->getCountry());
         self::assertEquals(1, $order->getParties()->getSupplier()->getCountryId());
@@ -326,9 +317,10 @@ class GetOrderTest extends TestCase
         self::assertEquals("test", $order->getParties()->getBilling()->getCompanyName());
         self::assertEquals("test", $order->getParties()->getBilling()->getAddressFullName());
         self::assertEquals("test@domain.com", $order->getParties()->getBilling()->getEmail());
-        self::assertEquals("test", $order->getParties()->getBilling()->getAddressLine1());
-        self::assertEquals("test", $order->getParties()->getBilling()->getAddressLine2());
-        self::assertEquals("test", $order->getParties()->getBilling()->getAddressLine3());
+        self::assertEquals("Line1", $order->getParties()->getBilling()->getAddressLine1());
+        self::assertEquals("Line2", $order->getParties()->getBilling()->getAddressLine2());
+        self::assertEquals("Line3", $order->getParties()->getBilling()->getAddressLine3());
+        self::assertEquals("Line4", $order->getParties()->getBilling()->getAddressLine4());
         self::assertEquals("test", $order->getParties()->getBilling()->getPostalCode());
         self::assertEquals("test", $order->getParties()->getBilling()->getCountry());
         self::assertEquals(1, $order->getParties()->getBilling()->getCountryId());
