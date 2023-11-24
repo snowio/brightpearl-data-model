@@ -6,11 +6,15 @@ use SnowIO\BrightpearlDataModel\ModelInterface;
 
 class Row implements ModelInterface
 {
+    /** @var int|null $orderRowSequence */
+    private $orderRowSequence;
     /** @var int|null $productId */
     private $productId;
-    /** @var string|null $name */
-    private $name;
-    /** @var string|null $quantity */
+    /** @var string|null $productName */
+    private $productName;
+    /** @var string|null $productSku */
+    protected $productSku;
+    /** @var int $quantity */
     private $quantity;
     /** @var string|null $taxCode */
     private $taxCode;
@@ -37,23 +41,28 @@ class Row implements ModelInterface
     public static function fromJson(array $json): ModelInterface
     {
         $result = new self();
+        $result->orderRowSequence = $json['orderRowSequence'] ?? null;
         $result->productId = $json['productId'] ?? null;
-        $result->name = $json['name'] ?? null;
-        $result->quantity = $json['quantity'] ?? null;
+        $result->productSku = $json['productSku'] ?? null;
+        $result->productName = $json['productName'] ?? null;
+        $result->quantity = $json['quantity']['magnitude'] ?? null;
         $result->taxCode = $json['taxCode'] ?? null;
         $result->net = $json['net'] ?? null;
         $result->tax = $json['tax'] ?? null;
         $result->nominalCode = $json['nominalCode'] ?? null;
         $result->externalRef = $json['externalRef'] ?? null;
+        $result->orderRows = $json['orderRows'] ?? null;
         return $result;
     }
 
     public function toJson(): array
     {
         return [
+            'orderRowSequence' => $this->getOrderRowSequence(),
             'productId' => $this->getProductId(),
-            'name' => $this->getName(),
-            'quantity' => $this->getQuantity(),
+            'productName' => $this->getProductName(),
+            'productSku' => $this->getProductSku(),
+            'quantity' => $this->getQuantity() ? ["magnitude" => $this->getQuantity()] : null,
             'taxCode' => $this->getTaxCode(),
             'net' => $this->getNet(),
             'tax' => $this->getTax(),
@@ -65,8 +74,10 @@ class Row implements ModelInterface
     public function equals(ModelInterface $other): bool
     {
         return $other instanceof Row &&
+            $this->orderRowSequence === $other->orderRowSequence &&
             $this->productId === $other->productId &&
-            $this->name === $other->name &&
+            $this->productName === $other->productName &&
+            $this->productSku === $other->productSku &&
             $this->quantity === $other->quantity &&
             $this->taxCode === $other->taxCode &&
             $this->net === $other->net &&
@@ -87,24 +98,48 @@ class Row implements ModelInterface
         return $clone;
     }
 
-    public function getName(): ?string
+    public function getOrderRowSequence(): ?int
     {
-        return $this->name;
+        return $this->orderRowSequence;
     }
 
-    public function withName(string $name): Row
+    public function withOrderRowSequence(int $orderRowSequence): Row
     {
         $clone = clone $this;
-        $clone->name = $name;
+        $clone->orderRowSequence = $orderRowSequence;
         return $clone;
     }
 
-    public function getQuantity(): ?string
+    public function getProductName(): ?string
+    {
+        return $this->productName;
+    }
+
+    public function withProductName(string $productName): Row
+    {
+        $clone = clone $this;
+        $clone->productName = $productName;
+        return $clone;
+    }
+
+    public function getProductSku(): ?string
+    {
+        return $this->productSku;
+    }
+
+    public function withProductSku(?string $productSku): Row
+    {
+        $clone = clone $this;
+        $clone->productSku = $productSku;
+        return $clone;
+    }
+
+    public function getQuantity(): ?int
     {
         return $this->quantity;
     }
 
-    public function withQuantity(string $quantity): Row
+    public function withQuantity(?int $quantity): Row
     {
         $clone = clone $this;
         $clone->quantity = $quantity;

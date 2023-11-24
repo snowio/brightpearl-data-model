@@ -10,14 +10,18 @@ class RowTest extends TestCase
     private function getJsonData(): array
     {
         return [
+            'orderRowSequence' => 10,
             'productId' => 123,
-            'name' => "test",
-            'quantity' => 1,
+            'productName' => "test",
+            'productSku' => "test",
+            'quantity' => [
+                "magnitude" => 1,
+             ],
             'taxCode' => 'abc',
             'net' => 1,
             'tax' => 1,
             'nominalCode' => 'test',
-            'externalRef' => 'test'
+            'externalRef' => 'test',
         ];
     }
 
@@ -31,8 +35,10 @@ class RowTest extends TestCase
     public function testWithers()
     {
         $row = Row::create()
+            ->withOrderRowSequence(10)
             ->withProductId(123)
-            ->withName('test')
+            ->withProductName('test')
+            ->withProductSku('test')
             ->withQuantity(1)
             ->withTaxCode('abc')
             ->withNet(1)
@@ -49,7 +55,7 @@ class RowTest extends TestCase
         $row = Row::fromJson($data);
 
         self::assertEquals(123, $row->getProductId());
-        self::assertEquals("test", $row->getName());
+        self::assertEquals("test", $row->getProductName());
         self::assertEquals(1, $row->getQuantity());
         self::assertEquals('abc', $row->getTaxCode());
         self::assertEquals(1, $row->getNet());
