@@ -14,9 +14,9 @@ class RowCollection implements IteratorAggregate
     {
         $result = new self();
 
-        foreach ($items as $order) {
+        foreach ($items as $key => $order) {
             if ($order instanceof Row) {
-                $result->items[] = $order;
+                $result->items[$key] = $order;
             }
         }
         return $result;
@@ -24,20 +24,22 @@ class RowCollection implements IteratorAggregate
 
     public function toJson(): array
     {
-        return array_map(static function (Row $row): array {
-            return $row->toJson();
-        }, $this->items);
+        $json = [];
+        foreach ($this->items as $key => $item) {
+            $json[$key] = $item->toJson();
+        }
+        return $json;
     }
 
     public static function fromJson(array $json): self
     {
         $result = new self();
 
-        foreach ($json as $item) {
+        foreach ($json as $key => $item) {
             if (!is_array($item)) {
                 continue;
             }
-            $result->items[] = Row::create()->fromJson($item);
+            $result->items[$key] = Row::create()->fromJson($item);
         }
         return $result;
     }
