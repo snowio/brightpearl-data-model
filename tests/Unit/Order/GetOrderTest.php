@@ -19,6 +19,9 @@ class GetOrderTest extends TestCase
             "parentOrderId" => "273SWNX",
             "priceListId" => 1,
             "priceModeCode" => "INC",
+            "stockStatusCode" => "NON",
+			"allocationStatusCode" => "ANR",
+			"shippingStatusCode" => "NST",
             "placedOn" => "2011-09-29T11:12:24.000+01:00",
             "orderStatus" => [
                 "orderStatusId" => 6
@@ -215,6 +218,9 @@ class GetOrderTest extends TestCase
         $order = GetOrder::create()
             ->withId(123)
             ->withOrderTypeCode("PO")
+            ->withStockStatusCode("NON")
+            ->withAllocationStatusCode("ANR")
+            ->withShippingStatusCode("NST")
             ->withReference("SW51454")
             ->withParentOrderId("273SWNX")
             ->withPriceListId(1)
@@ -261,6 +267,10 @@ class GetOrderTest extends TestCase
         self::assertEquals("2011-09-29T11:12:24.000+01:00", $order->getPlacedOn());
         self::assertInstanceOf(Order\Status::class, $order->getOrderStatus());
         self::assertEquals(6, $order->getOrderStatus()->getId());
+
+        self::assertEquals("NON", $order->getStockStatusCode());
+        self::assertEquals("ANR", $order->getAllocationStatusCode());
+        self::assertEquals("NST", $order->getShippingStatusCode());
 
         self::assertInstanceOf(Order\Delivery::class, $order->getDelivery());
         self::assertEquals("2011-09-29T11:12:24.000+01:00", $order->getDelivery()->getDate());
