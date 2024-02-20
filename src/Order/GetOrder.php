@@ -35,6 +35,9 @@ class GetOrder extends Order implements ModelInterface
         $result->id = $json['id'] ?? null;
         $result->orderTypeCode = $json['orderTypeCode'] ?? null;
         $result->reference = $json['reference'] ?? null;
+        $result->stockStatusCode = $json['stockStatusCode'] ?? null;
+        $result->allocationStatusCode = $json['allocationStatusCode'] ?? null;
+        $result->shippingStatusCode = $json['shippingStatusCode'] ?? null;
         $result->parentOrderId = $json['parentOrderId'] ?? null;
         $result->priceListId = $json['priceListId'] ?? null;
         $result->priceModeCode = $json['priceModeCode'] ?? null;
@@ -58,6 +61,9 @@ class GetOrder extends Order implements ModelInterface
             'id' => $this->getId(),
             'orderTypeCode' => $this->getOrderTypeCode(),
             'reference' => $this->getReference(),
+            'stockStatusCode' => $this->getStockStatusCode(),
+            'allocationStatusCode' => $this->getAllocationStatusCode(),
+            'shippingStatusCode' => $this->getShippingStatusCode(),
             'parentOrderId' => $this->getParentOrderId(),
             'priceListId' => $this->getPriceListId(),
             'priceModeCode' => $this->getPriceModeCode(),
@@ -80,6 +86,9 @@ class GetOrder extends Order implements ModelInterface
         return $other instanceof Order &&
             ($this->orderTypeCode === $other->orderTypeCode) &&
             ($this->reference === $other->reference) &&
+            ($this->stockStatusCode === $other->stockStatusCode) &&
+            ($this->allocationStatusCode === $other->allocationStatusCode) &&
+            ($this->shippingStatusCode === $other->shippingStatusCode) &&
             ($this->parentOrderId === $other->parentOrderId) &&
             ($this->priceListId === $other->priceListId) &&
             ($this->priceModeCode === $other->priceModeCode) &&
@@ -102,6 +111,12 @@ class GetOrder extends Order implements ModelInterface
     protected $orderTypeCode;
     /** @var string|null $reference */
     protected $reference;
+    /** @var string|null $stockStatusCode */
+    protected $stockStatusCode;
+    /** @var string|null $allocationStatusCode */
+    protected $allocationStatusCode;
+    /** @var string|null $shippingStatusCode */
+    protected $shippingStatusCode;
     /** @var string|null $parentOrderId */
     protected $parentOrderId;
     /** @var int|null $priceListId */
@@ -163,6 +178,42 @@ class GetOrder extends Order implements ModelInterface
     public function getParentOrderId(): ?string
     {
         return $this->parentOrderId;
+    }
+
+    public function withStockStatusCode(string $stockStatusCode): Order
+    {
+        $clone = clone $this;
+        $clone->stockStatusCode = $stockStatusCode;
+        return $clone;
+    }
+
+    public function getStockStatusCode(): ?string
+    {
+        return $this->stockStatusCode;
+    }
+
+    public function withAllocationStatusCode(string $allocationStatusCode): Order
+    {
+        $clone = clone $this;
+        $clone->allocationStatusCode = $allocationStatusCode;
+        return $clone;
+    }
+
+    public function getAllocationStatusCode(): ?string
+    {
+        return $this->allocationStatusCode;
+    }
+
+    public function withShippingStatusCode(string $shippingStatusCode): Order
+    {
+        $clone = clone $this;
+        $clone->shippingStatusCode = $shippingStatusCode;
+        return $clone;
+    }
+
+    public function getShippingStatusCode(): ?string
+    {
+        return $this->shippingStatusCode;
     }
 
     public function withParentOrderId(string $parentOrderId): Order
