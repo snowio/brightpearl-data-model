@@ -19,9 +19,9 @@ class RowCollection implements IteratorAggregate
     {
         $result = new self();
 
-        foreach ($items as $order) {
+        foreach ($items as $itemKey => $order) {
             if ($order instanceof Row) {
-                $result->items[] = $order;
+                $result->items[$itemKey] = $order;
             }
         }
 
@@ -38,9 +38,9 @@ class RowCollection implements IteratorAggregate
     public static function fromJson(array $json): self
     {
         $result = self::create();
-        foreach ($json as $item) {
+        foreach ($json as $itemKey => $item) {
             $row = is_array($item) ? $item : [];
-            $result->items[] = Row::fromJson($row);
+            $result->items[$itemKey] = Row::fromJson($row);
         }
         return $result;
     }
